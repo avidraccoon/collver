@@ -198,6 +198,17 @@ define void @proc_intrinsic_load64() {
   ret void
 }
 
+// Just here to trick the type system
+define void @proc_intrinsic_ptr_int_cast() {
+  ret void
+}
+
+// Just here to trick the type system
+define void @proc_intrinsic_ptr_int_cast_jumped() {
+  ret void
+}
+
+
 declare noalias ptr @malloc(i64 noundef)
 define void @proc_intrinsic_alloc() {
   %size = call i64() @pop()

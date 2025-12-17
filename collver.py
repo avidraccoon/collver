@@ -1054,6 +1054,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                     if test_proc_type_sig(word, type_sig, type_stack):
                         found_match = True
                         apply_proc_type_sig(word, type_sig, type_stack)
+                        break
 
                 if not found_match:
                     compiler_error(
@@ -1136,6 +1137,16 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 "`do` keyword encountered in typechecking without start of block."
             )
             marker, snapshot = block_stack.pop()
+            assert len(type_stack) >= 1, (
+                "Type stack empty when evaluating condition for control flow block."
+            )
+            cond_type, cond_tok = type_stack.pop()
+            if cond_type != DT.INT:
+                compiler_error(
+                    cond_tok,
+                    f"Expected INT type for condition of control flow block, found {cond_type}.",
+                )
+                sys.exit(1)
             if marker == BlockMarker.IF:
                 block_stack.append((BlockMarker.IF_DO, type_stack.copy()))
             elif marker == BlockMarker.ELIF:

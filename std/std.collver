@@ -110,7 +110,9 @@ proc inc64 ptr -> do // ptr ->
   dup
   @64
   1 +
+  [int]ptr // Convert to ptr for swap
   swap // pointer comes second for !
+  (ptr)int // Convert back to ptr for !
   !64
 end
 
@@ -119,7 +121,9 @@ proc dec64 ptr -> do // ptr ->
   dup
   @64
   1 -
+  [int]ptr // Convert to ptr for swap
   swap // pointer comes second for !
+  (ptr)int // Convert back to ptr for !
   !64
 end
 
@@ -128,13 +132,13 @@ proc memcpy int ptr ptr -> do // size src dst ->
   memory size 8 end
   memory src 8 end
   memory dst 8 end
-  dst !64
-  src !64
+  dst !ptr
+  src !ptr
   size !64
 
   0 while dup size @64 < do
-    dup  src @64 + @8
-    over dst @64 + !8
+    dup  src @ptr + @8
+    over dst @ptr + !8
     1 +
   end drop
 end
