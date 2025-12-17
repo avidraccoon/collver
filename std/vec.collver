@@ -227,7 +227,7 @@ proc vec_elem int ptr -> ptr do // int idx, ptr vec_ptr -> ptr item_ptr
 end
 
 // Get the pointer to a copy of an element in a vector
-proc vec_elemcpy int ptr -> ptr // int idx, ptr vec_ptr -> ptr cpy_ptr
+proc vec_elemcpy int ptr -> ptr do // int idx, ptr vec_ptr -> ptr cpy_ptr
   memory idx sizeof(int) end
   memory vec_ptr sizeof(ptr) end
 
