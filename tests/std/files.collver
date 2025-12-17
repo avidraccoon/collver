@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   "./tests/std/file.txt" strcpy fp_to_str puts
   FD_STDIN fd_readline dup puts puts
 end

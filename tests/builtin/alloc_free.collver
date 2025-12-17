@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   const arrlen 16 end
   // Allocate the sizeof a pointer (basically a void* variable)
   memory arr sizeof(ptr) end

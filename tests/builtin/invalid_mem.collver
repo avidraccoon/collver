@@ -2,7 +2,7 @@ proc _unused
   memory mem 0 end
 end
 
-proc main
+proc main -> do
   mem
 end
 

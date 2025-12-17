@@ -1,7 +1,7 @@
 include "std.collver"
 include "vec.collver"
 
-proc main
+proc main -> do
   memory my_vec sizeof(vec) end
   sizeof(int) my_vec vec_init
 

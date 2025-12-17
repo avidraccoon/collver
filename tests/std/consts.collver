@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   sizeof(byte) print
   sizeof(int) print
   sizeof(ptr) print

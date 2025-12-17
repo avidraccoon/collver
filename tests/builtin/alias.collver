@@ -1,11 +1,11 @@
 include "std.collver"
 
-proc square // a -> a**2
+proc square int -> int do // a -> a**2
   dup *
 end
 
 alias **2 square end
 
-proc main
+proc main -> do
   6 **2 print
 end

@@ -1,5 +1,5 @@
 include "std.collver"
 
-proc main
+proc main -> do
   here puts ": Here we are!\n" puts
 end

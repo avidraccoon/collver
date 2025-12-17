@@ -20,7 +20,7 @@ proc mod
   521 7 % print
 end
 
-proc main
+proc main -> do
   add
   sub
   mul

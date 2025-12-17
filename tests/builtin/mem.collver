@@ -2,19 +2,19 @@ include "std.collver"
 
 memory global_bytes 2 1 + end
 
-proc write_mem
+proc write_mem -> do
   47 global_bytes     !8
   51 global_bytes 1 + !8
   14 global_bytes 2 + !8
 end
 
-proc read_mem
+proc read_mem -> do
   global_bytes     @8 print
   global_bytes 1 + @8 print
   global_bytes 2 + @8 print
 end
 
-proc main
+proc main -> do
   memory local_i64 sizeof(int) end
   2 16 <<
   1 +

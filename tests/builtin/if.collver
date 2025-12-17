@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   if 1 do
     1 print
   else

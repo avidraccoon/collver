@@ -21,7 +21,7 @@ const vec.start sizeof(ptr) offset end
 const sizeof(vec) reset end
 
 // Given a pointer, initialize a new, empty vector at that point in memory
-proc vec_init // size_t size, ptr p ->
+proc vec_init int ptr -> do // size_t size, ptr p ->
   memory size sizeof(int) end
   memory vec_ptr sizeof(ptr) end
 
@@ -46,7 +46,7 @@ proc vec_init // size_t size, ptr p ->
 end
 
 // Allocate and initialize a new, empty vector
-proc vec_new // (size_t size) -> ptr
+proc vec_new int -> ptr do // (size_t size) -> ptr
   memory size sizeof(int) end
   memory vec_ptr sizeof(ptr) end
   size !int // Save the size to the `size` variable
@@ -57,56 +57,56 @@ proc vec_new // (size_t size) -> ptr
   vec_ptr @ptr
 end
 
-proc vec_read_count // ptr vec -> int count
+proc vec_read_count ptr -> int  do // ptr vec -> int count
   // Read the `count` field from a vector
   vec.count + @int
 end
 
 alias @vec.count vec_read_count end
 
-proc vec_write_count // int count, ptr vec ->
+proc vec_write_count int -> ptr do // int count, ptr vec ->
   // Write to the `count` field of a vector
   vec.count + !int
 end
 
 alias !vec.count vec_write_count end
 
-proc vec_read_cap // ptr vec -> int cap
+proc vec_read_cap ptr -> int do // ptr vec -> int cap
   // Read the `cap` field from a vector
   vec.cap + @int
 end
 
 alias @vec.cap vec_read_cap end
 
-proc vec_write_cap // int cap, ptr vec ->
+proc vec_write_cap int ptr -> do // int cap, ptr vec ->
   // Write to the `cap` field of a vector
   vec.cap + !int
 end
 
 alias !vec.cap vec_write_cap end
 
-proc vec_read_size // ptr vec -> int size
+proc vec_read_size ptr -> int do // ptr vec -> int size
   // Read the `size` field from a vector
   vec.size + @int
 end
 
 alias @vec.size vec_read_size end
 
-proc vec_write_size // int size, ptr vec ->
+proc vec_write_size int ptr -> do // int size, ptr vec ->
   // Write to the `size` field of a vector
   vec.size + !int
 end
 
 alias !vec.size vec_write_size end
 
-proc vec_read_start // ptr vec -> ptr start
+proc vec_read_start ptr -> ptr do // ptr vec -> ptr start
   // Read the `start` field from a vector
   vec.start + @ptr
 end
 
 alias @vec.start vec_read_start end
 
-proc vec_write_start // ptr start, ptr vec ->
+proc vec_write_start ptr ptr -> do // ptr start, ptr vec ->
   // Write to the `start` field of a vector
   vec.start + !ptr
 end
@@ -114,7 +114,7 @@ end
 alias !vec.start vec_write_start end
 
 // Add the first item to a vector (use vec_push instead)
-proc vec_add_first // ptr item_ptr, ptr vec_ptr ->
+proc vec_add_first ptr ptr -> do // ptr item_ptr, ptr vec_ptr ->
   memory item_ptr sizeof(ptr) end
   memory vec_ptr sizeof(ptr) end
   memory start_ptr sizeof(ptr) end
@@ -142,7 +142,7 @@ proc vec_add_first // ptr item_ptr, ptr vec_ptr ->
 end
 
 // Reallocate a vector so that count < cap (if necessary)
-proc vec_update_cap // ptr vec_ptr 
+proc vec_update_cap ptr -> do // ptr vec_ptr 
   memory vec_ptr sizeof(ptr) end
   memory new_start_ptr sizeof(ptr) end
 
@@ -180,7 +180,7 @@ proc vec_update_cap // ptr vec_ptr
 end
 
 // Push (append) an item to a vector (automatically uses vec_add_first if needed)
-proc vec_push // ptr item_ptr, ptr vec_ptr ->
+proc vec_push ptr ptr -> do // ptr item_ptr, ptr vec_ptr ->
   memory item_ptr sizeof(ptr) end
   memory vec_ptr sizeof(ptr) end
   memory new_start_ptr sizeof(ptr) end
@@ -212,7 +212,7 @@ proc vec_push // ptr item_ptr, ptr vec_ptr ->
 end
 
 // Get the pointer to an element in a vector
-proc vec_elem // int idx, ptr vec_ptr -> ptr item_ptr
+proc vec_elem int ptr -> ptr do // int idx, ptr vec_ptr -> ptr item_ptr
   memory idx sizeof(int) end
   memory vec_ptr sizeof(ptr) end
 
@@ -227,7 +227,7 @@ proc vec_elem // int idx, ptr vec_ptr -> ptr item_ptr
 end
 
 // Get the pointer to a copy of an element in a vector
-proc vec_elemcpy // int idx, ptr vec_ptr -> ptr cpy_ptr
+proc vec_elemcpy int ptr -> ptr // int idx, ptr vec_ptr -> ptr cpy_ptr
   memory idx sizeof(int) end
   memory vec_ptr sizeof(ptr) end
 
@@ -247,7 +247,7 @@ proc vec_elemcpy // int idx, ptr vec_ptr -> ptr cpy_ptr
 end
 
 // Pop the last item from a vector, returning a pointer to the copied item
-proc vec_pop // ptr vec_ptr -> ptr cpy_ptr
+proc vec_pop ptr -> ptr do // ptr vec_ptr -> ptr cpy_ptr
   // This method will find the top item of a vector,
   // copy it to a new location in memory (so it doesn't get overwritten)
   // and then decrement the `count` of the vec
@@ -266,7 +266,7 @@ proc vec_pop // ptr vec_ptr -> ptr cpy_ptr
 end
 
 // Extend a vector with another vector
-proc vec_extend // ptr vec1, ptr vec2 ->
+proc vec_extend ptr ptr -> do // ptr vec1, ptr vec2 ->
   // This method will update `vec1` without modifying `vec2`
   memory vec1 sizeof(ptr) end
   memory vec2 sizeof(ptr) end
@@ -284,7 +284,7 @@ proc vec_extend // ptr vec1, ptr vec2 ->
 end
 
 // Free a vector's storage space
-proc vec_free
+proc vec_free ptr -> do
   memory vec sizeof(ptr) end
   vec !ptr
 
@@ -296,7 +296,7 @@ proc vec_free
 end
 
 // Free a vector in dynamic memory (free the vector's storage, and then free the struct itself)
-proc vec_free_dynamic
+proc vec_free_dynamic ptr -> do
   memory vec sizeof(ptr) end
   vec !ptr
 
@@ -307,7 +307,7 @@ end
 /// VECTOR IO PROCS
 
 // Print out the state of a vector (for debugging purposes)
-proc vec_dbg // ptr vec_ptr ->
+proc vec_dbg ptr -> do // ptr vec_ptr ->
   memory vec_ptr sizeof(ptr) end
   vec_ptr !ptr // Store the vector pointer into the variable
 
@@ -318,7 +318,7 @@ proc vec_dbg // ptr vec_ptr ->
 end
 
 // Print out a vector of integers
-proc vec_print_int // ptr vec_ptr ->
+proc vec_print_int ptr -> do // ptr vec_ptr ->
   memory vec_ptr sizeof(ptr) end
   memory i sizeof(int) end
   vec_ptr !ptr
@@ -338,7 +338,7 @@ proc vec_print_int // ptr vec_ptr ->
 end
 
 // Print out a vector of strings (char*)
-proc vec_print_str
+proc vec_print_str ptr -> do
   memory vec_ptr sizeof(ptr) end
   memory i sizeof(int) end
   vec_ptr !ptr

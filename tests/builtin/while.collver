@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   10
   while dup 0 > do
     dup print

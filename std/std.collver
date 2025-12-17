@@ -1,9 +1,9 @@
-
+include "runtime.collver"
 include "consts.collver"
 
 // STACK MANIPULATION
 
-proc swap // a b -> b a
+proc swap int int -> int int do // a b -> b a
   memory a 8 end
   memory b 8 end
   b !64
@@ -12,7 +12,7 @@ proc swap // a b -> b a
   a @64
 end
 
-proc over // a b -> a b a
+proc over int int -> int int int do // a b -> a b a
   memory a 8 end
   memory b 8 end
   b !64
@@ -22,49 +22,49 @@ proc over // a b -> a b a
   a @64
 end
 
-proc 2dup // a b -> a b a b
+proc 2dup int int -> int int int int do // a b -> a b a b
   over over
 end
 
 // LOGICAL OPERATIONS
-proc lnorm // int -> bool
+proc lnorm int -> int do // int -> bool
   // Given an int, normalize it (convert it to a 1 or a zero), (0=false, anything else=true)
   0 !=
 end
 
-proc lnot
+proc lnot int -> int do
   // Logical not
   0 =
 end
 
-proc 2norm
+proc 2norm int int -> int int do
   // Normalize the top two items on the stack
   lnorm swap lnorm swap
 end
 
-proc nland
+proc nland int int -> int do
   // Normalized logical and (only for already normalized numbers, but a little faster)
   *
 end
 
-proc land
+proc land int int -> int do
   // Logical and
   2norm nland
 end
 alias && land end
 
-proc nlor
+proc nlor int int -> int do
   // Normalized logical or (only for already normalized numbers, but a little faster)
   + lnorm
 end
 
-proc lor
+proc lor int int -> int do
   // Logical or
   2norm nlor
 end
 alias || lor end
 
-proc nlxor
+proc nlxor int int -> int do
   // Normalized logical xor (only for already normalized numbers, but a little faster)
   memory tmp sizeof(byte) end
   // !(a && b) tmp
@@ -74,12 +74,12 @@ proc nlxor
   nland
 end
 
-proc lxor
+proc lxor int int -> int do
   // Logical xor
   2norm nlxor
 end
 
-proc btos
+proc btos int -> str do
   // bool to string
   if do
     "true"
@@ -105,7 +105,7 @@ end
 //   end // Because of the `dup` before the if, the pointer is still on the stack after this if
 // end
 
-proc inc64 // ptr ->
+proc inc64 ptr -> do // ptr ->
   // Given a pointer to an i64, increment the value stored there
   dup
   @64
@@ -114,7 +114,7 @@ proc inc64 // ptr ->
   !64
 end
 
-proc dec64 // ptr ->
+proc dec64 ptr -> do // ptr ->
   // Given a pointer to an i64, decrement the value stored there
   dup
   @64
@@ -123,7 +123,7 @@ proc dec64 // ptr ->
   !64
 end
 
-proc memcpy // size src dst ->
+proc memcpy int ptr ptr -> do // size src dst ->
   // Copies `size` number of bytes from address `src` to address `dst`
   memory size 8 end
   memory src 8 end
@@ -140,18 +140,18 @@ proc memcpy // size src dst ->
 end
 
 // Given an int (or ptr), store it in RAM and return the pointer
-proc ptrto // int i -> ptr p
+proc ptrto int -> ptr do // int i -> ptr p
   sizeof(int) alloc swap over !int
 end
 
 // Given a byte, store it in RAM and return the pointer
-proc bptrto
+proc bptrto int -> ptr do
   sizeof(byte) alloc swap over !byte
 end
 
 // STRING MANIPULATION
 
-proc strlen // ptr -> int
+proc strlen ptr -> int do // ptr -> int
   // Given a pointer to a string, return its length
   // NOTE: Only works on null-terminated strings (string literals are null-terminated, but strings created at runtime may not be, so be careful)
   memory len 8 end
@@ -164,7 +164,7 @@ proc strlen // ptr -> int
   len @64
 end
 
-proc strcpy // src -> ptr
+proc strcpy ptr -> ptr do // src -> ptr
   // Given a pointer to a string, make a copy of it, returning the pointer to the new string
   memory src 8 end
   memory len 8 end
@@ -180,7 +180,7 @@ proc strcpy // src -> ptr
   dst @64 // 'return' the destination pointer
 end
 
-proc strconcat // str1 str2 -> str3
+proc strconcat str str -> str do // str1 str2 -> str3
   // Concatenate two strings, returning the pointer to the new string
   memory str1 sizeof(ptr) end
   memory len_str1 sizeof(int) end
@@ -196,7 +196,7 @@ proc strconcat // str1 str2 -> str3
   dst @64 // Return the pointer to the new, concatenated string
 end
 
-proc strconcat_d // str1 str2 -> str3
+proc strconcat_d str str -> str do // str1 str2 -> str3
   // Exact same as for strconcat, but it frees the original two strings afterwards
   // NOTE: ONLY FOR STRINGS THAT HAVE BEEN DYNAMICALLY ALLOCATED WITH THE `alloc` WORD
   memory str2 sizeof(ptr) end
@@ -209,7 +209,7 @@ proc strconcat_d // str1 str2 -> str3
   str2 @64 free
 end
 
-proc streq // str1 str2 -> bool
+proc streq str str -> int do // str1 str2 -> bool
   // Given two strings, check if they are equal
   memory eq sizeof(byte) end
   1 eq !byte // Start by assuming they're equal
@@ -268,7 +268,7 @@ const O_TRUNC     1024 end
 // TODO: Implement the rest of these constants https://man7.org/linux/man-pages/man2/open.2.html
 
 // int open(char *fp, int flags)
-proc sys_open // ptr int -> int
+proc sys_open ptr int -> int do // ptr int -> int
   // Open a file (returns a file descriptor)
   // Arguments:
   //  - File path - A char pointer (char*)
@@ -283,7 +283,7 @@ proc sys_open // ptr int -> int
 end
 
 // int close(int fd)
-proc sys_close // int -> int
+proc sys_close int -> int do // int -> int
   // Close a file
   // Arguments:
   //  - File descriptor - file descriptor of the file to be closed (int)
@@ -299,7 +299,7 @@ const SEEK_CUR 1 end
 const SEEK_END 2 end
 
 // int lseek(int fd, int offset, int whence)
-proc sys_lseek // int int int -> int
+proc sys_lseek int int int -> int do // int int int -> int
   // Reposition file offset (move the `cursor` around in an opened file)
   // Arguments:
   //  - File descriptor - file descriptor of file that is being seeked within (int)
@@ -316,7 +316,7 @@ proc sys_lseek // int int int -> int
   ll_lseek
 end
 
-proc fdtell // int -> int
+proc fdtell int -> int do // int -> int
   // Get the current offset in a file, given a file descriptor
   // Arguments:
   //  - File descriptor - file descriptor of the file whose offset is being gotten (int)
@@ -327,7 +327,7 @@ proc fdtell // int -> int
   0 SEEK_CUR sys_lseek
 end
 
-proc fdsize // int -> int
+proc fdsize int -> int do // int -> int
   // Find the size of a file (in bytes) given a file descriptor
   // This procedure does not modify the current offset of the file (it modifies it with lseek but restores it afterwards)
   // Arguments:
@@ -343,7 +343,7 @@ proc fdsize // int -> int
 end
 
 // int read(int fd, ptr buf, int count)
-proc sys_read // int ptr int -> int
+proc sys_read int ptr int -> int do // int ptr int -> int
   // Read `count` bytes from file descriptor `fd` into memory, starting at `ptr`
   // This procedure moves the offset of the file descriptor forward by `count` bytes
   // Arguments:
@@ -359,7 +359,7 @@ proc sys_read // int ptr int -> int
 end
 
 // int write(int fd, ptr buf, int count)
-proc sys_write // int ptr int -> int
+proc sys_write int ptr int -> int do // int ptr int -> int
   // Write `count` bytes from string (char*) buf into file `fd`
   // This procedure moves the offset of the file descriptor forward by `count` bytes
   // Arguments:
@@ -374,7 +374,7 @@ proc sys_write // int ptr int -> int
 end
 
 // int system(ptr command)
-proc sys_system // ptr -> int
+proc sys_system ptr -> int do // ptr -> int
   // Uses the `fork` syscall to create a child process that executes the shell
   // command specified in `command`
   // Arguments:
@@ -391,7 +391,7 @@ end
 
 // BASIC IO
 
-proc fd_readline
+proc fd_readline int -> str do
   memory fd sizeof(int) end
   memory strptr sizeof(ptr) end
   memory buf sizeof(byte) 2 * end
@@ -409,7 +409,7 @@ proc fd_readline
   strptr @64
 end
 
-proc fd_puts // fd ptr ->
+proc fd_puts ptr -> do // fd ptr ->
   // Write a string (null terminated) to a file (by fd)
 
   // fd ptr len(ptr)
@@ -418,22 +418,22 @@ proc fd_puts // fd ptr ->
   drop // Drop the number of bytes written
 end
 
-proc puts // ptr ->
+proc puts ptr -> do // ptr ->
   // Write a string (null terminated) to stdout
   FD_STDOUT swap fd_puts
 end
 
-proc eputs // ptr ->
+proc eputs ptr -> do // ptr ->
   // Write a string (null terminated) to stderr
   FD_STDERR swap fd_puts
 end
 
-proc readline // -> ptr
+proc readline -> ptr do // -> ptr
   // Read a line from standard in
   FD_STDIN fd_readline
 end
 
-proc dec_digits // int -> int
+proc dec_digits int -> int do // int -> int
   // Given an int, find the number of decimal digits it has
   // 1
   if dup 0 = do
@@ -448,7 +448,7 @@ proc dec_digits // int -> int
   end
 end
 
-proc itos // int -> ptr
+proc itos int -> ptr do // int -> ptr
   // Given an int, convert it to a string (char*)
   memory num sizeof(int) end
   memory strptr sizeof(ptr) end
@@ -470,7 +470,7 @@ proc itos // int -> ptr
   strptr @64
 end
 
-proc stoi // ptr -> int
+proc stoi ptr -> int do // ptr -> int
   // Given a str (pointer to the start), convert it to an int
   memory strptr sizeof(ptr) end
   memory value sizeof(int) end
@@ -489,29 +489,29 @@ proc stoi // ptr -> int
   value @int
 end
 
-proc putn // int ->
+proc putn int -> do // int ->
   // Given an int, print it to stdout
   itos puts
 end
 
-proc eputn // int ->
+proc eputn int -> do // int ->
   // Given an int, print it to stderr
   itos eputs
 end
 
-proc print // int ->
+proc print int -> do // int ->
   // Given an int, print it to stdout with a newline
   itos puts "\n" puts
 end
 
-proc eprint // int ->
+proc eprint int -> do // int ->
   // Given an int, print it to stderr with a newline
   itos eputs "\n" eputs
 end
 
 // PATH AND FILE UTILITIES
 
-proc fd_to_str // int -> ptr
+proc fd_to_str int -> ptr do // int -> ptr
   // Given a file descriptor, return a new (null terminated) string
   // This procedure takes a file descriptor, resets its offset to 0, calculates the size, allocates that many byte + 1, reads the whole file, and then sets the last byte to 0 (to null terminate the string).
   // This procedure will leave the offset of the file at the end of the file.
@@ -534,7 +534,7 @@ proc fd_to_str // int -> ptr
   bufptr @64
 end
 
-proc fp_to_str // ptr -> ptr
+proc fp_to_str ptr -> ptr do // ptr -> ptr
   // Given a pointer to a string (the path to the file), create a string in memory containing the contents of the file, and free the file path string
   memory fp_str sizeof(ptr) end
   memory fd sizeof(int) end

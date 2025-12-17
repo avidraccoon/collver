@@ -1,0 +1,19 @@
+// ===== Low-level runtime / syscall ABI =====
+
+// int open(char *path, int flags)
+extern ll_open ptr int -> int end
+
+// int close(int fd)
+extern ll_close int -> int end
+
+// int lseek(int fd, int offset, int whence)
+extern ll_lseek int int int -> int end
+
+// int read(int fd, ptr buf, int count)
+extern ll_read int ptr int -> int end
+
+// int write(int fd, ptr buf, int count)
+extern ll_write int ptr int -> int end
+
+// int system(char *command)
+extern ll_system ptr -> int end

@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc main
+proc main -> do
   "1" stoi print
   "12" stoi print
   "32" stoi print

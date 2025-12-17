@@ -4,12 +4,12 @@ memory a sizeof(ptr) end
 memory b sizeof(ptr) end
 
 // Print the strings at pointers stored in `a` and `b`
-proc dbg
+proc dbg -> do
   a @64 puts
   b @64 puts
 end
 
-proc main
+proc main -> do
   // Create a string and make a copy of that string
   "abcd\n" dup a !64 // store a pointer to the string constant in `a`
   strcpy b !64 // store a pointer to the new copy in `b`
