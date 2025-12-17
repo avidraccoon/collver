@@ -1018,6 +1018,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
     # print(f"Has {len(proc.words)} words")
     type_stack: TypeStack = []
     block_stack: list[tuple[BlockMarker, TypeStack]] = []
+    condition_stack: list[list[TypeStack]] = []
     arguments: list[TypeAnnotation]
     returns: list[TypeAnnotation]
     arguments, returns = proc.type_sig.as_tuple()
@@ -1082,7 +1083,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
             assert len(block_stack) >= 1, "elif with no 'IF_DO' block in typecheck"
             marker, snapshot = block_stack.pop()
             if marker == BlockMarker.IF_DO:
-                block_stack.append((marker, snapshot))
+                block_stack.append((marker, type_stack))
             elif marker == BlockMarker.ELIF_DO:
                 diff, toks = stacks_match(snapshot, type_stack)
                 if diff == TypeDifference.MISMATCH:
@@ -1126,6 +1127,9 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 assert False, (
                     "elif with non 'IF_DO' or `ELIF_DO` block underneath in typecheck"
                 )
+            # Reset the type stack for the elif condition
+            # We don't care about what the previous condition did to the stack
+            type_stack = snapshot.copy()
             block_stack.append((BlockMarker.ELIF, type_stack.copy()))
         elif word.typ == OT.KEYWORD and word.operand == Keyword.DO:
             assert len(block_stack) >= 1, (
@@ -1173,7 +1177,11 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 "Else keyword with nothing under it in block stack"
             )
             marker, snapshot = block_stack.pop()
-            if marker == BlockMarker.ELIF_DO:
+            if marker == BlockMarker.IF_DO:
+                # Simply re-push the IF_DO, since else allows type modification of the stack
+                # So that we can compare at the end
+                block_stack.append((marker, type_stack.copy()))
+            elif marker == BlockMarker.ELIF_DO:
                 diff, toks = stacks_match(snapshot, type_stack)
                 if diff == TypeDifference.MISMATCH:
                     compiler_error(
@@ -1218,6 +1226,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 assert False, (
                     "else not preceded by if or elif allowed to reach typecheck (compiler bug)"
                 )
+            type_stack = snapshot.copy()
             block_stack.append((BlockMarker.ELSE, type_stack.copy()))
         elif word.typ == OT.KEYWORD and word.operand == Keyword.END:
             assert len(block_stack) >= 1, (
@@ -1342,10 +1351,46 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                     )
                     sys.exit(1)
             elif marker == BlockMarker.ELSE:
-                raise NotImplementedError(
-                    "typechecking of else ... end not yet implemented"
+                assert len(block_stack) >= 1, (
+                    "else marker with nothing under it in block stack"
                 )
-            else:
+                if_marker, if_snapshot = block_stack.pop()
+
+                diff, toks = stacks_match(if_snapshot, type_stack)
+
+                if diff == TypeDifference.MISMATCH:
+                    compiler_error(
+                        word.tok, "Mismatched types between `else` and previous branches."
+                    )
+                    assert toks is not None, (
+                        "none toks returned after mismatch from stacks_match"
+                    )
+                    compiler_note(toks[0], "First type pushed here. Types on stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(toks[1], "Second type pushed here. Types on stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(
+                        word.tok,
+                        "if-else statements must have consistently typed behavior since one branch is guaranteed to run.",
+                    )
+                    sys.exit(1)
+                elif (
+                    diff == TypeDifference.FIRST_LONGER
+                    or diff == TypeDifference.SECOND_LONGER
+                ):
+                    compiler_error(
+                        word.tok,
+                        "Mismatched types between `else` and previous branches: differing numbers of items present on the stack in each branch.",
+                    )
+                    assert toks is not None, (
+                        "none toks returned after mismatch from stacks_match"
+                    )
+                    compiler_note(word.tok, "First version of stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(word.tok, "Second version of stack:")
+                    dbg_type_stack(snapshot)
+                    sys.exit(1)
+            else:                
                 assert False, (
                     f"Unknown block marker {marker} found on block stack when typechecking `end` at {pretty_loc(word.tok)}"
                 )
@@ -1353,6 +1398,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
             assert False, "Not implemented :("
         else:
             assert False, f"Word {word} not implemented"
+    
 
     if len(returns) != len(type_stack):
         compiler_error(
