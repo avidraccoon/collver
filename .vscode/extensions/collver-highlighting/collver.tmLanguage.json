@@ -56,15 +56,19 @@
                 },
                 {
                     "name": "keyword.control.inputoutput.collver",
-                    "match": "\\b(sys_read|sys_write|sys_open|sys_close)\\b"
+                    "match": "\\b(sys_read|sys_write|sys_open|sys_close|puts|eputs|fd_readline|fd_puts|readline|putn|eputn|print|eprint)\\b"
                 },
                 {
                     "name": "keyword.control.string.collver",
-                    "match": "\\b(strlen|strcpy|strcmp|strconcat_d|strconcat|streq)\\b"
+                    "match": "\\b(strlen|strcpy|strcmp|strconcat_d|strconcat|streq|itos|stoi|fd_to_str|fp_to_str)\\b"
                 },
                 {
                     "name": "keyword.control.logical.collver",
                     "match": "\\b(lnorm|lnot|2norm|nland|land|nlor|lor|nlxor|lxor|btos)\\b"
+                },
+                {
+                    "name": "keyword.control.arithmetic.collver",
+                    "match": "\\b(dec_digits)\\b"
                 },
                 {
                     "name": "keyword.control.memory.collver",
@@ -106,7 +110,11 @@
         },
         "numbers": {
             "patterns": [
-                { "name": "constant.numeric.collver", "match": "\\b[0-9]+\\b" }
+                { "name": "constant.numeric.collver", "match": "\\b[0-9]+\\b" },
+                {
+                    "name": "constant.language.sys_calls.collver",
+                    "match": "\\b(FD_STDIN|FD_STDOUT|FD_STDERR|O_RDONLY|O_WRONLY|O_RDWR|O_CLOEXEC|O_CREAT|O_DIRECTORY|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_TRUNC)\\b"
+                }
             ]
         }
     }

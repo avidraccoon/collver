@@ -1,6 +1,4 @@
-// All of this is just here to trick the type system
 
-// One arg casts
 
 define void @proc_cast_int_to_int() { ret void }
 define void @proc_cast_int_to_ptr() { ret void }
@@ -11,8 +9,6 @@ define void @proc_cast_ptr_to_str() { ret void }
 define void @proc_cast_str_to_int() { ret void }
 define void @proc_cast_str_to_ptr() { ret void }
 define void @proc_cast_str_to_str() { ret void }
-
-// Two arg casts
 
 define void @proc_cast_int_int_to_int_int() { ret void }
 define void @proc_cast_int_int_to_int_ptr() { ret void }

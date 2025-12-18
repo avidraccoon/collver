@@ -246,7 +246,7 @@ proc streq str str -> int do // str1 str2 -> bool
         0 eq !byte
       end
       1 +
-    end
+    end drop
     eq @byte
   else
     0 // If lengths aren't equal, return false
@@ -411,20 +411,20 @@ proc fd_readline int -> str do
   memory strptr sizeof(ptr) end
   memory buf sizeof(byte) 2 * end
   fd !64
-  buf     0 swap !8
-  buf 1 + 0 swap !8
-  "" strcpy strptr !64
+  buf (ptr->int)     0 swap (int->ptr) !8
+  buf (ptr->int) 1 + 0 swap (int->ptr) !8
+  "" (str->ptr) strcpy (ptr->int) strptr !64
   // strptr cpy(buf)
   while buf @8 10 != do
     fd @64 buf 1 sys_read drop
-    strptr @64 buf strcpy strconcat_d strptr !64
-    strptr @64 strlen strptr @64 + 0 swap !8
+    strptr @ptr buf strcpy [ptr,ptr->str,str] strconcat_d (str->int) strptr !64
+    strptr @64 (int->ptr) strlen strptr @64 + 0 swap (int->ptr) !8
   end
 
-  strptr @64
+  strptr @ptr (ptr->str)
 end
 
-proc fd_puts ptr -> do // fd ptr ->
+proc fd_puts int ptr -> do // fd ptr ->
   // Write a string (null terminated) to a file (by fd)
 
   // fd ptr len(ptr)
@@ -435,17 +435,17 @@ end
 
 proc puts ptr -> do // ptr ->
   // Write a string (null terminated) to stdout
-  FD_STDOUT swap fd_puts
+  (ptr->int) FD_STDOUT swap (int->ptr) fd_puts
 end
 
 proc eputs ptr -> do // ptr ->
   // Write a string (null terminated) to stderr
-  FD_STDERR swap fd_puts
+  (ptr->int) FD_STDERR swap (int->ptr) fd_puts
 end
 
 proc readline -> ptr do // -> ptr
   // Read a line from standard in
-  FD_STDIN fd_readline
+  FD_STDIN fd_readline (str->ptr)
 end
 
 proc dec_digits int -> int do // int -> int
@@ -470,19 +470,19 @@ proc itos int -> ptr do // int -> ptr
   // here eputs ":error: std lib procedure `itos` is not implemented yet\n" eputs 1 exit
   num !64 // Write the number to the `num` variable
   // (digits(*num) *strptr)+
-  num @64 dec_digits dup 1 + alloc strptr !64 // Find the number of digits in number, add one (null terminate), and allocate that, storing ptr to that string in `strptr`
+  num @64 dec_digits dup 1 + alloc strptr !ptr // Find the number of digits in number, add one (null terminate), and allocate that, storing ptr to that string in `strptr`
   // We leave the number of digits on stack for later
   strptr @64 + 1 -
   // strptrlol 
-  dup 0 swap !8  // Null terminate
+  dup 0 swap (int->ptr) !8  // Null terminate
   while dup strptr @64 >= do
     num @64 10 % 48 +
-    over !8
+    over (int->ptr) !8
     num @64 10 / num !64
     1 -
   end drop
 
-  strptr @64
+  strptr @ptr
 end
 
 proc stoi ptr -> int do // ptr -> int
@@ -516,12 +516,12 @@ end
 
 proc print int -> do // int ->
   // Given an int, print it to stdout with a newline
-  itos puts "\n" puts
+  itos puts "\n" (str->ptr) puts
 end
 
 proc eprint int -> do // int ->
   // Given an int, print it to stderr with a newline
-  itos eputs "\n" eputs
+  itos eputs "\n" (str->ptr) eputs
 end
 
 // PATH AND FILE UTILITIES
@@ -536,26 +536,26 @@ proc fd_to_str int -> ptr do // int -> ptr
 
   dup 0 SEEK_SET sys_lseek drop
   dup fdsize dup size !64
-  1 + alloc bufptr !64
-  bufptr @64 size @64 sys_read
+  1 + alloc bufptr !ptr
+  bufptr @ptr size @64 sys_read
   if dup size @64 != do
-    "ERROR: Failed to read file into memory\n" puts
-    "File size: " puts size @64 print
-    "Bytes read: " puts print
+    "ERROR: Failed to read file into memory\n" (str->ptr) puts
+    "File size: " (str->ptr) puts size @64 print
+    "Bytes read: " (str->ptr) puts dup print
     1 exit
     // TODO: Make this procedure simply handle not reading the whole file, instead of panicking
   end
-  0 bufptr @64 size @64 + !8
-  bufptr @64
+  bufptr @ptr size @64 + !8
+  bufptr @ptr
 end
 
 proc fp_to_str ptr -> ptr do // ptr -> ptr
   // Given a pointer to a string (the path to the file), create a string in memory containing the contents of the file, and free the file path string
   memory fp_str sizeof(ptr) end
   memory fd sizeof(int) end
-  fp_str !64
-  fp_str @64 O_RDONLY sys_open fd !64
+  (ptr->int) fp_str !64
+  fp_str @ptr O_RDONLY sys_open fd !64
   fd @64 fd_to_str
   fd @64 sys_close drop
-  fp_str @64 free
+  fp_str @ptr free
 end

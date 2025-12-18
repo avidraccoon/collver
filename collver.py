@@ -1060,7 +1060,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 if not found_match:
                     compiler_error(
                         word.tok,
-                        f"Incompatible types found for call to extern proc {word.operand}",
+                        f"Incompatible types found for call to extern proc {word.operand}\n recieved stack types (top to bottom): {list(map(lambda stackitem: stackitem[0], reversed(type_stack)))}",
                     )
                     compiler_note(word.tok, "Expected one of:")
                     for type_sig in type_sigs:
@@ -1275,13 +1275,13 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                         word.tok,
                         "Mismatched types after evaluation of `if` branch: differing numbers of items present on the stack in each branch.",
                     )
-                    assert toks is not None, (
-                        "none toks returned after mismatch from stacks_match"
-                    )
                     compiler_note(word.tok, "First version of stack:")
                     dbg_type_stack(snapshot)
                     compiler_note(word.tok, "Second version of stack:")
-                    dbg_type_stack(snapshot)
+                    dbg_type_stack(type_stack)
+                    assert toks is not None, (
+                        "none toks returned after mismatch from stacks_match"
+                    )
                     compiler_note(
                         word.tok,
                         "An if-do-end statement body must not modify the types of items on the stack, since there is no guarantee that the body will execute.",
@@ -1505,14 +1505,15 @@ def type_check_program(program: Program):
 
 def crossreference_proc(proc: Proc) -> None:
     """Given a set of words, set the correct index to jump to for control flow words"""
-    assert len(OT) == 8, "Exhaustive handling of Op Types in crossreference_proc()"
-    assert len(Keyword) == 8, "Exhaustive handling of Keywords in crossreference_proc()"
+    assert len(OT) == 9, "Exhaustive handling of Op Types in crossreference_proc()"
+    assert len(Keyword) == 10, "Exhaustive handling of Keywords in crossreference_proc()"
     stack: list[int] = []
     for ip, word in enumerate(proc.words):
         if word.typ == OT.KEYWORD:
+            print(word, word.typ, word.operand)
             if word.operand == Keyword.IF:
                 stack.append(ip)
-            if word.operand == Keyword.WHILE:
+            elif word.operand == Keyword.WHILE:
                 stack.append(ip)
             elif word.operand == Keyword.ELIF:
                 try:
@@ -1530,60 +1531,61 @@ def crossreference_proc(proc: Proc) -> None:
                     start_word.jmp = (
                         ip  # Make the elif's jump to each other to skip if true
                     )
+            
+            elif word.operand == Keyword.DO:
+                stack.append(ip)
+            elif word.operand == Keyword.ELSE:
+                try:
+                    do_ip = stack.pop()
+                    start_ip = stack.pop()
+                except IndexError:
+                    compiler_error(word.tok, "Word `else` with no start of block")
+                    sys.exit(1)
+
+                start_word = proc.words[start_ip]
+                if start_word.operand == Keyword.IF or start_word.operand == Keyword.ELIF:
+                    word.jmp = ip
+                else:
+                    compiler_error(
+                        word.tok, "Word `else` can only close `(el)if ... do` block"
+                    )
+                    sys.exit(1)
+
+                proc.words[do_ip].jmp = ip
+
+                stack.append(start_ip)
+                stack.append(ip)
+            elif word.operand == Keyword.END:
+                try:
+                    do_ip = stack.pop()
+                    start_ip = stack.pop()
+                except IndexError:
+                    compiler_error(word.tok, "Word `end` with no start of block")
+                    sys.exit(1)
+
+                start_word = proc.words[start_ip]
+                if start_word.operand == Keyword.IF:
+                    word.jmp = ip
+                elif start_word.operand == Keyword.ELIF:
+                    word.jmp = ip
+                    start_word.jmp = ip
+                elif start_word.operand == Keyword.WHILE:
+                    word.jmp = start_ip
+                else:
+                    compiler_error(
+                        word.tok,
+                        "Word `end` can only close `(el)if ... do` or `while ... do` blocks",
+                    )
+                    sys.exit(1)
+
+                proc.words[do_ip].jmp = ip
             else:
                 compiler_error(
                     word.tok, "Word `elif` can only close `(el)if ... do` block"
                 )
                 sys.exit(1)
 
-            stack.append(ip)
-        elif word.operand == Keyword.DO:
-            stack.append(ip)
-        elif word.operand == Keyword.ELSE:
-            try:
-                do_ip = stack.pop()
-                start_ip = stack.pop()
-            except IndexError:
-                compiler_error(word.tok, "Word `else` with no start of block")
-                sys.exit(1)
-
-            start_word = proc.words[start_ip]
-            if start_word.operand == Keyword.IF or start_word.operand == Keyword.ELIF:
-                word.jmp = ip
-            else:
-                compiler_error(
-                    word.tok, "Word `else` can only close `(el)if ... do` block"
-                )
-                sys.exit(1)
-
-            proc.words[do_ip].jmp = ip
-
-            stack.append(start_ip)
-            stack.append(ip)
-        elif word.operand == Keyword.END:
-            try:
-                do_ip = stack.pop()
-                start_ip = stack.pop()
-            except IndexError:
-                compiler_error(word.tok, "Word `end` with no start of block")
-                sys.exit(1)
-
-            start_word = proc.words[start_ip]
-            if start_word.operand == Keyword.IF:
-                word.jmp = ip
-            elif start_word.operand == Keyword.ELIF:
-                word.jmp = ip
-                start_word.jmp = ip
-            elif start_word.operand == Keyword.WHILE:
-                word.jmp = start_ip
-            else:
-                compiler_error(
-                    word.tok,
-                    "Word `end` can only close `(el)if ... do` or `while ... do` blocks",
-                )
-                sys.exit(1)
-
-            proc.words[do_ip].jmp = ip
+            # stack.append(ip)
     if len(stack) != 0:
         compiler_error(proc.words[stack.pop()].tok, "Unclosed block")
         sys.exit(1)
@@ -1657,8 +1659,9 @@ def compile_proc_to_ll(
     out: TextIOWrapper, proc_name: str, proc: Proc, global_memories: dict[str, int]
 ):
     """Write LLVM IR for a procedure to an open()ed file"""
-    assert len(OT) == 8, "Exhaustive handling of Op Types in compile_proc_to_ll()"
-    assert len(Keyword) == 8, "Exhaustive handling of Keywords in compile_proc_to_ll()"
+    #TODO Ensure actually handling every thing
+    assert len(OT) == 9, "Exhaustive handling of Op Types in compile_proc_to_ll()"
+    assert len(Keyword) == 10, "Exhaustive handling of Keywords in compile_proc_to_ll()"
     compile_string_literals_outer(out, proc_name, proc.strings)
     out.write(f"define void @proc_{proc_name}() ")
     out.write("{\n")
@@ -1874,7 +1877,7 @@ def main():
         for proc in program.procs:
             crossreference_proc(program.procs[proc])
 
-        assert False, "We made it this far, poggers"
+        # assert False, "We made it this far, poggers"
         compile_program_to_ll(program, ll_path)
     if command in ("com", "from-ll"):
         compile_ll_to_bin(ll_path, exec_path)

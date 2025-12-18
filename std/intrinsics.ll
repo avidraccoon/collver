@@ -239,9 +239,9 @@ define void @proc_intrinsic_exit() {
   unreachable
 }
 
-declare ptr @__error()
+declare ptr @__errno_location()
 define void @proc_intrinsic_check_errno() {
-  %errno_ptr = call ptr @__error()
+  %errno_ptr = call ptr @__errno_location()
   %errno_i32 = load i32, ptr %errno_ptr
   %errno_i64 = zext i32 %errno_i32 to i64
   call void @push(i64 %errno_i64)

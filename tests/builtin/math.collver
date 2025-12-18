@@ -1,22 +1,22 @@
 include "std.collver"
 
-proc add
+proc add -> do
   14 2 +  print
 end
 
-proc sub
+proc sub -> do
   68 4 -  print
 end
 
-proc mul
+proc mul -> do
   2 2 *   print
 end
 
-proc div
+proc div -> do
   40 5 /  print
 end
 
-proc mod
+proc mod -> do
   521 7 % print
 end
 

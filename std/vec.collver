@@ -64,7 +64,7 @@ end
 
 alias @vec.count vec_read_count end
 
-proc vec_write_count int -> ptr do // int count, ptr vec ->
+proc vec_write_count int ptr -> do // int count, ptr vec ->
   // Write to the `count` field of a vector
   vec.count + !int
 end
@@ -122,11 +122,11 @@ proc vec_add_first ptr ptr -> do // ptr item_ptr, ptr vec_ptr ->
   vec_ptr !ptr
   item_ptr !ptr
 
-  if vec_ptr @ptr @vec.start 0 != do
-    "error: vec_add_first called with non-null `start` pointer\n" puts
-    "  note: `start` pointer was: " puts vec_ptr @ptr @vec.start print
-    "  note: if you weren't expecting this, report the issue on github\n" puts
-    "  aborting :(\n" puts
+  if vec_ptr @ptr @vec.start (ptr->int) 0 != do
+    "error: vec_add_first called with non-null `start` pointer\n" (str->ptr) puts
+    "  note: `start` pointer was: " (str->ptr) puts vec_ptr @ptr @vec.start (ptr->int) print
+    "  note: if you weren't expecting this, report the issue on github\n" (str->ptr) puts
+    "  aborting :(\n" (str->ptr) puts
     1 exit
   end
 
@@ -288,9 +288,9 @@ proc vec_free ptr -> do
   memory vec sizeof(ptr) end
   vec !ptr
 
-  if vec @ptr @vec.start 0 != do // Make sure the start is not a null pointer
+  if vec @ptr @vec.start (ptr->int) 0 != do // Make sure the start is not a null pointer
     vec @ptr @vec.start free // Free the memory
-    0 vec @ptr !vec.start // Change the vector's start pointer to be `0` (a null pointer)
+    0 (int->ptr) vec @ptr !vec.start // Change the vector's start pointer to be `0` (a null pointer)
     // The line above prevents you from accidentally freeing your vector twice and your program crashing
   end
 end
@@ -311,10 +311,10 @@ proc vec_dbg ptr -> do // ptr vec_ptr ->
   memory vec_ptr sizeof(ptr) end
   vec_ptr !ptr // Store the vector pointer into the variable
 
-  "vec.count : " puts vec_ptr @ptr @vec.count print
-  "vec.cap   : " puts vec_ptr @ptr @vec.cap print
-  "vec.size  : " puts vec_ptr @ptr @vec.size print
-  "vec.start : " puts vec_ptr @ptr @vec.start print
+  "vec.count : " (str->ptr) puts vec_ptr @ptr @vec.count print
+  "vec.cap   : " (str->ptr) puts vec_ptr @ptr @vec.cap print
+  "vec.size  : " (str->ptr) puts vec_ptr @ptr @vec.size print
+  "vec.start : " (str->ptr) puts vec_ptr @ptr @vec.start (ptr->int) print
 end
 
 // Print out a vector of integers
@@ -323,18 +323,18 @@ proc vec_print_int ptr -> do // ptr vec_ptr ->
   memory i sizeof(int) end
   vec_ptr !ptr
 
-  "[" puts
+  "[" (str->ptr) puts
   0 i !int // Initialize i = 0
   while i @int vec_ptr @ptr @vec.count < do
     i @int // Get i
     vec_ptr @ptr vec_elem // Get vec element ptr
     @int putn // Print the number out
     if i @int 1 + vec_ptr @ptr @vec.count < do
-      ", " puts
+      ", " (str->ptr) puts
     end
     i inc64
   end
-  "]\n" puts
+  "]\n" (str->ptr) puts
 end
 
 // Print out a vector of strings (char*)
@@ -347,7 +347,7 @@ proc vec_print_str ptr -> do
   34 dquote !byte // Write 34, the ASCII code for '"', to dquote
   // FD_STDOUT dquote 1 sys_write drop // Print a double quote (there will be \" in the language soon, I promise)
 
-  "[" puts
+  "[" (str->ptr) puts
   0 i !int // Initialize i = 0
   while i @int vec_ptr @ptr @vec.count < do
     FD_STDOUT dquote 1 sys_write drop // Print a double quote (there will be \" in the language soon, I promise)
@@ -356,9 +356,9 @@ proc vec_print_str ptr -> do
     @ptr puts // Print the string out
     FD_STDOUT dquote 1 sys_write drop // Print a double quote (there will be \" in the language soon, I promise)
     if i @int 1 + vec_ptr @ptr @vec.count < do
-      ", " puts
+      ", " (str->ptr) puts
     end
     i inc64
   end
-  "]\n" puts
+  "]\n" (str->ptr) puts
 end

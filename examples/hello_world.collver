@@ -1,5 +1,6 @@
 include "std.collver"
 
-proc main -> do
-  "Hello, world\n" puts
+proc main int ptr -> int do
+  "Hello, world\n" (str->ptr) puts
+  drop drop 0
 end

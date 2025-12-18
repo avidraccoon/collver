@@ -90,6 +90,18 @@
                 "settings": {
                     "foreground": "#c96d2f"
                 }
+            },
+            {
+                "scope": "keyword.control.arithmetic.collver",
+                "settings": {
+                    "foreground": "#b4c989"
+                }
+            },
+            {
+                "scope": "constant.language.sys_calls.collver",
+                "settings": {
+                    "foreground": "#ff5370"
+                }
             }
         ]
     }
