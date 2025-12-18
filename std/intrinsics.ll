@@ -198,21 +198,21 @@ define void @proc_intrinsic_load64() {
   ret void
 }
 
-// Just here to trick the type system
-define void @proc_intrinsic_ptr_str_cast() {
+define void @proc_intrinsic_storeptr() {
+  %ptr_int = call i64() @pop()
+  %a = call i64() @pop()
+  %ptr_ = inttoptr i64 %ptr_int to ptr
+  store i64 %a, ptr %ptr_
   ret void
 }
 
-// Just here to trick the type system
-define void @proc_intrinsic_ptr_int_cast() {
+define void @proc_intrinsic_loadptr() {
+  %ptr_int = call i64 @pop()
+  %ptr_ = inttoptr i64 %ptr_int to ptr
+  %c_i64 = load i64, ptr %ptr_
+  call void(i64) @push(i64 %c_i64)
   ret void
 }
-
-// Just here to trick the type system
-define void @proc_intrinsic_ptr_int_cast_jumped() {
-  ret void
-}
-
 
 declare noalias ptr @malloc(i64 noundef)
 define void @proc_intrinsic_alloc() {

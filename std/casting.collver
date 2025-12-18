@@ -1,0 +1,189 @@
+// All of this is just here to trick the type system
+
+// One arg casts
+
+extern cast_int_to_int int -> int end
+extern cast_int_to_ptr int -> ptr end
+extern cast_int_to_str int -> str end
+extern cast_ptr_to_int ptr -> int end
+extern cast_ptr_to_ptr ptr -> ptr end
+extern cast_ptr_to_str ptr -> str end
+extern cast_str_to_int str -> int end
+extern cast_str_to_ptr str -> ptr end
+extern cast_str_to_str str -> str end
+
+alias (int->int) cast_int_to_int end
+alias (int->ptr) cast_int_to_ptr end
+alias (int->str) cast_int_to_str end
+alias (ptr->int) cast_ptr_to_int end
+alias (ptr->ptr) cast_ptr_to_ptr end
+alias (ptr->str) cast_ptr_to_str end
+alias (str->int) cast_str_to_int end
+alias (str->ptr) cast_str_to_ptr end
+alias (str->str) cast_str_to_str end
+
+// Two arg casts
+
+extern cast_int_int_to_int_int int int -> int int end
+extern cast_int_int_to_int_ptr int int -> int ptr end
+extern cast_int_int_to_int_str int int -> int str end
+extern cast_int_int_to_ptr_int int int -> ptr int end
+extern cast_int_int_to_ptr_ptr int int -> ptr ptr end
+extern cast_int_int_to_ptr_str int int -> ptr str end
+extern cast_int_int_to_str_int int int -> str int end
+extern cast_int_int_to_str_ptr int int -> str ptr end
+extern cast_int_int_to_str_str int int -> str str end
+extern cast_int_ptr_to_int_int int ptr -> int int end
+extern cast_int_ptr_to_int_ptr int ptr -> int ptr end
+extern cast_int_ptr_to_int_str int ptr -> int str end
+extern cast_int_ptr_to_ptr_int int ptr -> ptr int end
+extern cast_int_ptr_to_ptr_ptr int ptr -> ptr ptr end
+extern cast_int_ptr_to_ptr_str int ptr -> ptr str end
+extern cast_int_ptr_to_str_int int ptr -> str int end
+extern cast_int_ptr_to_str_ptr int ptr -> str ptr end
+extern cast_int_ptr_to_str_str int ptr -> str str end
+extern cast_int_str_to_int_int int str -> int int end
+extern cast_int_str_to_int_ptr int str -> int ptr end
+extern cast_int_str_to_int_str int str -> int str end
+extern cast_int_str_to_ptr_int int str -> ptr int end
+extern cast_int_str_to_ptr_ptr int str -> ptr ptr end
+extern cast_int_str_to_ptr_str int str -> ptr str end
+extern cast_int_str_to_str_int int str -> str int end
+extern cast_int_str_to_str_ptr int str -> str ptr end
+extern cast_int_str_to_str_str int str -> str str end
+extern cast_ptr_int_to_int_int ptr int -> int int end
+extern cast_ptr_int_to_int_ptr ptr int -> int ptr end
+extern cast_ptr_int_to_int_str ptr int -> int str end
+extern cast_ptr_int_to_ptr_int ptr int -> ptr int end
+extern cast_ptr_int_to_ptr_ptr ptr int -> ptr ptr end
+extern cast_ptr_int_to_ptr_str ptr int -> ptr str end
+extern cast_ptr_int_to_str_int ptr int -> str int end
+extern cast_ptr_int_to_str_ptr ptr int -> str ptr end
+extern cast_ptr_int_to_str_str ptr int -> str str end
+extern cast_ptr_ptr_to_int_int ptr ptr -> int int end
+extern cast_ptr_ptr_to_int_ptr ptr ptr -> int ptr end
+extern cast_ptr_ptr_to_int_str ptr ptr -> int str end
+extern cast_ptr_ptr_to_ptr_int ptr ptr -> ptr int end
+extern cast_ptr_ptr_to_ptr_ptr ptr ptr -> ptr ptr end
+extern cast_ptr_ptr_to_ptr_str ptr ptr -> ptr str end
+extern cast_ptr_ptr_to_str_int ptr ptr -> str int end
+extern cast_ptr_ptr_to_str_ptr ptr ptr -> str ptr end
+extern cast_ptr_ptr_to_str_str ptr ptr -> str str end
+extern cast_ptr_str_to_int_int ptr str -> int int end
+extern cast_ptr_str_to_int_ptr ptr str -> int ptr end
+extern cast_ptr_str_to_int_str ptr str -> int str end
+extern cast_ptr_str_to_ptr_int ptr str -> ptr int end
+extern cast_ptr_str_to_ptr_ptr ptr str -> ptr ptr end
+extern cast_ptr_str_to_ptr_str ptr str -> ptr str end
+extern cast_ptr_str_to_str_int ptr str -> str int end
+extern cast_ptr_str_to_str_ptr ptr str -> str ptr end
+extern cast_ptr_str_to_str_str ptr str -> str str end
+extern cast_str_int_to_int_int str int -> int int end
+extern cast_str_int_to_int_ptr str int -> int ptr end
+extern cast_str_int_to_int_str str int -> int str end
+extern cast_str_int_to_ptr_int str int -> ptr int end
+extern cast_str_int_to_ptr_ptr str int -> ptr ptr end
+extern cast_str_int_to_ptr_str str int -> ptr str end
+extern cast_str_int_to_str_int str int -> str int end
+extern cast_str_int_to_str_ptr str int -> str ptr end
+extern cast_str_int_to_str_str str int -> str str end
+extern cast_str_ptr_to_int_int str ptr -> int int end
+extern cast_str_ptr_to_int_ptr str ptr -> int ptr end
+extern cast_str_ptr_to_int_str str ptr -> int str end
+extern cast_str_ptr_to_ptr_int str ptr -> ptr int end
+extern cast_str_ptr_to_ptr_ptr str ptr -> ptr ptr end
+extern cast_str_ptr_to_ptr_str str ptr -> ptr str end
+extern cast_str_ptr_to_str_int str ptr -> str int end
+extern cast_str_ptr_to_str_ptr str ptr -> str ptr end
+extern cast_str_ptr_to_str_str str ptr -> str str end
+extern cast_str_str_to_int_int str str -> int int end
+extern cast_str_str_to_int_ptr str str -> int ptr end
+extern cast_str_str_to_int_str str str -> int str end
+extern cast_str_str_to_ptr_int str str -> ptr int end
+extern cast_str_str_to_ptr_ptr str str -> ptr ptr end
+extern cast_str_str_to_ptr_str str str -> ptr str end
+extern cast_str_str_to_str_int str str -> str int end
+extern cast_str_str_to_str_ptr str str -> str ptr end
+extern cast_str_str_to_str_str str str -> str str end
+
+alias [int,int->int,int] cast_int_int_to_int_int end
+alias [int,int->int,ptr] cast_int_int_to_int_ptr end
+alias [int,int->int,str] cast_int_int_to_int_str end
+alias [int,int->ptr,int] cast_int_int_to_ptr_int end
+alias [int,int->ptr,ptr] cast_int_int_to_ptr_ptr end
+alias [int,int->ptr,str] cast_int_int_to_ptr_str end
+alias [int,int->str,int] cast_int_int_to_str_int end
+alias [int,int->str,ptr] cast_int_int_to_str_ptr end
+alias [int,int->str,str] cast_int_int_to_str_str end
+alias [int,ptr->int,int] cast_int_ptr_to_int_int end
+alias [int,ptr->int,ptr] cast_int_ptr_to_int_ptr end
+alias [int,ptr->int,str] cast_int_ptr_to_int_str end
+alias [int,ptr->ptr,int] cast_int_ptr_to_ptr_int end
+alias [int,ptr->ptr,ptr] cast_int_ptr_to_ptr_ptr end
+alias [int,ptr->ptr,str] cast_int_ptr_to_ptr_str end
+alias [int,ptr->str,int] cast_int_ptr_to_str_int end
+alias [int,ptr->str,ptr] cast_int_ptr_to_str_ptr end
+alias [int,ptr->str,str] cast_int_ptr_to_str_str end
+alias [int,str->int,int] cast_int_str_to_int_int end
+alias [int,str->int,ptr] cast_int_str_to_int_ptr end
+alias [int,str->int,str] cast_int_str_to_int_str end
+alias [int,str->ptr,int] cast_int_str_to_ptr_int end
+alias [int,str->ptr,ptr] cast_int_str_to_ptr_ptr end
+alias [int,str->ptr,str] cast_int_str_to_ptr_str end
+alias [int,str->str,int] cast_int_str_to_str_int end
+alias [int,str->str,ptr] cast_int_str_to_str_ptr end
+alias [int,str->str,str] cast_int_str_to_str_str end
+alias [ptr,int->int,int] cast_ptr_int_to_int_int end
+alias [ptr,int->int,ptr] cast_ptr_int_to_int_ptr end
+alias [ptr,int->int,str] cast_ptr_int_to_int_str end
+alias [ptr,int->ptr,int] cast_ptr_int_to_ptr_int end
+alias [ptr,int->ptr,ptr] cast_ptr_int_to_ptr_ptr end
+alias [ptr,int->ptr,str] cast_ptr_int_to_ptr_str end
+alias [ptr,int->str,int] cast_ptr_int_to_str_int end
+alias [ptr,int->str,ptr] cast_ptr_int_to_str_ptr end
+alias [ptr,int->str,str] cast_ptr_int_to_str_str end
+alias [ptr,ptr->int,int] cast_ptr_ptr_to_int_int end
+alias [ptr,ptr->int,ptr] cast_ptr_ptr_to_int_ptr end
+alias [ptr,ptr->int,str] cast_ptr_ptr_to_int_str end
+alias [ptr,ptr->ptr,int] cast_ptr_ptr_to_ptr_int end
+alias [ptr,ptr->ptr,ptr] cast_ptr_ptr_to_ptr_ptr end
+alias [ptr,ptr->ptr,str] cast_ptr_ptr_to_ptr_str end
+alias [ptr,ptr->str,int] cast_ptr_ptr_to_str_int end
+alias [ptr,ptr->str,ptr] cast_ptr_ptr_to_str_ptr end
+alias [ptr,ptr->str,str] cast_ptr_ptr_to_str_str end
+alias [ptr,str->int,int] cast_ptr_str_to_int_int end
+alias [ptr,str->int,ptr] cast_ptr_str_to_int_ptr end
+alias [ptr,str->int,str] cast_ptr_str_to_int_str end
+alias [ptr,str->ptr,int] cast_ptr_str_to_ptr_int end
+alias [ptr,str->ptr,ptr] cast_ptr_str_to_ptr_ptr end
+alias [ptr,str->ptr,str] cast_ptr_str_to_ptr_str end
+alias [ptr,str->str,int] cast_ptr_str_to_str_int end
+alias [ptr,str->str,ptr] cast_ptr_str_to_str_ptr end
+alias [ptr,str->str,str] cast_ptr_str_to_str_str end
+alias [str,int->int,int] cast_str_int_to_int_int end
+alias [str,int->int,ptr] cast_str_int_to_int_ptr end
+alias [str,int->int,str] cast_str_int_to_int_str end
+alias [str,int->ptr,int] cast_str_int_to_ptr_int end
+alias [str,int->ptr,ptr] cast_str_int_to_ptr_ptr end
+alias [str,int->ptr,str] cast_str_int_to_ptr_str end
+alias [str,int->str,int] cast_str_int_to_str_int end
+alias [str,int->str,ptr] cast_str_int_to_str_ptr end
+alias [str,int->str,str] cast_str_int_to_str_str end
+alias [str,ptr->int,int] cast_str_ptr_to_int_int end
+alias [str,ptr->int,ptr] cast_str_ptr_to_int_ptr end
+alias [str,ptr->int,str] cast_str_ptr_to_int_str end
+alias [str,ptr->ptr,int] cast_str_ptr_to_ptr_int end
+alias [str,ptr->ptr,ptr] cast_str_ptr_to_ptr_ptr end
+alias [str,ptr->ptr,str] cast_str_ptr_to_ptr_str end
+alias [str,ptr->str,int] cast_str_ptr_to_str_int end
+alias [str,ptr->str,ptr] cast_str_ptr_to_str_ptr end
+alias [str,ptr->str,str] cast_str_ptr_to_str_str end
+alias [str,str->int,int] cast_str_str_to_int_int end
+alias [str,str->int,ptr] cast_str_str_to_int_ptr end
+alias [str,str->int,str] cast_str_str_to_int_str end
+alias [str,str->ptr,int] cast_str_str_to_ptr_int end
+alias [str,str->ptr,ptr] cast_str_str_to_ptr_ptr end
+alias [str,str->ptr,str] cast_str_str_to_ptr_str end
+alias [str,str->str,int] cast_str_str_to_str_int end
+alias [str,str->str,ptr] cast_str_str_to_str_ptr end
+alias [str,str->str,str] cast_str_str_to_str_str end

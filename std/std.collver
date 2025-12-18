@@ -1,5 +1,6 @@
 include "runtime.collver"
 include "consts.collver"
+include "casting.collver"
 
 // STACK MANIPULATION
 
@@ -110,9 +111,9 @@ proc inc64 ptr -> do // ptr ->
   dup
   @64
   1 +
-  [int]ptr // Convert to ptr for swap
+  [ptr,int->int,int] // Convert to ptr for swap
   swap // pointer comes second for !
-  (ptr)int // Convert back to ptr for !
+  (int->ptr) // Convert back to ptr for !
   !64
 end
 
@@ -121,9 +122,9 @@ proc dec64 ptr -> do // ptr ->
   dup
   @64
   1 -
-  [int]ptr // Convert to ptr for swap
+  [ptr,int->int,int] // Convert to ptr for swap
   swap // pointer comes second for !
-  (ptr)int // Convert back to ptr for !
+  (int->ptr) // Convert back to ptr for !
   !64
 end
 
@@ -137,7 +138,7 @@ proc memcpy int ptr ptr -> do // size src dst ->
   size !64
 
   0 while dup size @64 < do
-    dup  src @ptr + @8
+    dup src @ptr + @8
     over dst @ptr + !8
     1 +
   end drop
@@ -146,21 +147,21 @@ end
 // Given an int (or ptr), store it in RAM and return the pointer
 proc ptrto int -> ptr do // int i -> ptr p
   sizeof(int) alloc 
-  (int)ptr // Convert to int for swap
+  (ptr->int) // Convert to int for swap
   swap over 
-  (ptr)int // Convert back to ptr for store
+  (int->ptr) // Convert back to ptr for store
   !int
-  (ptr)int // Convert back to ptr for return
+  (int->ptr) // Convert back to ptr for return
 end
 
 // Given a byte, store it in RAM and return the pointer
 proc bptrto int -> ptr do
   sizeof(byte) alloc
-  (int)ptr // Convert to int for swap
+  (ptr->int) // Convert to int for swap
   swap over 
-  (ptr)int // Convert back to ptr for store
+  (int->ptr) // Convert back to ptr for store
   !byte
-  (ptr)int // Convert back to ptr for return
+  (int->ptr) // Convert back to ptr for return
 end
 
 // STRING MANIPULATION
@@ -201,13 +202,13 @@ proc strconcat str str -> str do // str1 str2 -> str3
   memory str2 sizeof(ptr) end
   memory len_str2 sizeof(int) end
   memory dst sizeof(ptr) end
-  (ptr)str dup str2 !ptr strlen len_str2 !64 // Store the length and pointer to str2 in memory
-  (ptr)str dup str1 !ptr strlen len_str1 !64 // Store the length and pointer to str1 in memory
+  (str->ptr) dup str2 !ptr strlen len_str2 !64 // Store the length and pointer to str2 in memory
+  (str->ptr) dup str1 !ptr strlen len_str1 !64 // Store the length and pointer to str1 in memory
   len_str1 @64 len_str2 @64 + 1 + alloc dst !ptr // Sum the lengths of the two strings and allocate that many bytes, storing the pointer in dst (adding 1 to null terminate)
   len_str1 @64 str1 @ptr dst @ptr memcpy // Copy str1 to the beginning of the new memory (memcpy requires a length so we need len_str1 at the beginning)
   len_str2 @64 str2 @ptr dst @ptr len_str1 @64 + memcpy // Add the length of str1 to the pointer and copy str2 to there
-  dst @64 len_str1 @64 len_str2 @64 + + 0 swap (ptr)int !8 // Write a `0` at the end, null-terminating the new string
-  dst @ptr (str)ptr // Return the pointer to the new, concatenated string
+  dst @64 len_str1 @64 len_str2 @64 + + 0 swap (int->ptr) !8 // Write a `0` at the end, null-terminating the new string
+  dst @ptr (ptr->str) // Return the pointer to the new, concatenated string
 end
 
 proc strconcat_d str str -> str do // str1 str2 -> str3
@@ -215,9 +216,9 @@ proc strconcat_d str str -> str do // str1 str2 -> str3
   // NOTE: ONLY FOR STRINGS THAT HAVE BEEN DYNAMICALLY ALLOCATED WITH THE `alloc` WORD
   memory str2 sizeof(ptr) end
   memory str1 sizeof(ptr) end
-  (ptr)str str2 !ptr
-  dup (ptr)str str1 !ptr
-  str2 @ptr (str)ptr
+  (str->ptr) str2 !ptr
+  dup (str->ptr) str1 !ptr
+  str2 @ptr (ptr->str)
   strconcat
   str1 @ptr free
   str2 @ptr free
@@ -230,16 +231,16 @@ proc streq str str -> int do // str1 str2 -> bool
 
   memory str1 sizeof(ptr) end
   memory str2 sizeof(ptr) end
-  (ptr)str str2 !ptr
-  (ptr)str str1 !ptr
+  (str->ptr) str2 !ptr
+  (str->ptr) str1 !ptr
 
   if str1 @ptr strlen str2 @ptr strlen = do // Check if lengths are equal
     0 while dup str1 @ptr strlen < do
       // i *(str2+i) *(str1+i)
       if
         dup str1 @ptr +
-        (int)ptr over str2 @ptr +
-        (int)ptr @byte swap (int)ptr @byte
+        (ptr->int) over str2 @ptr +
+        @byte swap (int->ptr) @byte
         !=
       do
         0 eq !byte

@@ -1,7 +1,7 @@
 {
     "editor.tokenColorCustomizations": {
         "textMateRules": [
-           {
+            {
                 "scope": [
                     "keyword.operator.arithmetic.collver",
                     "keyword.operator.logical.collver",
@@ -10,7 +10,87 @@
                 "settings": {
                     "foreground": "#86a5bd"
                 }
-           }
+            },
+            {
+                "scope": "constant.other.collver",
+                "settings": {
+                    "foreground": "#d4a959"
+                }
+            },
+            {
+                "scope": "variable.language.collver",
+                "settings": {
+                    "foreground": "#c792ea"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.control.program.collver"
+                ],
+                "settings": {
+                    "foreground": "#f07178"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.control.stack.collver"
+                ],
+                "settings": {
+                    "foreground": "#f78c6c"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.control.memory.collver"
+                ],
+                "settings": {
+                    "foreground": "#ff9cac"
+                }
+            },
+            {
+                "scope": [
+                    "keyword.operator.memory.collver"
+                ],
+                "settings": {
+                    "foreground": "#89ddff"
+                }
+            },
+            {
+                "scope": "keyword.operator.casting.collver",
+                "settings": {
+                    "foreground": "#c3e88d"
+                }
+            },
+            {
+                "scope": "storage.type.collver",
+                "settings": {
+                    "foreground": "#a08080"
+                }
+            },
+            {
+                "scope": "entity.name.memory.collver",
+                "settings": {
+                    "foreground": "#82aaff"
+                }
+            },
+            {
+                "scope": "keyword.control.inputoutput.collver",
+                "settings": {
+                    "foreground": "#8fac9c"
+                }
+            },
+            {
+                "scope": "keyword.control.string.collver",
+                "settings": {
+                    "foreground": "#4f7c0c"
+                }
+            },
+            {
+                "scope": "keyword.control.logical.collver",
+                "settings": {
+                    "foreground": "#c96d2f"
+                }
+            }
         ]
     }
 }

@@ -37,13 +37,45 @@
                 {
                     "name": "entity.name.tag.collver",
                     "match": "(?<=(alias|const)\\s+)[^\\s]+"
+                },
+                {
+                    "name": "entity.name.memory.collver",
+                    "match": "(?<=(memory)\\s+)[^\\s]+"
+                },
+                {
+                    "name": "constant.other.collver",
+                    "match": "(?<=\\s)sizeof\\([^\\s]+\\)(?=\\s)"
+                },
+                {
+                    "name": "keyword.control.program.collver",
+                    "match": "\\b(exit|get_errno)\\b"
+                },
+                {
+                    "name": "keyword.control.stack.collver",
+                    "match": "\\b(dup|2dup|drop|swap|over)\\b"
+                },
+                {
+                    "name": "keyword.control.inputoutput.collver",
+                    "match": "\\b(sys_read|sys_write|sys_open|sys_close)\\b"
+                },
+                {
+                    "name": "keyword.control.string.collver",
+                    "match": "\\b(strlen|strcpy|strcmp|strconcat_d|strconcat|streq)\\b"
+                },
+                {
+                    "name": "keyword.control.logical.collver",
+                    "match": "\\b(lnorm|lnot|2norm|nland|land|nlor|lor|nlxor|lxor|btos)\\b"
+                },
+                {
+                    "name": "keyword.control.memory.collver",
+                    "match": "\\b(alloc|free|inc64|dec64|memcpy|ptrto|bptrto)\\b"
                 }
             ]
         },
         "operators": {
             "patterns": [
                 {
-                    "name": "keyword.operator.stack.collver",
+                    "name": "keyword.operator.memory.collver",
                     "match": "(@|!|\\?)(64|32|16|8|int|ptr|byte|str)" 
                 },
                 {
@@ -61,6 +93,14 @@
                 {
                     "name": "comment.block.stack.collver",
                     "match": "//.*$"
+                },
+                {
+                    "name": "keyword.operator.casting.collver",
+                    "match": "(?<=\\s)(\\([^\\s]+->[^\\s]+\\))(?=\\s)"
+                },
+                {
+                    "name": "keyword.operator.casting.collver",
+                    "match": "(?<=\\s)\\[[^\\s]+,[^\\s]+->[^\\s]+,[^\\s]+\\](?=\\s)"
                 }
             ]
         },

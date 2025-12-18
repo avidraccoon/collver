@@ -68,24 +68,9 @@ alias @8 intrinsic_load8 end
 extern intrinsic_store64 int ptr -> end
 extern intrinsic_load64 ptr -> int end
 
-// Maybe a temporary solution
-extern intrinsic_ptr_int_cast int -> ptr end
-extern intrinsic_ptr_int_cast ptr -> int end
-alias (int)ptr intrinsic_ptr_int_cast end
-alias (ptr)int intrinsic_ptr_int_cast end
+extern intrinsic_storeptr ptr ptr -> end
+extern intrinsic_loadptr ptr -> ptr end
 
-extern intrinsic_ptr_str_cast str -> ptr end
-extern intrinsic_ptr_str_cast ptr -> str end
-alias (ptr)str intrinsic_ptr_str_cast end
-alias (str)ptr intrinsic_ptr_str_cast end
-
-// Because needing to convert the type that is second on the stack is so common
-extern intrinsic_ptr_int_cast_jumped int int -> ptr int end
-extern intrinsic_ptr_int_cast_jumped int ptr -> ptr ptr end
-extern intrinsic_ptr_int_cast_jumped ptr int -> int int end
-extern intrinsic_ptr_int_cast_jumped ptr ptr -> int ptr end
-alias [int]ptr intrinsic_ptr_int_cast_jumped end
-alias [ptr]int intrinsic_ptr_int_cast_jumped end
 
 extern intrinsic_alloc int -> ptr end
 extern intrinsic_free ptr -> end
@@ -99,24 +84,9 @@ alias !64 intrinsic_store64 end
 alias @64 intrinsic_load64 end
 alias !int intrinsic_store64 end
 alias @int intrinsic_load64 end
+alias !ptr intrinsic_storeptr end
+alias @ptr intrinsic_loadptr end
 alias alloc intrinsic_alloc end
 alias free intrinsic_free end
 alias exit intrinsic_exit end
 alias get_errno intrinsic_check_errno end
-
-// I really had this method with it storeing pointers as ints to avoid type system issues
-proc storeptr ptr ptr -> do
-    [int]ptr // Convert ptr to int to satisfy type system
-    !64
-end
-
-proc loadptr ptr -> ptr do
-    @64
-    (ptr)int // Convert int back into a ptr to satisfy type system
-end
-
-alias !ptr storeptr end
-alias @ptr loadptr end
-
-// TODO: Add store and load for strings
-// TODO: Enforce that casts start from the right type

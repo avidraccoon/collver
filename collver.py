@@ -1787,12 +1787,14 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
     this_folder = os.path.split(__file__)[0]
     intrinsics_ll_path = os.path.join(this_folder, "std", "intrinsics.ll")
     files_ll_path = os.path.join(this_folder, "std", "files.ll")
+    casting_ll_path = os.path.join(this_folder, "std", "casting.ll")
     res = run_echoed(
         [
             "llvm-link",
             ll_path,
             intrinsics_ll_path,
             files_ll_path,
+            casting_ll_path,
             "-o",
             ll_path,
             "-opaque-pointers",
