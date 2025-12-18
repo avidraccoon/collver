@@ -1,0 +1,19 @@
+{
+  "name": "collver-highlighting",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "*"
+  },
+  "contributes": {
+    "languages": [{
+      "id": "collver",
+      "aliases": ["Collver", "collver"],
+      "extensions": [".collver"]
+    }],
+    "grammars": [{
+      "language": "collver",
+      "scopeName": "source.collver",
+      "path": "./collver.tmLanguage.json"
+    }]
+  }
+}

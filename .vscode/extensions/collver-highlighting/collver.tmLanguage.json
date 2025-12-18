@@ -1,0 +1,73 @@
+{
+    "$schema": "raw.githubusercontent.com",
+    "name": "Collver",
+    "scopeName": "source.collver",
+    "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#keywords" },
+        { "include": "#operators" },
+        { "include": "#numbers" }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                { "name": "comment.line.double-slash.collver", "match": "//.*$" }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                { "name": "string.quoted.double.collver", "begin": "\"", "end": "\"" }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.collver",
+                    "match": "\\b(proc|extern|do|end|if|else|while|memory|const|alias|include)\\b"
+                },
+                {
+                    "name": "storage.type.collver",
+                    "match": "(?<=\\s)(int|ptr|str|byte)(?=\\s)"
+                },
+                {
+                    "name": "entity.name.function.collver",
+                    "match": "(?<=(proc|extern)\\s+)[a-zA-Z0-9_]+"
+                },
+                {
+                    "name": "entity.name.tag.collver",
+                    "match": "(?<=(alias|const)\\s+)[^\\s]+"
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.stack.collver",
+                    "match": "(@|!|\\?)(64|32|16|8|int|ptr|byte|str)" 
+                },
+                {
+                    "name": "keyword.operator.logical.collver",
+                    "match": "(?<=\\s)(\\+|\\-|\\*|\\/|=|!=|<|>|<=|>=|&&|&|^|\\||\\|\\|)(?=\\s)"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.collver",
+                    "match": "(?<=\\s)(\\+|\\-|\\*|\\/|%|>>|<<)(?=\\s)"
+                },
+                {
+                    "name": "keyword.operator.typing.collver",
+                    "match": "(?<=\\s)->(?=\\s)"
+                },
+                {
+                    "name": "comment.block.stack.collver",
+                    "match": "//.*$"
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                { "name": "constant.numeric.collver", "match": "\\b[0-9]+\\b" }
+            ]
+        }
+    }
+}

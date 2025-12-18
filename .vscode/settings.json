@@ -1,0 +1,16 @@
+{
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+           {
+                "scope": [
+                    "keyword.operator.arithmetic.collver",
+                    "keyword.operator.logical.collver",
+                    "keyword.operator.typing.collver"
+                ],
+                "settings": {
+                    "foreground": "#86a5bd"
+                }
+           }
+        ]
+    }
+}
