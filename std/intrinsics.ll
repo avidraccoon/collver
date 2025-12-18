@@ -199,6 +199,11 @@ define void @proc_intrinsic_load64() {
 }
 
 // Just here to trick the type system
+define void @proc_intrinsic_ptr_str_cast() {
+  ret void
+}
+
+// Just here to trick the type system
 define void @proc_intrinsic_ptr_int_cast() {
   ret void
 }

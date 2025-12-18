@@ -74,6 +74,11 @@ extern intrinsic_ptr_int_cast ptr -> int end
 alias (int)ptr intrinsic_ptr_int_cast end
 alias (ptr)int intrinsic_ptr_int_cast end
 
+extern intrinsic_ptr_str_cast str -> ptr end
+extern intrinsic_ptr_str_cast ptr -> str end
+alias (ptr)str intrinsic_ptr_str_cast end
+alias (str)ptr intrinsic_ptr_str_cast end
+
 // Because needing to convert the type that is second on the stack is so common
 extern intrinsic_ptr_int_cast_jumped int int -> ptr int end
 extern intrinsic_ptr_int_cast_jumped int ptr -> ptr ptr end
@@ -112,3 +117,6 @@ end
 
 alias !ptr storeptr end
 alias @ptr loadptr end
+
+// TODO: Add store and load for strings
+// TODO: Enforce that casts start from the right type

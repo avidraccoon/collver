@@ -999,6 +999,8 @@ class BlockMarker(Enum):
     ELIF_DO = auto()
     ELSE = auto()
     # TODO: support typechecking of while loops
+    WHILE = auto()
+    WHILE_DO = auto()
 
 
 def type_check_proc(name: str, proc: Proc, program: Program):
@@ -1018,7 +1020,6 @@ def type_check_proc(name: str, proc: Proc, program: Program):
     # print(f"Has {len(proc.words)} words")
     type_stack: TypeStack = []
     block_stack: list[tuple[BlockMarker, TypeStack]] = []
-    condition_stack: list[list[TypeStack]] = []
     arguments: list[TypeAnnotation]
     returns: list[TypeAnnotation]
     arguments, returns = proc.type_sig.as_tuple()
@@ -1181,6 +1182,8 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                     dbg_type_stack(snapshot)
                     sys.exit(1)
                 block_stack.append((BlockMarker.ELIF_DO, type_stack.copy()))
+            elif marker == BlockMarker.WHILE:
+                block_stack.append((BlockMarker.WHILE_DO, type_stack.copy()))
             else:
                 assert False, f"Marker {marker} not supportd in type checking DO"
         elif word.typ == OT.KEYWORD and word.operand == Keyword.ELSE:
@@ -1239,6 +1242,8 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 )
             type_stack = snapshot.copy()
             block_stack.append((BlockMarker.ELSE, type_stack.copy()))
+        elif word.typ == OT.KEYWORD and word.operand == Keyword.WHILE:
+            block_stack.append((BlockMarker.WHILE, type_stack.copy()))
         elif word.typ == OT.KEYWORD and word.operand == Keyword.END:
             assert len(block_stack) >= 1, (
                 "End keyword with nothing under it in block stack"
@@ -1401,12 +1406,53 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                     compiler_note(word.tok, "Second version of stack:")
                     dbg_type_stack(snapshot)
                     sys.exit(1)
+            elif marker == BlockMarker.WHILE_DO:
+                diff, toks = stacks_match(snapshot, type_stack)
+ 
+                if diff == TypeDifference.MISMATCH:
+                    compiler_error(
+                        word.tok, "Mismatched types after evaluation of `while` body"
+                    )
+                    assert toks is not None, (
+                        "none toks returned after mismatch from stacks_match"
+                    )
+                    compiler_note(toks[0], "First type pushed here. Types on stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(toks[1], "Second type pushed here. Types on stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(
+                        word.tok,
+                        "A while-do-end statement body must not modify the types of items on the stack, since it may run an unpredictable number of times.",
+                    )
+                    sys.exit(1)
+                elif (
+                    diff == TypeDifference.FIRST_LONGER
+                    or diff == TypeDifference.SECOND_LONGER
+                ):
+                    compiler_error(
+                        word.tok,
+                        "Mismatched types after evaluation of `while` body: differing numbers of items present on the stack in each branch.",
+                    )
+                    assert toks is not None, (
+                        "none toks returned after mismatch from stacks_match"
+                    )
+                    compiler_note(word.tok, "First version of stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(word.tok, "Second version of stack:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(
+                        word.tok,
+                        "A while-do-end statement body must not modify the types of items on the stack, since it may run an unpredictable number of times.",
+                    )
+                    sys.exit(1)
             else:                
                 assert False, (
                     f"Unknown block marker {marker} found on block stack when typechecking `end` at {pretty_loc(word.tok)}"
                 )
-        elif word.typ == OT.KEYWORD and word.operand in (Keyword.WHILE,):
+        elif word.typ == OT.KEYWORD and word.operand in ():
+            # Probably use similar logic to IF blocks
             assert False, "Not implemented :("
+            block_stack.append((BlockMarker.WHILE, type_stack.copy()))
         else:
             assert False, f"Word {word} not implemented"
     
