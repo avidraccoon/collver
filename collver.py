@@ -1810,7 +1810,7 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
     run_echoed(
         ["llc", ll_path, "-o", bin_path + ".s", "-opaque-pointers"]
     )  # -opaque-pointers argument because newer LLVm versions use [type]* instead of `ptr` type
-    res = run_echoed(["clang", bin_path + ".s", "-o", bin_path])
+    res = run_echoed(["clang", "-no-pie", bin_path + ".s", "-o", bin_path])
     if res.returncode != 0:
         print("error: `clang` finished with non-0 exit code")
         sys.exit(1)
