@@ -209,6 +209,7 @@ proc vec_push ptr ptr -> do // ptr item_ptr, ptr vec_ptr ->
 
     vec_ptr @ptr vec.count + inc64 // Increment the count
   end
+  
 end
 
 // Get the pointer to an element in a vector
