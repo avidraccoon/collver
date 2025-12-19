@@ -1,5 +1,8 @@
 include "std.collver"
 
-proc main -> do
-  print @64 puts "\n" puts
+proc main int ptr -> int do
+  // Need to fix the order of arguments in side the compiler but this is a workaround
+  [int,ptr->ptr,int]
+  print @ptr puts "\n" (str->ptr) puts
+  0
 end

@@ -14,7 +14,8 @@ proc read_mem -> do
   global_bytes 2 + @8 print
 end
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   memory local_i64 sizeof(int) end
   2 16 <<
   1 +

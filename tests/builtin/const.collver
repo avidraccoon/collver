@@ -6,7 +6,8 @@ end
 
 const number2 number 28 + end
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   number print
   number2 print
 end

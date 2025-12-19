@@ -1,0 +1,114 @@
+include "std.collver"
+proc ptr_add ptr int -> do
+    memory pointer sizeof(ptr) end
+    [ptr,int->int,int] swap
+    pointer !64 // Store pointer value in memory
+    pointer @ptr @64 + // Add integer value to pointer value
+    pointer @ptr !64 // Store result back to pointer
+end
+proc ptr_sub ptr int -> do
+    memory pointer sizeof(ptr) end
+    [ptr,int->int,int] swap
+    pointer !64 // Store pointer value in memory
+    pointer @ptr @64 swap - // Subtract integer value from pointer value
+    pointer @ptr !64 // Store result back to pointer
+end
+proc mem_add ptr int -> do
+    memory pointer sizeof(ptr) end
+    [ptr,int->int,int] swap
+    pointer !64 // Store pointer value in memory
+    pointer @ptr @8 + // Add integer value to pointer value
+    pointer @ptr !8 // Store result back to pointer
+end
+proc mem_sub ptr int -> do
+    memory pointer sizeof(ptr) end
+    [ptr,int->int,int] swap
+    pointer !64 // Store pointer value in memory
+    pointer @ptr @8 swap - // Subtract integer value from pointer value
+    pointer @ptr !8 // Store result back to pointer
+end
+proc read_byte -> int do
+    memory input_buf sizeof(byte) end
+    FD_STDIN input_buf 1 sys_read drop
+    input_buf @8
+end
+proc write_byte int -> do
+    memory output_buf sizeof(byte) end
+    output_buf !8
+    FD_STDOUT output_buf 1 sys_write drop
+end
+const memory_size 1024 end
+proc main int ptr -> int do
+    drop drop 0
+    memory mem memory_size end
+    memory pointer sizeof(ptr) end
+
+    0 pointer !64 // Initialize pointer to 0
+    0 while dup memory_size < do
+        0 over mem + !8 // Initialize memory to 0
+        1 +
+    end drop
+
+    mem pointer @64 + 5 mem_add
+    // None BF Character 
+    mem pointer @64 + 5 mem_add
+    while mem pointer @64 + @8 0 != do
+        pointer 1 ptr_add
+        mem pointer @64 + 5 mem_add
+        // None BF Character 
+        mem pointer @64 + 5 mem_add
+        pointer 1 ptr_sub
+        mem pointer @64 + 1 mem_sub
+    end
+    // None BF Character 
+    pointer 1 ptr_add
+    mem pointer @64 + 4 mem_add
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 3 mem_sub
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 5 mem_add
+    // None BF Character 
+    mem pointer @64 + 2 mem_add
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 3 mem_add
+    mem pointer @64 + @8 write_byte
+    pointer 3 ptr_add
+    mem pointer @64 + 3 mem_add
+    while mem pointer @64 + @8 0 != do
+        pointer 1 ptr_add
+        mem pointer @64 + 5 mem_add
+        // None BF Character 
+        mem pointer @64 + 5 mem_add
+        pointer 1 ptr_sub
+        mem pointer @64 + 1 mem_sub
+    end
+    // None BF Character 
+    pointer 1 ptr_add
+    mem pointer @64 + 2 mem_add
+    mem pointer @64 + @8 write_byte
+    pointer 4 ptr_sub
+    mem pointer @64 + 5 mem_add
+    // None BF Character 
+    mem pointer @64 + 3 mem_add
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 5 mem_sub
+    // None BF Character 
+    mem pointer @64 + 3 mem_sub
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 3 mem_add
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 5 mem_sub
+    // None BF Character 
+    mem pointer @64 + 1 mem_sub
+    mem pointer @64 + @8 write_byte
+    mem pointer @64 + 5 mem_sub
+    // None BF Character 
+    mem pointer @64 + 3 mem_sub
+    mem pointer @64 + @8 write_byte
+    pointer 2 ptr_add
+    mem pointer @64 + 5 mem_add
+    // None BF Character 
+    mem pointer @64 + 5 mem_add
+    mem pointer @64 + @8 write_byte
+end

@@ -1030,6 +1030,11 @@ def type_check_proc(name: str, proc: Proc, program: Program):
     # dbg_type_stack(type_stack)
 
     for word in proc.words:
+        print("word type", word.typ)
+        print("word operand", word.operand)
+        print("Block Stack:")
+        for block_marker, _ in block_stack:
+            print(f"  {block_marker}")
         # dbg_type_stack(type_stack)
         if word.typ == OT.PUSH_INT:
             type_stack.append((DT.INT, word.tok))
@@ -1196,46 +1201,9 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 # So that we can compare at the end
                 block_stack.append((marker, type_stack.copy()))
             elif marker == BlockMarker.ELIF_DO:
-                diff, toks = stacks_match(snapshot, type_stack)
-                if diff == TypeDifference.MISMATCH:
-                    compiler_error(
-                        word.tok, "Mismatched types between `elif` and `else` branches."
-                    )
-                    assert toks is not None, (
-                        "none toks returned after mismatch from stacks_match"
-                    )
-                    compiler_note(toks[0], "First type pushed here. Types on stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(toks[1], "Second type pushed here. Types on stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(
-                        word.tok,
-                        "if-else statements must have consistently typed behavior since it is unknown which branch will run.",
-                    )
-                    sys.exit(1)
-                elif (
-                    diff == TypeDifference.FIRST_LONGER
-                    or diff == TypeDifference.SECOND_LONGER
-                ):
-                    compiler_error(
-                        word.tok,
-                        "Mismatched types between `elif` and `else` branches: differing numbers of items present on the stack in each branch.",
-                    )
-                    assert toks is not None, (
-                        "none toks returned after mismatch from stacks_match"
-                    )
-                    compiler_note(word.tok, "First version of stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(word.tok, "Second version of stack:")
-                    dbg_type_stack(snapshot)
-                    sys.exit(1)
-                assert len(block_stack) >= 1, (
-                    "ELIF_DO on block stack without IF_DO underneath, discovered in else check"
-                )
-                marker, _ = block_stack.pop()
-                assert marker == BlockMarker.IF_DO, (
-                    f"{marker} under ELIF_DO wasn't an IF_DO"
-                )
+                # TODO maybe return to previous version or merge with previous version
+                # For now, we just re-push it
+                block_stack.append((marker, type_stack.copy()))
             elif marker != BlockMarker.IF_DO:
                 assert False, (
                     "else not preceded by if or elif allowed to reach typecheck (compiler bug)"
@@ -1370,49 +1338,102 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 assert len(block_stack) >= 1, (
                     "else marker with nothing under it in block stack"
                 )
-                if_marker, if_snapshot = block_stack.pop()
+                prev_marker, prev_snapshot = block_stack.pop()
 
-                diff, toks = stacks_match(if_snapshot, type_stack)
+                diff, toks = stacks_match(prev_snapshot, type_stack)
 
-                if diff == TypeDifference.MISMATCH:
-                    compiler_error(
-                        word.tok, "Mismatched types between `else` and previous branches."
+                while prev_marker == BlockMarker.ELIF_DO:
+                    diff, toks = stacks_match(prev_snapshot, type_stack)
+    
+                    # TODO Enhance the compiler errors
+                    if diff == TypeDifference.MISMATCH:
+                        compiler_error(
+                            word.tok, "Mismatched types between `else` and previous branches."
+                        )
+                        assert toks is not None, (
+                            "none toks returned after mismatch from stacks_match"
+                        )
+                        compiler_note(toks[0], "First type pushed here. Types on stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(toks[1], "Second type pushed here. Types on stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(
+                            word.tok,
+                            "if-else statements must have consistently typed behavior since one branch is guaranteed to run.",
+                        )
+                        sys.exit(1)
+                    elif (
+                        diff == TypeDifference.FIRST_LONGER
+                        or diff == TypeDifference.SECOND_LONGER
+                    ):
+                        compiler_error(
+                            word.tok,
+                            "Mismatched types between `else` and previous branches: differing numbers of items present on the stack in each branch.",
+                        )
+                        assert toks is not None, (
+                            "none toks returned after mismatch from stacks_match"
+                        )
+                        compiler_note(word.tok, "First version of stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(word.tok, "Second version of stack:")
+                        dbg_type_stack(snapshot)
+                        sys.exit(1)
+                    
+                    assert len(block_stack) >= 1, (
+                        "elif marker with nothing under it in block stack"
                     )
-                    assert toks is not None, (
-                        "none toks returned after mismatch from stacks_match"
+
+                    prev_marker, prev_snapshot = block_stack.pop()
+
+                if (prev_marker == BlockMarker.IF_DO):
+                    assert prev_marker == BlockMarker.IF_DO, (
+                        f"{prev_marker} under ELIF_DO wasn't an IF_DO"
                     )
-                    compiler_note(toks[0], "First type pushed here. Types on stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(toks[1], "Second type pushed here. Types on stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(
-                        word.tok,
-                        "if-else statements must have consistently typed behavior since one branch is guaranteed to run.",
-                    )
-                    sys.exit(1)
-                elif (
-                    diff == TypeDifference.FIRST_LONGER
-                    or diff == TypeDifference.SECOND_LONGER
-                ):
-                    compiler_error(
-                        word.tok,
-                        "Mismatched types between `else` and previous branches: differing numbers of items present on the stack in each branch.",
-                    )
-                    assert toks is not None, (
-                        "none toks returned after mismatch from stacks_match"
-                    )
-                    compiler_note(word.tok, "First version of stack:")
-                    dbg_type_stack(snapshot)
-                    compiler_note(word.tok, "Second version of stack:")
-                    dbg_type_stack(snapshot)
-                    sys.exit(1)
+
+                    diff, toks = stacks_match(prev_snapshot, type_stack)
+
+                    if diff == TypeDifference.MISMATCH:
+                        compiler_error(
+                            word.tok, "Mismatched types between `elif` and `else` branches."
+                        )
+                        assert toks is not None, (
+                            "none toks returned after mismatch from stacks_match"
+                        )
+                        compiler_note(toks[0], "First type pushed here. Types on stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(toks[1], "Second type pushed here. Types on stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(
+                            word.tok,
+                            "if-else statements must have consistently typed behavior since one branch is guaranteed to run.",
+                        )
+                        sys.exit(1)
+                    elif (
+                        diff == TypeDifference.FIRST_LONGER
+                        or diff == TypeDifference.SECOND_LONGER
+                    ):
+                        compiler_error(
+                            word.tok,
+                            "Mismatched types between `elif` and `else` branches: differing numbers of items present on the stack in each branch.",
+                        )
+                        assert toks is not None, (
+                            "none toks returned after mismatch from stacks_match"
+                        )
+                        compiler_note(word.tok, "First version of stack:")
+                        dbg_type_stack(snapshot)
+                        compiler_note(word.tok, "Second version of stack:")
+                        dbg_type_stack(snapshot)
+                        sys.exit(1)
+                # TODO add compiler error here
+
+
             elif marker == BlockMarker.WHILE_DO:
                 diff, toks = stacks_match(snapshot, type_stack)
  
                 if diff == TypeDifference.MISMATCH:
                     compiler_error(
                         word.tok, "Mismatched types after evaluation of `while` body"
-                    )
+                    )   
                     assert toks is not None, (
                         "none toks returned after mismatch from stacks_match"
                     )
@@ -1433,6 +1454,10 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                         word.tok,
                         "Mismatched types after evaluation of `while` body: differing numbers of items present on the stack in each branch.",
                     )
+                    compiler_note(word.tok, "Snapshot of stack before evaluating while body:")
+                    dbg_type_stack(snapshot)
+                    compiler_note(word.tok, "Current stack after evaluating while body:")
+                    dbg_type_stack(type_stack)
                     assert toks is not None, (
                         "none toks returned after mismatch from stacks_match"
                     )
@@ -1455,6 +1480,12 @@ def type_check_proc(name: str, proc: Proc, program: Program):
             block_stack.append((BlockMarker.WHILE, type_stack.copy()))
         else:
             assert False, f"Word {word} not implemented"
+        print("State at end of loop")
+        print ("Word:", word)
+        print("Block Stack:")
+        for block_marker, _ in block_stack:
+            print(f"  {block_marker}")
+        print("\n\n")
     
 
     if len(returns) != len(type_stack):
@@ -1511,6 +1542,7 @@ def crossreference_proc(proc: Proc) -> None:
     for ip, word in enumerate(proc.words):
         if word.typ == OT.KEYWORD:
             print(word, word.typ, word.operand)
+            print(stack)
             if word.operand == Keyword.IF:
                 stack.append(ip)
             elif word.operand == Keyword.WHILE:
@@ -1531,6 +1563,7 @@ def crossreference_proc(proc: Proc) -> None:
                     start_word.jmp = (
                         ip  # Make the elif's jump to each other to skip if true
                     )
+                stack.append(ip)
             
             elif word.operand == Keyword.DO:
                 stack.append(ip)

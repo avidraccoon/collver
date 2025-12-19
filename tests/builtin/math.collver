@@ -20,7 +20,8 @@ proc mod -> do
   521 7 % print
 end
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   add
   sub
   mul

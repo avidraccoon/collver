@@ -247,3 +247,11 @@ define void @proc_intrinsic_check_errno() {
   call void @push(i64 %errno_i64)
   ret void
 }
+
+declare void @perror(ptr)
+define void @proc_intrinsic_print_error() {
+  %ptr_int = call i64() @pop()
+  %ptr_ = inttoptr i64 %ptr_int to ptr
+  call void @perror(ptr %ptr_)
+  ret void
+}

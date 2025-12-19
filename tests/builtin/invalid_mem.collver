@@ -1,8 +1,9 @@
-proc _unused
+proc _unused -> do
   memory mem 0 end
 end
 
-proc main -> do
-  mem
+proc main int ptr -> int do
+  drop drop
+  mem drop 0
 end
 

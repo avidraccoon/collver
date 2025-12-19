@@ -12,7 +12,6 @@ proc main int ptr -> int do
   end
 
   my_vec vec_print_int
-  my_vec vec_free
 
   memory vec1 sizeof(vec) end
   sizeof(int) vec1 vec_init
@@ -28,6 +27,11 @@ proc main int ptr -> int do
   vec1 vec2 vec_extend
 
   vec1 vec_print_int
+
+  // 1 while dup do
+  //  1 ptrto vec1 vec_push
+  // end drop
+  
 
   1 vec1 vec_elem @int print
 end

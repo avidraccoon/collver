@@ -472,9 +472,10 @@ proc itos int -> ptr do // int -> ptr
   // (digits(*num) *strptr)+
   num @64 dec_digits dup 1 + alloc strptr !ptr // Find the number of digits in number, add one (null terminate), and allocate that, storing ptr to that string in `strptr`
   // We leave the number of digits on stack for later
-  strptr @64 + 1 -
+  strptr @64 +
   // strptrlol 
   dup 0 swap (int->ptr) !8  // Null terminate
+  1 - // Move to last digit
   while dup strptr @64 >= do
     num @64 10 % 48 +
     over (int->ptr) !8

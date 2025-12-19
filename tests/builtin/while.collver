@@ -1,9 +1,10 @@
 include "std.collver"
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   10
   while dup 0 > do
     dup print
     1 -
-  end
+  end drop
 end

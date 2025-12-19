@@ -6,6 +6,7 @@ end
 
 alias **2 square end
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   6 **2 print
 end

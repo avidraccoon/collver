@@ -4,7 +4,8 @@ proc bool_println -> do
   btos puts "\n" puts
 end
 
-proc main -> do
+proc int ptr -> int do
+  drop drop 0
   0   lnot bool_println
   1   lnot bool_println
   0 0 lor  bool_println

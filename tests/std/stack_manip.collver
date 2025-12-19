@@ -1,6 +1,7 @@
 include "std.collver"
 
-proc main -> do
+proc int ptr -> int do
+  drop drop 0
   1 2 swap print print
   "under\n" "over\n" over puts puts puts
 end

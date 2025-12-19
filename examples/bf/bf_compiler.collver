@@ -1,0 +1,181 @@
+
+include "./std.collver"
+
+const mem_size 1024 end
+
+alias input_file "examples/bf/input.bf" end 
+alias output_file "examples/bf/output.collver" end
+
+// Takes a fd
+proc write_helper_methods int -> do
+    dup "proc ptr_add ptr int -> do\n" (str->ptr) fd_puts
+    dup "    memory pointer sizeof(ptr) end\n" (str->ptr) fd_puts
+    dup "    [ptr,int->int,int] swap\n" (str->ptr) fd_puts
+    dup "    pointer !64 // Store pointer value in memory\n" (str->ptr) fd_puts
+    dup "    pointer @ptr @64 + // Add integer value to pointer value\n" (str->ptr) fd_puts
+    dup "    pointer @ptr !64 // Store result back to pointer\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+
+    dup "proc ptr_sub ptr int -> do\n" (str->ptr) fd_puts
+    dup "    memory pointer sizeof(ptr) end\n" (str->ptr) fd_puts
+    dup "    [ptr,int->int,int] swap\n" (str->ptr) fd_puts
+    dup "    pointer !64 // Store pointer value in memory\n" (str->ptr) fd_puts
+    dup "    pointer @ptr @64 swap - // Subtract integer value from pointer value\n" (str->ptr) fd_puts
+    dup "    pointer @ptr !64 // Store result back to pointer\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+
+    dup "proc mem_add ptr int -> do\n" (str->ptr) fd_puts
+    dup "    memory pointer sizeof(ptr) end\n" (str->ptr) fd_puts
+    dup "    [ptr,int->int,int] swap\n" (str->ptr) fd_puts
+    dup "    pointer !64 // Store pointer value in memory\n" (str->ptr) fd_puts
+    dup "    pointer @ptr @8 + // Add integer value to pointer value\n" (str->ptr) fd_puts
+    dup "    pointer @ptr !8 // Store result back to pointer\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+
+    dup "proc mem_sub ptr int -> do\n" (str->ptr) fd_puts
+    dup "    memory pointer sizeof(ptr) end\n" (str->ptr) fd_puts
+    dup "    [ptr,int->int,int] swap\n" (str->ptr) fd_puts
+    dup "    pointer !64 // Store pointer value in memory\n" (str->ptr) fd_puts
+    dup "    pointer @ptr @8 swap - // Subtract integer value from pointer value\n" (str->ptr) fd_puts
+    dup "    pointer @ptr !8 // Store result back to pointer\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+
+    dup "proc read_byte -> int do\n" (str->ptr) fd_puts
+    dup "    memory input_buf sizeof(byte) end\n" (str->ptr) fd_puts
+    dup "    FD_STDIN input_buf 1 sys_read drop\n" (str->ptr) fd_puts
+    dup "    input_buf @8\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+
+    dup "proc write_byte int -> do\n" (str->ptr) fd_puts
+    dup "    memory output_buf sizeof(byte) end\n" (str->ptr) fd_puts
+    dup "    output_buf !8\n" (str->ptr) fd_puts
+    dup "    FD_STDOUT output_buf 1 sys_write drop\n" (str->ptr) fd_puts
+    dup "end\n" (str->ptr) fd_puts
+    drop
+end
+
+alias tab "    " end
+// takes int fd, int number of tabs
+proc print_tabs int int -> do
+    while dup 0 > do
+        over tab (str->ptr) fd_puts
+        1 -
+    end drop drop
+end
+
+// Takes string ptr and returns how many characters match the first character
+proc count_chars ptr -> int do
+    memory first_char sizeof(byte) end
+    memory count sizeof(int) end
+    dup @8 first_char !8
+    0 count !64
+    while dup count @64 + @8 first_char @8 = do
+        count inc64
+    end drop
+    count @64
+end
+
+proc main int ptr -> int do
+    drop drop
+    memory code_ptr sizeof(ptr) end
+    memory output_file_fd sizeof(ptr) end
+
+    // Read input code from stdin
+    input_file (str->ptr) fp_to_str code_ptr !ptr
+    // For now just using alias for simplicity
+    //code (str->ptr) code_ptr !ptr
+
+    // Open output file
+    output_file (str->ptr) O_WRONLY O_CREAT + sys_open output_file_fd !64
+    0 ptrto print_error
+
+    // output_file_fd @64 includes (str->ptr) fd_puts
+    output_file_fd @64 "include " (str->ptr) fd_puts
+    // Encode 22 00 00 22 in hex to ensure if read forward or backward it will be the same quotation mark
+    output_file_fd @64 570425378 ptrto fd_puts
+    output_file_fd @64 "std.collver" (str->ptr) fd_puts
+    output_file_fd @64 570425378 ptrto fd_puts
+    output_file_fd @64 "\n" (str->ptr) fd_puts
+    output_file_fd @64 write_helper_methods
+    output_file_fd @64 "" (str->ptr) fd_puts
+    output_file_fd @64 "const memory_size " (str->ptr) fd_puts
+    output_file_fd @64 mem_size itos fd_puts
+    output_file_fd @64 " end\n" (str->ptr) fd_puts
+    output_file_fd @64 "proc main int ptr -> int do\n" (str->ptr) fd_puts
+    output_file_fd @64 "    drop drop 0\n" (str->ptr) fd_puts
+    output_file_fd @64 "    memory mem memory_size end\n" (str->ptr) fd_puts
+    output_file_fd @64 "    memory pointer sizeof(ptr) end\n\n" (str->ptr) fd_puts
+    output_file_fd @64 "    0 pointer !64 // Initialize pointer to 0\n" (str->ptr) fd_puts
+    output_file_fd @64 "    0 while dup memory_size < do\n" (str->ptr) fd_puts
+    output_file_fd @64 "        0 over mem + !8 // Initialize memory to 0\n" (str->ptr) fd_puts
+    output_file_fd @64 "        1 +\n" (str->ptr) fd_puts
+    output_file_fd @64 "    end drop\n\n" (str->ptr) fd_puts
+
+    // Get length of input code
+    memory str_size sizeof(int) end
+    memory tab_count sizeof(int) end
+    memory index sizeof(int) end
+    0 index !64
+    1 tab_count !64 // Initialize tab count to 1
+    
+    code_ptr @ptr strlen str_size !int
+    while str_size @64 index @64 != do
+        index @64 code_ptr @ptr + @8 // Get next character
+        
+        if dup 43 = do // +
+            output_file_fd @64 tab_count @64 print_tabs
+            index @64 code_ptr @ptr + count_chars // Count consecutive +
+            output_file_fd @64 "mem pointer @64 + " (str->ptr) fd_puts
+            output_file_fd @64 over itos fd_puts
+            output_file_fd @64 " mem_add\n" (str->ptr) fd_puts
+            index @64 + 1 - index !64 // Move index forward by number of counted chars minus one (to offset the upcoming inc)
+        elif dup 45 = do // -
+            output_file_fd @64 tab_count @64 print_tabs
+            index @64 code_ptr @ptr + count_chars // Count consecutive -
+            output_file_fd @64 "mem pointer @64 + " (str->ptr) fd_puts
+            output_file_fd @64 over itos fd_puts
+            output_file_fd @64 " mem_sub\n" (str->ptr) fd_puts
+            index @64 + 1 - index !64 // Move index forward by number of counted chars minus one (to offset the upcoming inc)
+        elif dup 62 = do // >
+            output_file_fd @64 tab_count @64 print_tabs
+            index @64 code_ptr @ptr + count_chars // Count consecutive >
+            output_file_fd @64 "pointer " (str->ptr) fd_puts
+            output_file_fd @64 over itos fd_puts
+            output_file_fd @64 " ptr_add\n" (str->ptr) fd_puts
+            index @64 + 1 - index !64 // Move index forward by number of counted chars minus one (to offset the upcoming inc)
+        elif dup 60 = do // <
+            output_file_fd @64 tab_count @64 print_tabs
+            index @64 code_ptr @ptr + count_chars // Count consecutive <
+            output_file_fd @64 "pointer " (str->ptr) fd_puts
+            output_file_fd @64 over itos fd_puts
+            output_file_fd @64 " ptr_sub\n" (str->ptr) fd_puts
+            index @64 + 1 - index !64 // Move index forward by number of counted chars minus one (to offset the upcoming inc)
+        elif dup 46 = do // .
+            output_file_fd @64 tab_count @64 print_tabs
+            output_file_fd @64 "mem pointer @64 + @8 write_byte\n" (str->ptr) fd_puts
+        elif dup 44 = do // ,
+            output_file_fd @64 tab_count @64 print_tabs
+            output_file_fd @64 "read_byte mem pointer @64 + !8\n" (str->ptr) fd_puts
+        elif dup 91 = do // [
+            output_file_fd @64 tab_count @64 print_tabs
+            output_file_fd @64 "while mem pointer @64 + @8 0 != do\n" (str->ptr) fd_puts
+            // Increase indentation
+            tab_count inc64
+        elif dup 93 = do // ]
+            // Decrease indentation
+            tab_count dec64
+            output_file_fd @64 tab_count @64 print_tabs
+            output_file_fd @64 "end\n" (str->ptr) fd_puts
+        else
+            output_file_fd @64 tab_count @64 print_tabs
+            // TODO Maybe handle printing where and what the invalid character is
+            output_file_fd @64 "// None BF Character \n" (str->ptr) fd_puts
+        end
+        drop
+        index inc64
+    end
+
+    output_file_fd @64 "end\n" (str->ptr) fd_puts
+    output_file_fd @64 sys_close
+    drop 0
+end

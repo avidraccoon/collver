@@ -76,6 +76,7 @@ extern intrinsic_alloc int -> ptr end
 extern intrinsic_free ptr -> end
 extern intrinsic_exit int -> end
 extern intrinsic_check_errno -> int end
+extern intrinsic_print_error ptr -> end
     
 
 alias !byte intrinsic_store8 end
@@ -90,3 +91,4 @@ alias alloc intrinsic_alloc end
 alias free intrinsic_free end
 alias exit intrinsic_exit end
 alias get_errno intrinsic_check_errno end
+alias print_error intrinsic_print_error end

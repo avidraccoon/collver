@@ -1,6 +1,7 @@
 include "std.collver"
 
-proc main -> do
+proc main int ptr -> int do
+  drop drop 0
   2 dup print print
   0 1 drop print
 end

@@ -9,7 +9,8 @@ proc dbg -> do
   b @64 puts
 end
 
-proc main -> do
+proc int ptr -> int do
+  drop drop 0
   // Create a string and make a copy of that string
   "abcd\n" dup a !64 // store a pointer to the string constant in `a`
   strcpy b !64 // store a pointer to the new copy in `b`

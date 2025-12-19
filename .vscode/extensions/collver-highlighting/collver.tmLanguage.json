@@ -24,7 +24,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.collver",
-                    "match": "\\b(proc|extern|do|end|if|else|while|memory|const|alias|include)\\b"
+                    "match": "\\b(proc|extern|do|end|if|elif|else|while|memory|const|alias|include)\\b"
                 },
                 {
                     "name": "storage.type.collver",
