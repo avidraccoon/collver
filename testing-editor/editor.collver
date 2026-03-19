@@ -8,7 +8,7 @@ const MAX_PATH 256 end
 const PATH_PANEL_X 14 end
 const PATH_PANEL_Y 68 end
 const PATH_LINE_H 20 end
-const TEXT_X 18 end
+const TEXT_X 250 end
 const TEXT_Y 56 end
 const SCALE 2 end
 
@@ -192,6 +192,7 @@ proc main int ptr -> int do
   memory active_idx sizeof(int) end
   memory path_input MAX_PATH end
   memory path_len sizeof(int) end
+  memory open_mode sizeof(int) end
   memory mx sizeof(int) end
   memory my sizeof(int) end
   memory k sizeof(int) end
@@ -217,6 +218,7 @@ proc main int ptr -> int do
   0 key_back_prev !64
   0 key_enter_prev !64
   0 path_len !64
+  0 open_mode !64
   0 file_count !64
   0 active_idx !64
 
@@ -264,6 +266,7 @@ proc main int ptr -> int do
 
       // open path mode on Ctrl+O edge; enter typed path to load into new/current tab
       if ctrl_down @64 key_o_now @64 && key_ctrl_o_prev @64 0 = && do
+        1 open_mode !64
         0 path_len !64
         0 path_input !8
       end
@@ -280,9 +283,11 @@ proc main int ptr -> int do
 
       // backspace on edge
       if key_back_now @64 key_back_prev @64 0 = && do
-        if path_len @64 0 > do
-          path_len @64 1 - path_len !64
-          0 path_input path_len @64 + !8
+        if open_mode @64 do
+          if path_len @64 0 > do
+            path_len @64 1 - path_len !64
+            0 path_input path_len @64 + !8
+          end
         else
           texts active_idx @64 text_slot lens active_idx @64 len_slot backspace_char
         end
@@ -290,12 +295,15 @@ proc main int ptr -> int do
 
       // enter/newline on edge
       if key_enter_now @64 key_enter_prev @64 0 = && do
-        if path_len @64 0 > do
-          if file_count @64 MAX_FILES < do
-            paths texts lens file_count active_idx path_input file_count @64 open_file_into_slot
-          else
-            paths texts lens file_count active_idx path_input active_idx @64 open_file_into_slot
+        if open_mode @64 do
+          if path_len @64 0 > do
+            if file_count @64 MAX_FILES < do
+              paths texts lens file_count active_idx path_input file_count @64 open_file_into_slot
+            else
+              paths texts lens file_count active_idx path_input active_idx @64 open_file_into_slot
+            end
           end
+          0 open_mode !64
           0 path_len !64
           0 path_input !8
         else
@@ -321,7 +329,7 @@ proc main int ptr -> int do
             end
           end
 
-          if path_len @64 0 > do
+          if open_mode @64 do
             if path_len @64 MAX_PATH 1 - < do
               ch @64 path_input path_len @64 + !8
               path_len @64 1 + path_len !64
@@ -345,11 +353,11 @@ proc main int ptr -> int do
 
       handle @64 14 12 "Collver GUI Text Editor" 120 200 255 2 gui_draw_text drop
       handle @64 14 34 "Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit" 160 180 210 1 gui_draw_text drop
-      if path_len @64 0 > do
+      if open_mode @64 do
         handle @64 250 34 "OPEN> " 255 210 120 1 gui_draw_text drop
         handle @64 300 34 path_input 255 210 120 1 gui_draw_text drop
       end
-      handle @64 TEXT_X 56 texts active_idx @64 text_slot 235 235 235 SCALE gui_draw_text drop
+      handle @64 TEXT_X TEXT_Y texts active_idx @64 text_slot 235 235 235 SCALE gui_draw_text drop
 
       // simple mouse cursor crosshair for UX
       handle @64 mx @64 6 - mx @64 6 + my @64 80 220 120 gui_hline drop

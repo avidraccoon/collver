@@ -4036,8 +4036,8 @@ proc_main:                              # @proc_main
 	.cfi_def_cfa_offset 48
 	pushq	%rbx
 	.cfi_def_cfa_offset 56
-	subq	$42856, %rsp                    # imm = 0xA768
-	.cfi_def_cfa_offset 42912
+	subq	$42872, %rsp                    # imm = 0xA778
+	.cfi_def_cfa_offset 42928
 	.cfi_offset %rbx, -56
 	.cfi_offset %r12, -48
 	.cfi_offset %r13, -40
@@ -4048,17 +4048,22 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
+	leaq	115(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	107(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
 	leaq	99(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	91(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	83(%rsp), %rdi
+	leaq	75(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
@@ -4068,33 +4073,33 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	43(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	147(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
 	leaq	19(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	3(%rsp), %rdi
+	leaq	27(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	195(%rsp), %rbx
+	leaq	35(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	211(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	483(%rsp), %rbp
+	leaq	243(%rsp), %rbp
 	.p2align	4, 0x90
-.LBB93_1:                               # %l29
+.LBB93_1:                               # %l32
                                         # =>This Inner Loop Header: Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -4105,7 +4110,7 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_3
-# %bb.2:                                # %l34
+# %bb.2:                                # %l37
                                         #   in Loop: Header=BB93_1 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
@@ -4126,10 +4131,10 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	jmp	.LBB93_1
-.LBB93_3:                               # %l47
-	movl	$.Lstr_main_48, %edi
+.LBB93_3:                               # %l50
+	movl	$.Lstr_main_51, %edi
 	callq	push@PLT
-	leaq	611(%rsp), %rbx
+	leaq	627(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
@@ -4141,12 +4146,12 @@ proc_main:                              # @proc_main
 	xorl	%edi, %edi
 	callq	push@PLT
 	callq	proc_path_slot@PLT
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
 	callq	proc_text_slot@PLT
-	leaq	155(%rsp), %rdi
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
@@ -4154,17 +4159,17 @@ proc_main:                              # @proc_main
 	callq	proc_load_buffer@PLT
 	movl	$1, %edi
 	callq	push@PLT
-	leaq	19(%rsp), %rdi
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movl	$980, %edi                      # imm = 0x3D4
 	callq	push@PLT
 	movl	$720, %edi                      # imm = 0x2D0
 	callq	push@PLT
-	movl	$.Lstr_main_68, %edi
+	movl	$.Lstr_main_71, %edi
 	callq	push@PLT
 	callq	proc_gui_init@PLT
-	leaq	11(%rsp), %rbx
+	leaq	131(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
@@ -4183,36 +4188,36 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_5
-# %bb.4:                                # %l81
-	movl	$.Lstr_main_82, %edi
+# %bb.4:                                # %l84
+	movl	$.Lstr_main_85, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
 	movl	$1, %edi
-	jmp	.LBB93_46
-.LBB93_5:                               # %l85
+	jmp	.LBB93_49
+.LBB93_5:                               # %l88
 	movl	$1, %edi
 	callq	push@PLT
-	leaq	27(%rsp), %rdi
+	leaq	43(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	11(%rsp), %rbx
-	leaq	147(%rsp), %r15
-	leaq	211(%rsp), %r13
-	leaq	203(%rsp), %r14
+	leaq	131(%rsp), %rbx
+	leaq	227(%rsp), %r13
+	leaq	219(%rsp), %r12
+	leaq	243(%rsp), %r14
 	jmp	.LBB93_6
 	.p2align	4, 0x90
-.LBB93_44:                              # %l568
+.LBB93_47:                              # %l583
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movl	$18, %edi
+	movl	$250, %edi
 	callq	push@PLT
 	movl	$56, %edi
 	callq	push@PLT
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rdi
+	leaq	11(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
@@ -4229,20 +4234,20 @@ proc_main:                              # @proc_main
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbp, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_minus@PLT
-	movq	%rbp, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-	leaq	139(%rsp), %rbx
-	movq	%rbx, %rdi
+	leaq	163(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$80, %edi
@@ -4253,20 +4258,19 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_hline@PLT
 	callq	proc_intrinsic_drop@PLT
-	leaq	11(%rsp), %rdi
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_minus@PLT
-	movq	%rbx, %rdi
-	leaq	11(%rsp), %rbx
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
@@ -4289,16 +4293,16 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_delay@PLT
 	callq	proc_intrinsic_drop@PLT
-.LBB93_6:                               # %l89
+.LBB93_6:                               # %l92
                                         # =>This Loop Header: Depth=1
-                                        #     Child Loop BB93_32 Depth 2
-	leaq	27(%rsp), %rdi
+                                        #     Child Loop BB93_35 Depth 2
+	leaq	43(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_45
-# %bb.7:                                # %l92
+	je	.LBB93_48
+# %bb.7:                                # %l95
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -4307,14 +4311,14 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_9
-# %bb.8:                                # %l97
+# %bb.8:                                # %l100
                                         #   in Loop: Header=BB93_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	27(%rsp), %rdi
+	leaq	43(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_9:                               # %l101
+.LBB93_9:                               # %l104
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -4325,14 +4329,14 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_11
-# %bb.10:                               # %l107
+# %bb.10:                               # %l110
                                         #   in Loop: Header=BB93_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	27(%rsp), %rdi
+	leaq	43(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_11:                              # %l111
+.LBB93_11:                              # %l114
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -4340,8 +4344,8 @@ proc_main:                              # @proc_main
 	movl	$17, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	107(%rsp), %r12
-	movq	%r12, %rdi
+	leaq	123(%rsp), %r15
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4350,7 +4354,7 @@ proc_main:                              # @proc_main
 	movl	$16, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	123(%rsp), %rdi
+	leaq	147(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4359,7 +4363,7 @@ proc_main:                              # @proc_main
 	movl	$115, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	115(%rsp), %rbp
+	leaq	139(%rsp), %rbp
 	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
@@ -4369,7 +4373,7 @@ proc_main:                              # @proc_main
 	movl	$111, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	75(%rsp), %rdi
+	leaq	91(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4378,7 +4382,7 @@ proc_main:                              # @proc_main
 	movl	$9, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	67(%rsp), %rdi
+	leaq	83(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4387,7 +4391,7 @@ proc_main:                              # @proc_main
 	movl	$8, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	51(%rsp), %rdi
+	leaq	67(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4396,17 +4400,17 @@ proc_main:                              # @proc_main
 	movl	$13, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	35(%rsp), %rdi
+	leaq	51(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%r12, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
-	leaq	99(%rsp), %rdi
+	leaq	115(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4416,24 +4420,24 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_14
-# %bb.12:                               # %l165
+# %bb.12:                               # %l168
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	611(%rsp), %rdi
+	leaq	627(%rsp), %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rbx
-	movq	%rbx, %rdi
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_path_slot@PLT
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
-	leaq	155(%rsp), %rdi
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_len_slot@PLT
@@ -4445,21 +4449,21 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_14
-# %bb.13:                               # %l183
+# %bb.13:                               # %l186
                                         #   in Loop: Header=BB93_6 Depth=1
-	movl	$.Lstr_main_184, %edi
+	movl	$.Lstr_main_187, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
-.LBB93_14:                              # %l187
+.LBB93_14:                              # %l190
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	107(%rsp), %rdi
+	leaq	123(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	75(%rsp), %rdi
+	leaq	91(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
-	leaq	91(%rsp), %rdi
+	leaq	107(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4468,25 +4472,31 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
+	leaq	27(%rsp), %r15
 	je	.LBB93_16
-# %bb.15:                               # %l199
+# %bb.15:                               # %l202
                                         #   in Loop: Header=BB93_6 Depth=1
-	xorl	%edi, %edi
+	movl	$1, %edi
 	callq	push@PLT
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	227(%rsp), %rdi
+	leaq	19(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	371(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store8@PLT
-.LBB93_16:                              # %l206
+.LBB93_16:                              # %l212
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	67(%rsp), %rdi
+	leaq	83(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	83(%rsp), %rdi
+	leaq	99(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4495,11 +4505,10 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	leaq	19(%rsp), %rbx
 	je	.LBB93_20
-# %bb.17:                               # %l215
+# %bb.17:                               # %l221
                                         #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4508,37 +4517,112 @@ proc_main:                              # @proc_main
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_20
-# %bb.18:                               # %l221
+# %bb.18:                               # %l227
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	3(%rsp), %rbx
-	movq	%rbx, %rdi
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	leaq	19(%rsp), %rbx
+	movq	%rbp, %rdi
+	leaq	27(%rsp), %r15
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbx, %rdi
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_ge@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
 	je	.LBB93_20
-# %bb.19:                               # %l234
+# %bb.19:                               # %l240
                                         #   in Loop: Header=BB93_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	3(%rsp), %rdi
+	leaq	11(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_20:                              # %l240
+.LBB93_20:                              # %l246
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	67(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	75(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB93_25
+# %bb.21:                               # %l255
+                                        #   in Loop: Header=BB93_6 Depth=1
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB93_24
+# %bb.22:                               # %l259
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	19(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_gt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB93_25
+# %bb.23:                               # %l265
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	19(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	371(%rsp), %rdi
+	callq	push@PLT
+	movq	%r14, %rdi
+	leaq	243(%rsp), %r14
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	jmp	.LBB93_25
+	.p2align	4, 0x90
+.LBB93_24:                              # %l279
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	1907(%rsp), %rdi
+	callq	push@PLT
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_text_slot@PLT
+	leaq	171(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	leaq	27(%rsp), %r15
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_len_slot@PLT
+	callq	proc_backspace_char@PLT
+.LBB93_25:                              # %l290
                                         #   in Loop: Header=BB93_6 Depth=1
 	leaq	51(%rsp), %rdi
 	callq	push@PLT
@@ -4552,10 +4636,18 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_24
-# %bb.21:                               # %l249
+	je	.LBB93_34
+# %bb.26:                               # %l299
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB93_33
+# %bb.27:                               # %l303
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	19(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4563,135 +4655,78 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_gt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_23
-# %bb.22:                               # %l255
+	je	.LBB93_32
+# %bb.28:                               # %l309
                                         #   in Loop: Header=BB93_6 Depth=1
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$1, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_minus@PLT
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	227(%rsp), %rdi
-	callq	push@PLT
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_intrinsic_plus@PLT
-	callq	proc_intrinsic_store8@PLT
-	jmp	.LBB93_24
-	.p2align	4, 0x90
-.LBB93_23:                              # %l268
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	1891(%rsp), %rdi
-	callq	push@PLT
-	leaq	3(%rsp), %rbx
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_text_slot@PLT
-	leaq	155(%rsp), %rdi
-	callq	push@PLT
-	movq	%rbx, %rdi
-	leaq	19(%rsp), %rbx
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_len_slot@PLT
-	callq	proc_backspace_char@PLT
-.LBB93_24:                              # %l279
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	35(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	43(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_eq@PLT
-	callq	proc_land@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_31
-# %bb.25:                               # %l288
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_gt@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_30
-# %bb.26:                               # %l294
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+	leaq	35(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$5, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
-	leaq	611(%rsp), %rdi
+	leaq	627(%rsp), %rdi
 	testq	%rax, %rax
-	je	.LBB93_28
-# %bb.27:                               # %l300
+	je	.LBB93_30
+# %bb.29:                               # %l315
                                         #   in Loop: Header=BB93_6 Depth=1
 	callq	push@PLT
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	leaq	155(%rsp), %rdi
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rdi
-	jmp	.LBB93_29
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	leaq	371(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	jmp	.LBB93_31
 	.p2align	4, 0x90
-.LBB93_30:                              # %l327
+.LBB93_33:                              # %l346
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rbx
-	movq	%rbx, %rdi
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
-	leaq	155(%rsp), %rdi
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_len_slot@PLT
 	movl	$10, %edi
 	callq	push@PLT
 	callq	proc_append_char@PLT
-	jmp	.LBB93_31
-.LBB93_28:                              # %l310
+	jmp	.LBB93_34
+.LBB93_30:                              # %l325
                                         #   in Loop: Header=BB93_6 Depth=1
 	callq	push@PLT
-	leaq	1891(%rsp), %rdi
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	leaq	155(%rsp), %rdi
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rbx
-	movq	%rbx, %rdi
-.LBB93_29:                              # %l320
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	leaq	371(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	leaq	27(%rsp), %r15
+.LBB93_31:                              # %l336
                                         #   in Loop: Header=BB93_6 Depth=1
-	callq	push@PLT
-	leaq	227(%rsp), %rdi
-	callq	push@PLT
-	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_open_file_into_slot@PLT
+.LBB93_32:                              # %l336
+                                        #   in Loop: Header=BB93_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
 	movq	%r15, %rdi
@@ -4699,48 +4734,53 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	227(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store8@PLT
-.LBB93_31:                              # %l339
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	107(%rsp), %rbx
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	115(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_land@PLT
-	leaq	99(%rsp), %rdi
+	leaq	19(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	371(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store8@PLT
+.LBB93_34:                              # %l358
+                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	123(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	75(%rsp), %rdi
+	leaq	139(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
+	leaq	115(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
 	leaq	91(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_land@PLT
+	leaq	107(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	83(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	99(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	leaq	67(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	83(%rsp), %rdi
+	leaq	75(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	leaq	51(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	leaq	59(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	leaq	35(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	43(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movl	$32, %edi
@@ -4748,35 +4788,38 @@ proc_main:                              # @proc_main
 	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	131(%rsp), %rbx
-	jmp	.LBB93_32
+	leaq	27(%rsp), %rbp
+	leaq	155(%rsp), %r15
+	jmp	.LBB93_35
 	.p2align	4, 0x90
-.LBB93_40:                              # %l455
-                                        #   in Loop: Header=BB93_32 Depth=2
-	leaq	1891(%rsp), %rdi
+.LBB93_43:                              # %l472
+                                        #   in Loop: Header=BB93_35 Depth=2
+	leaq	1907(%rsp), %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %r12
-	movq	%r12, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_text_slot@PLT
-	leaq	155(%rsp), %rdi
-	callq	push@PLT
-	movq	%r12, %rdi
-	leaq	131(%rsp), %rbx
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_len_slot@PLT
+	movq	%rbx, %rbp
+	leaq	11(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	callq	proc_append_char@PLT
-.LBB93_41:                              # %l468
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%r14, %rdi
+	callq	proc_text_slot@PLT
+	leaq	171(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	movq	%rbp, %rbx
+	leaq	27(%rsp), %rbp
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	483(%rsp), %rdi
+	callq	proc_len_slot@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_append_char@PLT
+.LBB93_44:                              # %l485
+                                        #   in Loop: Header=BB93_35 Depth=2
+	movq	%r12, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r14, %rdi
 	callq	push@PLT
 	movq	%r13, %rdi
 	callq	push@PLT
@@ -4792,7 +4835,7 @@ proc_main:                              # @proc_main
 	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_32:                              # %l369
+.LBB93_35:                              # %l388
                                         #   Parent Loop BB93_6 Depth=1
                                         # =>  This Inner Loop Header: Depth=2
 	movq	%r13, %rdi
@@ -4802,24 +4845,24 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_intrinsic_le@PLT
 	callq	pop@PLT
+	movq	%rbx, %rdi
 	testq	%rax, %rax
-	je	.LBB93_42
-# %bb.33:                               # %l374
-                                        #   in Loop: Header=BB93_32 Depth=2
-	leaq	11(%rsp), %rdi
+	je	.LBB93_45
+# %bb.36:                               # %l393
+                                        #   in Loop: Header=BB93_35 Depth=2
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_key_down@PLT
-	movq	%r14, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%r14, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	483(%rsp), %rdi
+	movq	%r14, %rdi
 	callq	push@PLT
 	movq	%r13, %rdi
 	callq	push@PLT
@@ -4832,30 +4875,30 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_41
-# %bb.34:                               # %l393
-                                        #   in Loop: Header=BB93_32 Depth=2
+	je	.LBB93_44
+# %bb.37:                               # %l412
+                                        #   in Loop: Header=BB93_35 Depth=2
 	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	123(%rsp), %rdi
+	leaq	147(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_37
-# %bb.35:                               # %l401
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%rbx, %rdi
+	je	.LBB93_40
+# %bb.38:                               # %l420
+                                        #   in Loop: Header=BB93_35 Depth=2
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$97, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_ge@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$122, %edi
@@ -4864,32 +4907,29 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_37
-# %bb.36:                               # %l412
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%rbx, %rdi
+	je	.LBB93_40
+# %bb.39:                               # %l431
+                                        #   in Loop: Header=BB93_35 Depth=2
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$32, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_minus@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_37:                              # %l420
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%r15, %rdi
+.LBB93_40:                              # %l439
+                                        #   in Loop: Header=BB93_35 Depth=2
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_gt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_40
-# %bb.38:                               # %l426
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%r15, %rdi
+	je	.LBB93_43
+# %bb.41:                               # %l443
+                                        #   in Loop: Header=BB93_35 Depth=2
+	leaq	19(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$256, %edi                      # imm = 0x100
@@ -4900,56 +4940,57 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_41
-# %bb.39:                               # %l434
-                                        #   in Loop: Header=BB93_32 Depth=2
-	movq	%rbx, %rdi
+	je	.LBB93_44
+# %bb.42:                               # %l451
+                                        #   in Loop: Header=BB93_35 Depth=2
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	227(%rsp), %rbp
-	movq	%rbp, %rdi
-	callq	push@PLT
+	leaq	371(%rsp), %r15
 	movq	%r15, %rdi
+	callq	push@PLT
+	leaq	19(%rsp), %r14
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-	movq	%r15, %rdi
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-	movq	%r15, %rdi
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	movq	%rbp, %rdi
-	callq	push@PLT
 	movq	%r15, %rdi
+	leaq	155(%rsp), %r15
+	callq	push@PLT
+	movq	%r14, %rdi
+	leaq	243(%rsp), %r14
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-	jmp	.LBB93_41
+	jmp	.LBB93_44
 	.p2align	4, 0x90
-.LBB93_42:                              # %l482
+.LBB93_45:                              # %l499
                                         #   in Loop: Header=BB93_6 Depth=1
-	leaq	11(%rsp), %rbx
-	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_mouse_x@PLT
-	leaq	219(%rsp), %rbp
-	movq	%rbp, %rdi
+	leaq	235(%rsp), %r15
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_mouse_y@PLT
-	leaq	139(%rsp), %rdi
+	leaq	163(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
@@ -4985,11 +5026,11 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_rect@PLT
 	callq	proc_intrinsic_drop@PLT
-	leaq	611(%rsp), %rdi
+	leaq	627(%rsp), %rdi
 	callq	push@PLT
-	leaq	19(%rsp), %rdi
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
-	leaq	3(%rsp), %rdi
+	leaq	11(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_draw_file_list@PLT
@@ -5000,7 +5041,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	movl	$12, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_522, %edi
+	movl	$.Lstr_main_539, %edi
 	callq	push@PLT
 	movl	$120, %edi
 	callq	push@PLT
@@ -5019,7 +5060,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	movl	$34, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_533, %edi
+	movl	$.Lstr_main_550, %edi
 	callq	push@PLT
 	movl	$160, %edi
 	callq	push@PLT
@@ -5031,16 +5072,13 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_draw_text@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%r15, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_gt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_44
-# %bb.43:                               # %l545
+	je	.LBB93_47
+# %bb.46:                               # %l560
                                         #   in Loop: Header=BB93_6 Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -5049,7 +5087,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	movl	$34, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_550, %edi
+	movl	$.Lstr_main_565, %edi
 	callq	push@PLT
 	movl	$255, %edi
 	callq	push@PLT
@@ -5068,7 +5106,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	movl	$34, %edi
 	callq	push@PLT
-	leaq	227(%rsp), %rdi
+	leaq	371(%rsp), %rdi
 	callq	push@PLT
 	movl	$255, %edi
 	callq	push@PLT
@@ -5080,17 +5118,17 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_draw_text@PLT
 	callq	proc_intrinsic_drop@PLT
-	jmp	.LBB93_44
-.LBB93_45:                              # %l624
-	leaq	11(%rsp), %rdi
+	jmp	.LBB93_47
+.LBB93_48:                              # %l639
+	leaq	131(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_destroy@PLT
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
-.LBB93_46:                              # %l630
+.LBB93_49:                              # %l645
 	callq	push@PLT
-	addq	$42856, %rsp                    # imm = 0xA768
+	addq	$42872, %rsp                    # imm = 0xA778
 	.cfi_def_cfa_offset 56
 	popq	%rbx
 	.cfi_def_cfa_offset 48
@@ -7920,48 +7958,48 @@ global_mem_handle_global:
 	.asciz	"Files"
 	.size	.Lstr_draw_file_list_10, 6
 
-	.type	.Lstr_main_48,@object           # @str_main_48
+	.type	.Lstr_main_51,@object           # @str_main_51
 	.section	.rodata.str1.16,"aMS",@progbits,1
 	.p2align	4
-.Lstr_main_48:
+.Lstr_main_51:
 	.asciz	"testing-editor/note.txt"
-	.size	.Lstr_main_48, 24
+	.size	.Lstr_main_51, 24
 
-	.type	.Lstr_main_68,@object           # @str_main_68
+	.type	.Lstr_main_71,@object           # @str_main_71
 	.p2align	4
-.Lstr_main_68:
+.Lstr_main_71:
 	.asciz	"Collver GUI Mini Editor"
-	.size	.Lstr_main_68, 24
+	.size	.Lstr_main_71, 24
 
-	.type	.Lstr_main_82,@object           # @str_main_82
+	.type	.Lstr_main_85,@object           # @str_main_85
 	.p2align	4
-.Lstr_main_82:
+.Lstr_main_85:
 	.asciz	"Failed to init GUI (SDL2/display missing).\n"
-	.size	.Lstr_main_82, 44
+	.size	.Lstr_main_85, 44
 
-	.type	.Lstr_main_184,@object          # @str_main_184
+	.type	.Lstr_main_187,@object          # @str_main_187
 	.p2align	4
-.Lstr_main_184:
+.Lstr_main_187:
 	.asciz	"Saved current file\n"
-	.size	.Lstr_main_184, 20
+	.size	.Lstr_main_187, 20
 
-	.type	.Lstr_main_522,@object          # @str_main_522
+	.type	.Lstr_main_539,@object          # @str_main_539
 	.p2align	4
-.Lstr_main_522:
+.Lstr_main_539:
 	.asciz	"Collver GUI Text Editor"
-	.size	.Lstr_main_522, 24
-
-	.type	.Lstr_main_533,@object          # @str_main_533
-	.p2align	4
-.Lstr_main_533:
-	.asciz	"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit"
-	.size	.Lstr_main_533, 60
+	.size	.Lstr_main_539, 24
 
 	.type	.Lstr_main_550,@object          # @str_main_550
-	.section	.rodata.str1.1,"aMS",@progbits,1
+	.p2align	4
 .Lstr_main_550:
+	.asciz	"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit"
+	.size	.Lstr_main_550, 60
+
+	.type	.Lstr_main_565,@object          # @str_main_565
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.Lstr_main_565:
 	.asciz	"OPEN> "
-	.size	.Lstr_main_550, 7
+	.size	.Lstr_main_565, 7
 
 	.type	stack,@object                   # @stack
 	.bss
