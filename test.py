@@ -163,6 +163,11 @@ def normalize_compiler_stderr_paths(stderr_text: str) -> str:
     return "".join(out_lines)
 
 
+def normalize_newlines(text: str) -> str:
+    """Normalize line endings to LF for cross-platform output comparisons."""
+    return text.replace("\r\n", "\n")
+
+
 def test_output(res: TestResult) -> list[Problem]:
     probs: list[Problem] = []
     basename = os.path.basename(res.test_spec.spec_path)
@@ -189,8 +194,8 @@ def test_output(res: TestResult) -> list[Problem]:
         check_match(
             basename,
             "File stdout",
-            res.test_spec.expected_stdout.decode("utf-8"),
-            res.actual_stdout.decode("utf-8"),
+            normalize_newlines(res.test_spec.expected_stdout.decode("utf-8")),
+            normalize_newlines(res.actual_stdout.decode("utf-8")),
         )
     )
 
@@ -198,8 +203,8 @@ def test_output(res: TestResult) -> list[Problem]:
         check_match(
             basename,
             "File stderr",
-            res.test_spec.expected_stderr.decode("utf-8"),
-            res.actual_stderr.decode("utf-8"),
+            normalize_newlines(res.test_spec.expected_stderr.decode("utf-8")),
+            normalize_newlines(res.actual_stderr.decode("utf-8")),
         )
     )
 

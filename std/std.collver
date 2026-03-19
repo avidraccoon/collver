@@ -4,7 +4,7 @@ include "casting.collver"
 
 // STACK MANIPULATION
 
-proc swap int int -> int int do // a b -> b a
+proc swap unknown unknown -> unknown unknown do // a b -> b a
   memory a 8 end
   memory b 8 end
   b !64
@@ -13,7 +13,7 @@ proc swap int int -> int int do // a b -> b a
   a @64
 end
 
-proc over int int -> int int int do // a b -> a b a
+proc over unknown unknown -> unknown unknown unknown do // a b -> a b a
   memory a 8 end
   memory b 8 end
   b !64
@@ -23,7 +23,7 @@ proc over int int -> int int int do // a b -> a b a
   a @64
 end
 
-proc 2dup int int -> int int int int do // a b -> a b a b
+proc 2dup unknown unknown -> unknown unknown unknown unknown do // a b -> a b a b
   over over
 end
 

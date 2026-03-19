@@ -1,7 +1,8 @@
 include "std.collver"
 
 proc main int ptr -> int do
-  swap
-  print @ptr puts "\n" puts
+  (ptr->int) swap
+  print
+  (int->ptr) @ptr puts "\n" puts
   0
 end
