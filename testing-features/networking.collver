@@ -34,6 +34,80 @@ proc make_sockaddr_v4_loopback ptr[int] int -> do
   0 addr @ptr 15 + !8
 end
 
+// addr_ptr -> status
+proc net_child ptr[int] -> int do
+  memory ret sizeof(int) end
+  memory addr sizeof(ptr) end
+  memory fd_client sizeof(int) end
+  memory recv_buf 8 end
+  memory recv_n sizeof(int) end
+  0 ret !64
+  addr !ptr
+
+  AF_INET SOCK_STREAM 0 socket fd_client !64
+  if fd_client @64 0 < do
+    "child socket() failed, errno=" puts
+    get_errno print
+    1 ret !64
+  else
+    fd_client @64 addr @ptr 16 connect
+    if dup 0 < do
+      "child connect() failed, errno=" puts
+      get_errno print
+      1 ret !64
+    else
+      fd_client @64 "ping" 4 0 send drop
+      fd_client @64 recv_buf 4 0 recv recv_n !64
+      if recv_n @64 0 > do
+        0 recv_buf recv_n @64 + !8
+        "child got: " puts
+        recv_buf puts
+        "\n" puts
+      end
+    end
+    drop
+  end
+
+  if fd_client @64 0 >= do
+    fd_client @64 sys_close drop
+  end
+
+  ret @64
+end
+
+// listen_fd -> status
+proc net_parent int -> int do
+  memory ret sizeof(int) end
+  memory fd_listen sizeof(int) end
+  memory fd_conn sizeof(int) end
+  memory peer_addr 16 end
+  memory peer_len sizeof(int) end
+  memory recv_buf 8 end
+  memory recv_n sizeof(int) end
+  0 ret !64
+  fd_listen !64
+
+  16 peer_len !64
+  fd_listen @64 peer_addr peer_len accept fd_conn !64
+  if fd_conn @64 0 < do
+    "accept() failed, errno=" puts
+    get_errno print
+    1 ret !64
+  else
+    fd_conn @64 recv_buf 4 0 recv recv_n !64
+    if recv_n @64 0 > do
+      0 recv_buf recv_n @64 + !8
+      "server got: " puts
+      recv_buf puts
+      "\n" puts
+      fd_conn @64 "pong" 4 0 send drop
+    end
+    fd_conn @64 sys_close drop
+  end
+
+  ret @64
+end
+
 proc main int ptr -> int do
   drop drop
 
@@ -62,6 +136,7 @@ proc main int ptr -> int do
       "bind() failed, errno=" puts
       get_errno print
       1 ret !64
+      drop
     else
       drop
       fd_listen @64 1 listen
@@ -69,6 +144,7 @@ proc main int ptr -> int do
         "listen() failed, errno=" puts
         get_errno print
         1 ret !64
+        drop
       else
         drop
         ll_fork fork_res !64
@@ -76,72 +152,17 @@ proc main int ptr -> int do
           "fork() failed, errno=" puts
           get_errno print
           1 ret !64
-        elif fork_res @64 0 = do
-          // Child process: connect + send ping + recv pong
-          memory fd_client sizeof(int) end
-          memory recv_buf 8 end
-          memory recv_n sizeof(int) end
-
-          fd_listen @64 sys_close drop
-
-          AF_INET SOCK_STREAM 0 socket fd_client !64
-          if fd_client @64 0 < do
-            "child socket() failed, errno=" puts
-            get_errno print
-            1 ret !64
-          else
-            fd_client @64 addr 16 connect
-            if dup 0 < do
-              "child connect() failed, errno=" puts
-              get_errno print
-              1 ret !64
-            else
-              fd_client @64 "ping" 4 0 send drop
-              fd_client @64 recv_buf 4 0 recv recv_n !64
-              if recv_n @64 0 > do
-                0 recv_buf recv_n @64 + !8
-                "child got: " puts
-                recv_buf puts
-                "\n" puts
-              end
-            end
-            drop
-          end
-
-          if fd_client @64 0 >= do
-            fd_client @64 sys_close drop
-          end
         else
-          // Parent process: accept + recv ping + send pong
-          memory fd_conn sizeof(int) end
-          memory peer_addr 16 end
-          memory peer_len sizeof(int) end
-          memory recv_buf 8 end
-          memory recv_n sizeof(int) end
-
-          16 peer_len !64
-          fd_listen @64 peer_addr peer_len accept fd_conn !64
-          if fd_conn @64 0 < do
-            "accept() failed, errno=" puts
-            get_errno print
-            1 ret !64
+          if fork_res @64 0 = do
+            addr net_child ret !64
           else
-            fd_conn @64 recv_buf 4 0 recv recv_n !64
-            if recv_n @64 0 > do
-              0 recv_buf recv_n @64 + !8
-              "server got: " puts
-              recv_buf puts
-              "\n" puts
-              fd_conn @64 "pong" 4 0 send drop
-            end
-            fd_conn @64 sys_close drop
+            fd_listen @64 net_parent ret !64
           end
-
-          fd_listen @64 sys_close drop
         end
+
+        fd_listen @64 sys_close drop
       end
     end
-    drop
   end
 
   ret @64

@@ -2177,6 +2177,311 @@ proc_make_sockaddr_v4_loopback:         # @proc_make_sockaddr_v4_loopback
 	.size	proc_make_sockaddr_v4_loopback, .Lfunc_end62-proc_make_sockaddr_v4_loopback
 	.cfi_endproc
                                         # -- End function
+	.globl	proc_net_child                  # -- Begin function proc_net_child
+	.p2align	4, 0x90
+	.type	proc_net_child,@function
+proc_net_child:                         # @proc_net_child
+	.cfi_startproc
+# %bb.0:
+	pushq	%rbx
+	.cfi_def_cfa_offset 16
+	subq	$48, %rsp
+	.cfi_def_cfa_offset 64
+	.cfi_offset %rbx, -16
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	40(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	movl	$2, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_socket@PLT
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB63_2
+# %bb.1:                                # %l16
+	movl	$.Lstr_net_child_17, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	callq	proc_intrinsic_check_errno@PLT
+	callq	proc_print@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB63_7
+.LBB63_2:                               # %l24
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	40(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movl	$16, %edi
+	callq	push@PLT
+	callq	proc_connect@PLT
+	callq	proc_intrinsic_dup@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB63_4
+# %bb.3:                                # %l35
+	movl	$.Lstr_net_child_36, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	callq	proc_intrinsic_check_errno@PLT
+	callq	proc_print@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB63_6
+.LBB63_4:                               # %l43
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$.Lstr_net_child_46, %edi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_send@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	32(%rsp), %rdi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_recv@PLT
+	leaq	24(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_gt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB63_6
+# %bb.5:                                # %l64
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	32(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	leaq	24(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	movl	$.Lstr_net_child_71, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	movl	$.Lstr_net_child_75, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+.LBB63_6:                               # %l78
+	callq	proc_intrinsic_drop@PLT
+.LBB63_7:                               # %l80
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_ge@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB63_9
+# %bb.8:                                # %l86
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_sys_close@PLT
+	callq	proc_intrinsic_drop@PLT
+.LBB63_9:                               # %l91
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	addq	$48, %rsp
+	.cfi_def_cfa_offset 16
+	popq	%rbx
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end63:
+	.size	proc_net_child, .Lfunc_end63-proc_net_child
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_net_parent                 # -- Begin function proc_net_parent
+	.p2align	4, 0x90
+	.type	proc_net_parent,@function
+proc_net_parent:                        # @proc_net_parent
+	.cfi_startproc
+# %bb.0:
+	pushq	%r14
+	.cfi_def_cfa_offset 16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	subq	$72, %rsp
+	.cfi_def_cfa_offset 96
+	.cfi_offset %rbx, -24
+	.cfi_offset %r14, -16
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	48(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movl	$16, %edi
+	callq	push@PLT
+	leaq	40(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	56(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_accept@PLT
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB64_2
+# %bb.1:                                # %l20
+	movl	$.Lstr_net_parent_21, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	callq	proc_intrinsic_check_errno@PLT
+	callq	proc_print@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB64_5
+.LBB64_2:                               # %l28
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	32(%rsp), %rdi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_recv@PLT
+	leaq	24(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_gt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB64_4
+# %bb.3:                                # %l42
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	32(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	leaq	24(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	movl	$.Lstr_net_parent_49, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	movl	$.Lstr_net_parent_53, %edi
+	callq	push@PLT
+	callq	proc_puts@PLT
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$.Lstr_net_parent_57, %edi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_send@PLT
+	callq	proc_intrinsic_drop@PLT
+.LBB64_4:                               # %l62
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_sys_close@PLT
+	callq	proc_intrinsic_drop@PLT
+.LBB64_5:                               # %l67
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	addq	$72, %rsp
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%r14
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end64:
+	.size	proc_net_parent, .Lfunc_end64-proc_net_parent
+	.cfi_endproc
+                                        # -- End function
 	.globl	proc_main                       # -- Begin function proc_main
 	.p2align	4, 0x90
 	.type	proc_main,@function
@@ -2187,16 +2492,21 @@ proc_main:                              # @proc_main
 	.cfi_def_cfa_offset 16
 	pushq	%rbx
 	.cfi_def_cfa_offset 24
-	subq	$24, %rsp
-	.cfi_def_cfa_offset 48
+	subq	$40, %rsp
+	.cfi_def_cfa_offset 64
 	.cfi_offset %rbx, -24
 	.cfi_offset %r14, -16
 	callq	proc_intrinsic_drop@PLT
 	callq	proc_intrinsic_drop@PLT
-	movl	$.Lstr_main_2, %edi
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%rsp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movl	$.Lstr_main_5, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
-	movl	$.Lstr_main_4, %edi
+	movl	$.Lstr_main_7, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
 	movl	$2, %edi
@@ -2212,25 +2522,19 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB63_2
-# %bb.1:                                # %l14
-	movl	$.Lstr_main_15, %edi
-	callq	push@PLT
-	callq	proc_puts@PLT
-	callq	proc_intrinsic_check_errno@PLT
-	callq	proc_print@PLT
-	callq	proc_intrinsic_drop@PLT
-	movl	$1, %edi
-	jmp	.LBB63_9
-.LBB63_2:                               # %l21
-	movq	%rsp, %r14
+	je	.LBB65_3
+# %bb.1:                                # %l17
+	movl	$.Lstr_main_18, %edi
+	jmp	.LBB65_2
+.LBB65_3:                               # %l26
+	leaq	8(%rsp), %r14
 	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	8(%rsp), %rbx
+	leaq	24(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
-	xorl	%edi, %edi
+	movl	$37891, %edi                    # imm = 0x9403
 	callq	push@PLT
 	callq	proc_make_sockaddr_v4_loopback@PLT
 	movq	%r14, %rdi
@@ -2247,13 +2551,13 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB63_5
-# %bb.3:                                # %l36
-	movl	$.Lstr_main_37, %edi
-	jmp	.LBB63_4
-.LBB63_5:                               # %l41
+	je	.LBB65_5
+# %bb.4:                                # %l41
+	movl	$.Lstr_main_42, %edi
+	jmp	.LBB65_2
+.LBB65_5:                               # %l50
 	callq	proc_intrinsic_drop@PLT
-	movq	%rsp, %rdi
+	leaq	8(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$1, %edi
@@ -2265,39 +2569,88 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB63_7
-# %bb.6:                                # %l51
-	movl	$.Lstr_main_52, %edi
-.LBB63_4:                               # %l60
+	je	.LBB65_7
+# %bb.6:                                # %l60
+	movl	$.Lstr_main_61, %edi
+.LBB65_2:                               # %l112
 	callq	push@PLT
 	callq	proc_puts@PLT
 	callq	proc_intrinsic_check_errno@PLT
 	callq	proc_print@PLT
-.LBB63_8:                               # %l60
+	movl	$1, %edi
+	callq	push@PLT
+	movq	%rsp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+.LBB65_13:                              # %l112
 	callq	proc_intrinsic_drop@PLT
 	movq	%rsp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	callq	proc_sys_close@PLT
-	callq	proc_intrinsic_drop@PLT
-	xorl	%edi, %edi
-.LBB63_9:                               # %l67
-	callq	push@PLT
-	addq	$24, %rsp
+	addq	$40, %rsp
 	.cfi_def_cfa_offset 24
 	popq	%rbx
 	.cfi_def_cfa_offset 16
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.LBB63_7:                               # %l56
-	.cfi_def_cfa_offset 48
-	movl	$.Lstr_main_57, %edi
+.LBB65_7:                               # %l69
+	.cfi_def_cfa_offset 64
+	callq	proc_intrinsic_drop@PLT
+	callq	proc_ll_fork@PLT
+	leaq	16(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB65_9
+# %bb.8:                                # %l79
+	movl	$.Lstr_main_80, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
-	jmp	.LBB63_8
-.Lfunc_end63:
-	.size	proc_main, .Lfunc_end63-proc_main
+	callq	proc_intrinsic_check_errno@PLT
+	callq	proc_print@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	jmp	.LBB65_12
+.LBB65_9:                               # %l87
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB65_11
+# %bb.10:                               # %l93
+	leaq	24(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_net_child@PLT
+	jmp	.LBB65_12
+.LBB65_11:                              # %l98
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_net_parent@PLT
+.LBB65_12:                              # %l105
+	movq	%rsp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_sys_close@PLT
+	jmp	.LBB65_13
+.Lfunc_end65:
+	.size	proc_main, .Lfunc_end65-proc_main
 	.cfi_endproc
                                         # -- End function
 	.globl	main                            # -- Begin function main
@@ -2319,8 +2672,8 @@ main:                                   # @main
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end64:
-	.size	main, .Lfunc_end64-main
+.Lfunc_end66:
+	.size	main, .Lfunc_end66-main
 	.cfi_endproc
                                         # -- End function
 	.globl	push                            # -- Begin function push
@@ -2336,8 +2689,8 @@ push:                                   # @push
 	incq	%rcx
 	movq	%rcx, (%rax)
 	retq
-.Lfunc_end65:
-	.size	push, .Lfunc_end65-push
+.Lfunc_end67:
+	.size	push, .Lfunc_end67-push
 	.cfi_endproc
                                         # -- End function
 	.globl	pop                             # -- Begin function pop
@@ -2353,8 +2706,8 @@ pop:                                    # @pop
 	decq	%rdx
 	movq	%rdx, (%rcx)
 	retq
-.Lfunc_end66:
-	.size	pop, .Lfunc_end66-pop
+.Lfunc_end68:
+	.size	pop, .Lfunc_end68-pop
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_plus             # -- Begin function proc_intrinsic_plus
@@ -2375,8 +2728,8 @@ proc_intrinsic_plus:                    # @proc_intrinsic_plus
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end67:
-	.size	proc_intrinsic_plus, .Lfunc_end67-proc_intrinsic_plus
+.Lfunc_end69:
+	.size	proc_intrinsic_plus, .Lfunc_end69-proc_intrinsic_plus
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_minus            # -- Begin function proc_intrinsic_minus
@@ -2397,8 +2750,8 @@ proc_intrinsic_minus:                   # @proc_intrinsic_minus
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end68:
-	.size	proc_intrinsic_minus, .Lfunc_end68-proc_intrinsic_minus
+.Lfunc_end70:
+	.size	proc_intrinsic_minus, .Lfunc_end70-proc_intrinsic_minus
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_mult             # -- Begin function proc_intrinsic_mult
@@ -2419,8 +2772,8 @@ proc_intrinsic_mult:                    # @proc_intrinsic_mult
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end69:
-	.size	proc_intrinsic_mult, .Lfunc_end69-proc_intrinsic_mult
+.Lfunc_end71:
+	.size	proc_intrinsic_mult, .Lfunc_end71-proc_intrinsic_mult
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_div              # -- Begin function proc_intrinsic_div
@@ -2442,8 +2795,8 @@ proc_intrinsic_div:                     # @proc_intrinsic_div
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end70:
-	.size	proc_intrinsic_div, .Lfunc_end70-proc_intrinsic_div
+.Lfunc_end72:
+	.size	proc_intrinsic_div, .Lfunc_end72-proc_intrinsic_div
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_mod              # -- Begin function proc_intrinsic_mod
@@ -2465,8 +2818,8 @@ proc_intrinsic_mod:                     # @proc_intrinsic_mod
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end71:
-	.size	proc_intrinsic_mod, .Lfunc_end71-proc_intrinsic_mod
+.Lfunc_end73:
+	.size	proc_intrinsic_mod, .Lfunc_end73-proc_intrinsic_mod
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_eq               # -- Begin function proc_intrinsic_eq
@@ -2488,8 +2841,8 @@ proc_intrinsic_eq:                      # @proc_intrinsic_eq
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end72:
-	.size	proc_intrinsic_eq, .Lfunc_end72-proc_intrinsic_eq
+.Lfunc_end74:
+	.size	proc_intrinsic_eq, .Lfunc_end74-proc_intrinsic_eq
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_ne               # -- Begin function proc_intrinsic_ne
@@ -2511,8 +2864,8 @@ proc_intrinsic_ne:                      # @proc_intrinsic_ne
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end73:
-	.size	proc_intrinsic_ne, .Lfunc_end73-proc_intrinsic_ne
+.Lfunc_end75:
+	.size	proc_intrinsic_ne, .Lfunc_end75-proc_intrinsic_ne
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_gt               # -- Begin function proc_intrinsic_gt
@@ -2534,8 +2887,8 @@ proc_intrinsic_gt:                      # @proc_intrinsic_gt
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end74:
-	.size	proc_intrinsic_gt, .Lfunc_end74-proc_intrinsic_gt
+.Lfunc_end76:
+	.size	proc_intrinsic_gt, .Lfunc_end76-proc_intrinsic_gt
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_lt               # -- Begin function proc_intrinsic_lt
@@ -2557,8 +2910,8 @@ proc_intrinsic_lt:                      # @proc_intrinsic_lt
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end75:
-	.size	proc_intrinsic_lt, .Lfunc_end75-proc_intrinsic_lt
+.Lfunc_end77:
+	.size	proc_intrinsic_lt, .Lfunc_end77-proc_intrinsic_lt
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_ge               # -- Begin function proc_intrinsic_ge
@@ -2580,8 +2933,8 @@ proc_intrinsic_ge:                      # @proc_intrinsic_ge
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end76:
-	.size	proc_intrinsic_ge, .Lfunc_end76-proc_intrinsic_ge
+.Lfunc_end78:
+	.size	proc_intrinsic_ge, .Lfunc_end78-proc_intrinsic_ge
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_le               # -- Begin function proc_intrinsic_le
@@ -2603,8 +2956,8 @@ proc_intrinsic_le:                      # @proc_intrinsic_le
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end77:
-	.size	proc_intrinsic_le, .Lfunc_end77-proc_intrinsic_le
+.Lfunc_end79:
+	.size	proc_intrinsic_le, .Lfunc_end79-proc_intrinsic_le
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_bor              # -- Begin function proc_intrinsic_bor
@@ -2625,8 +2978,8 @@ proc_intrinsic_bor:                     # @proc_intrinsic_bor
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end78:
-	.size	proc_intrinsic_bor, .Lfunc_end78-proc_intrinsic_bor
+.Lfunc_end80:
+	.size	proc_intrinsic_bor, .Lfunc_end80-proc_intrinsic_bor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_band             # -- Begin function proc_intrinsic_band
@@ -2647,8 +3000,8 @@ proc_intrinsic_band:                    # @proc_intrinsic_band
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end79:
-	.size	proc_intrinsic_band, .Lfunc_end79-proc_intrinsic_band
+.Lfunc_end81:
+	.size	proc_intrinsic_band, .Lfunc_end81-proc_intrinsic_band
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_bxor             # -- Begin function proc_intrinsic_bxor
@@ -2669,8 +3022,8 @@ proc_intrinsic_bxor:                    # @proc_intrinsic_bxor
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end80:
-	.size	proc_intrinsic_bxor, .Lfunc_end80-proc_intrinsic_bxor
+.Lfunc_end82:
+	.size	proc_intrinsic_bxor, .Lfunc_end82-proc_intrinsic_bxor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_shl              # -- Begin function proc_intrinsic_shl
@@ -2692,8 +3045,8 @@ proc_intrinsic_shl:                     # @proc_intrinsic_shl
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end81:
-	.size	proc_intrinsic_shl, .Lfunc_end81-proc_intrinsic_shl
+.Lfunc_end83:
+	.size	proc_intrinsic_shl, .Lfunc_end83-proc_intrinsic_shl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_shr              # -- Begin function proc_intrinsic_shr
@@ -2715,8 +3068,8 @@ proc_intrinsic_shr:                     # @proc_intrinsic_shr
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end82:
-	.size	proc_intrinsic_shr, .Lfunc_end82-proc_intrinsic_shr
+.Lfunc_end84:
+	.size	proc_intrinsic_shr, .Lfunc_end84-proc_intrinsic_shr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_drop             # -- Begin function proc_intrinsic_drop
@@ -2731,8 +3084,8 @@ proc_intrinsic_drop:                    # @proc_intrinsic_drop
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end83:
-	.size	proc_intrinsic_drop, .Lfunc_end83-proc_intrinsic_drop
+.Lfunc_end85:
+	.size	proc_intrinsic_drop, .Lfunc_end85-proc_intrinsic_drop
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_dup              # -- Begin function proc_intrinsic_dup
@@ -2753,8 +3106,8 @@ proc_intrinsic_dup:                     # @proc_intrinsic_dup
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end84:
-	.size	proc_intrinsic_dup, .Lfunc_end84-proc_intrinsic_dup
+.Lfunc_end86:
+	.size	proc_intrinsic_dup, .Lfunc_end86-proc_intrinsic_dup
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_store8           # -- Begin function proc_intrinsic_store8
@@ -2773,8 +3126,8 @@ proc_intrinsic_store8:                  # @proc_intrinsic_store8
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end85:
-	.size	proc_intrinsic_store8, .Lfunc_end85-proc_intrinsic_store8
+.Lfunc_end87:
+	.size	proc_intrinsic_store8, .Lfunc_end87-proc_intrinsic_store8
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_load8            # -- Begin function proc_intrinsic_load8
@@ -2791,8 +3144,8 @@ proc_intrinsic_load8:                   # @proc_intrinsic_load8
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end86:
-	.size	proc_intrinsic_load8, .Lfunc_end86-proc_intrinsic_load8
+.Lfunc_end88:
+	.size	proc_intrinsic_load8, .Lfunc_end88-proc_intrinsic_load8
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_store64          # -- Begin function proc_intrinsic_store64
@@ -2811,8 +3164,8 @@ proc_intrinsic_store64:                 # @proc_intrinsic_store64
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end87:
-	.size	proc_intrinsic_store64, .Lfunc_end87-proc_intrinsic_store64
+.Lfunc_end89:
+	.size	proc_intrinsic_store64, .Lfunc_end89-proc_intrinsic_store64
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_load64           # -- Begin function proc_intrinsic_load64
@@ -2829,8 +3182,8 @@ proc_intrinsic_load64:                  # @proc_intrinsic_load64
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end88:
-	.size	proc_intrinsic_load64, .Lfunc_end88-proc_intrinsic_load64
+.Lfunc_end90:
+	.size	proc_intrinsic_load64, .Lfunc_end90-proc_intrinsic_load64
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_storeptr         # -- Begin function proc_intrinsic_storeptr
@@ -2849,8 +3202,8 @@ proc_intrinsic_storeptr:                # @proc_intrinsic_storeptr
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end89:
-	.size	proc_intrinsic_storeptr, .Lfunc_end89-proc_intrinsic_storeptr
+.Lfunc_end91:
+	.size	proc_intrinsic_storeptr, .Lfunc_end91-proc_intrinsic_storeptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_loadptr          # -- Begin function proc_intrinsic_loadptr
@@ -2867,8 +3220,8 @@ proc_intrinsic_loadptr:                 # @proc_intrinsic_loadptr
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end90:
-	.size	proc_intrinsic_loadptr, .Lfunc_end90-proc_intrinsic_loadptr
+.Lfunc_end92:
+	.size	proc_intrinsic_loadptr, .Lfunc_end92-proc_intrinsic_loadptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_alloc            # -- Begin function proc_intrinsic_alloc
@@ -2887,8 +3240,8 @@ proc_intrinsic_alloc:                   # @proc_intrinsic_alloc
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end91:
-	.size	proc_intrinsic_alloc, .Lfunc_end91-proc_intrinsic_alloc
+.Lfunc_end93:
+	.size	proc_intrinsic_alloc, .Lfunc_end93-proc_intrinsic_alloc
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_free             # -- Begin function proc_intrinsic_free
@@ -2905,8 +3258,8 @@ proc_intrinsic_free:                    # @proc_intrinsic_free
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end92:
-	.size	proc_intrinsic_free, .Lfunc_end92-proc_intrinsic_free
+.Lfunc_end94:
+	.size	proc_intrinsic_free, .Lfunc_end94-proc_intrinsic_free
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_exit             # -- Begin function proc_intrinsic_exit
@@ -2920,8 +3273,8 @@ proc_intrinsic_exit:                    # @proc_intrinsic_exit
 	callq	pop@PLT
 	movl	%eax, %edi
 	callq	exit@PLT
-.Lfunc_end93:
-	.size	proc_intrinsic_exit, .Lfunc_end93-proc_intrinsic_exit
+.Lfunc_end95:
+	.size	proc_intrinsic_exit, .Lfunc_end95-proc_intrinsic_exit
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_check_errno      # -- Begin function proc_intrinsic_check_errno
@@ -2938,8 +3291,8 @@ proc_intrinsic_check_errno:             # @proc_intrinsic_check_errno
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end94:
-	.size	proc_intrinsic_check_errno, .Lfunc_end94-proc_intrinsic_check_errno
+.Lfunc_end96:
+	.size	proc_intrinsic_check_errno, .Lfunc_end96-proc_intrinsic_check_errno
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_print_error      # -- Begin function proc_intrinsic_print_error
@@ -2956,8 +3309,8 @@ proc_intrinsic_print_error:             # @proc_intrinsic_print_error
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end95:
-	.size	proc_intrinsic_print_error, .Lfunc_end95-proc_intrinsic_print_error
+.Lfunc_end97:
+	.size	proc_intrinsic_print_error, .Lfunc_end97-proc_intrinsic_print_error
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_open                    # -- Begin function proc_ll_open
@@ -2980,8 +3333,8 @@ proc_ll_open:                           # @proc_ll_open
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end96:
-	.size	proc_ll_open, .Lfunc_end96-proc_ll_open
+.Lfunc_end98:
+	.size	proc_ll_open, .Lfunc_end98-proc_ll_open
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_close                   # -- Begin function proc_ll_close
@@ -3000,8 +3353,8 @@ proc_ll_close:                          # @proc_ll_close
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end97:
-	.size	proc_ll_close, .Lfunc_end97-proc_ll_close
+.Lfunc_end99:
+	.size	proc_ll_close, .Lfunc_end99-proc_ll_close
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_lseek                   # -- Begin function proc_ll_lseek
@@ -3036,8 +3389,8 @@ proc_ll_lseek:                          # @proc_ll_lseek
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end98:
-	.size	proc_ll_lseek, .Lfunc_end98-proc_ll_lseek
+.Lfunc_end100:
+	.size	proc_ll_lseek, .Lfunc_end100-proc_ll_lseek
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_write                   # -- Begin function proc_ll_write
@@ -3072,8 +3425,8 @@ proc_ll_write:                          # @proc_ll_write
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end99:
-	.size	proc_ll_write, .Lfunc_end99-proc_ll_write
+.Lfunc_end101:
+	.size	proc_ll_write, .Lfunc_end101-proc_ll_write
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_read                    # -- Begin function proc_ll_read
@@ -3108,8 +3461,8 @@ proc_ll_read:                           # @proc_ll_read
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end100:
-	.size	proc_ll_read, .Lfunc_end100-proc_ll_read
+.Lfunc_end102:
+	.size	proc_ll_read, .Lfunc_end102-proc_ll_read
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_system                  # -- Begin function proc_ll_system
@@ -3128,8 +3481,8 @@ proc_ll_system:                         # @proc_ll_system
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end101:
-	.size	proc_ll_system, .Lfunc_end101-proc_ll_system
+.Lfunc_end103:
+	.size	proc_ll_system, .Lfunc_end103-proc_ll_system
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_int            # -- Begin function proc_cast_int_to_int
@@ -3139,8 +3492,8 @@ proc_cast_int_to_int:                   # @proc_cast_int_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end102:
-	.size	proc_cast_int_to_int, .Lfunc_end102-proc_cast_int_to_int
+.Lfunc_end104:
+	.size	proc_cast_int_to_int, .Lfunc_end104-proc_cast_int_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_ptr            # -- Begin function proc_cast_int_to_ptr
@@ -3150,8 +3503,8 @@ proc_cast_int_to_ptr:                   # @proc_cast_int_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end103:
-	.size	proc_cast_int_to_ptr, .Lfunc_end103-proc_cast_int_to_ptr
+.Lfunc_end105:
+	.size	proc_cast_int_to_ptr, .Lfunc_end105-proc_cast_int_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_str            # -- Begin function proc_cast_int_to_str
@@ -3161,8 +3514,8 @@ proc_cast_int_to_str:                   # @proc_cast_int_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end104:
-	.size	proc_cast_int_to_str, .Lfunc_end104-proc_cast_int_to_str
+.Lfunc_end106:
+	.size	proc_cast_int_to_str, .Lfunc_end106-proc_cast_int_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_int            # -- Begin function proc_cast_ptr_to_int
@@ -3172,8 +3525,8 @@ proc_cast_ptr_to_int:                   # @proc_cast_ptr_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end105:
-	.size	proc_cast_ptr_to_int, .Lfunc_end105-proc_cast_ptr_to_int
+.Lfunc_end107:
+	.size	proc_cast_ptr_to_int, .Lfunc_end107-proc_cast_ptr_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_ptr            # -- Begin function proc_cast_ptr_to_ptr
@@ -3183,8 +3536,8 @@ proc_cast_ptr_to_ptr:                   # @proc_cast_ptr_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end106:
-	.size	proc_cast_ptr_to_ptr, .Lfunc_end106-proc_cast_ptr_to_ptr
+.Lfunc_end108:
+	.size	proc_cast_ptr_to_ptr, .Lfunc_end108-proc_cast_ptr_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_str            # -- Begin function proc_cast_ptr_to_str
@@ -3194,8 +3547,8 @@ proc_cast_ptr_to_str:                   # @proc_cast_ptr_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end107:
-	.size	proc_cast_ptr_to_str, .Lfunc_end107-proc_cast_ptr_to_str
+.Lfunc_end109:
+	.size	proc_cast_ptr_to_str, .Lfunc_end109-proc_cast_ptr_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_int            # -- Begin function proc_cast_str_to_int
@@ -3205,8 +3558,8 @@ proc_cast_str_to_int:                   # @proc_cast_str_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end108:
-	.size	proc_cast_str_to_int, .Lfunc_end108-proc_cast_str_to_int
+.Lfunc_end110:
+	.size	proc_cast_str_to_int, .Lfunc_end110-proc_cast_str_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_ptr            # -- Begin function proc_cast_str_to_ptr
@@ -3216,8 +3569,8 @@ proc_cast_str_to_ptr:                   # @proc_cast_str_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end109:
-	.size	proc_cast_str_to_ptr, .Lfunc_end109-proc_cast_str_to_ptr
+.Lfunc_end111:
+	.size	proc_cast_str_to_ptr, .Lfunc_end111-proc_cast_str_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_str            # -- Begin function proc_cast_str_to_str
@@ -3227,8 +3580,8 @@ proc_cast_str_to_str:                   # @proc_cast_str_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end110:
-	.size	proc_cast_str_to_str, .Lfunc_end110-proc_cast_str_to_str
+.Lfunc_end112:
+	.size	proc_cast_str_to_str, .Lfunc_end112-proc_cast_str_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_int    # -- Begin function proc_cast_int_int_to_int_int
@@ -3238,8 +3591,8 @@ proc_cast_int_int_to_int_int:           # @proc_cast_int_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end111:
-	.size	proc_cast_int_int_to_int_int, .Lfunc_end111-proc_cast_int_int_to_int_int
+.Lfunc_end113:
+	.size	proc_cast_int_int_to_int_int, .Lfunc_end113-proc_cast_int_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_ptr    # -- Begin function proc_cast_int_int_to_int_ptr
@@ -3249,8 +3602,8 @@ proc_cast_int_int_to_int_ptr:           # @proc_cast_int_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end112:
-	.size	proc_cast_int_int_to_int_ptr, .Lfunc_end112-proc_cast_int_int_to_int_ptr
+.Lfunc_end114:
+	.size	proc_cast_int_int_to_int_ptr, .Lfunc_end114-proc_cast_int_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_str    # -- Begin function proc_cast_int_int_to_int_str
@@ -3260,8 +3613,8 @@ proc_cast_int_int_to_int_str:           # @proc_cast_int_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end113:
-	.size	proc_cast_int_int_to_int_str, .Lfunc_end113-proc_cast_int_int_to_int_str
+.Lfunc_end115:
+	.size	proc_cast_int_int_to_int_str, .Lfunc_end115-proc_cast_int_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_int    # -- Begin function proc_cast_int_int_to_ptr_int
@@ -3271,8 +3624,8 @@ proc_cast_int_int_to_ptr_int:           # @proc_cast_int_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end114:
-	.size	proc_cast_int_int_to_ptr_int, .Lfunc_end114-proc_cast_int_int_to_ptr_int
+.Lfunc_end116:
+	.size	proc_cast_int_int_to_ptr_int, .Lfunc_end116-proc_cast_int_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_ptr    # -- Begin function proc_cast_int_int_to_ptr_ptr
@@ -3282,8 +3635,8 @@ proc_cast_int_int_to_ptr_ptr:           # @proc_cast_int_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end115:
-	.size	proc_cast_int_int_to_ptr_ptr, .Lfunc_end115-proc_cast_int_int_to_ptr_ptr
+.Lfunc_end117:
+	.size	proc_cast_int_int_to_ptr_ptr, .Lfunc_end117-proc_cast_int_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_str    # -- Begin function proc_cast_int_int_to_ptr_str
@@ -3293,8 +3646,8 @@ proc_cast_int_int_to_ptr_str:           # @proc_cast_int_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end116:
-	.size	proc_cast_int_int_to_ptr_str, .Lfunc_end116-proc_cast_int_int_to_ptr_str
+.Lfunc_end118:
+	.size	proc_cast_int_int_to_ptr_str, .Lfunc_end118-proc_cast_int_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_int    # -- Begin function proc_cast_int_int_to_str_int
@@ -3304,8 +3657,8 @@ proc_cast_int_int_to_str_int:           # @proc_cast_int_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end117:
-	.size	proc_cast_int_int_to_str_int, .Lfunc_end117-proc_cast_int_int_to_str_int
+.Lfunc_end119:
+	.size	proc_cast_int_int_to_str_int, .Lfunc_end119-proc_cast_int_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_ptr    # -- Begin function proc_cast_int_int_to_str_ptr
@@ -3315,8 +3668,8 @@ proc_cast_int_int_to_str_ptr:           # @proc_cast_int_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end118:
-	.size	proc_cast_int_int_to_str_ptr, .Lfunc_end118-proc_cast_int_int_to_str_ptr
+.Lfunc_end120:
+	.size	proc_cast_int_int_to_str_ptr, .Lfunc_end120-proc_cast_int_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_str    # -- Begin function proc_cast_int_int_to_str_str
@@ -3326,8 +3679,8 @@ proc_cast_int_int_to_str_str:           # @proc_cast_int_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end119:
-	.size	proc_cast_int_int_to_str_str, .Lfunc_end119-proc_cast_int_int_to_str_str
+.Lfunc_end121:
+	.size	proc_cast_int_int_to_str_str, .Lfunc_end121-proc_cast_int_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_int    # -- Begin function proc_cast_int_ptr_to_int_int
@@ -3337,8 +3690,8 @@ proc_cast_int_ptr_to_int_int:           # @proc_cast_int_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end120:
-	.size	proc_cast_int_ptr_to_int_int, .Lfunc_end120-proc_cast_int_ptr_to_int_int
+.Lfunc_end122:
+	.size	proc_cast_int_ptr_to_int_int, .Lfunc_end122-proc_cast_int_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_ptr    # -- Begin function proc_cast_int_ptr_to_int_ptr
@@ -3348,8 +3701,8 @@ proc_cast_int_ptr_to_int_ptr:           # @proc_cast_int_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end121:
-	.size	proc_cast_int_ptr_to_int_ptr, .Lfunc_end121-proc_cast_int_ptr_to_int_ptr
+.Lfunc_end123:
+	.size	proc_cast_int_ptr_to_int_ptr, .Lfunc_end123-proc_cast_int_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_str    # -- Begin function proc_cast_int_ptr_to_int_str
@@ -3359,8 +3712,8 @@ proc_cast_int_ptr_to_int_str:           # @proc_cast_int_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end122:
-	.size	proc_cast_int_ptr_to_int_str, .Lfunc_end122-proc_cast_int_ptr_to_int_str
+.Lfunc_end124:
+	.size	proc_cast_int_ptr_to_int_str, .Lfunc_end124-proc_cast_int_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_int    # -- Begin function proc_cast_int_ptr_to_ptr_int
@@ -3370,8 +3723,8 @@ proc_cast_int_ptr_to_ptr_int:           # @proc_cast_int_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end123:
-	.size	proc_cast_int_ptr_to_ptr_int, .Lfunc_end123-proc_cast_int_ptr_to_ptr_int
+.Lfunc_end125:
+	.size	proc_cast_int_ptr_to_ptr_int, .Lfunc_end125-proc_cast_int_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_ptr    # -- Begin function proc_cast_int_ptr_to_ptr_ptr
@@ -3381,8 +3734,8 @@ proc_cast_int_ptr_to_ptr_ptr:           # @proc_cast_int_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end124:
-	.size	proc_cast_int_ptr_to_ptr_ptr, .Lfunc_end124-proc_cast_int_ptr_to_ptr_ptr
+.Lfunc_end126:
+	.size	proc_cast_int_ptr_to_ptr_ptr, .Lfunc_end126-proc_cast_int_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_str    # -- Begin function proc_cast_int_ptr_to_ptr_str
@@ -3392,8 +3745,8 @@ proc_cast_int_ptr_to_ptr_str:           # @proc_cast_int_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end125:
-	.size	proc_cast_int_ptr_to_ptr_str, .Lfunc_end125-proc_cast_int_ptr_to_ptr_str
+.Lfunc_end127:
+	.size	proc_cast_int_ptr_to_ptr_str, .Lfunc_end127-proc_cast_int_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_int    # -- Begin function proc_cast_int_ptr_to_str_int
@@ -3403,8 +3756,8 @@ proc_cast_int_ptr_to_str_int:           # @proc_cast_int_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end126:
-	.size	proc_cast_int_ptr_to_str_int, .Lfunc_end126-proc_cast_int_ptr_to_str_int
+.Lfunc_end128:
+	.size	proc_cast_int_ptr_to_str_int, .Lfunc_end128-proc_cast_int_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_ptr    # -- Begin function proc_cast_int_ptr_to_str_ptr
@@ -3414,8 +3767,8 @@ proc_cast_int_ptr_to_str_ptr:           # @proc_cast_int_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end127:
-	.size	proc_cast_int_ptr_to_str_ptr, .Lfunc_end127-proc_cast_int_ptr_to_str_ptr
+.Lfunc_end129:
+	.size	proc_cast_int_ptr_to_str_ptr, .Lfunc_end129-proc_cast_int_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_str    # -- Begin function proc_cast_int_ptr_to_str_str
@@ -3425,8 +3778,8 @@ proc_cast_int_ptr_to_str_str:           # @proc_cast_int_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end128:
-	.size	proc_cast_int_ptr_to_str_str, .Lfunc_end128-proc_cast_int_ptr_to_str_str
+.Lfunc_end130:
+	.size	proc_cast_int_ptr_to_str_str, .Lfunc_end130-proc_cast_int_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_int    # -- Begin function proc_cast_int_str_to_int_int
@@ -3436,8 +3789,8 @@ proc_cast_int_str_to_int_int:           # @proc_cast_int_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end129:
-	.size	proc_cast_int_str_to_int_int, .Lfunc_end129-proc_cast_int_str_to_int_int
+.Lfunc_end131:
+	.size	proc_cast_int_str_to_int_int, .Lfunc_end131-proc_cast_int_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_ptr    # -- Begin function proc_cast_int_str_to_int_ptr
@@ -3447,8 +3800,8 @@ proc_cast_int_str_to_int_ptr:           # @proc_cast_int_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end130:
-	.size	proc_cast_int_str_to_int_ptr, .Lfunc_end130-proc_cast_int_str_to_int_ptr
+.Lfunc_end132:
+	.size	proc_cast_int_str_to_int_ptr, .Lfunc_end132-proc_cast_int_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_str    # -- Begin function proc_cast_int_str_to_int_str
@@ -3458,8 +3811,8 @@ proc_cast_int_str_to_int_str:           # @proc_cast_int_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end131:
-	.size	proc_cast_int_str_to_int_str, .Lfunc_end131-proc_cast_int_str_to_int_str
+.Lfunc_end133:
+	.size	proc_cast_int_str_to_int_str, .Lfunc_end133-proc_cast_int_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_int    # -- Begin function proc_cast_int_str_to_ptr_int
@@ -3469,8 +3822,8 @@ proc_cast_int_str_to_ptr_int:           # @proc_cast_int_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end132:
-	.size	proc_cast_int_str_to_ptr_int, .Lfunc_end132-proc_cast_int_str_to_ptr_int
+.Lfunc_end134:
+	.size	proc_cast_int_str_to_ptr_int, .Lfunc_end134-proc_cast_int_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_ptr    # -- Begin function proc_cast_int_str_to_ptr_ptr
@@ -3480,8 +3833,8 @@ proc_cast_int_str_to_ptr_ptr:           # @proc_cast_int_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end133:
-	.size	proc_cast_int_str_to_ptr_ptr, .Lfunc_end133-proc_cast_int_str_to_ptr_ptr
+.Lfunc_end135:
+	.size	proc_cast_int_str_to_ptr_ptr, .Lfunc_end135-proc_cast_int_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_str    # -- Begin function proc_cast_int_str_to_ptr_str
@@ -3491,8 +3844,8 @@ proc_cast_int_str_to_ptr_str:           # @proc_cast_int_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end134:
-	.size	proc_cast_int_str_to_ptr_str, .Lfunc_end134-proc_cast_int_str_to_ptr_str
+.Lfunc_end136:
+	.size	proc_cast_int_str_to_ptr_str, .Lfunc_end136-proc_cast_int_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_int    # -- Begin function proc_cast_int_str_to_str_int
@@ -3502,8 +3855,8 @@ proc_cast_int_str_to_str_int:           # @proc_cast_int_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end135:
-	.size	proc_cast_int_str_to_str_int, .Lfunc_end135-proc_cast_int_str_to_str_int
+.Lfunc_end137:
+	.size	proc_cast_int_str_to_str_int, .Lfunc_end137-proc_cast_int_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_ptr    # -- Begin function proc_cast_int_str_to_str_ptr
@@ -3513,8 +3866,8 @@ proc_cast_int_str_to_str_ptr:           # @proc_cast_int_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end136:
-	.size	proc_cast_int_str_to_str_ptr, .Lfunc_end136-proc_cast_int_str_to_str_ptr
+.Lfunc_end138:
+	.size	proc_cast_int_str_to_str_ptr, .Lfunc_end138-proc_cast_int_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_str    # -- Begin function proc_cast_int_str_to_str_str
@@ -3524,8 +3877,8 @@ proc_cast_int_str_to_str_str:           # @proc_cast_int_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end137:
-	.size	proc_cast_int_str_to_str_str, .Lfunc_end137-proc_cast_int_str_to_str_str
+.Lfunc_end139:
+	.size	proc_cast_int_str_to_str_str, .Lfunc_end139-proc_cast_int_str_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_int    # -- Begin function proc_cast_ptr_int_to_int_int
@@ -3535,8 +3888,8 @@ proc_cast_ptr_int_to_int_int:           # @proc_cast_ptr_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end138:
-	.size	proc_cast_ptr_int_to_int_int, .Lfunc_end138-proc_cast_ptr_int_to_int_int
+.Lfunc_end140:
+	.size	proc_cast_ptr_int_to_int_int, .Lfunc_end140-proc_cast_ptr_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_ptr    # -- Begin function proc_cast_ptr_int_to_int_ptr
@@ -3546,8 +3899,8 @@ proc_cast_ptr_int_to_int_ptr:           # @proc_cast_ptr_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end139:
-	.size	proc_cast_ptr_int_to_int_ptr, .Lfunc_end139-proc_cast_ptr_int_to_int_ptr
+.Lfunc_end141:
+	.size	proc_cast_ptr_int_to_int_ptr, .Lfunc_end141-proc_cast_ptr_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_str    # -- Begin function proc_cast_ptr_int_to_int_str
@@ -3557,8 +3910,8 @@ proc_cast_ptr_int_to_int_str:           # @proc_cast_ptr_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end140:
-	.size	proc_cast_ptr_int_to_int_str, .Lfunc_end140-proc_cast_ptr_int_to_int_str
+.Lfunc_end142:
+	.size	proc_cast_ptr_int_to_int_str, .Lfunc_end142-proc_cast_ptr_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_int    # -- Begin function proc_cast_ptr_int_to_ptr_int
@@ -3568,8 +3921,8 @@ proc_cast_ptr_int_to_ptr_int:           # @proc_cast_ptr_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end141:
-	.size	proc_cast_ptr_int_to_ptr_int, .Lfunc_end141-proc_cast_ptr_int_to_ptr_int
+.Lfunc_end143:
+	.size	proc_cast_ptr_int_to_ptr_int, .Lfunc_end143-proc_cast_ptr_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_ptr    # -- Begin function proc_cast_ptr_int_to_ptr_ptr
@@ -3579,8 +3932,8 @@ proc_cast_ptr_int_to_ptr_ptr:           # @proc_cast_ptr_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end142:
-	.size	proc_cast_ptr_int_to_ptr_ptr, .Lfunc_end142-proc_cast_ptr_int_to_ptr_ptr
+.Lfunc_end144:
+	.size	proc_cast_ptr_int_to_ptr_ptr, .Lfunc_end144-proc_cast_ptr_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_str    # -- Begin function proc_cast_ptr_int_to_ptr_str
@@ -3590,8 +3943,8 @@ proc_cast_ptr_int_to_ptr_str:           # @proc_cast_ptr_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end143:
-	.size	proc_cast_ptr_int_to_ptr_str, .Lfunc_end143-proc_cast_ptr_int_to_ptr_str
+.Lfunc_end145:
+	.size	proc_cast_ptr_int_to_ptr_str, .Lfunc_end145-proc_cast_ptr_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_int    # -- Begin function proc_cast_ptr_int_to_str_int
@@ -3601,8 +3954,8 @@ proc_cast_ptr_int_to_str_int:           # @proc_cast_ptr_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end144:
-	.size	proc_cast_ptr_int_to_str_int, .Lfunc_end144-proc_cast_ptr_int_to_str_int
+.Lfunc_end146:
+	.size	proc_cast_ptr_int_to_str_int, .Lfunc_end146-proc_cast_ptr_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_ptr    # -- Begin function proc_cast_ptr_int_to_str_ptr
@@ -3612,8 +3965,8 @@ proc_cast_ptr_int_to_str_ptr:           # @proc_cast_ptr_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end145:
-	.size	proc_cast_ptr_int_to_str_ptr, .Lfunc_end145-proc_cast_ptr_int_to_str_ptr
+.Lfunc_end147:
+	.size	proc_cast_ptr_int_to_str_ptr, .Lfunc_end147-proc_cast_ptr_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_str    # -- Begin function proc_cast_ptr_int_to_str_str
@@ -3623,8 +3976,8 @@ proc_cast_ptr_int_to_str_str:           # @proc_cast_ptr_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end146:
-	.size	proc_cast_ptr_int_to_str_str, .Lfunc_end146-proc_cast_ptr_int_to_str_str
+.Lfunc_end148:
+	.size	proc_cast_ptr_int_to_str_str, .Lfunc_end148-proc_cast_ptr_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_int    # -- Begin function proc_cast_ptr_ptr_to_int_int
@@ -3634,8 +3987,8 @@ proc_cast_ptr_ptr_to_int_int:           # @proc_cast_ptr_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end147:
-	.size	proc_cast_ptr_ptr_to_int_int, .Lfunc_end147-proc_cast_ptr_ptr_to_int_int
+.Lfunc_end149:
+	.size	proc_cast_ptr_ptr_to_int_int, .Lfunc_end149-proc_cast_ptr_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_ptr    # -- Begin function proc_cast_ptr_ptr_to_int_ptr
@@ -3645,8 +3998,8 @@ proc_cast_ptr_ptr_to_int_ptr:           # @proc_cast_ptr_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end148:
-	.size	proc_cast_ptr_ptr_to_int_ptr, .Lfunc_end148-proc_cast_ptr_ptr_to_int_ptr
+.Lfunc_end150:
+	.size	proc_cast_ptr_ptr_to_int_ptr, .Lfunc_end150-proc_cast_ptr_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_str    # -- Begin function proc_cast_ptr_ptr_to_int_str
@@ -3656,8 +4009,8 @@ proc_cast_ptr_ptr_to_int_str:           # @proc_cast_ptr_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end149:
-	.size	proc_cast_ptr_ptr_to_int_str, .Lfunc_end149-proc_cast_ptr_ptr_to_int_str
+.Lfunc_end151:
+	.size	proc_cast_ptr_ptr_to_int_str, .Lfunc_end151-proc_cast_ptr_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_int    # -- Begin function proc_cast_ptr_ptr_to_ptr_int
@@ -3667,8 +4020,8 @@ proc_cast_ptr_ptr_to_ptr_int:           # @proc_cast_ptr_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end150:
-	.size	proc_cast_ptr_ptr_to_ptr_int, .Lfunc_end150-proc_cast_ptr_ptr_to_ptr_int
+.Lfunc_end152:
+	.size	proc_cast_ptr_ptr_to_ptr_int, .Lfunc_end152-proc_cast_ptr_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_ptr    # -- Begin function proc_cast_ptr_ptr_to_ptr_ptr
@@ -3678,8 +4031,8 @@ proc_cast_ptr_ptr_to_ptr_ptr:           # @proc_cast_ptr_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end151:
-	.size	proc_cast_ptr_ptr_to_ptr_ptr, .Lfunc_end151-proc_cast_ptr_ptr_to_ptr_ptr
+.Lfunc_end153:
+	.size	proc_cast_ptr_ptr_to_ptr_ptr, .Lfunc_end153-proc_cast_ptr_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_str    # -- Begin function proc_cast_ptr_ptr_to_ptr_str
@@ -3689,8 +4042,8 @@ proc_cast_ptr_ptr_to_ptr_str:           # @proc_cast_ptr_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end152:
-	.size	proc_cast_ptr_ptr_to_ptr_str, .Lfunc_end152-proc_cast_ptr_ptr_to_ptr_str
+.Lfunc_end154:
+	.size	proc_cast_ptr_ptr_to_ptr_str, .Lfunc_end154-proc_cast_ptr_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_int    # -- Begin function proc_cast_ptr_ptr_to_str_int
@@ -3700,8 +4053,8 @@ proc_cast_ptr_ptr_to_str_int:           # @proc_cast_ptr_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end153:
-	.size	proc_cast_ptr_ptr_to_str_int, .Lfunc_end153-proc_cast_ptr_ptr_to_str_int
+.Lfunc_end155:
+	.size	proc_cast_ptr_ptr_to_str_int, .Lfunc_end155-proc_cast_ptr_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_ptr    # -- Begin function proc_cast_ptr_ptr_to_str_ptr
@@ -3711,8 +4064,8 @@ proc_cast_ptr_ptr_to_str_ptr:           # @proc_cast_ptr_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end154:
-	.size	proc_cast_ptr_ptr_to_str_ptr, .Lfunc_end154-proc_cast_ptr_ptr_to_str_ptr
+.Lfunc_end156:
+	.size	proc_cast_ptr_ptr_to_str_ptr, .Lfunc_end156-proc_cast_ptr_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_str    # -- Begin function proc_cast_ptr_ptr_to_str_str
@@ -3722,8 +4075,8 @@ proc_cast_ptr_ptr_to_str_str:           # @proc_cast_ptr_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end155:
-	.size	proc_cast_ptr_ptr_to_str_str, .Lfunc_end155-proc_cast_ptr_ptr_to_str_str
+.Lfunc_end157:
+	.size	proc_cast_ptr_ptr_to_str_str, .Lfunc_end157-proc_cast_ptr_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_int    # -- Begin function proc_cast_ptr_str_to_int_int
@@ -3733,8 +4086,8 @@ proc_cast_ptr_str_to_int_int:           # @proc_cast_ptr_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end156:
-	.size	proc_cast_ptr_str_to_int_int, .Lfunc_end156-proc_cast_ptr_str_to_int_int
+.Lfunc_end158:
+	.size	proc_cast_ptr_str_to_int_int, .Lfunc_end158-proc_cast_ptr_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_ptr    # -- Begin function proc_cast_ptr_str_to_int_ptr
@@ -3744,8 +4097,8 @@ proc_cast_ptr_str_to_int_ptr:           # @proc_cast_ptr_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end157:
-	.size	proc_cast_ptr_str_to_int_ptr, .Lfunc_end157-proc_cast_ptr_str_to_int_ptr
+.Lfunc_end159:
+	.size	proc_cast_ptr_str_to_int_ptr, .Lfunc_end159-proc_cast_ptr_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_str    # -- Begin function proc_cast_ptr_str_to_int_str
@@ -3755,8 +4108,8 @@ proc_cast_ptr_str_to_int_str:           # @proc_cast_ptr_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end158:
-	.size	proc_cast_ptr_str_to_int_str, .Lfunc_end158-proc_cast_ptr_str_to_int_str
+.Lfunc_end160:
+	.size	proc_cast_ptr_str_to_int_str, .Lfunc_end160-proc_cast_ptr_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_int    # -- Begin function proc_cast_ptr_str_to_ptr_int
@@ -3766,8 +4119,8 @@ proc_cast_ptr_str_to_ptr_int:           # @proc_cast_ptr_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end159:
-	.size	proc_cast_ptr_str_to_ptr_int, .Lfunc_end159-proc_cast_ptr_str_to_ptr_int
+.Lfunc_end161:
+	.size	proc_cast_ptr_str_to_ptr_int, .Lfunc_end161-proc_cast_ptr_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_ptr    # -- Begin function proc_cast_ptr_str_to_ptr_ptr
@@ -3777,8 +4130,8 @@ proc_cast_ptr_str_to_ptr_ptr:           # @proc_cast_ptr_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end160:
-	.size	proc_cast_ptr_str_to_ptr_ptr, .Lfunc_end160-proc_cast_ptr_str_to_ptr_ptr
+.Lfunc_end162:
+	.size	proc_cast_ptr_str_to_ptr_ptr, .Lfunc_end162-proc_cast_ptr_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_str    # -- Begin function proc_cast_ptr_str_to_ptr_str
@@ -3788,8 +4141,8 @@ proc_cast_ptr_str_to_ptr_str:           # @proc_cast_ptr_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end161:
-	.size	proc_cast_ptr_str_to_ptr_str, .Lfunc_end161-proc_cast_ptr_str_to_ptr_str
+.Lfunc_end163:
+	.size	proc_cast_ptr_str_to_ptr_str, .Lfunc_end163-proc_cast_ptr_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_int    # -- Begin function proc_cast_ptr_str_to_str_int
@@ -3799,8 +4152,8 @@ proc_cast_ptr_str_to_str_int:           # @proc_cast_ptr_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end162:
-	.size	proc_cast_ptr_str_to_str_int, .Lfunc_end162-proc_cast_ptr_str_to_str_int
+.Lfunc_end164:
+	.size	proc_cast_ptr_str_to_str_int, .Lfunc_end164-proc_cast_ptr_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_ptr    # -- Begin function proc_cast_ptr_str_to_str_ptr
@@ -3810,8 +4163,8 @@ proc_cast_ptr_str_to_str_ptr:           # @proc_cast_ptr_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end163:
-	.size	proc_cast_ptr_str_to_str_ptr, .Lfunc_end163-proc_cast_ptr_str_to_str_ptr
+.Lfunc_end165:
+	.size	proc_cast_ptr_str_to_str_ptr, .Lfunc_end165-proc_cast_ptr_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_str    # -- Begin function proc_cast_ptr_str_to_str_str
@@ -3821,8 +4174,8 @@ proc_cast_ptr_str_to_str_str:           # @proc_cast_ptr_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end164:
-	.size	proc_cast_ptr_str_to_str_str, .Lfunc_end164-proc_cast_ptr_str_to_str_str
+.Lfunc_end166:
+	.size	proc_cast_ptr_str_to_str_str, .Lfunc_end166-proc_cast_ptr_str_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_int    # -- Begin function proc_cast_str_int_to_int_int
@@ -3832,8 +4185,8 @@ proc_cast_str_int_to_int_int:           # @proc_cast_str_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end165:
-	.size	proc_cast_str_int_to_int_int, .Lfunc_end165-proc_cast_str_int_to_int_int
+.Lfunc_end167:
+	.size	proc_cast_str_int_to_int_int, .Lfunc_end167-proc_cast_str_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_ptr    # -- Begin function proc_cast_str_int_to_int_ptr
@@ -3843,8 +4196,8 @@ proc_cast_str_int_to_int_ptr:           # @proc_cast_str_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end166:
-	.size	proc_cast_str_int_to_int_ptr, .Lfunc_end166-proc_cast_str_int_to_int_ptr
+.Lfunc_end168:
+	.size	proc_cast_str_int_to_int_ptr, .Lfunc_end168-proc_cast_str_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_str    # -- Begin function proc_cast_str_int_to_int_str
@@ -3854,8 +4207,8 @@ proc_cast_str_int_to_int_str:           # @proc_cast_str_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end167:
-	.size	proc_cast_str_int_to_int_str, .Lfunc_end167-proc_cast_str_int_to_int_str
+.Lfunc_end169:
+	.size	proc_cast_str_int_to_int_str, .Lfunc_end169-proc_cast_str_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_int    # -- Begin function proc_cast_str_int_to_ptr_int
@@ -3865,8 +4218,8 @@ proc_cast_str_int_to_ptr_int:           # @proc_cast_str_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end168:
-	.size	proc_cast_str_int_to_ptr_int, .Lfunc_end168-proc_cast_str_int_to_ptr_int
+.Lfunc_end170:
+	.size	proc_cast_str_int_to_ptr_int, .Lfunc_end170-proc_cast_str_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_ptr    # -- Begin function proc_cast_str_int_to_ptr_ptr
@@ -3876,8 +4229,8 @@ proc_cast_str_int_to_ptr_ptr:           # @proc_cast_str_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end169:
-	.size	proc_cast_str_int_to_ptr_ptr, .Lfunc_end169-proc_cast_str_int_to_ptr_ptr
+.Lfunc_end171:
+	.size	proc_cast_str_int_to_ptr_ptr, .Lfunc_end171-proc_cast_str_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_str    # -- Begin function proc_cast_str_int_to_ptr_str
@@ -3887,8 +4240,8 @@ proc_cast_str_int_to_ptr_str:           # @proc_cast_str_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end170:
-	.size	proc_cast_str_int_to_ptr_str, .Lfunc_end170-proc_cast_str_int_to_ptr_str
+.Lfunc_end172:
+	.size	proc_cast_str_int_to_ptr_str, .Lfunc_end172-proc_cast_str_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_int    # -- Begin function proc_cast_str_int_to_str_int
@@ -3898,8 +4251,8 @@ proc_cast_str_int_to_str_int:           # @proc_cast_str_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end171:
-	.size	proc_cast_str_int_to_str_int, .Lfunc_end171-proc_cast_str_int_to_str_int
+.Lfunc_end173:
+	.size	proc_cast_str_int_to_str_int, .Lfunc_end173-proc_cast_str_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_ptr    # -- Begin function proc_cast_str_int_to_str_ptr
@@ -3909,8 +4262,8 @@ proc_cast_str_int_to_str_ptr:           # @proc_cast_str_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end172:
-	.size	proc_cast_str_int_to_str_ptr, .Lfunc_end172-proc_cast_str_int_to_str_ptr
+.Lfunc_end174:
+	.size	proc_cast_str_int_to_str_ptr, .Lfunc_end174-proc_cast_str_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_str    # -- Begin function proc_cast_str_int_to_str_str
@@ -3920,8 +4273,8 @@ proc_cast_str_int_to_str_str:           # @proc_cast_str_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end173:
-	.size	proc_cast_str_int_to_str_str, .Lfunc_end173-proc_cast_str_int_to_str_str
+.Lfunc_end175:
+	.size	proc_cast_str_int_to_str_str, .Lfunc_end175-proc_cast_str_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_int    # -- Begin function proc_cast_str_ptr_to_int_int
@@ -3931,8 +4284,8 @@ proc_cast_str_ptr_to_int_int:           # @proc_cast_str_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end174:
-	.size	proc_cast_str_ptr_to_int_int, .Lfunc_end174-proc_cast_str_ptr_to_int_int
+.Lfunc_end176:
+	.size	proc_cast_str_ptr_to_int_int, .Lfunc_end176-proc_cast_str_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_ptr    # -- Begin function proc_cast_str_ptr_to_int_ptr
@@ -3942,8 +4295,8 @@ proc_cast_str_ptr_to_int_ptr:           # @proc_cast_str_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end175:
-	.size	proc_cast_str_ptr_to_int_ptr, .Lfunc_end175-proc_cast_str_ptr_to_int_ptr
+.Lfunc_end177:
+	.size	proc_cast_str_ptr_to_int_ptr, .Lfunc_end177-proc_cast_str_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_str    # -- Begin function proc_cast_str_ptr_to_int_str
@@ -3953,8 +4306,8 @@ proc_cast_str_ptr_to_int_str:           # @proc_cast_str_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end176:
-	.size	proc_cast_str_ptr_to_int_str, .Lfunc_end176-proc_cast_str_ptr_to_int_str
+.Lfunc_end178:
+	.size	proc_cast_str_ptr_to_int_str, .Lfunc_end178-proc_cast_str_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_int    # -- Begin function proc_cast_str_ptr_to_ptr_int
@@ -3964,8 +4317,8 @@ proc_cast_str_ptr_to_ptr_int:           # @proc_cast_str_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end177:
-	.size	proc_cast_str_ptr_to_ptr_int, .Lfunc_end177-proc_cast_str_ptr_to_ptr_int
+.Lfunc_end179:
+	.size	proc_cast_str_ptr_to_ptr_int, .Lfunc_end179-proc_cast_str_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_ptr    # -- Begin function proc_cast_str_ptr_to_ptr_ptr
@@ -3975,8 +4328,8 @@ proc_cast_str_ptr_to_ptr_ptr:           # @proc_cast_str_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end178:
-	.size	proc_cast_str_ptr_to_ptr_ptr, .Lfunc_end178-proc_cast_str_ptr_to_ptr_ptr
+.Lfunc_end180:
+	.size	proc_cast_str_ptr_to_ptr_ptr, .Lfunc_end180-proc_cast_str_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_str    # -- Begin function proc_cast_str_ptr_to_ptr_str
@@ -3986,8 +4339,8 @@ proc_cast_str_ptr_to_ptr_str:           # @proc_cast_str_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end179:
-	.size	proc_cast_str_ptr_to_ptr_str, .Lfunc_end179-proc_cast_str_ptr_to_ptr_str
+.Lfunc_end181:
+	.size	proc_cast_str_ptr_to_ptr_str, .Lfunc_end181-proc_cast_str_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_int    # -- Begin function proc_cast_str_ptr_to_str_int
@@ -3997,8 +4350,8 @@ proc_cast_str_ptr_to_str_int:           # @proc_cast_str_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end180:
-	.size	proc_cast_str_ptr_to_str_int, .Lfunc_end180-proc_cast_str_ptr_to_str_int
+.Lfunc_end182:
+	.size	proc_cast_str_ptr_to_str_int, .Lfunc_end182-proc_cast_str_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_ptr    # -- Begin function proc_cast_str_ptr_to_str_ptr
@@ -4008,8 +4361,8 @@ proc_cast_str_ptr_to_str_ptr:           # @proc_cast_str_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end181:
-	.size	proc_cast_str_ptr_to_str_ptr, .Lfunc_end181-proc_cast_str_ptr_to_str_ptr
+.Lfunc_end183:
+	.size	proc_cast_str_ptr_to_str_ptr, .Lfunc_end183-proc_cast_str_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_str    # -- Begin function proc_cast_str_ptr_to_str_str
@@ -4019,8 +4372,8 @@ proc_cast_str_ptr_to_str_str:           # @proc_cast_str_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end182:
-	.size	proc_cast_str_ptr_to_str_str, .Lfunc_end182-proc_cast_str_ptr_to_str_str
+.Lfunc_end184:
+	.size	proc_cast_str_ptr_to_str_str, .Lfunc_end184-proc_cast_str_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_int    # -- Begin function proc_cast_str_str_to_int_int
@@ -4030,8 +4383,8 @@ proc_cast_str_str_to_int_int:           # @proc_cast_str_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end183:
-	.size	proc_cast_str_str_to_int_int, .Lfunc_end183-proc_cast_str_str_to_int_int
+.Lfunc_end185:
+	.size	proc_cast_str_str_to_int_int, .Lfunc_end185-proc_cast_str_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_ptr    # -- Begin function proc_cast_str_str_to_int_ptr
@@ -4041,8 +4394,8 @@ proc_cast_str_str_to_int_ptr:           # @proc_cast_str_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end184:
-	.size	proc_cast_str_str_to_int_ptr, .Lfunc_end184-proc_cast_str_str_to_int_ptr
+.Lfunc_end186:
+	.size	proc_cast_str_str_to_int_ptr, .Lfunc_end186-proc_cast_str_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_str    # -- Begin function proc_cast_str_str_to_int_str
@@ -4052,8 +4405,8 @@ proc_cast_str_str_to_int_str:           # @proc_cast_str_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end185:
-	.size	proc_cast_str_str_to_int_str, .Lfunc_end185-proc_cast_str_str_to_int_str
+.Lfunc_end187:
+	.size	proc_cast_str_str_to_int_str, .Lfunc_end187-proc_cast_str_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_int    # -- Begin function proc_cast_str_str_to_ptr_int
@@ -4063,8 +4416,8 @@ proc_cast_str_str_to_ptr_int:           # @proc_cast_str_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end186:
-	.size	proc_cast_str_str_to_ptr_int, .Lfunc_end186-proc_cast_str_str_to_ptr_int
+.Lfunc_end188:
+	.size	proc_cast_str_str_to_ptr_int, .Lfunc_end188-proc_cast_str_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_ptr    # -- Begin function proc_cast_str_str_to_ptr_ptr
@@ -4074,8 +4427,8 @@ proc_cast_str_str_to_ptr_ptr:           # @proc_cast_str_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end187:
-	.size	proc_cast_str_str_to_ptr_ptr, .Lfunc_end187-proc_cast_str_str_to_ptr_ptr
+.Lfunc_end189:
+	.size	proc_cast_str_str_to_ptr_ptr, .Lfunc_end189-proc_cast_str_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_str    # -- Begin function proc_cast_str_str_to_ptr_str
@@ -4085,8 +4438,8 @@ proc_cast_str_str_to_ptr_str:           # @proc_cast_str_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end188:
-	.size	proc_cast_str_str_to_ptr_str, .Lfunc_end188-proc_cast_str_str_to_ptr_str
+.Lfunc_end190:
+	.size	proc_cast_str_str_to_ptr_str, .Lfunc_end190-proc_cast_str_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_int    # -- Begin function proc_cast_str_str_to_str_int
@@ -4096,8 +4449,8 @@ proc_cast_str_str_to_str_int:           # @proc_cast_str_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end189:
-	.size	proc_cast_str_str_to_str_int, .Lfunc_end189-proc_cast_str_str_to_str_int
+.Lfunc_end191:
+	.size	proc_cast_str_str_to_str_int, .Lfunc_end191-proc_cast_str_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_ptr    # -- Begin function proc_cast_str_str_to_str_ptr
@@ -4107,8 +4460,8 @@ proc_cast_str_str_to_str_ptr:           # @proc_cast_str_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end190:
-	.size	proc_cast_str_str_to_str_ptr, .Lfunc_end190-proc_cast_str_str_to_str_ptr
+.Lfunc_end192:
+	.size	proc_cast_str_str_to_str_ptr, .Lfunc_end192-proc_cast_str_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_str    # -- Begin function proc_cast_str_str_to_str_str
@@ -4118,8 +4471,26 @@ proc_cast_str_str_to_str_str:           # @proc_cast_str_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end191:
-	.size	proc_cast_str_str_to_str_str, .Lfunc_end191-proc_cast_str_str_to_str_str
+.Lfunc_end193:
+	.size	proc_cast_str_str_to_str_str, .Lfunc_end193-proc_cast_str_str_to_str_str
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_ll_fork                    # -- Begin function proc_ll_fork
+	.p2align	4, 0x90
+	.type	proc_ll_fork,@function
+proc_ll_fork:                           # @proc_ll_fork
+	.cfi_startproc
+# %bb.0:
+	pushq	%rax
+	.cfi_def_cfa_offset 16
+	callq	fork@PLT
+	movslq	%eax, %rdi
+	callq	push@PLT
+	popq	%rax
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end194:
+	.size	proc_ll_fork, .Lfunc_end194-proc_ll_fork
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_socket                  # -- Begin function proc_ll_socket
@@ -4154,8 +4525,8 @@ proc_ll_socket:                         # @proc_ll_socket
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end192:
-	.size	proc_ll_socket, .Lfunc_end192-proc_ll_socket
+.Lfunc_end195:
+	.size	proc_ll_socket, .Lfunc_end195-proc_ll_socket
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_bind                    # -- Begin function proc_ll_bind
@@ -4190,8 +4561,8 @@ proc_ll_bind:                           # @proc_ll_bind
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end193:
-	.size	proc_ll_bind, .Lfunc_end193-proc_ll_bind
+.Lfunc_end196:
+	.size	proc_ll_bind, .Lfunc_end196-proc_ll_bind
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_listen                  # -- Begin function proc_ll_listen
@@ -4214,8 +4585,8 @@ proc_ll_listen:                         # @proc_ll_listen
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end194:
-	.size	proc_ll_listen, .Lfunc_end194-proc_ll_listen
+.Lfunc_end197:
+	.size	proc_ll_listen, .Lfunc_end197-proc_ll_listen
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_accept                  # -- Begin function proc_ll_accept
@@ -4250,8 +4621,8 @@ proc_ll_accept:                         # @proc_ll_accept
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end195:
-	.size	proc_ll_accept, .Lfunc_end195-proc_ll_accept
+.Lfunc_end198:
+	.size	proc_ll_accept, .Lfunc_end198-proc_ll_accept
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_connect                 # -- Begin function proc_ll_connect
@@ -4286,8 +4657,8 @@ proc_ll_connect:                        # @proc_ll_connect
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end196:
-	.size	proc_ll_connect, .Lfunc_end196-proc_ll_connect
+.Lfunc_end199:
+	.size	proc_ll_connect, .Lfunc_end199-proc_ll_connect
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_send                    # -- Begin function proc_ll_send
@@ -4326,8 +4697,8 @@ proc_ll_send:                           # @proc_ll_send
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end197:
-	.size	proc_ll_send, .Lfunc_end197-proc_ll_send
+.Lfunc_end200:
+	.size	proc_ll_send, .Lfunc_end200-proc_ll_send
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_recv                    # -- Begin function proc_ll_recv
@@ -4366,8 +4737,8 @@ proc_ll_recv:                           # @proc_ll_recv
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end198:
-	.size	proc_ll_recv, .Lfunc_end198-proc_ll_recv
+.Lfunc_end201:
+	.size	proc_ll_recv, .Lfunc_end201-proc_ll_recv
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_htons                   # -- Begin function proc_ll_htons
@@ -4386,8 +4757,8 @@ proc_ll_htons:                          # @proc_ll_htons
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end199:
-	.size	proc_ll_htons, .Lfunc_end199-proc_ll_htons
+.Lfunc_end202:
+	.size	proc_ll_htons, .Lfunc_end202-proc_ll_htons
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_htonl                   # -- Begin function proc_ll_htonl
@@ -4406,8 +4777,8 @@ proc_ll_htonl:                          # @proc_ll_htonl
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end200:
-	.size	proc_ll_htonl, .Lfunc_end200-proc_ll_htonl
+.Lfunc_end203:
+	.size	proc_ll_htonl, .Lfunc_end203-proc_ll_htonl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_ntohs                   # -- Begin function proc_ll_ntohs
@@ -4426,8 +4797,8 @@ proc_ll_ntohs:                          # @proc_ll_ntohs
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end201:
-	.size	proc_ll_ntohs, .Lfunc_end201-proc_ll_ntohs
+.Lfunc_end204:
+	.size	proc_ll_ntohs, .Lfunc_end204-proc_ll_ntohs
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_ntohl                   # -- Begin function proc_ll_ntohl
@@ -4446,8 +4817,8 @@ proc_ll_ntohl:                          # @proc_ll_ntohl
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end202:
-	.size	proc_ll_ntohl, .Lfunc_end202-proc_ll_ntohl
+.Lfunc_end205:
+	.size	proc_ll_ntohl, .Lfunc_end205-proc_ll_ntohl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_clear               # -- Begin function proc_ll_gfx_clear
@@ -4467,8 +4838,8 @@ proc_ll_gfx_clear:                      # @proc_ll_gfx_clear
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end203:
-	.size	proc_ll_gfx_clear, .Lfunc_end203-proc_ll_gfx_clear
+.Lfunc_end206:
+	.size	proc_ll_gfx_clear, .Lfunc_end206-proc_ll_gfx_clear
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_move_to             # -- Begin function proc_ll_gfx_move_to
@@ -4513,8 +4884,8 @@ proc_ll_gfx_move_to:                    # @proc_ll_gfx_move_to
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end204:
-	.size	proc_ll_gfx_move_to, .Lfunc_end204-proc_ll_gfx_move_to
+.Lfunc_end207:
+	.size	proc_ll_gfx_move_to, .Lfunc_end207-proc_ll_gfx_move_to
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_hide_cursor         # -- Begin function proc_ll_gfx_hide_cursor
@@ -4534,8 +4905,8 @@ proc_ll_gfx_hide_cursor:                # @proc_ll_gfx_hide_cursor
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end205:
-	.size	proc_ll_gfx_hide_cursor, .Lfunc_end205-proc_ll_gfx_hide_cursor
+.Lfunc_end208:
+	.size	proc_ll_gfx_hide_cursor, .Lfunc_end208-proc_ll_gfx_hide_cursor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_show_cursor         # -- Begin function proc_ll_gfx_show_cursor
@@ -4555,8 +4926,8 @@ proc_ll_gfx_show_cursor:                # @proc_ll_gfx_show_cursor
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end206:
-	.size	proc_ll_gfx_show_cursor, .Lfunc_end206-proc_ll_gfx_show_cursor
+.Lfunc_end209:
+	.size	proc_ll_gfx_show_cursor, .Lfunc_end209-proc_ll_gfx_show_cursor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_set_rgb             # -- Begin function proc_ll_gfx_set_rgb
@@ -4613,8 +4984,8 @@ proc_ll_gfx_set_rgb:                    # @proc_ll_gfx_set_rgb
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end207:
-	.size	proc_ll_gfx_set_rgb, .Lfunc_end207-proc_ll_gfx_set_rgb
+.Lfunc_end210:
+	.size	proc_ll_gfx_set_rgb, .Lfunc_end210-proc_ll_gfx_set_rgb
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_reset_style         # -- Begin function proc_ll_gfx_reset_style
@@ -4634,8 +5005,8 @@ proc_ll_gfx_reset_style:                # @proc_ll_gfx_reset_style
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end208:
-	.size	proc_ll_gfx_reset_style, .Lfunc_end208-proc_ll_gfx_reset_style
+.Lfunc_end211:
+	.size	proc_ll_gfx_reset_style, .Lfunc_end211-proc_ll_gfx_reset_style
 	.cfi_endproc
                                         # -- End function
 	.type	.Lstr_btos_2,@object            # @str_btos_2
@@ -4682,42 +5053,94 @@ proc_ll_gfx_reset_style:                # @proc_ll_gfx_reset_style
 	.asciz	"Bytes read: "
 	.size	.Lstr_fd_to_str_33, 13
 
-	.type	.Lstr_main_2,@object            # @str_main_2
+	.type	.Lstr_net_child_17,@object      # @str_net_child_17
 	.section	.rodata.str1.16,"aMS",@progbits,1
 	.p2align	4
-.Lstr_main_2:
-	.asciz	"Networking demo: socket + bind + listen on 127.0.0.1:0\n"
-	.size	.Lstr_main_2, 56
+.Lstr_net_child_17:
+	.asciz	"child socket() failed, errno="
+	.size	.Lstr_net_child_17, 30
 
-	.type	.Lstr_main_4,@object            # @str_main_4
+	.type	.Lstr_net_child_36,@object      # @str_net_child_36
 	.p2align	4
-.Lstr_main_4:
-	.asciz	"(uses ephemeral port so it should work without extra setup)\n\n"
-	.size	.Lstr_main_4, 62
+.Lstr_net_child_36:
+	.asciz	"child connect() failed, errno="
+	.size	.Lstr_net_child_36, 31
 
-	.type	.Lstr_main_15,@object           # @str_main_15
+	.type	.Lstr_net_child_46,@object      # @str_net_child_46
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.Lstr_net_child_46:
+	.asciz	"ping"
+	.size	.Lstr_net_child_46, 5
+
+	.type	.Lstr_net_child_71,@object      # @str_net_child_71
+.Lstr_net_child_71:
+	.asciz	"child got: "
+	.size	.Lstr_net_child_71, 12
+
+	.type	.Lstr_net_child_75,@object      # @str_net_child_75
+.Lstr_net_child_75:
+	.asciz	"\n"
+	.size	.Lstr_net_child_75, 2
+
+	.type	.Lstr_net_parent_21,@object     # @str_net_parent_21
+	.section	.rodata.str1.16,"aMS",@progbits,1
 	.p2align	4
-.Lstr_main_15:
+.Lstr_net_parent_21:
+	.asciz	"accept() failed, errno="
+	.size	.Lstr_net_parent_21, 24
+
+	.type	.Lstr_net_parent_49,@object     # @str_net_parent_49
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.Lstr_net_parent_49:
+	.asciz	"server got: "
+	.size	.Lstr_net_parent_49, 13
+
+	.type	.Lstr_net_parent_53,@object     # @str_net_parent_53
+.Lstr_net_parent_53:
+	.asciz	"\n"
+	.size	.Lstr_net_parent_53, 2
+
+	.type	.Lstr_net_parent_57,@object     # @str_net_parent_57
+.Lstr_net_parent_57:
+	.asciz	"pong"
+	.size	.Lstr_net_parent_57, 5
+
+	.type	.Lstr_main_5,@object            # @str_main_5
+	.section	.rodata.str1.16,"aMS",@progbits,1
+	.p2align	4
+.Lstr_main_5:
+	.asciz	"Networking demo: forked TCP echo on 127.0.0.1:37891\n"
+	.size	.Lstr_main_5, 53
+
+	.type	.Lstr_main_7,@object            # @str_main_7
+	.p2align	4
+.Lstr_main_7:
+	.asciz	"Server receives 'ping' and replies with 'pong'.\n\n"
+	.size	.Lstr_main_7, 50
+
+	.type	.Lstr_main_18,@object           # @str_main_18
+	.p2align	4
+.Lstr_main_18:
 	.asciz	"socket() failed, errno="
-	.size	.Lstr_main_15, 24
+	.size	.Lstr_main_18, 24
 
-	.type	.Lstr_main_37,@object           # @str_main_37
+	.type	.Lstr_main_42,@object           # @str_main_42
 	.p2align	4
-.Lstr_main_37:
+.Lstr_main_42:
 	.asciz	"bind() failed, errno="
-	.size	.Lstr_main_37, 22
+	.size	.Lstr_main_42, 22
 
-	.type	.Lstr_main_52,@object           # @str_main_52
+	.type	.Lstr_main_61,@object           # @str_main_61
 	.p2align	4
-.Lstr_main_52:
+.Lstr_main_61:
 	.asciz	"listen() failed, errno="
-	.size	.Lstr_main_52, 24
+	.size	.Lstr_main_61, 24
 
-	.type	.Lstr_main_57,@object           # @str_main_57
+	.type	.Lstr_main_80,@object           # @str_main_80
 	.p2align	4
-.Lstr_main_57:
-	.asciz	"listen() succeeded\n"
-	.size	.Lstr_main_57, 20
+.Lstr_main_80:
+	.asciz	"fork() failed, errno="
+	.size	.Lstr_main_80, 22
 
 	.type	stack,@object                   # @stack
 	.bss

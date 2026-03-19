@@ -9,12 +9,21 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_2 = private unnamed_addr constant [56 x i8] c"Networking demo: socket + bind + listen on 127.0.0.1:0\0A\00"
-@str_main_4 = private unnamed_addr constant [62 x i8] c"(uses ephemeral port so it should work without extra setup)\0A\0A\00"
-@str_main_15 = private unnamed_addr constant [24 x i8] c"socket() failed, errno=\00"
-@str_main_37 = private unnamed_addr constant [22 x i8] c"bind() failed, errno=\00"
-@str_main_52 = private unnamed_addr constant [24 x i8] c"listen() failed, errno=\00"
-@str_main_57 = private unnamed_addr constant [20 x i8] c"listen() succeeded\0A\00"
+@str_net_child_17 = private unnamed_addr constant [30 x i8] c"child socket() failed, errno=\00"
+@str_net_child_36 = private unnamed_addr constant [31 x i8] c"child connect() failed, errno=\00"
+@str_net_child_46 = private unnamed_addr constant [5 x i8] c"ping\00"
+@str_net_child_71 = private unnamed_addr constant [12 x i8] c"child got: \00"
+@str_net_child_75 = private unnamed_addr constant [2 x i8] c"\0A\00"
+@str_net_parent_21 = private unnamed_addr constant [24 x i8] c"accept() failed, errno=\00"
+@str_net_parent_49 = private unnamed_addr constant [13 x i8] c"server got: \00"
+@str_net_parent_53 = private unnamed_addr constant [2 x i8] c"\0A\00"
+@str_net_parent_57 = private unnamed_addr constant [5 x i8] c"pong\00"
+@str_main_5 = private unnamed_addr constant [53 x i8] c"Networking demo: forked TCP echo on 127.0.0.1:37891\0A\00"
+@str_main_7 = private unnamed_addr constant [50 x i8] c"Server receives 'ping' and replies with 'pong'.\0A\0A\00"
+@str_main_18 = private unnamed_addr constant [24 x i8] c"socket() failed, errno=\00"
+@str_main_42 = private unnamed_addr constant [22 x i8] c"bind() failed, errno=\00"
+@str_main_61 = private unnamed_addr constant [24 x i8] c"listen() failed, errno=\00"
+@str_main_80 = private unnamed_addr constant [22 x i8] c"fork() failed, errno=\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 @gfx_clear_seq = private unnamed_addr constant [7 x i8] c"\1B[2J\1B[H"
@@ -1282,20 +1291,311 @@ define void @proc_make_sockaddr_v4_loopback() {
   ret void
 }
 
-define void @proc_main() {
-  %strptr2 = ptrtoint ptr @str_main_2 to i64
-  %strptr4 = ptrtoint ptr @str_main_4 to i64
-  %strptr15 = ptrtoint ptr @str_main_15 to i64
-  %strptr37 = ptrtoint ptr @str_main_37 to i64
-  %strptr52 = ptrtoint ptr @str_main_52 to i64
-  %strptr57 = ptrtoint ptr @str_main_57 to i64
-  %mem_fd = alloca [8 x i8], align 1
-  %mem_addr = alloca [16 x i8], align 1
-  call void @proc_intrinsic_drop()
-  call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr2)
+define void @proc_net_child() {
+  %strptr17 = ptrtoint ptr @str_net_child_17 to i64
+  %strptr36 = ptrtoint ptr @str_net_child_36 to i64
+  %strptr46 = ptrtoint ptr @str_net_child_46 to i64
+  %strptr71 = ptrtoint ptr @str_net_child_71 to i64
+  %strptr75 = ptrtoint ptr @str_net_child_75 to i64
+  %mem_ret = alloca [8 x i8], align 1
+  %mem_addr = alloca [8 x i8], align 1
+  %mem_fd_client = alloca [8 x i8], align 1
+  %mem_recv_buf = alloca [8 x i8], align 1
+  %mem_recv_n = alloca [8 x i8], align 1
+  call void @push(i64 0)
+  %ptrto_ret_0 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_addr_1 = ptrtoint ptr %mem_addr to i64
+  call void @push(i64 %ptrto_addr_1)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 2)
+  call void @push(i64 1)
+  call void @push(i64 0)
+  call void @proc_socket()
+  %ptrto_fd_client_2 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_fd_client_3 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_3)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a4 = call i64 @pop()
+  %b4 = icmp ne i64 %a4, 0
+  br i1 %b4, label %l16, label %l24
+
+l16:                                              ; preds = %0
+  call void @push(i64 %strptr17)
   call void @proc_puts()
-  call void @push(i64 %strptr4)
+  call void @proc_intrinsic_check_errno()
+  call void @proc_print()
+  call void @push(i64 1)
+  %ptrto_ret_5 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_5)
+  call void @proc_intrinsic_store64()
+  br label %l80
+
+l24:                                              ; preds = %0
+  %ptrto_fd_client_6 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_6)
+  call void @proc_intrinsic_load64()
+  %ptrto_addr_7 = ptrtoint ptr %mem_addr to i64
+  call void @push(i64 %ptrto_addr_7)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 16)
+  call void @proc_connect()
+  call void @proc_intrinsic_dup()
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a8 = call i64 @pop()
+  %b8 = icmp ne i64 %a8, 0
+  br i1 %b8, label %l35, label %l43
+
+l35:                                              ; preds = %l24
+  call void @push(i64 %strptr36)
+  call void @proc_puts()
+  call void @proc_intrinsic_check_errno()
+  call void @proc_print()
+  call void @push(i64 1)
+  %ptrto_ret_9 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_9)
+  call void @proc_intrinsic_store64()
+  br label %l78
+
+l43:                                              ; preds = %l24
+  %ptrto_fd_client_10 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_10)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 %strptr46)
+  call void @push(i64 4)
+  call void @push(i64 0)
+  call void @proc_send()
+  call void @proc_intrinsic_drop()
+  %ptrto_fd_client_11 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_11)
+  call void @proc_intrinsic_load64()
+  %ptrto_recv_buf_12 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_12)
+  call void @push(i64 4)
+  call void @push(i64 0)
+  call void @proc_recv()
+  %ptrto_recv_n_13 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_13)
+  call void @proc_intrinsic_store64()
+  %ptrto_recv_n_14 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_14)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_gt()
+  %a15 = call i64 @pop()
+  %b15 = icmp ne i64 %a15, 0
+  br i1 %b15, label %l64, label %l77
+
+l64:                                              ; preds = %l43
+  call void @push(i64 0)
+  %ptrto_recv_buf_16 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_16)
+  %ptrto_recv_n_17 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_17)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 %strptr71)
+  call void @proc_puts()
+  %ptrto_recv_buf_18 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_18)
+  call void @proc_puts()
+  call void @push(i64 %strptr75)
+  call void @proc_puts()
+  br label %l77
+
+l77:                                              ; preds = %l64, %l43
+  br label %ls77
+
+ls77:                                             ; preds = %l77
+  br label %l78
+
+l78:                                              ; preds = %ls77, %l35
+  br label %ls78
+
+ls78:                                             ; preds = %l78
+  call void @proc_intrinsic_drop()
+  br label %l80
+
+l80:                                              ; preds = %ls78, %l16
+  br label %ls80
+
+ls80:                                             ; preds = %l80
+  %ptrto_fd_client_19 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_19)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_ge()
+  %a20 = call i64 @pop()
+  %b20 = icmp ne i64 %a20, 0
+  br i1 %b20, label %l86, label %l91
+
+l86:                                              ; preds = %ls80
+  %ptrto_fd_client_21 = ptrtoint ptr %mem_fd_client to i64
+  call void @push(i64 %ptrto_fd_client_21)
+  call void @proc_intrinsic_load64()
+  call void @proc_sys_close()
+  call void @proc_intrinsic_drop()
+  br label %l91
+
+l91:                                              ; preds = %l86, %ls80
+  br label %ls91
+
+ls91:                                             ; preds = %l91
+  %ptrto_ret_22 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_22)
+  call void @proc_intrinsic_load64()
+  ret void
+}
+
+define void @proc_net_parent() {
+  %strptr21 = ptrtoint ptr @str_net_parent_21 to i64
+  %strptr49 = ptrtoint ptr @str_net_parent_49 to i64
+  %strptr53 = ptrtoint ptr @str_net_parent_53 to i64
+  %strptr57 = ptrtoint ptr @str_net_parent_57 to i64
+  %mem_ret = alloca [8 x i8], align 1
+  %mem_fd_listen = alloca [8 x i8], align 1
+  %mem_fd_conn = alloca [8 x i8], align 1
+  %mem_peer_addr = alloca [16 x i8], align 1
+  %mem_peer_len = alloca [8 x i8], align 1
+  %mem_recv_buf = alloca [8 x i8], align 1
+  %mem_recv_n = alloca [8 x i8], align 1
+  call void @push(i64 0)
+  %ptrto_ret_0 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_fd_listen_1 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_1)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 16)
+  %ptrto_peer_len_2 = ptrtoint ptr %mem_peer_len to i64
+  call void @push(i64 %ptrto_peer_len_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_fd_listen_3 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_3)
+  call void @proc_intrinsic_load64()
+  %ptrto_peer_addr_4 = ptrtoint ptr %mem_peer_addr to i64
+  call void @push(i64 %ptrto_peer_addr_4)
+  %ptrto_peer_len_5 = ptrtoint ptr %mem_peer_len to i64
+  call void @push(i64 %ptrto_peer_len_5)
+  call void @proc_accept()
+  %ptrto_fd_conn_6 = ptrtoint ptr %mem_fd_conn to i64
+  call void @push(i64 %ptrto_fd_conn_6)
+  call void @proc_intrinsic_store64()
+  %ptrto_fd_conn_7 = ptrtoint ptr %mem_fd_conn to i64
+  call void @push(i64 %ptrto_fd_conn_7)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a8 = call i64 @pop()
+  %b8 = icmp ne i64 %a8, 0
+  br i1 %b8, label %l20, label %l28
+
+l20:                                              ; preds = %0
+  call void @push(i64 %strptr21)
+  call void @proc_puts()
+  call void @proc_intrinsic_check_errno()
+  call void @proc_print()
+  call void @push(i64 1)
+  %ptrto_ret_9 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_9)
+  call void @proc_intrinsic_store64()
+  br label %l67
+
+l28:                                              ; preds = %0
+  %ptrto_fd_conn_10 = ptrtoint ptr %mem_fd_conn to i64
+  call void @push(i64 %ptrto_fd_conn_10)
+  call void @proc_intrinsic_load64()
+  %ptrto_recv_buf_11 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_11)
+  call void @push(i64 4)
+  call void @push(i64 0)
+  call void @proc_recv()
+  %ptrto_recv_n_12 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_12)
+  call void @proc_intrinsic_store64()
+  %ptrto_recv_n_13 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_13)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_gt()
+  %a14 = call i64 @pop()
+  %b14 = icmp ne i64 %a14, 0
+  br i1 %b14, label %l42, label %l62
+
+l42:                                              ; preds = %l28
+  call void @push(i64 0)
+  %ptrto_recv_buf_15 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_15)
+  %ptrto_recv_n_16 = ptrtoint ptr %mem_recv_n to i64
+  call void @push(i64 %ptrto_recv_n_16)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 %strptr49)
+  call void @proc_puts()
+  %ptrto_recv_buf_17 = ptrtoint ptr %mem_recv_buf to i64
+  call void @push(i64 %ptrto_recv_buf_17)
+  call void @proc_puts()
+  call void @push(i64 %strptr53)
+  call void @proc_puts()
+  %ptrto_fd_conn_18 = ptrtoint ptr %mem_fd_conn to i64
+  call void @push(i64 %ptrto_fd_conn_18)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 %strptr57)
+  call void @push(i64 4)
+  call void @push(i64 0)
+  call void @proc_send()
+  call void @proc_intrinsic_drop()
+  br label %l62
+
+l62:                                              ; preds = %l42, %l28
+  br label %ls62
+
+ls62:                                             ; preds = %l62
+  %ptrto_fd_conn_19 = ptrtoint ptr %mem_fd_conn to i64
+  call void @push(i64 %ptrto_fd_conn_19)
+  call void @proc_intrinsic_load64()
+  call void @proc_sys_close()
+  call void @proc_intrinsic_drop()
+  br label %l67
+
+l67:                                              ; preds = %ls62, %l20
+  br label %ls67
+
+ls67:                                             ; preds = %l67
+  %ptrto_ret_20 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_20)
+  call void @proc_intrinsic_load64()
+  ret void
+}
+
+define void @proc_main() {
+  %strptr5 = ptrtoint ptr @str_main_5 to i64
+  %strptr7 = ptrtoint ptr @str_main_7 to i64
+  %strptr18 = ptrtoint ptr @str_main_18 to i64
+  %strptr42 = ptrtoint ptr @str_main_42 to i64
+  %strptr61 = ptrtoint ptr @str_main_61 to i64
+  %strptr80 = ptrtoint ptr @str_main_80 to i64
+  %mem_ret = alloca [8 x i8], align 1
+  %mem_fd_listen = alloca [8 x i8], align 1
+  %mem_addr = alloca [16 x i8], align 1
+  %mem_fork_res = alloca [8 x i8], align 1
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
+  call void @push(i64 0)
+  %ptrto_ret_0 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_0)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr5)
+  call void @proc_puts()
+  call void @push(i64 %strptr7)
   call void @proc_puts()
   call void @push(i64 2)
   call void @push(i64 1)
@@ -1304,97 +1604,173 @@ define void @proc_main() {
   call void @proc_intrinsic_dup()
   call void @push(i64 0)
   call void @proc_intrinsic_lt()
-  %a0 = call i64 @pop()
-  %b0 = icmp ne i64 %a0, 0
-  br i1 %b0, label %l14, label %l21
+  %a1 = call i64 @pop()
+  %b1 = icmp ne i64 %a1, 0
+  br i1 %b1, label %l17, label %l26
 
-l14:                                              ; preds = %0
-  call void @push(i64 %strptr15)
+l17:                                              ; preds = %0
+  call void @push(i64 %strptr18)
   call void @proc_puts()
   call void @proc_intrinsic_check_errno()
   call void @proc_print()
-  call void @proc_intrinsic_drop()
   call void @push(i64 1)
-  br label %l67
-
-l21:                                              ; preds = %0
-  %ptrto_fd_1 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_1)
+  %ptrto_ret_2 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_2)
   call void @proc_intrinsic_store64()
-  %ptrto_addr_2 = ptrtoint ptr %mem_addr to i64
-  call void @push(i64 %ptrto_addr_2)
-  call void @push(i64 0)
-  call void @proc_make_sockaddr_v4_loopback()
-  %ptrto_fd_3 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_3)
-  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_drop()
+  br label %l112
+
+l26:                                              ; preds = %0
+  %ptrto_fd_listen_3 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_3)
+  call void @proc_intrinsic_store64()
   %ptrto_addr_4 = ptrtoint ptr %mem_addr to i64
   call void @push(i64 %ptrto_addr_4)
+  call void @push(i64 37891)
+  call void @proc_make_sockaddr_v4_loopback()
+  %ptrto_fd_listen_5 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_5)
+  call void @proc_intrinsic_load64()
+  %ptrto_addr_6 = ptrtoint ptr %mem_addr to i64
+  call void @push(i64 %ptrto_addr_6)
   call void @push(i64 16)
   call void @proc_bind()
   call void @proc_intrinsic_dup()
   call void @push(i64 0)
   call void @proc_intrinsic_lt()
-  %a5 = call i64 @pop()
-  %b5 = icmp ne i64 %a5, 0
-  br i1 %b5, label %l36, label %l41
+  %a7 = call i64 @pop()
+  %b7 = icmp ne i64 %a7, 0
+  br i1 %b7, label %l41, label %l50
 
-l36:                                              ; preds = %l21
-  call void @push(i64 %strptr37)
+l41:                                              ; preds = %l26
+  call void @push(i64 %strptr42)
   call void @proc_puts()
   call void @proc_intrinsic_check_errno()
   call void @proc_print()
-  br label %l60
-
-l41:                                              ; preds = %l21
+  call void @push(i64 1)
+  %ptrto_ret_8 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_8)
+  call void @proc_intrinsic_store64()
   call void @proc_intrinsic_drop()
-  %ptrto_fd_6 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_6)
+  br label %l111
+
+l50:                                              ; preds = %l26
+  call void @proc_intrinsic_drop()
+  %ptrto_fd_listen_9 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_9)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_listen()
   call void @proc_intrinsic_dup()
   call void @push(i64 0)
   call void @proc_intrinsic_lt()
-  %a7 = call i64 @pop()
-  %b7 = icmp ne i64 %a7, 0
-  br i1 %b7, label %l51, label %l56
+  %a10 = call i64 @pop()
+  %b10 = icmp ne i64 %a10, 0
+  br i1 %b10, label %l60, label %l69
 
-l51:                                              ; preds = %l41
-  call void @push(i64 %strptr52)
+l60:                                              ; preds = %l50
+  call void @push(i64 %strptr61)
   call void @proc_puts()
   call void @proc_intrinsic_check_errno()
   call void @proc_print()
-  br label %l59
-
-l56:                                              ; preds = %l41
-  call void @push(i64 %strptr57)
-  call void @proc_puts()
-  br label %l59
-
-l59:                                              ; preds = %l56, %l51
-  br label %ls59
-
-ls59:                                             ; preds = %l59
-  br label %l60
-
-l60:                                              ; preds = %ls59, %l36
-  br label %ls60
-
-ls60:                                             ; preds = %l60
+  call void @push(i64 1)
+  %ptrto_ret_11 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_11)
+  call void @proc_intrinsic_store64()
   call void @proc_intrinsic_drop()
-  %ptrto_fd_8 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_8)
+  br label %l110
+
+l69:                                              ; preds = %l50
+  call void @proc_intrinsic_drop()
+  call void @proc_ll_fork()
+  %ptrto_fork_res_12 = ptrtoint ptr %mem_fork_res to i64
+  call void @push(i64 %ptrto_fork_res_12)
+  call void @proc_intrinsic_store64()
+  %ptrto_fork_res_13 = ptrtoint ptr %mem_fork_res to i64
+  call void @push(i64 %ptrto_fork_res_13)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a14 = call i64 @pop()
+  %b14 = icmp ne i64 %a14, 0
+  br i1 %b14, label %l79, label %l87
+
+l79:                                              ; preds = %l69
+  call void @push(i64 %strptr80)
+  call void @proc_puts()
+  call void @proc_intrinsic_check_errno()
+  call void @proc_print()
+  call void @push(i64 1)
+  %ptrto_ret_15 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_15)
+  call void @proc_intrinsic_store64()
+  br label %l105
+
+l87:                                              ; preds = %l69
+  %ptrto_fork_res_16 = ptrtoint ptr %mem_fork_res to i64
+  call void @push(i64 %ptrto_fork_res_16)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_eq()
+  %a17 = call i64 @pop()
+  %b17 = icmp ne i64 %a17, 0
+  br i1 %b17, label %l93, label %l98
+
+l93:                                              ; preds = %l87
+  %ptrto_addr_18 = ptrtoint ptr %mem_addr to i64
+  call void @push(i64 %ptrto_addr_18)
+  call void @proc_net_child()
+  %ptrto_ret_19 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_19)
+  call void @proc_intrinsic_store64()
+  br label %l104
+
+l98:                                              ; preds = %l87
+  %ptrto_fd_listen_20 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_20)
+  call void @proc_intrinsic_load64()
+  call void @proc_net_parent()
+  %ptrto_ret_21 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_21)
+  call void @proc_intrinsic_store64()
+  br label %l104
+
+l104:                                             ; preds = %l98, %l93
+  br label %ls104
+
+ls104:                                            ; preds = %l104
+  br label %l105
+
+l105:                                             ; preds = %ls104, %l79
+  br label %ls105
+
+ls105:                                            ; preds = %l105
+  %ptrto_fd_listen_22 = ptrtoint ptr %mem_fd_listen to i64
+  call void @push(i64 %ptrto_fd_listen_22)
   call void @proc_intrinsic_load64()
   call void @proc_sys_close()
   call void @proc_intrinsic_drop()
-  call void @push(i64 0)
-  br label %l67
+  br label %l110
 
-l67:                                              ; preds = %ls60, %l14
-  br label %ls67
+l110:                                             ; preds = %ls105, %l60
+  br label %ls110
 
-ls67:                                             ; preds = %l67
+ls110:                                            ; preds = %l110
+  br label %l111
+
+l111:                                             ; preds = %ls110, %l41
+  br label %ls111
+
+ls111:                                            ; preds = %l111
+  br label %l112
+
+l112:                                             ; preds = %ls111, %l17
+  br label %ls112
+
+ls112:                                            ; preds = %l112
+  %ptrto_ret_23 = ptrtoint ptr %mem_ret to i64
+  call void @push(i64 %ptrto_ret_23)
+  call void @proc_intrinsic_load64()
   ret void
 }
 
@@ -2100,6 +2476,15 @@ define void @proc_cast_str_str_to_str_ptr() {
 define void @proc_cast_str_str_to_str_str() {
   ret void
 }
+
+define void @proc_ll_fork() {
+  %pid_i32 = call i32 @fork()
+  %pid_i64 = sext i32 %pid_i32 to i64
+  call void @push(i64 %pid_i64)
+  ret void
+}
+
+declare i32 @fork()
 
 define void @proc_ll_socket() {
   %protocol_i64 = call i64 @pop()

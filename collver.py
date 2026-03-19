@@ -1656,9 +1656,6 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                             word.tok,
                             "Mismatched types between `else` and previous branches: differing numbers of items present on the stack in each branch.",
                         )
-                        assert toks is not None, (
-                            "none toks returned after mismatch from stacks_match"
-                        )
                         compiler_note(word.tok, "First version of stack:")
                         dbg_type_stack(snapshot)
                         compiler_note(word.tok, "Second version of stack:")
@@ -1680,7 +1677,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
 
                     if diff == TypeDifference.MISMATCH:
                         compiler_error(
-                            word.tok, "Mismatched types between `elif` and `else` branches."
+                            word.tok, "Mismatched types between `if` and `else` branches."
                         )
                         assert toks is not None, (
                             "none toks returned after mismatch from stacks_match"
@@ -1700,10 +1697,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                     ):
                         compiler_error(
                             word.tok,
-                            "Mismatched types between `elif` and `else` branches: differing numbers of items present on the stack in each branch.",
-                        )
-                        assert toks is not None, (
-                            "none toks returned after mismatch from stacks_match"
+                            "Mismatched types between `if` and `else` branches: differing numbers of items present on the stack in each branch.",
                         )
                         compiler_note(word.tok, "First version of stack:")
                         dbg_type_stack(snapshot)
