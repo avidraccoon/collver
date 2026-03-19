@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import astuple, dataclass
 from enum import Enum, auto
 from io import TextIOWrapper
-from typing import TextIO
+from typing import Optional, TextIO
 import subprocess
 import os
 import sys
@@ -72,7 +72,20 @@ class DT(Enum):
     """A type that has yet to be determined by the compiler"""
 
 
-TypeAnnotation = tuple[DT, Token]
+@dataclass(frozen=True)
+class CType:
+    """A collver type expression, including nested pointer types."""
+
+    kind: DT
+    pointee: CType | None = None
+
+
+INT_TYPE = CType(DT.INT)
+STR_TYPE = CType(DT.STR)
+PTR_TYPE = CType(DT.PTR)
+UNK_TYPE = CType(DT.UNK)
+
+TypeAnnotation = tuple[CType, Token]
 
 assert len(DT) == 4, "Exhaustive handling of DataTypes in STR_TO_DATATYPE"
 STR_TO_DATATYPE: dict[str, DT] = {
@@ -92,15 +105,72 @@ DATATYPE_TO_STR: dict[DT, str] = {
 }
 
 
-def try_parse_datatype(word: str) -> DT | None:
+def try_parse_datatype(word: str) -> CType | None:
     """Try parsing a string into a data type, returning None if it is invalid"""
 
     # If it's a primitive, return it
     if word in STR_TO_DATATYPE:
-        return STR_TO_DATATYPE[word]
+        dt = STR_TO_DATATYPE[word]
+        if dt == DT.INT:
+            return INT_TYPE
+        if dt == DT.STR:
+            return STR_TYPE
+        if dt == DT.PTR:
+            return PTR_TYPE
+        if dt == DT.UNK:
+            return UNK_TYPE
+
+    if word.startswith("ptr[") and word.endswith("]"):
+        inner = word[4:-1]
+        if len(inner) == 0:
+            return None
+
+        depth = 0
+        for ch in inner:
+            if ch == "[":
+                depth += 1
+            elif ch == "]":
+                depth -= 1
+                if depth < 0:
+                    return None
+
+        if depth != 0:
+            return None
+
+        pointee = try_parse_datatype(inner)
+        if pointee is None:
+            return None
+
+        return CType(DT.PTR, pointee)
 
     # Otherwise, not a data type
     return None
+
+
+def datatype_to_str(datatype: CType) -> str:
+    """Convert a collver type expression back into source syntax."""
+    if datatype.kind == DT.PTR and datatype.pointee is not None:
+        return f"ptr[{datatype_to_str(datatype.pointee)}]"
+
+    return DATATYPE_TO_STR[datatype.kind]
+
+
+def types_compatible(actual: CType, expected: CType) -> bool:
+    """Return whether an actual type can satisfy an expected type."""
+    if actual.kind == DT.UNK or expected.kind == DT.UNK:
+        return True
+
+    if actual.kind != expected.kind:
+        return False
+
+    if actual.kind != DT.PTR:
+        return True
+
+    # Bare `ptr` remains a generic pointer for backwards compatibility.
+    if actual.pointee is None or expected.pointee is None:
+        return True
+
+    return types_compatible(actual.pointee, expected.pointee)
 
 
 @dataclass
@@ -108,7 +178,7 @@ class Word:
     """A word (instruction) in Collver"""
 
     typ: OT  # Type of token (for different syntaxes)
-    operand: Optional[int | str | Keyword | DT]  # Value or type of keyword/intrinsic
+    operand: Optional[int | str | Keyword | CType]  # Value or type of keyword/intrinsic
     tok: Token  # Token that the word was derived from
     jmp: Optional[int]  # Jump location for control flow words
 
@@ -474,9 +544,9 @@ class ProcTypeSig:
     def pretty_print(self) -> str:
         """Pretty-print type signature as `arg arg arg -> return return return`"""
         return (
-            " ".join([DATATYPE_TO_STR[arg[0]] for arg in self.args])
+            " ".join([datatype_to_str(arg[0]) for arg in self.args])
             + " -> "
-            + " ".join([DATATYPE_TO_STR[ret[0]] for ret in self.returns])
+            + " ".join([datatype_to_str(ret[0]) for ret in self.returns])
         )
 
 
@@ -670,7 +740,7 @@ def parse_proc_type_sig(
     while len(rwords):
         word = rwords.pop()
 
-        if word.typ == OT.DATA_TYPE and type(word.operand) is DT:
+        if word.typ == OT.DATA_TYPE and isinstance(word.operand, CType):
             types_in_buf.append((word.operand, word.tok))
         elif word.typ == OT.KEYWORD and word.operand == Keyword.ARROW:
             break
@@ -692,7 +762,7 @@ def parse_proc_type_sig(
     while len(rwords):
         word = rwords.pop()
 
-        if word.typ == OT.DATA_TYPE and type(word.operand) == DT:
+        if word.typ == OT.DATA_TYPE and isinstance(word.operand, CType):
             types_out_buf.append((word.operand, word.tok))
         elif word.typ == OT.KEYWORD and (
             (not is_extern and word.operand == Keyword.DO)
@@ -847,11 +917,11 @@ def test_proc_type_sig(
         # print(f"-> {-1-idx} in {type_stack}")
         # The type that actually exists, to be compared with expected argument
         actual_type = type_stack[-1 - idx]
-        if actual_type[0] != arg[0]:
+        if not types_compatible(actual_type[0], arg[0]):
             if should_error:
                 compiler_error(
                     proc_call.tok,
-                    f"Expected {arg[0]} but found {actual_type[0]} as argument {len(arguments) - idx} of procedure {proc_call.operand}.",
+                    f"Expected {datatype_to_str(arg[0])} but found {datatype_to_str(actual_type[0])} as argument {len(arguments) - idx} of procedure {proc_call.operand}.",
                 )
                 compiler_note(actual_type[1], "Problematic type pushed here")
                 compiler_note(arg[1], "Type signature defined here")
@@ -887,7 +957,7 @@ def apply_proc_type_sig(
 def dbg_type_stack(type_stack: list[TypeAnnotation], file: TextIO = sys.stdout):
     print("  == TOP == ", file=file)
     for dt, tok in reversed(type_stack):
-        print(f"  {dt} pushed at {pretty_loc(tok)}", file=file)
+        print(f"  {datatype_to_str(dt)} pushed at {pretty_loc(tok)}", file=file)
     print("  == BOTTOM == ", file=file)
 
 
@@ -918,16 +988,14 @@ def type_error_if_diff(
     diff: TypeDifference,
     toks: tuple[Token, Token] | None,
     context: str,
-    reason: str|None,
+    reason: str | None,
 ) -> None:
     """If diff is not TypeDifference.NONE, print an error message and exit."""
     if diff == TypeDifference.MISMATCH:
         compiler_error(word.tok, f"Mismatched types {context}")
         assert toks is not None, "none toks returned after mismatch from stacks_match"
-        compiler_note(toks[0], "First type pushed here. First version of stack:")
-        dbg_type_stack(snapshot)
-        compiler_note(toks[1], "Second type pushed here. Second version of stack:")
-        dbg_type_stack(snapshot)
+        compiler_note(toks[0], "First mismatched type pushed here")
+        compiler_note(toks[1], "Second mismatched type pushed here")
         if reason is not None:
             compiler_note(
                 word.tok,
@@ -939,11 +1007,6 @@ def type_error_if_diff(
             word.tok,
             f"Mismatched types {context}: differing numbers of items present on the stack in each branch.",
         )
-        assert toks is not None, "none toks returned after mismatch from stacks_match"
-        compiler_note(word.tok, "First version of stack:")
-        dbg_type_stack(snapshot)
-        compiler_note(word.tok, "Second version of stack:")
-        dbg_type_stack(snapshot)
         if reason is not None:
             compiler_note(
                 word.tok,
@@ -1037,11 +1100,11 @@ def type_check_proc(name: str, proc: Proc, program: Program):
             print(f"  {block_marker}")
         # dbg_type_stack(type_stack)
         if word.typ == OT.PUSH_INT:
-            type_stack.append((DT.INT, word.tok))
+            type_stack.append((INT_TYPE, word.tok))
         elif word.typ == OT.PUSH_STR:
-            type_stack.append((DT.STR, word.tok))
+            type_stack.append((STR_TYPE, word.tok))
         elif word.typ == OT.PUSH_MEMORY:
-            type_stack.append((DT.PTR, word.tok))
+            type_stack.append((PTR_TYPE, word.tok))
         elif word.typ == OT.PROC_CALL:
             if word.operand in program.procs:
                 assert type(word.operand) is str, "Non-str operand of PROC_CALL word"
@@ -1065,7 +1128,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 if not found_match:
                     compiler_error(
                         word.tok,
-                        f"Incompatible types found for call to extern proc {word.operand}\n recieved stack types (top to bottom): {list(map(lambda stackitem: stackitem[0], reversed(type_stack)))}",
+                        f"Incompatible types found for call to extern proc {word.operand}\nreceived stack types (top to bottom): {[datatype_to_str(stackitem[0]) for stackitem in reversed(type_stack)]}",
                     )
                     compiler_note(word.tok, "Expected one of:")
                     for type_sig in type_sigs:
@@ -1147,10 +1210,10 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 "Type stack empty when evaluating condition for control flow block."
             )
             cond_type, cond_tok = type_stack.pop()
-            if cond_type != DT.INT:
+            if not types_compatible(cond_type, INT_TYPE):
                 compiler_error(
                     cond_tok,
-                    f"Expected INT type for condition of control flow block, found {cond_type}.",
+                    f"Expected int type for condition of control flow block, found {datatype_to_str(cond_type)}.",
                 )
                 sys.exit(1)
             if marker == BlockMarker.IF:
@@ -1495,7 +1558,7 @@ def type_check_proc(name: str, proc: Proc, program: Program):
         )
         compiler_note(
             proc.proc_tok,
-            f"Expected {', '.join([str(r[0]) for r in returns])}, found {', '.join([str(t[0]) for t in type_stack])}",
+            f"Expected {', '.join([datatype_to_str(r[0]) for r in returns])}, found {', '.join([datatype_to_str(t[0]) for t in type_stack])}",
         )
         if len(type_stack) > len(returns):
             for erroneous_type, loc in type_stack:
@@ -1503,10 +1566,10 @@ def type_check_proc(name: str, proc: Proc, program: Program):
         sys.exit(1)
 
     for ret, type_ann in zip(returns, type_stack):
-        if ret[0] != type_ann[0]:
+        if not types_compatible(type_ann[0], ret[0]):
             compiler_error(
                 proc.proc_tok,
-                f"Expected {ret[0]} as return from procedure {name}, actually returned {type_ann[0]}.",
+                f"Expected {datatype_to_str(ret[0])} as return from procedure {name}, actually returned {datatype_to_str(type_ann[0])}.",
             )
             compiler_note(type_ann[1], "Incorrect type pushed here")
             compiler_note(ret[1], "Return type defined here")
@@ -1522,10 +1585,10 @@ def type_check_program(program: Program):
         main_sig = program.procs["main"].type_sig
         if (
             len(main_sig.args) != 2
-            or main_sig.args[0][0] != DT.INT
-            or main_sig.args[1][0] != DT.PTR
+            or not types_compatible(main_sig.args[0][0], INT_TYPE)
+            or main_sig.args[1][0].kind != DT.PTR
             or len(main_sig.returns) != 1
-            or main_sig.returns[0][0] != DT.INT
+            or not types_compatible(main_sig.returns[0][0], INT_TYPE)
         ):
             compiler_error(
                 main_sig.arrow_tok,
