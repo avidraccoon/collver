@@ -1,6 +1,14 @@
 declare void @push(i64)
 declare i64 @pop()
 
+declare i32 @fork()
+define void @proc_ll_fork() {
+  %pid_i32 = call i32 @fork()
+  %pid_i64 = sext i32 %pid_i32 to i64
+  call void @push(i64 %pid_i64)
+  ret void
+}
+
 declare i32 @socket(i32 noundef, i32 noundef, i32 noundef)
 define void @proc_ll_socket() {
   %protocol_i64 = call i64 @pop()

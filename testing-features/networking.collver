@@ -1,0 +1,148 @@
+include "std.collver"
+
+const DEMO_PORT 37891 end
+
+// addr_ptr port ->
+proc make_sockaddr_v4_loopback ptr[int] int -> do
+  memory port sizeof(int) end
+  memory addr sizeof(ptr) end
+  port !64
+  addr !ptr
+
+  // sin_family = AF_INET
+  AF_INET addr @ptr !8
+  0 addr @ptr 1 + !8
+
+  // sin_port = port (network byte order)
+  port @64 8 >> 255 & addr @ptr 2 + !8
+  port @64 255 & addr @ptr 3 + !8
+
+  // sin_addr = 127.0.0.1
+  127 addr @ptr 4 + !8
+  0 addr @ptr 5 + !8
+  0 addr @ptr 6 + !8
+  1 addr @ptr 7 + !8
+
+  // sin_zero padding
+  0 addr @ptr 8 + !8
+  0 addr @ptr 9 + !8
+  0 addr @ptr 10 + !8
+  0 addr @ptr 11 + !8
+  0 addr @ptr 12 + !8
+  0 addr @ptr 13 + !8
+  0 addr @ptr 14 + !8
+  0 addr @ptr 15 + !8
+end
+
+proc main int ptr -> int do
+  drop drop
+
+  memory ret sizeof(int) end
+  memory fd_listen sizeof(int) end
+  memory addr 16 end
+  memory fork_res sizeof(int) end
+  0 ret !64
+
+  "Networking demo: forked TCP echo on 127.0.0.1:37891\n" puts
+  "Server receives 'ping' and replies with 'pong'.\n\n" puts
+
+  AF_INET SOCK_STREAM 0 socket
+  if dup 0 < do
+    "socket() failed, errno=" puts
+    get_errno print
+    1 ret !64
+    drop
+  else
+    fd_listen !64
+
+    addr DEMO_PORT make_sockaddr_v4_loopback
+
+    fd_listen @64 addr 16 bind
+    if dup 0 < do
+      "bind() failed, errno=" puts
+      get_errno print
+      1 ret !64
+    else
+      drop
+      fd_listen @64 1 listen
+      if dup 0 < do
+        "listen() failed, errno=" puts
+        get_errno print
+        1 ret !64
+      else
+        drop
+        ll_fork fork_res !64
+        if fork_res @64 0 < do
+          "fork() failed, errno=" puts
+          get_errno print
+          1 ret !64
+        elif fork_res @64 0 = do
+          // Child process: connect + send ping + recv pong
+          memory fd_client sizeof(int) end
+          memory recv_buf 8 end
+          memory recv_n sizeof(int) end
+
+          fd_listen @64 sys_close drop
+
+          AF_INET SOCK_STREAM 0 socket fd_client !64
+          if fd_client @64 0 < do
+            "child socket() failed, errno=" puts
+            get_errno print
+            1 ret !64
+          else
+            fd_client @64 addr 16 connect
+            if dup 0 < do
+              "child connect() failed, errno=" puts
+              get_errno print
+              1 ret !64
+            else
+              fd_client @64 "ping" 4 0 send drop
+              fd_client @64 recv_buf 4 0 recv recv_n !64
+              if recv_n @64 0 > do
+                0 recv_buf recv_n @64 + !8
+                "child got: " puts
+                recv_buf puts
+                "\n" puts
+              end
+            end
+            drop
+          end
+
+          if fd_client @64 0 >= do
+            fd_client @64 sys_close drop
+          end
+        else
+          // Parent process: accept + recv ping + send pong
+          memory fd_conn sizeof(int) end
+          memory peer_addr 16 end
+          memory peer_len sizeof(int) end
+          memory recv_buf 8 end
+          memory recv_n sizeof(int) end
+
+          16 peer_len !64
+          fd_listen @64 peer_addr peer_len accept fd_conn !64
+          if fd_conn @64 0 < do
+            "accept() failed, errno=" puts
+            get_errno print
+            1 ret !64
+          else
+            fd_conn @64 recv_buf 4 0 recv recv_n !64
+            if recv_n @64 0 > do
+              0 recv_buf recv_n @64 + !8
+              "server got: " puts
+              recv_buf puts
+              "\n" puts
+              fd_conn @64 "pong" 4 0 send drop
+            end
+            fd_conn @64 sys_close drop
+          end
+
+          fd_listen @64 sys_close drop
+        end
+      end
+    end
+    drop
+  end
+
+  ret @64
+end

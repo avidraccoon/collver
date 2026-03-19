@@ -1,0 +1,36 @@
+include "std.collver"
+
+proc main int ptr -> int do
+  drop drop
+
+  gfx_hide_cursor drop
+  gfx_clear drop
+
+  4 2 gfx_move_to drop
+  255 200 40 gfx_set_rgb drop
+  "Collver graphics demo\n" puts
+  gfx_reset_style drop
+
+  4 4 gfx_move_to drop
+  "Drawing a horizontal gradient-ish line:\n" puts
+
+  memory i sizeof(int) end
+  0 i !64
+  while i @64 40 < do
+    4 i @64 6 + gfx_move_to drop
+    i @64 6 * 255 &
+    180
+    255 i @64 5 * - 255 &
+    gfx_set_rgb drop
+    "#" puts
+    i inc64
+  end
+
+  gfx_reset_style drop
+  4 9 gfx_move_to drop
+  "Done.\n" puts
+
+  gfx_show_cursor drop
+  gfx_reset_style drop
+  0
+end

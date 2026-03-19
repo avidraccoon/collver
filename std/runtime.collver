@@ -17,3 +17,6 @@ extern ll_write int ptr int -> int end
 
 // int system(char *command)
 extern ll_system ptr -> int end
+
+// int fork()
+extern ll_fork -> int end
