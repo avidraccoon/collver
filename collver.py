@@ -189,19 +189,19 @@ def type_match_score(actual: CType, expected: CType) -> int:
     if actual.kind == DT.UNK or expected.kind == DT.UNK:
         return 0
 
-    if actual.kind == expected.kind and actual.kind != DT.PTR:
-        return 4
+    if actual.kind == expected.kind:
+        if actual.kind != DT.PTR:
+            return 4
+
+        # Pointer specificity: exact typed matches beat generic pointer matches.
+        if actual.pointee is None or expected.pointee is None:
+            return 5
+        return 6 + type_match_score(actual.pointee, expected.pointee)
 
     if actual.kind == DT.STR and expected.kind == DT.PTR:
         return 2
     if actual.kind == DT.PTR and expected.kind == DT.STR:
         return 2
-
-    # Pointer specificity: exact typed matches beat generic pointer matches.
-    if actual.kind == DT.PTR and expected.kind == DT.PTR:
-        if actual.pointee is None or expected.pointee is None:
-            return 1
-        return 3 + type_match_score(actual.pointee, expected.pointee)
 
     return 1
 
@@ -504,6 +504,102 @@ def preprocess_consts(tokens: list[Token]) -> list[Token]:
     tokens = replace_consts(consts, tokens)
 
     return tokens
+
+
+def ctype_size(typ: CType, tok: Token) -> int:
+    """Return the size in bytes of a compile-time type expression."""
+    if typ.kind in (DT.INT, DT.STR, DT.PTR):
+        return 8
+
+    compiler_error(tok, f"Unsupported type `{datatype_to_str(typ)}` in struct field")
+    sys.exit(1)
+
+
+def make_const_tokens(name: str, value: int, loc_tok: Token) -> list[Token]:
+    """Create a synthetic `const <name> <value> end` token sequence."""
+    return [
+        Token(TT.WORD, "const", loc_tok.file, loc_tok.row, loc_tok.col),
+        Token(TT.WORD, name, loc_tok.file, loc_tok.row, loc_tok.col),
+        Token(TT.INT, value, loc_tok.file, loc_tok.row, loc_tok.col),
+        Token(TT.WORD, "end", loc_tok.file, loc_tok.row, loc_tok.col),
+    ]
+
+
+def preprocess_structs(tokens: list[Token]) -> list[Token]:
+    """
+    Expand struct declarations into constants.
+
+    Syntax:
+        struct Name
+          field_a int
+          field_b ptr[int]
+        end
+
+    Emits constants:
+        const @Name.field_a <offset> end
+        const @Name.field_b <offset> end
+        const sizeof(Name) <total_size> end
+    """
+    rtokens = list(reversed(tokens))
+    new_tokens: list[Token] = []
+
+    while len(rtokens):
+        tok = rtokens.pop()
+
+        if tok.typ != TT.WORD or tok.value != "struct":
+            new_tokens.append(tok)
+            continue
+
+        if not len(rtokens):
+            compiler_error(tok, "Expected name of struct, found EOF")
+            sys.exit(1)
+
+        name_tok = rtokens.pop()
+        if name_tok.typ != TT.WORD or not isinstance(name_tok.value, str):
+            compiler_error(name_tok, "Expected token of type `word` for struct name")
+            sys.exit(1)
+
+        struct_name = name_tok.value
+        field_offset = 0
+
+        while len(rtokens):
+            field_tok = rtokens.pop()
+
+            if field_tok.typ == TT.WORD and field_tok.value == "end":
+                break
+
+            if field_tok.typ != TT.WORD or not isinstance(field_tok.value, str):
+                compiler_error(field_tok, "Expected field name or `end` in struct")
+                sys.exit(1)
+
+            if not len(rtokens):
+                compiler_error(field_tok, "Expected field type in struct, found EOF")
+                sys.exit(1)
+
+            field_type_tok = rtokens.pop()
+            if field_type_tok.typ != TT.WORD or not isinstance(field_type_tok.value, str):
+                compiler_error(field_type_tok, "Expected field type in struct")
+                sys.exit(1)
+
+            field_type = try_parse_datatype(field_type_tok.value)
+            if field_type is None:
+                compiler_error(
+                    field_type_tok,
+                    f"Unknown type `{field_type_tok.value}` in struct field",
+                )
+                sys.exit(1)
+
+            const_name = f"@{struct_name}.{field_tok.value}"
+            new_tokens.extend(make_const_tokens(const_name, field_offset, field_tok))
+            field_offset += ctype_size(field_type, field_type_tok)
+        else:
+            compiler_error(name_tok, "Expected `end` to close struct definition")
+            sys.exit(1)
+
+        sizeof_name = f"sizeof({struct_name})"
+        new_tokens.extend(make_const_tokens(sizeof_name, field_offset, name_tok))
+
+    return new_tokens
 
 
 def extract_aliases(tokens: list[Token]) -> tuple[dict[str, Token], list[Token]]:
@@ -2017,6 +2113,7 @@ def main():
             sys.exit(1)
 
         toks = preprocess_includes(toks, [])
+        toks = preprocess_structs(toks)
         toks = preprocess_consts(toks)
         toks = preprocess_aliases(toks)
         words = parse_tokens_into_words(toks)

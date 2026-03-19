@@ -3,5 +3,5 @@ include "std.collver"
 proc main int ptr -> int do
   drop drop 0
   1 2 swap print print
-  "under\n" "over\n" [str,str->int,int] over [int,int->ptr,ptr] puts puts (int->ptr) puts
+  "under\n" "over\n" over puts puts puts
 end

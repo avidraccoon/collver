@@ -1,0 +1,14 @@
+include "std.collver"
+
+struct vec
+  start ptr[int]
+  count int
+end
+
+proc main int ptr -> int do
+  drop drop
+  sizeof(vec) print
+  @vec.start print
+  @vec.count print
+  0
+end

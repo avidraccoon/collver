@@ -423,18 +423,38 @@ proc_memcpy:                            # @proc_memcpy
 proc_ptrto:                             # @proc_ptrto
 	.cfi_startproc
 # %bb.0:
-	pushq	%rax
+	pushq	%r14
 	.cfi_def_cfa_offset 16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 48
+	.cfi_offset %rbx, -24
+	.cfi_offset %r14, -16
+	leaq	16(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
 	movl	$8, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_alloc@PLT
-	callq	proc_cast_ptr_to_int@PLT
-	callq	proc_swap@PLT
-	callq	proc_over@PLT
-	callq	proc_cast_int_to_ptr@PLT
+	callq	proc_intrinsic_dup@PLT
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
 	callq	proc_intrinsic_store64@PLT
-	callq	proc_cast_int_to_ptr@PLT
-	popq	%rax
+	addq	$24, %rsp
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
 .Lfunc_end16:
@@ -447,18 +467,38 @@ proc_ptrto:                             # @proc_ptrto
 proc_bptrto:                            # @proc_bptrto
 	.cfi_startproc
 # %bb.0:
-	pushq	%rax
+	pushq	%r14
 	.cfi_def_cfa_offset 16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 48
+	.cfi_offset %rbx, -24
+	.cfi_offset %r14, -16
+	leaq	16(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_alloc@PLT
-	callq	proc_cast_ptr_to_int@PLT
-	callq	proc_swap@PLT
-	callq	proc_over@PLT
-	callq	proc_cast_int_to_ptr@PLT
+	callq	proc_intrinsic_dup@PLT
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
 	callq	proc_intrinsic_store8@PLT
-	callq	proc_cast_int_to_ptr@PLT
-	popq	%rax
+	addq	$24, %rsp
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
 .Lfunc_end17:
@@ -1222,7 +1262,6 @@ proc_readline:                          # @proc_readline
 	xorl	%edi, %edi
 	callq	push@PLT
 	callq	proc_fd_readline@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
@@ -1503,7 +1542,6 @@ proc_print:                             # @proc_print
 	callq	proc_puts@PLT
 	movl	$.Lstr_print_2, %edi
 	callq	push@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	callq	proc_puts@PLT
 	popq	%rax
 	.cfi_def_cfa_offset 8
@@ -1524,7 +1562,6 @@ proc_eprint:                            # @proc_eprint
 	callq	proc_eputs@PLT
 	movl	$.Lstr_eprint_2, %edi
 	callq	push@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	callq	proc_eputs@PLT
 	popq	%rax
 	.cfi_def_cfa_offset 8
@@ -1587,26 +1624,23 @@ proc_fd_to_str:                         # @proc_fd_to_str
 # %bb.1:                                # %l25
 	movl	$.Lstr_fd_to_str_26, %edi
 	callq	push@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	callq	proc_puts@PLT
-	movl	$.Lstr_fd_to_str_29, %edi
+	movl	$.Lstr_fd_to_str_28, %edi
 	callq	push@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	callq	proc_puts@PLT
 	leaq	8(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_print@PLT
-	movl	$.Lstr_fd_to_str_35, %edi
+	movl	$.Lstr_fd_to_str_33, %edi
 	callq	push@PLT
-	callq	proc_cast_str_to_ptr@PLT
 	callq	proc_puts@PLT
 	callq	proc_intrinsic_dup@PLT
 	callq	proc_print@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_exit@PLT
-.LBB43_2:                               # %l42
+.LBB43_2:                               # %l39
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
@@ -3679,16 +3713,16 @@ proc_cast_str_str_to_str_str:           # @proc_cast_str_str_to_str_str
 	.asciz	"ERROR: Failed to read file into memory\n"
 	.size	.Lstr_fd_to_str_26, 40
 
-	.type	.Lstr_fd_to_str_29,@object      # @str_fd_to_str_29
+	.type	.Lstr_fd_to_str_28,@object      # @str_fd_to_str_28
 	.section	.rodata.str1.1,"aMS",@progbits,1
-.Lstr_fd_to_str_29:
+.Lstr_fd_to_str_28:
 	.asciz	"File size: "
-	.size	.Lstr_fd_to_str_29, 12
+	.size	.Lstr_fd_to_str_28, 12
 
-	.type	.Lstr_fd_to_str_35,@object      # @str_fd_to_str_35
-.Lstr_fd_to_str_35:
+	.type	.Lstr_fd_to_str_33,@object      # @str_fd_to_str_33
+.Lstr_fd_to_str_33:
 	.asciz	"Bytes read: "
-	.size	.Lstr_fd_to_str_35, 13
+	.size	.Lstr_fd_to_str_33, 13
 
 	.type	.Lstr_arg_to_str_0,@object      # @str_arg_to_str_0
 .Lstr_arg_to_str_0:

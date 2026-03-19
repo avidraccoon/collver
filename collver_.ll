@@ -7,8 +7,8 @@ source_filename = "llvm-link"
 @str_print_2 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @str_eprint_2 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
-@str_fd_to_str_29 = private unnamed_addr constant [12 x i8] c"File size: \00"
-@str_fd_to_str_35 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
+@str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
+@str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
 @str_arg_to_str_0 = private unnamed_addr constant [1 x i8] zeroinitializer
 @str_arg_to_str_28 = private unnamed_addr constant [2 x i8] c" \00"
 @str_main_2 = private unnamed_addr constant [24 x i8] c"python3 collver.py com \00"
@@ -223,26 +223,46 @@ ls25:                                             ; preds = %l25
 }
 
 define void @proc_ptrto() {
+  %mem_value = alloca [8 x i8], align 1
+  %mem_p = alloca [8 x i8], align 1
+  %ptrto_value_0 = ptrtoint ptr %mem_value to i64
+  call void @push(i64 %ptrto_value_0)
+  call void @proc_intrinsic_store64()
   call void @push(i64 8)
   call void @proc_intrinsic_alloc()
-  call void @proc_cast_ptr_to_int()
-  call void @proc_swap()
-  call void @proc_over()
-  call void @proc_cast_int_to_ptr()
+  call void @proc_intrinsic_dup()
+  %ptrto_p_1 = ptrtoint ptr %mem_p to i64
+  call void @push(i64 %ptrto_p_1)
+  call void @proc_intrinsic_storeptr()
+  %ptrto_value_2 = ptrtoint ptr %mem_value to i64
+  call void @push(i64 %ptrto_value_2)
+  call void @proc_intrinsic_load64()
+  %ptrto_p_3 = ptrtoint ptr %mem_p to i64
+  call void @push(i64 %ptrto_p_3)
+  call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_store64()
-  call void @proc_cast_int_to_ptr()
   ret void
 }
 
 define void @proc_bptrto() {
+  %mem_value = alloca [8 x i8], align 1
+  %mem_p = alloca [8 x i8], align 1
+  %ptrto_value_0 = ptrtoint ptr %mem_value to i64
+  call void @push(i64 %ptrto_value_0)
+  call void @proc_intrinsic_store64()
   call void @push(i64 1)
   call void @proc_intrinsic_alloc()
-  call void @proc_cast_ptr_to_int()
-  call void @proc_swap()
-  call void @proc_over()
-  call void @proc_cast_int_to_ptr()
+  call void @proc_intrinsic_dup()
+  %ptrto_p_1 = ptrtoint ptr %mem_p to i64
+  call void @push(i64 %ptrto_p_1)
+  call void @proc_intrinsic_storeptr()
+  %ptrto_value_2 = ptrtoint ptr %mem_value to i64
+  call void @push(i64 %ptrto_value_2)
+  call void @proc_intrinsic_load64()
+  %ptrto_p_3 = ptrtoint ptr %mem_p to i64
+  call void @push(i64 %ptrto_p_3)
+  call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_store8()
-  call void @proc_cast_int_to_ptr()
   ret void
 }
 
@@ -716,7 +736,6 @@ define void @proc_eputs() {
 define void @proc_readline() {
   call void @push(i64 0)
   call void @proc_fd_readline()
-  call void @proc_cast_str_to_ptr()
   ret void
 }
 
@@ -915,7 +934,6 @@ define void @proc_print() {
   call void @proc_itos()
   call void @proc_puts()
   call void @push(i64 %strptr2)
-  call void @proc_cast_str_to_ptr()
   call void @proc_puts()
   ret void
 }
@@ -925,15 +943,14 @@ define void @proc_eprint() {
   call void @proc_itos()
   call void @proc_eputs()
   call void @push(i64 %strptr2)
-  call void @proc_cast_str_to_ptr()
   call void @proc_eputs()
   ret void
 }
 
 define void @proc_fd_to_str() {
   %strptr26 = ptrtoint ptr @str_fd_to_str_26 to i64
-  %strptr29 = ptrtoint ptr @str_fd_to_str_29 to i64
-  %strptr35 = ptrtoint ptr @str_fd_to_str_35 to i64
+  %strptr28 = ptrtoint ptr @str_fd_to_str_28 to i64
+  %strptr33 = ptrtoint ptr @str_fd_to_str_33 to i64
   %mem_size = alloca [8 x i8], align 1
   %mem_bufptr = alloca [8 x i8], align 1
   call void @proc_intrinsic_dup()
@@ -967,32 +984,29 @@ define void @proc_fd_to_str() {
   call void @proc_intrinsic_ne()
   %a5 = call i64 @pop()
   %b5 = icmp ne i64 %a5, 0
-  br i1 %b5, label %l25, label %l42
+  br i1 %b5, label %l25, label %l39
 
 l25:                                              ; preds = %0
   call void @push(i64 %strptr26)
-  call void @proc_cast_str_to_ptr()
   call void @proc_puts()
-  call void @push(i64 %strptr29)
-  call void @proc_cast_str_to_ptr()
+  call void @push(i64 %strptr28)
   call void @proc_puts()
   %ptrto_size_6 = ptrtoint ptr %mem_size to i64
   call void @push(i64 %ptrto_size_6)
   call void @proc_intrinsic_load64()
   call void @proc_print()
-  call void @push(i64 %strptr35)
-  call void @proc_cast_str_to_ptr()
+  call void @push(i64 %strptr33)
   call void @proc_puts()
   call void @proc_intrinsic_dup()
   call void @proc_print()
   call void @push(i64 1)
   call void @proc_intrinsic_exit()
-  br label %l42
+  br label %l39
 
-l42:                                              ; preds = %l25, %0
-  br label %ls42
+l39:                                              ; preds = %l25, %0
+  br label %ls39
 
-ls42:                                             ; preds = %l42
+ls39:                                             ; preds = %l39
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
   %ptrto_bufptr_7 = ptrtoint ptr %mem_bufptr to i64

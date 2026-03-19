@@ -144,24 +144,24 @@ proc memcpy int ptr ptr -> do // size src dst ->
   end drop
 end
 
-// Given an int (or ptr), store it in RAM and return the pointer
-proc ptrto int -> ptr do // int i -> ptr p
-  sizeof(int) alloc 
-  (ptr->int) // Convert to int for swap
-  swap over 
-  (int->ptr) // Convert back to ptr for store
-  !int
-  (int->ptr) // Convert back to ptr for return
+// Given an int, store it in RAM and return the pointer
+proc ptrto int -> ptr[int] do // int i -> ptr p
+  memory value sizeof(int) end
+  memory p sizeof(ptr) end
+  value !int
+
+  sizeof(int) alloc dup p !ptr
+  value @int p @ptr !int
 end
 
 // Given a byte, store it in RAM and return the pointer
-proc bptrto int -> ptr do
-  sizeof(byte) alloc
-  (ptr->int) // Convert to int for swap
-  swap over 
-  (int->ptr) // Convert back to ptr for store
-  !byte
-  (int->ptr) // Convert back to ptr for return
+proc bptrto int -> ptr[int] do
+  memory value sizeof(int) end
+  memory p sizeof(ptr) end
+  value !int
+
+  sizeof(byte) alloc dup p !ptr
+  value @int p @ptr !byte
 end
 
 // STRING MANIPULATION
