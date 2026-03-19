@@ -2,10 +2,16 @@
     "$schema": "raw.githubusercontent.com",
     "name": "Collver",
     "scopeName": "source.collver",
-    "patterns": [
+    "########patterns": [
         { "include": "#comments" },
         { "include": "#strings" },
+
+        { "include": "#ptr_generic" },
+        { "include": "#struct_field_access" },
+        { "include": "#struct_definition" },
+
         { "include": "#keywords" },
+        { "include": "#types" },
         { "include": "#operators" },
         { "include": "#numbers" }
     ],
@@ -15,9 +21,70 @@
                 { "name": "comment.line.double-slash.collver", "match": "//.*$" }
             ]
         },
+
         "strings": {
             "patterns": [
-                { "name": "string.quoted.double.collver", "begin": "\"", "end": "\"" }
+                {
+                    "name": "string.quoted.double.collver",
+                    "begin": "\"",
+                    "end": "\""
+                }
+            ]
+        },
+        "types": {
+            "patterns": [
+                {
+                    "name": "storage.type.primitive.collver",
+                    "match": "\\b(int|str|byte|ptr)\\b"
+                },
+                {
+                    "name": "entity.name.type.struct.collver",
+                    "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+                }
+            ]
+        },
+        "ptr_generic": {
+            "name": "meta.type.pointer.collver",
+            "begin": "\\bptr\\[",
+            "beginCaptures": {
+                "0": { "name": "storage.type.primitive.collver" }
+            },
+            "end": "\\]",
+            "patterns": [
+                { "include": "#ptr_generic" },
+                { "include": "#types" }
+            ]
+        },
+        "struct_definition": {
+            "name": "meta.struct.definition.collver",
+            "begin": "\\bstruct\\s+([A-Z][A-Za-z0-9_]*)",
+            "beginCaptures": {
+                "1": { "name": "entity.name.type.struct.collver" }
+            },
+            "end": "\\bend\\b",
+            "patterns": [
+                {
+                    "name": "meta.struct.field.collver",
+                    "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s+(int|str|byte|ptr|ptr\\[[^\\]]+\\]|[A-Z][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "variable.other.member.definition.collver" },
+                        "2": { "name": "storage.type.collver" }
+                    }
+                },
+                { "include": "#ptr_generic" },
+                { "include": "#types" }
+            ]
+        },
+        "struct_field_access": {
+            "patterns": [
+                {
+                    "name": "meta.struct.access.collver",
+                    "match": "@([A-Z][A-Za-z0-9_]*)\\.([a-zA-Z0-9_]+)",
+                    "captures": {
+                        "1": { "name": "entity.name.type.struct.collver" },
+                        "2": { "name": "variable.other.member.collver" }
+                    }
+                }
             ]
         },
         "keywords": {
@@ -27,25 +94,23 @@
                     "match": "\\b(proc|extern|do|end|if|elif|else|while|memory|const|alias|include|struct)\\b"
                 },
                 {
-                    "name": "storage.type.collver",
-                    "match": "(?<=\\s)(int|ptr|str|byte|ptr[])(?=\\s)"
-                },
-                {
                     "name": "entity.name.function.collver",
-                    "match": "(?<=(proc|extern|struct)\\s+)[a-zA-Z0-9_]+"
+                    "match": "(?<=(proc|extern)\\s+)[a-zA-Z0-9_]+"
                 },
                 {
-                    "name": "entity.name.tag.collver",
+                    "name": "entity.name.constant.collver",
                     "match": "(?<=(alias|const)\\s+)[^\\s]+"
                 },
                 {
-                    "name": "entity.name.memory.collver",
-                    "match": "(?<=(memory)\\s+)[^\\s]+"
+                    "name": "variable.other.memory.collver",
+                    "match": "(?<=\\bmemory\\s+)[a-zA-Z0-9_]+"
                 },
+
                 {
-                    "name": "constant.other.collver",
-                    "match": "(?<=\\s)sizeof\\([^\\s]+\\)(?=\\s)"
+                    "name": "constant.other.sizeof.collver",
+                    "match": "sizeof\\([^\\)]+\\)"
                 },
+
                 {
                     "name": "keyword.control.program.collver",
                     "match": "\\b(exit|get_errno)\\b"
@@ -67,10 +132,6 @@
                     "match": "\\b(lnorm|lnot|2norm|nland|land|nlor|lor|nlxor|lxor|btos)\\b"
                 },
                 {
-                    "name": "keyword.control.arithmetic.collver",
-                    "match": "\\b(dec_digits)\\b"
-                },
-                {
                     "name": "keyword.control.memory.collver",
                     "match": "\\b(alloc|free|inc64|dec64|memcpy|ptrto|bptrto)\\b"
                 }
@@ -80,31 +141,27 @@
             "patterns": [
                 {
                     "name": "keyword.operator.memory.collver",
-                    "match": "(@|!|\\?)(64|32|16|8|int|ptr|byte|str)" 
+                    "match": "(@|!|\\?)(64|32|16|8|int|ptr|byte|str)"
                 },
                 {
                     "name": "keyword.operator.logical.collver",
-                    "match": "(?<=\\s)(\\+|\\-|\\*|\\/|=|!=|<|>|<=|>=|&&|&|^|\\||\\|\\|)(?=\\s)"
+                    "match": "(\\+|\\-|\\*|\\/|=|!=|<|>|<=|>=|&&|&|\\^|\\||\\|\\|)"
                 },
                 {
                     "name": "keyword.operator.arithmetic.collver",
-                    "match": "(?<=\\s)(\\+|\\-|\\*|\\/|%|>>|<<)(?=\\s)"
+                    "match": "(%|>>|<<)"
                 },
                 {
                     "name": "keyword.operator.typing.collver",
-                    "match": "(?<=\\s)->(?=\\s)"
-                },
-                {
-                    "name": "comment.block.stack.collver",
-                    "match": "//.*$"
+                    "match": "->"
                 },
                 {
                     "name": "keyword.operator.casting.collver",
-                    "match": "(?<=\\s)(\\([^\\s]+->[^\\s]+\\))(?=\\s)"
+                    "match": "\\([^\\s]+->[^\\s]+\\)"
                 },
                 {
                     "name": "keyword.operator.casting.collver",
-                    "match": "(?<=\\s)\\[[^\\s]+,[^\\s]+->[^\\s]+,[^\\s]+\\](?=\\s)"
+                    "match": "\\[[^\\]]+->[^\\]]+\\]"
                 }
             ]
         },
@@ -112,7 +169,7 @@
             "patterns": [
                 { "name": "constant.numeric.collver", "match": "\\b[0-9]+\\b" },
                 {
-                    "name": "constant.language.sys_calls.collver",
+                    "name": "constant.language.sys.collver",
                     "match": "\\b(FD_STDIN|FD_STDOUT|FD_STDERR|O_RDONLY|O_WRONLY|O_RDWR|O_CLOEXEC|O_CREAT|O_DIRECTORY|O_EXCL|O_NOCTTY|O_NOFOLLOW|O_TRUNC)\\b"
                 }
             ]

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Collver",
+  "scopeName": "source.collver",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#numbers" },
+    { "include": "#structFieldConsts" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.collver",
+          "begin": "//",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.comment.collver" }
+          },
+          "end": "$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.collver",
+          "begin": "\"",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.string.begin.collver" }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.string.end.collver" }
+          },
+          "patterns": [
+            {
+              "name": "constant.character.escape.collver",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.collver",
+          "match": "\\b(proc|extern|memory|if|elif|else|while|do|end|struct|include|const|alias|as)\\b"
+        },
+        {
+          "name": "keyword.operator.arrow.collver",
+          "match": "->"
+        },
+        {
+          "name": "keyword.other.here.collver",
+          "match": "\\bhere\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.collver",
+          "match": "\\b(int|str|ptr|unknown)\\b"
+        },
+        {
+          "name": "storage.type.pointer.collver",
+          "match": "\\bptr\\[[^\\]]+\\]"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.collver",
+          "match": "\\b-?\\d+\\b"
+        }
+      ]
+    },
+    "structFieldConsts": {
+      "patterns": [
+        {
+          "name": "variable.other.member.collver",
+          "match": "@[A-Za-z_][A-Za-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*"
+        },
+        {
+          "name": "support.function.sizeof.collver",
+          "match": "sizeof\\([A-Za-z_][A-Za-z0-9_]*\\)"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.collver",
+          "match": "\\b(\\+|\\-|\\*|=|<|>|<=|>=|!=)\\b"
+        },
+        {
+          "name": "keyword.operator.stack.collver",
+          "match": "\\b(drop|dup|swap|over)\\b"
+        },
+        {
+          "name": "support.function.builtin.collver",
+          "match": "\\b(puts|print|alloc|free)\\b"
+        },
+        {
+          "name": "keyword.operator.memory.collver",
+          "match": "[@!](ptr|8|16|32|64)\\b"
+        }
+      ]
+    }
+  }
+}

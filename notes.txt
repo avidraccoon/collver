@@ -1,0 +1,26 @@
+Potensial Features:
+namespaces ish
+function name mangling
+custom externs to ll files
+better externs
+enum
+
+
+later:
+add docs
+
+
+lsp additions:
+
+//Add go_to definition
+//Add more highlighting for things such as function names, Struct types, and more
+
+The goto does not fully work for structs yet, but it does work for functions.
+It also does not work for memory definitions, consts, or alias
+
+Also it would be nice if there were tools to help manage the stack such as showing the current stack frame,
+ and showing the variables in the current stack frame.
+
+
+lsp later:
+Add viewing docs

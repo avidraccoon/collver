@@ -3,6 +3,7 @@ include "std.collver"
 const WIDTH 640 end
 const HEIGHT 360 end
 
+
 // handle
 proc draw_background int -> do
   0 0 WIDTH HEIGHT 100 140 204 gui_fill_rect drop
@@ -20,6 +21,7 @@ struct Rect
   w int
   h int
 end
+
 
 struct GraphicsRect
   rect ptr[Rect]
@@ -135,7 +137,9 @@ end
 proc get_entity_from_container ptr[EntityContainer]
 
 // Things that contain entities
-proc update_entities ptr[ptr] ptr[
+proc update_entities ptr[ptr] ptr -> do
+ 
+end
 
 proc update_split
 

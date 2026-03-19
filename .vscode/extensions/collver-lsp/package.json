@@ -1,0 +1,93 @@
+{
+  "name": "collver-tools",
+  "displayName": "Collver Tools",
+  "description": "Syntax highlighting and LSP support for the Collver language",
+  "version": "0.1.0",
+  "publisher": "local",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:collver"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "collver",
+        "aliases": ["Collver", "collver"],
+        "extensions": [".collver"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "collver",
+        "scopeName": "source.collver",
+        "path": "./syntaxes/collver.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "Collver",
+      "properties": {
+        "collver.wslDistro": {
+          "type": "string",
+          "default": "Ubuntu-22.04",
+          "description": "WSL distribution name passed to `wsl -d <distro>`."
+        },
+        "collver.wslCwd": {
+          "type": "string",
+          "default": "/mnt/c/Users/natha/RandomLanguageDev/collver",
+          "description": "Working directory inside WSL before running collver.py."
+        },
+        "collver.python": {
+          "type": "string",
+          "default": "python3",
+          "description": "Python executable inside WSL."
+        },
+        "collver.compilerScript": {
+          "type": "string",
+          "default": "collver.py",
+          "description": "Path to collver.py relative to collver.wslCwd (or absolute WSL path)."
+        },
+        "collver.diagnosticsSubcommand": {
+          "type": "string",
+          "default": "to-ll",
+          "description": "Subcommand used for diagnostics. `to-ll` is usually enough (it typechecks)."
+        },
+        "collver.checkOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run diagnostics on save."
+        },
+        "collver.checkOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run diagnostics when a file is opened."
+        },
+        "collver.maxProblems": {
+          "type": "number",
+          "default": 200,
+          "description": "Maximum diagnostics to publish per file."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}
