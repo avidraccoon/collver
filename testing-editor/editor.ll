@@ -18,24 +18,25 @@ source_filename = "llvm-link"
 @str_tab_num_label_42 = private unnamed_addr constant [2 x i8] c"?\00"
 @str_save_buffer_22 = private unnamed_addr constant [20 x i8] c"Save failed, errno=\00"
 @str_draw_file_list_10 = private unnamed_addr constant [6 x i8] c"Files\00"
-@str_main_57 = private unnamed_addr constant [24 x i8] c"testing-editor/note.txt\00"
-@str_main_75 = private unnamed_addr constant [24 x i8] c"testing-editor/note.txt\00"
-@str_main_80 = private unnamed_addr constant [30 x i8] c"testing-editor/editor.collver\00"
-@str_main_85 = private unnamed_addr constant [29 x i8] c"testing-features/gui.collver\00"
-@str_main_90 = private unnamed_addr constant [34 x i8] c"testing-features/graphics.collver\00"
-@str_main_95 = private unnamed_addr constant [36 x i8] c"testing-features/networking.collver\00"
-@str_main_100 = private unnamed_addr constant [29 x i8] c"examples/hello_world.collver\00"
-@str_main_105 = private unnamed_addr constant [34 x i8] c"tests/builtin/hello_world.collver\00"
-@str_main_110 = private unnamed_addr constant [16 x i8] c"std/gui.collver\00"
-@str_main_115 = private unnamed_addr constant [23 x i8] c"std/networking.collver\00"
-@str_main_125 = private unnamed_addr constant [24 x i8] c"Collver GUI Mini Editor\00"
-@str_main_139 = private unnamed_addr constant [44 x i8] c"Failed to init GUI (SDL2/display missing).\0A\00"
-@str_main_241 = private unnamed_addr constant [20 x i8] c"Saved current file\0A\00"
-@str_main_832 = private unnamed_addr constant [24 x i8] c"Collver GUI Text Editor\00"
-@str_main_843 = private unnamed_addr constant [60 x i8] c"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit\00"
-@str_main_954 = private unnamed_addr constant [7 x i8] c"OPEN> \00"
-@str_main_989 = private unnamed_addr constant [50 x i8] c"Click a file below or type a path and press Enter\00"
-@str_main_1073 = private unnamed_addr constant [6 x i8] c"Path:\00"
+@str_main_60 = private unnamed_addr constant [24 x i8] c"testing-editor/note.txt\00"
+@str_main_78 = private unnamed_addr constant [24 x i8] c"testing-editor/note.txt\00"
+@str_main_83 = private unnamed_addr constant [30 x i8] c"testing-editor/editor.collver\00"
+@str_main_88 = private unnamed_addr constant [29 x i8] c"testing-features/gui.collver\00"
+@str_main_93 = private unnamed_addr constant [34 x i8] c"testing-features/graphics.collver\00"
+@str_main_98 = private unnamed_addr constant [36 x i8] c"testing-features/networking.collver\00"
+@str_main_103 = private unnamed_addr constant [29 x i8] c"examples/hello_world.collver\00"
+@str_main_108 = private unnamed_addr constant [34 x i8] c"tests/builtin/hello_world.collver\00"
+@str_main_113 = private unnamed_addr constant [16 x i8] c"std/gui.collver\00"
+@str_main_118 = private unnamed_addr constant [23 x i8] c"std/networking.collver\00"
+@str_main_128 = private unnamed_addr constant [24 x i8] c"Collver GUI Mini Editor\00"
+@str_main_142 = private unnamed_addr constant [44 x i8] c"Failed to init GUI (SDL2/display missing).\0A\00"
+@str_main_244 = private unnamed_addr constant [20 x i8] c"Saved current file\0A\00"
+@str_main_857 = private unnamed_addr constant [24 x i8] c"Collver GUI Text Editor\00"
+@str_main_868 = private unnamed_addr constant [60 x i8] c"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit\00"
+@str_main_979 = private unnamed_addr constant [7 x i8] c"OPEN> \00"
+@str_main_1005 = private unnamed_addr constant [28 x i8] c"Open failed: path not found\00"
+@str_main_1030 = private unnamed_addr constant [50 x i8] c"Click a file below or type a path and press Enter\00"
+@str_main_1114 = private unnamed_addr constant [6 x i8] c"Path:\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 @gfx_clear_seq = private unnamed_addr constant [7 x i8] c"\1B[2J\1B[H"
@@ -2040,6 +2041,213 @@ ls40:                                             ; preds = %l40
   ret void
 }
 
+define void @proc_is_path_char() {
+  %mem_ch = alloca [8 x i8], align 1
+  %ptrto_ch_0 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_ch_1 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_1)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 97)
+  call void @proc_intrinsic_ge()
+  %ptrto_ch_2 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_2)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 122)
+  call void @proc_intrinsic_le()
+  call void @proc_land()
+  %a3 = call i64 @pop()
+  %b3 = icmp ne i64 %a3, 0
+  br i1 %b3, label %l12, label %l14
+
+l12:                                              ; preds = %0
+  call void @push(i64 1)
+  br label %l98
+
+l14:                                              ; preds = %0
+  %ptrto_ch_4 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_4)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 65)
+  call void @proc_intrinsic_ge()
+  %ptrto_ch_5 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_5)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 90)
+  call void @proc_intrinsic_le()
+  call void @proc_land()
+  %a6 = call i64 @pop()
+  %b6 = icmp ne i64 %a6, 0
+  br i1 %b6, label %l25, label %l27
+
+l25:                                              ; preds = %l14
+  call void @push(i64 1)
+  br label %l97
+
+l27:                                              ; preds = %l14
+  %ptrto_ch_7 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_7)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 48)
+  call void @proc_intrinsic_ge()
+  %ptrto_ch_8 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_8)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 57)
+  call void @proc_intrinsic_le()
+  call void @proc_land()
+  %a9 = call i64 @pop()
+  %b9 = icmp ne i64 %a9, 0
+  br i1 %b9, label %l38, label %l40
+
+l38:                                              ; preds = %l27
+  call void @push(i64 1)
+  br label %l96
+
+l40:                                              ; preds = %l27
+  %ptrto_ch_10 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_10)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 47)
+  call void @proc_intrinsic_eq()
+  %a11 = call i64 @pop()
+  %b11 = icmp ne i64 %a11, 0
+  br i1 %b11, label %l46, label %l48
+
+l46:                                              ; preds = %l40
+  call void @push(i64 1)
+  br label %l95
+
+l48:                                              ; preds = %l40
+  %ptrto_ch_12 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_12)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 92)
+  call void @proc_intrinsic_eq()
+  %a13 = call i64 @pop()
+  %b13 = icmp ne i64 %a13, 0
+  br i1 %b13, label %l54, label %l56
+
+l54:                                              ; preds = %l48
+  call void @push(i64 1)
+  br label %l94
+
+l56:                                              ; preds = %l48
+  %ptrto_ch_14 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_14)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 46)
+  call void @proc_intrinsic_eq()
+  %a15 = call i64 @pop()
+  %b15 = icmp ne i64 %a15, 0
+  br i1 %b15, label %l62, label %l64
+
+l62:                                              ; preds = %l56
+  call void @push(i64 1)
+  br label %l93
+
+l64:                                              ; preds = %l56
+  %ptrto_ch_16 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_16)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 95)
+  call void @proc_intrinsic_eq()
+  %a17 = call i64 @pop()
+  %b17 = icmp ne i64 %a17, 0
+  br i1 %b17, label %l70, label %l72
+
+l70:                                              ; preds = %l64
+  call void @push(i64 1)
+  br label %l92
+
+l72:                                              ; preds = %l64
+  %ptrto_ch_18 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_18)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 45)
+  call void @proc_intrinsic_eq()
+  %a19 = call i64 @pop()
+  %b19 = icmp ne i64 %a19, 0
+  br i1 %b19, label %l78, label %l80
+
+l78:                                              ; preds = %l72
+  call void @push(i64 1)
+  br label %l91
+
+l80:                                              ; preds = %l72
+  %ptrto_ch_20 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_20)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 58)
+  call void @proc_intrinsic_eq()
+  %a21 = call i64 @pop()
+  %b21 = icmp ne i64 %a21, 0
+  br i1 %b21, label %l86, label %l88
+
+l86:                                              ; preds = %l80
+  call void @push(i64 1)
+  br label %l90
+
+l88:                                              ; preds = %l80
+  call void @push(i64 0)
+  br label %l90
+
+l90:                                              ; preds = %l88, %l86
+  br label %ls90
+
+ls90:                                             ; preds = %l90
+  br label %l91
+
+l91:                                              ; preds = %ls90, %l78
+  br label %ls91
+
+ls91:                                             ; preds = %l91
+  br label %l92
+
+l92:                                              ; preds = %ls91, %l70
+  br label %ls92
+
+ls92:                                             ; preds = %l92
+  br label %l93
+
+l93:                                              ; preds = %ls92, %l62
+  br label %ls93
+
+ls93:                                             ; preds = %l93
+  br label %l94
+
+l94:                                              ; preds = %ls93, %l54
+  br label %ls94
+
+ls94:                                             ; preds = %l94
+  br label %l95
+
+l95:                                              ; preds = %ls94, %l46
+  br label %ls95
+
+ls95:                                             ; preds = %l95
+  br label %l96
+
+l96:                                              ; preds = %ls95, %l38
+  br label %ls96
+
+ls96:                                             ; preds = %l96
+  br label %l97
+
+l97:                                              ; preds = %ls96, %l25
+  br label %ls97
+
+ls97:                                             ; preds = %l97
+  br label %l98
+
+l98:                                              ; preds = %ls97, %l12
+  br label %ls98
+
+ls98:                                             ; preds = %l98
+  ret void
+}
+
 define void @proc_cstr_len() {
   %mem_s = alloca [8 x i8], align 1
   %mem_i = alloca [8 x i8], align 1
@@ -2540,13 +2748,116 @@ ls41:                                             ; preds = %l41
   ret void
 }
 
+define void @proc_prepend_parent() {
+  %mem_dst = alloca [8 x i8], align 1
+  %mem_src = alloca [8 x i8], align 1
+  %mem_i = alloca [8 x i8], align 1
+  %ptrto_dst_0 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_0)
+  call void @proc_intrinsic_storeptr()
+  %ptrto_src_1 = ptrtoint ptr %mem_src to i64
+  call void @push(i64 %ptrto_src_1)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 46)
+  %ptrto_dst_2 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_2)
+  call void @proc_intrinsic_loadptr()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 46)
+  %ptrto_dst_3 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_3)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 47)
+  %ptrto_dst_4 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_4)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 2)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 0)
+  %ptrto_i_5 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_5)
+  call void @proc_intrinsic_store64()
+  br label %l23
+
+l23:                                              ; preds = %l37, %0
+  %ptrto_src_6 = ptrtoint ptr %mem_src to i64
+  call void @push(i64 %ptrto_src_6)
+  call void @proc_intrinsic_loadptr()
+  %ptrto_i_7 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_7)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load8()
+  %ptrto_i_8 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_8)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 256)
+  call void @push(i64 4)
+  call void @proc_intrinsic_minus()
+  call void @proc_intrinsic_lt()
+  call void @proc_land()
+  %a9 = call i64 @pop()
+  %b9 = icmp ne i64 %a9, 0
+  br i1 %b9, label %l37, label %l58
+
+l37:                                              ; preds = %l23
+  %ptrto_src_10 = ptrtoint ptr %mem_src to i64
+  call void @push(i64 %ptrto_src_10)
+  call void @proc_intrinsic_loadptr()
+  %ptrto_i_11 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_11)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load8()
+  %ptrto_dst_12 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_12)
+  call void @proc_intrinsic_loadptr()
+  %ptrto_i_13 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_13)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 3)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  %ptrto_i_14 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_14)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_i_15 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_15)
+  call void @proc_intrinsic_store64()
+  br label %l23
+
+l58:                                              ; preds = %l23
+  br label %ls58
+
+ls58:                                             ; preds = %l58
+  call void @push(i64 0)
+  %ptrto_dst_16 = ptrtoint ptr %mem_dst to i64
+  call void @push(i64 %ptrto_dst_16)
+  call void @proc_intrinsic_loadptr()
+  %ptrto_i_17 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_17)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 3)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  ret void
+}
+
 define void @proc_load_buffer() {
   %mem_path = alloca [8 x i8], align 1
   %mem_len_ptr = alloca [8 x i8], align 1
   %mem_text = alloca [8 x i8], align 1
+  %mem_path_try = alloca [256 x i8], align 1
   %mem_fd = alloca [8 x i8], align 1
-  %mem_file = alloca [8 x i8], align 1
-  %mem_i = alloca [8 x i8], align 1
+  %mem_n = alloca [8 x i8], align 1
   %ptrto_path_0 = ptrtoint ptr %mem_path to i64
   call void @push(i64 %ptrto_path_0)
   call void @proc_intrinsic_storeptr()
@@ -2559,128 +2870,146 @@ define void @proc_load_buffer() {
   %ptrto_path_3 = ptrtoint ptr %mem_path to i64
   call void @push(i64 %ptrto_path_3)
   call void @proc_intrinsic_loadptr()
+  %ptrto_path_try_4 = ptrtoint ptr %mem_path_try to i64
+  call void @push(i64 %ptrto_path_try_4)
+  call void @proc_cpyz()
+  %ptrto_path_try_5 = ptrtoint ptr %mem_path_try to i64
+  call void @push(i64 %ptrto_path_try_5)
   call void @push(i64 0)
   call void @proc_sys_open()
-  %ptrto_fd_4 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_4)
+  %ptrto_fd_6 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_6)
   call void @proc_intrinsic_store64()
-  %ptrto_fd_5 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_5)
+  %ptrto_fd_7 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_7)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_lt()
-  %a6 = call i64 @pop()
-  %b6 = icmp ne i64 %a6, 0
-  br i1 %b6, label %l17, label %l26
+  %a8 = call i64 @pop()
+  %b8 = icmp ne i64 %a8, 0
+  br i1 %b8, label %l20, label %l30
 
-l17:                                              ; preds = %0
+l20:                                              ; preds = %0
+  %ptrto_path_9 = ptrtoint ptr %mem_path to i64
+  call void @push(i64 %ptrto_path_9)
+  call void @proc_intrinsic_loadptr()
+  %ptrto_path_try_10 = ptrtoint ptr %mem_path_try to i64
+  call void @push(i64 %ptrto_path_try_10)
+  call void @proc_prepend_parent()
+  %ptrto_path_try_11 = ptrtoint ptr %mem_path_try to i64
+  call void @push(i64 %ptrto_path_try_11)
   call void @push(i64 0)
-  %ptrto_len_ptr_7 = ptrtoint ptr %mem_len_ptr to i64
-  call void @push(i64 %ptrto_len_ptr_7)
+  call void @proc_sys_open()
+  %ptrto_fd_12 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_12)
+  call void @proc_intrinsic_store64()
+  br label %l30
+
+l30:                                              ; preds = %l20, %0
+  br label %ls30
+
+ls30:                                             ; preds = %l30
+  %ptrto_fd_13 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_13)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a14 = call i64 @pop()
+  %b14 = icmp ne i64 %a14, 0
+  br i1 %b14, label %l36, label %l45
+
+l36:                                              ; preds = %ls30
+  call void @push(i64 0)
+  %ptrto_len_ptr_15 = ptrtoint ptr %mem_len_ptr to i64
+  call void @push(i64 %ptrto_len_ptr_15)
   call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_text_8 = ptrtoint ptr %mem_text to i64
-  call void @push(i64 %ptrto_text_8)
+  %ptrto_text_16 = ptrtoint ptr %mem_text to i64
+  call void @push(i64 %ptrto_text_16)
   call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_store8()
-  br label %l86
+  br label %l90
 
-l26:                                              ; preds = %0
-  %ptrto_fd_9 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_9)
+l45:                                              ; preds = %ls30
+  %ptrto_fd_17 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_17)
   call void @proc_intrinsic_load64()
-  call void @proc_fd_to_str()
-  %ptrto_file_10 = ptrtoint ptr %mem_file to i64
-  call void @push(i64 %ptrto_file_10)
-  call void @proc_intrinsic_storeptr()
-  %ptrto_fd_11 = ptrtoint ptr %mem_fd to i64
-  call void @push(i64 %ptrto_fd_11)
+  %ptrto_text_18 = ptrtoint ptr %mem_text to i64
+  call void @push(i64 %ptrto_text_18)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 8192)
+  call void @proc_sys_read()
+  %ptrto_n_19 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_19)
+  call void @proc_intrinsic_store64()
+  %ptrto_fd_20 = ptrtoint ptr %mem_fd to i64
+  call void @push(i64 %ptrto_fd_20)
   call void @proc_intrinsic_load64()
   call void @proc_sys_close()
   call void @proc_intrinsic_drop()
-  call void @push(i64 0)
-  %ptrto_i_12 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_12)
-  call void @proc_intrinsic_store64()
-  br label %l39
-
-l39:                                              ; preds = %l51, %l26
-  %ptrto_file_13 = ptrtoint ptr %mem_file to i64
-  call void @push(i64 %ptrto_file_13)
-  call void @proc_intrinsic_loadptr()
-  %ptrto_i_14 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_14)
+  %ptrto_n_21 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_21)
   call void @proc_intrinsic_load64()
-  call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_load8()
-  %ptrto_i_15 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_15)
+  call void @push(i64 0)
+  call void @proc_intrinsic_lt()
+  %a22 = call i64 @pop()
+  %b22 = icmp ne i64 %a22, 0
+  br i1 %b22, label %l63, label %l67
+
+l63:                                              ; preds = %l45
+  call void @push(i64 0)
+  %ptrto_n_23 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_23)
+  call void @proc_intrinsic_store64()
+  br label %l67
+
+l67:                                              ; preds = %l63, %l45
+  br label %ls67
+
+ls67:                                             ; preds = %l67
+  %ptrto_n_24 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_24)
   call void @proc_intrinsic_load64()
   call void @push(i64 8192)
-  call void @proc_intrinsic_lt()
-  call void @proc_land()
-  %a16 = call i64 @pop()
-  %b16 = icmp ne i64 %a16, 0
-  br i1 %b16, label %l51, label %l70
+  call void @proc_intrinsic_gt()
+  %a25 = call i64 @pop()
+  %b25 = icmp ne i64 %a25, 0
+  br i1 %b25, label %l73, label %l77
 
-l51:                                              ; preds = %l39
-  %ptrto_file_17 = ptrtoint ptr %mem_file to i64
-  call void @push(i64 %ptrto_file_17)
-  call void @proc_intrinsic_loadptr()
-  %ptrto_i_18 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_18)
-  call void @proc_intrinsic_load64()
-  call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_load8()
-  %ptrto_text_19 = ptrtoint ptr %mem_text to i64
-  call void @push(i64 %ptrto_text_19)
-  call void @proc_intrinsic_loadptr()
-  %ptrto_i_20 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_20)
-  call void @proc_intrinsic_load64()
-  call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_store8()
-  %ptrto_i_21 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_21)
-  call void @proc_intrinsic_load64()
-  call void @push(i64 1)
-  call void @proc_intrinsic_plus()
-  %ptrto_i_22 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_22)
+l73:                                              ; preds = %ls67
+  call void @push(i64 8192)
+  %ptrto_n_26 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_26)
   call void @proc_intrinsic_store64()
-  br label %l39
+  br label %l77
 
-l70:                                              ; preds = %l39
-  br label %ls70
+l77:                                              ; preds = %l73, %ls67
+  br label %ls77
 
-ls70:                                             ; preds = %l70
+ls77:                                             ; preds = %l77
   call void @push(i64 0)
-  %ptrto_text_23 = ptrtoint ptr %mem_text to i64
-  call void @push(i64 %ptrto_text_23)
+  %ptrto_text_27 = ptrtoint ptr %mem_text to i64
+  call void @push(i64 %ptrto_text_27)
   call void @proc_intrinsic_loadptr()
-  %ptrto_i_24 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_24)
+  %ptrto_n_28 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_28)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_store8()
-  %ptrto_i_25 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_25)
+  %ptrto_n_29 = ptrtoint ptr %mem_n to i64
+  call void @push(i64 %ptrto_n_29)
   call void @proc_intrinsic_load64()
-  %ptrto_len_ptr_26 = ptrtoint ptr %mem_len_ptr to i64
-  call void @push(i64 %ptrto_len_ptr_26)
+  %ptrto_len_ptr_30 = ptrtoint ptr %mem_len_ptr to i64
+  call void @push(i64 %ptrto_len_ptr_30)
   call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_store64()
-  %ptrto_file_27 = ptrtoint ptr %mem_file to i64
-  call void @push(i64 %ptrto_file_27)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_free()
-  br label %l86
+  br label %l90
 
-l86:                                              ; preds = %ls70, %l17
-  br label %ls86
+l90:                                              ; preds = %ls77, %l36
+  br label %ls90
 
-ls86:                                             ; preds = %l86
+ls90:                                             ; preds = %l90
   ret void
 }
 
@@ -2692,6 +3021,7 @@ define void @proc_open_file_into_slot() {
   %mem_lens = alloca [8 x i8], align 1
   %mem_texts = alloca [8 x i8], align 1
   %mem_paths = alloca [8 x i8], align 1
+  %mem_resolved = alloca [256 x i8], align 1
   %ptrto_idx_0 = ptrtoint ptr %mem_idx to i64
   call void @push(i64 %ptrto_idx_0)
   call void @proc_intrinsic_store64()
@@ -2781,6 +3111,7 @@ l58:                                              ; preds = %l50, %0
   br label %ls58
 
 ls58:                                             ; preds = %l58
+  call void @push(i64 1)
   ret void
 }
 
@@ -3063,24 +3394,25 @@ ls27:                                             ; preds = %l27
 }
 
 define void @proc_main() {
-  %strptr57 = ptrtoint ptr @str_main_57 to i64
-  %strptr75 = ptrtoint ptr @str_main_75 to i64
-  %strptr80 = ptrtoint ptr @str_main_80 to i64
-  %strptr85 = ptrtoint ptr @str_main_85 to i64
-  %strptr90 = ptrtoint ptr @str_main_90 to i64
-  %strptr95 = ptrtoint ptr @str_main_95 to i64
-  %strptr100 = ptrtoint ptr @str_main_100 to i64
-  %strptr105 = ptrtoint ptr @str_main_105 to i64
-  %strptr110 = ptrtoint ptr @str_main_110 to i64
-  %strptr115 = ptrtoint ptr @str_main_115 to i64
-  %strptr125 = ptrtoint ptr @str_main_125 to i64
-  %strptr139 = ptrtoint ptr @str_main_139 to i64
-  %strptr241 = ptrtoint ptr @str_main_241 to i64
-  %strptr832 = ptrtoint ptr @str_main_832 to i64
-  %strptr843 = ptrtoint ptr @str_main_843 to i64
-  %strptr954 = ptrtoint ptr @str_main_954 to i64
-  %strptr989 = ptrtoint ptr @str_main_989 to i64
-  %strptr1073 = ptrtoint ptr @str_main_1073 to i64
+  %strptr60 = ptrtoint ptr @str_main_60 to i64
+  %strptr78 = ptrtoint ptr @str_main_78 to i64
+  %strptr83 = ptrtoint ptr @str_main_83 to i64
+  %strptr88 = ptrtoint ptr @str_main_88 to i64
+  %strptr93 = ptrtoint ptr @str_main_93 to i64
+  %strptr98 = ptrtoint ptr @str_main_98 to i64
+  %strptr103 = ptrtoint ptr @str_main_103 to i64
+  %strptr108 = ptrtoint ptr @str_main_108 to i64
+  %strptr113 = ptrtoint ptr @str_main_113 to i64
+  %strptr118 = ptrtoint ptr @str_main_118 to i64
+  %strptr128 = ptrtoint ptr @str_main_128 to i64
+  %strptr142 = ptrtoint ptr @str_main_142 to i64
+  %strptr244 = ptrtoint ptr @str_main_244 to i64
+  %strptr857 = ptrtoint ptr @str_main_857 to i64
+  %strptr868 = ptrtoint ptr @str_main_868 to i64
+  %strptr979 = ptrtoint ptr @str_main_979 to i64
+  %strptr1005 = ptrtoint ptr @str_main_1005 to i64
+  %strptr1030 = ptrtoint ptr @str_main_1030 to i64
+  %strptr1114 = ptrtoint ptr @str_main_1114 to i64
   %mem_handle = alloca [8 x i8], align 1
   %mem_running = alloca [8 x i8], align 1
   %mem_paths = alloca [1280 x i8], align 1
@@ -3116,6 +3448,7 @@ define void @proc_main() {
   %mem_tab_x = alloca [8 x i8], align 1
   %mem_browser_paths = alloca [4096 x i8], align 1
   %mem_browser_count = alloca [8 x i8], align 1
+  %mem_open_error = alloca [8 x i8], align 1
   %mem_i = alloca [8 x i8], align 1
   call void @proc_intrinsic_drop()
   call void @proc_intrinsic_drop()
@@ -3152,1309 +3485,1348 @@ define void @proc_main() {
   call void @push(i64 %ptrto_open_mode_7)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_file_count_8 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_8)
+  %ptrto_open_error_8 = ptrtoint ptr %mem_open_error to i64
+  call void @push(i64 %ptrto_open_error_8)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_active_idx_9 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_9)
+  %ptrto_file_count_9 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_9)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_browser_count_10 = ptrtoint ptr %mem_browser_count to i64
-  call void @push(i64 %ptrto_browser_count_10)
+  %ptrto_active_idx_10 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_10)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_i_11 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_11)
+  %ptrto_browser_count_11 = ptrtoint ptr %mem_browser_count to i64
+  call void @push(i64 %ptrto_browser_count_11)
   call void @proc_intrinsic_store64()
-  br label %l38
-
-l38:                                              ; preds = %l43, %0
+  call void @push(i64 0)
   %ptrto_i_12 = ptrtoint ptr %mem_i to i64
   call void @push(i64 %ptrto_i_12)
+  call void @proc_intrinsic_store64()
+  br label %l41
+
+l41:                                              ; preds = %l46, %0
+  %ptrto_i_13 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_13)
   call void @proc_intrinsic_load64()
   call void @push(i64 128)
   call void @proc_intrinsic_lt()
-  %a13 = call i64 @pop()
-  %b13 = icmp ne i64 %a13, 0
-  br i1 %b13, label %l43, label %l56
+  %a14 = call i64 @pop()
+  %b14 = icmp ne i64 %a14, 0
+  br i1 %b14, label %l46, label %l59
 
-l43:                                              ; preds = %l38
+l46:                                              ; preds = %l41
   call void @push(i64 0)
-  %ptrto_prev_keys_14 = ptrtoint ptr %mem_prev_keys to i64
-  call void @push(i64 %ptrto_prev_keys_14)
-  %ptrto_i_15 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_15)
-  call void @proc_intrinsic_load64()
-  call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_store8()
+  %ptrto_prev_keys_15 = ptrtoint ptr %mem_prev_keys to i64
+  call void @push(i64 %ptrto_prev_keys_15)
   %ptrto_i_16 = ptrtoint ptr %mem_i to i64
   call void @push(i64 %ptrto_i_16)
   call void @proc_intrinsic_load64()
-  call void @push(i64 1)
   call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
   %ptrto_i_17 = ptrtoint ptr %mem_i to i64
   call void @push(i64 %ptrto_i_17)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_i_18 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_18)
   call void @proc_intrinsic_store64()
-  br label %l38
+  br label %l41
 
-l56:                                              ; preds = %l38
-  br label %ls56
+l59:                                              ; preds = %l41
+  br label %ls59
 
-ls56:                                             ; preds = %l56
-  call void @push(i64 %strptr57)
-  %ptrto_paths_18 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_18)
-  call void @push(i64 0)
-  call void @proc_path_slot()
-  call void @proc_cpyz()
+ls59:                                             ; preds = %l59
+  call void @push(i64 %strptr60)
   %ptrto_paths_19 = ptrtoint ptr %mem_paths to i64
   call void @push(i64 %ptrto_paths_19)
   call void @push(i64 0)
   call void @proc_path_slot()
-  %ptrto_texts_20 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_20)
+  call void @proc_cpyz()
+  %ptrto_paths_20 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_20)
+  call void @push(i64 0)
+  call void @proc_path_slot()
+  %ptrto_texts_21 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_21)
   call void @push(i64 0)
   call void @proc_text_slot()
-  %ptrto_lens_21 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_21)
+  %ptrto_lens_22 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_22)
   call void @push(i64 0)
   call void @proc_len_slot()
   call void @proc_load_buffer()
   call void @push(i64 1)
-  %ptrto_file_count_22 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_22)
+  %ptrto_file_count_23 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_23)
   call void @proc_intrinsic_store64()
-  call void @push(i64 %strptr75)
-  %ptrto_browser_paths_23 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_23)
+  call void @push(i64 %strptr78)
+  %ptrto_browser_paths_24 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_24)
   call void @push(i64 0)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr80)
-  %ptrto_browser_paths_24 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_24)
+  call void @push(i64 %strptr83)
+  %ptrto_browser_paths_25 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_25)
   call void @push(i64 1)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr85)
-  %ptrto_browser_paths_25 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_25)
+  call void @push(i64 %strptr88)
+  %ptrto_browser_paths_26 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_26)
   call void @push(i64 2)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr90)
-  %ptrto_browser_paths_26 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_26)
+  call void @push(i64 %strptr93)
+  %ptrto_browser_paths_27 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_27)
   call void @push(i64 3)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr95)
-  %ptrto_browser_paths_27 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_27)
+  call void @push(i64 %strptr98)
+  %ptrto_browser_paths_28 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_28)
   call void @push(i64 4)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr100)
-  %ptrto_browser_paths_28 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_28)
+  call void @push(i64 %strptr103)
+  %ptrto_browser_paths_29 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_29)
   call void @push(i64 5)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr105)
-  %ptrto_browser_paths_29 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_29)
+  call void @push(i64 %strptr108)
+  %ptrto_browser_paths_30 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_30)
   call void @push(i64 6)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr110)
-  %ptrto_browser_paths_30 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_30)
+  call void @push(i64 %strptr113)
+  %ptrto_browser_paths_31 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_31)
   call void @push(i64 7)
   call void @proc_path_slot()
   call void @proc_cpyz()
-  call void @push(i64 %strptr115)
-  %ptrto_browser_paths_31 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_31)
+  call void @push(i64 %strptr118)
+  %ptrto_browser_paths_32 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_32)
   call void @push(i64 8)
   call void @proc_path_slot()
   call void @proc_cpyz()
   call void @push(i64 9)
-  %ptrto_browser_count_32 = ptrtoint ptr %mem_browser_count to i64
-  call void @push(i64 %ptrto_browser_count_32)
+  %ptrto_browser_count_33 = ptrtoint ptr %mem_browser_count to i64
+  call void @push(i64 %ptrto_browser_count_33)
   call void @proc_intrinsic_store64()
   call void @push(i64 980)
   call void @push(i64 720)
-  call void @push(i64 %strptr125)
+  call void @push(i64 %strptr128)
   call void @proc_gui_init()
-  %ptrto_handle_33 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_33)
-  call void @proc_intrinsic_store64()
   %ptrto_handle_34 = ptrtoint ptr %mem_handle to i64
   call void @push(i64 %ptrto_handle_34)
-  call void @proc_intrinsic_load64()
-  %ptrto_handle_global_35 = ptrtoint ptr @global_mem_handle_global to i64
-  call void @push(i64 %ptrto_handle_global_35)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_36 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_36)
+  %ptrto_handle_35 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_35)
+  call void @proc_intrinsic_load64()
+  %ptrto_handle_global_36 = ptrtoint ptr @global_mem_handle_global to i64
+  call void @push(i64 %ptrto_handle_global_36)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_37 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_37)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
-  %a37 = call i64 @pop()
-  %b37 = icmp ne i64 %a37, 0
-  br i1 %b37, label %l138, label %l142
+  %a38 = call i64 @pop()
+  %b38 = icmp ne i64 %a38, 0
+  br i1 %b38, label %l141, label %l145
 
-l138:                                             ; preds = %ls56
-  call void @push(i64 %strptr139)
+l141:                                             ; preds = %ls59
+  call void @push(i64 %strptr142)
   call void @proc_puts()
   call void @push(i64 1)
-  br label %l1145
+  br label %l1186
 
-l142:                                             ; preds = %ls56
+l145:                                             ; preds = %ls59
   call void @push(i64 1)
-  %ptrto_running_38 = ptrtoint ptr %mem_running to i64
-  call void @push(i64 %ptrto_running_38)
-  call void @proc_intrinsic_store64()
-  br label %l146
-
-l146:                                             ; preds = %ls1052, %l142
   %ptrto_running_39 = ptrtoint ptr %mem_running to i64
   call void @push(i64 %ptrto_running_39)
-  call void @proc_intrinsic_load64()
-  %a40 = call i64 @pop()
-  %b40 = icmp ne i64 %a40, 0
-  br i1 %b40, label %l149, label %l1139
+  call void @proc_intrinsic_store64()
+  br label %l149
 
-l149:                                             ; preds = %l146
-  %ptrto_handle_41 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_41)
+l149:                                             ; preds = %ls1093, %l145
+  %ptrto_running_40 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_40)
+  call void @proc_intrinsic_load64()
+  %a41 = call i64 @pop()
+  %b41 = icmp ne i64 %a41, 0
+  br i1 %b41, label %l152, label %l1180
+
+l152:                                             ; preds = %l149
+  %ptrto_handle_42 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_42)
   call void @proc_intrinsic_load64()
   call void @proc_gui_poll_events()
-  %a42 = call i64 @pop()
-  %b42 = icmp ne i64 %a42, 0
-  br i1 %b42, label %l154, label %l158
+  %a43 = call i64 @pop()
+  %b43 = icmp ne i64 %a43, 0
+  br i1 %b43, label %l157, label %l161
 
-l154:                                             ; preds = %l149
+l157:                                             ; preds = %l152
   call void @push(i64 0)
-  %ptrto_running_43 = ptrtoint ptr %mem_running to i64
-  call void @push(i64 %ptrto_running_43)
+  %ptrto_running_44 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_44)
   call void @proc_intrinsic_store64()
-  br label %l158
+  br label %l161
 
-l158:                                             ; preds = %l154, %l149
-  br label %ls158
+l161:                                             ; preds = %l157, %l152
+  br label %ls161
 
-ls158:                                            ; preds = %l158
-  %ptrto_handle_44 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_44)
+ls161:                                            ; preds = %l161
+  %ptrto_handle_45 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_45)
   call void @proc_intrinsic_load64()
   call void @push(i64 27)
   call void @proc_gui_key_down()
-  %a45 = call i64 @pop()
-  %b45 = icmp ne i64 %a45, 0
-  br i1 %b45, label %l164, label %l168
+  %a46 = call i64 @pop()
+  %b46 = icmp ne i64 %a46, 0
+  br i1 %b46, label %l167, label %l171
 
-l164:                                             ; preds = %ls158
+l167:                                             ; preds = %ls161
   call void @push(i64 0)
-  %ptrto_running_46 = ptrtoint ptr %mem_running to i64
-  call void @push(i64 %ptrto_running_46)
+  %ptrto_running_47 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_47)
   call void @proc_intrinsic_store64()
-  br label %l168
+  br label %l171
 
-l168:                                             ; preds = %l164, %ls158
-  br label %ls168
+l171:                                             ; preds = %l167, %ls161
+  br label %ls171
 
-ls168:                                            ; preds = %l168
-  %ptrto_handle_47 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_47)
+ls171:                                            ; preds = %l171
+  %ptrto_handle_48 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_48)
   call void @proc_intrinsic_load64()
   call void @push(i64 17)
   call void @proc_gui_key_down()
-  %ptrto_ctrl_down_48 = ptrtoint ptr %mem_ctrl_down to i64
-  call void @push(i64 %ptrto_ctrl_down_48)
+  %ptrto_ctrl_down_49 = ptrtoint ptr %mem_ctrl_down to i64
+  call void @push(i64 %ptrto_ctrl_down_49)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_49 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_49)
+  %ptrto_handle_50 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_50)
   call void @proc_intrinsic_load64()
   call void @push(i64 16)
   call void @proc_gui_key_down()
-  %ptrto_shifted_50 = ptrtoint ptr %mem_shifted to i64
-  call void @push(i64 %ptrto_shifted_50)
+  %ptrto_shifted_51 = ptrtoint ptr %mem_shifted to i64
+  call void @push(i64 %ptrto_shifted_51)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_51 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_51)
+  %ptrto_handle_52 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_52)
   call void @proc_intrinsic_load64()
   call void @push(i64 115)
   call void @proc_gui_key_down()
-  %ptrto_key_s_now_52 = ptrtoint ptr %mem_key_s_now to i64
-  call void @push(i64 %ptrto_key_s_now_52)
+  %ptrto_key_s_now_53 = ptrtoint ptr %mem_key_s_now to i64
+  call void @push(i64 %ptrto_key_s_now_53)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_53 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_53)
+  %ptrto_handle_54 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_54)
   call void @proc_intrinsic_load64()
   call void @push(i64 111)
   call void @proc_gui_key_down()
-  %ptrto_key_o_now_54 = ptrtoint ptr %mem_key_o_now to i64
-  call void @push(i64 %ptrto_key_o_now_54)
+  %ptrto_key_o_now_55 = ptrtoint ptr %mem_key_o_now to i64
+  call void @push(i64 %ptrto_key_o_now_55)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_55 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_55)
+  %ptrto_handle_56 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_56)
   call void @proc_intrinsic_load64()
   call void @push(i64 9)
   call void @proc_gui_key_down()
-  %ptrto_key_tab_now_56 = ptrtoint ptr %mem_key_tab_now to i64
-  call void @push(i64 %ptrto_key_tab_now_56)
+  %ptrto_key_tab_now_57 = ptrtoint ptr %mem_key_tab_now to i64
+  call void @push(i64 %ptrto_key_tab_now_57)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_57 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_57)
+  %ptrto_handle_58 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_58)
   call void @proc_intrinsic_load64()
   call void @push(i64 8)
   call void @proc_gui_key_down()
-  %ptrto_key_back_now_58 = ptrtoint ptr %mem_key_back_now to i64
-  call void @push(i64 %ptrto_key_back_now_58)
+  %ptrto_key_back_now_59 = ptrtoint ptr %mem_key_back_now to i64
+  call void @push(i64 %ptrto_key_back_now_59)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_59 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_59)
+  %ptrto_handle_60 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_60)
   call void @proc_intrinsic_load64()
   call void @push(i64 13)
   call void @proc_gui_key_down()
-  %ptrto_key_enter_now_60 = ptrtoint ptr %mem_key_enter_now to i64
-  call void @push(i64 %ptrto_key_enter_now_60)
+  %ptrto_key_enter_now_61 = ptrtoint ptr %mem_key_enter_now to i64
+  call void @push(i64 %ptrto_key_enter_now_61)
   call void @proc_intrinsic_store64()
-  %ptrto_ctrl_down_61 = ptrtoint ptr %mem_ctrl_down to i64
-  call void @push(i64 %ptrto_ctrl_down_61)
+  %ptrto_ctrl_down_62 = ptrtoint ptr %mem_ctrl_down to i64
+  call void @push(i64 %ptrto_ctrl_down_62)
   call void @proc_intrinsic_load64()
-  %ptrto_key_s_now_62 = ptrtoint ptr %mem_key_s_now to i64
-  call void @push(i64 %ptrto_key_s_now_62)
+  %ptrto_key_s_now_63 = ptrtoint ptr %mem_key_s_now to i64
+  call void @push(i64 %ptrto_key_s_now_63)
   call void @proc_intrinsic_load64()
   call void @proc_land()
-  %ptrto_key_ctrl_s_prev_63 = ptrtoint ptr %mem_key_ctrl_s_prev to i64
-  call void @push(i64 %ptrto_key_ctrl_s_prev_63)
+  %ptrto_key_ctrl_s_prev_64 = ptrtoint ptr %mem_key_ctrl_s_prev to i64
+  call void @push(i64 %ptrto_key_ctrl_s_prev_64)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a64 = call i64 @pop()
-  %b64 = icmp ne i64 %a64, 0
-  br i1 %b64, label %l222, label %l244
+  %a65 = call i64 @pop()
+  %b65 = icmp ne i64 %a65, 0
+  br i1 %b65, label %l225, label %l247
 
-l222:                                             ; preds = %ls168
-  %ptrto_paths_65 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_65)
-  %ptrto_active_idx_66 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_66)
+l225:                                             ; preds = %ls171
+  %ptrto_paths_66 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_66)
+  %ptrto_active_idx_67 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_67)
   call void @proc_intrinsic_load64()
   call void @proc_path_slot()
-  %ptrto_texts_67 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_67)
-  %ptrto_active_idx_68 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_68)
+  %ptrto_texts_68 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_68)
+  %ptrto_active_idx_69 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_69)
   call void @proc_intrinsic_load64()
   call void @proc_text_slot()
-  %ptrto_lens_69 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_69)
-  %ptrto_active_idx_70 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_70)
+  %ptrto_lens_70 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_70)
+  %ptrto_active_idx_71 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_71)
   call void @proc_intrinsic_load64()
   call void @proc_len_slot()
   call void @proc_intrinsic_load64()
   call void @proc_save_buffer()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
-  %a71 = call i64 @pop()
-  %b71 = icmp ne i64 %a71, 0
-  br i1 %b71, label %l240, label %l243
+  %a72 = call i64 @pop()
+  %b72 = icmp ne i64 %a72, 0
+  br i1 %b72, label %l243, label %l246
 
-l240:                                             ; preds = %l222
-  call void @push(i64 %strptr241)
+l243:                                             ; preds = %l225
+  call void @push(i64 %strptr244)
   call void @proc_puts()
-  br label %l243
+  br label %l246
 
-l243:                                             ; preds = %l240, %l222
-  br label %ls243
+l246:                                             ; preds = %l243, %l225
+  br label %ls246
 
-ls243:                                            ; preds = %l243
-  br label %l244
+ls246:                                            ; preds = %l246
+  br label %l247
 
-l244:                                             ; preds = %ls243, %ls168
-  br label %ls244
+l247:                                             ; preds = %ls246, %ls171
+  br label %ls247
 
-ls244:                                            ; preds = %l244
-  %ptrto_ctrl_down_72 = ptrtoint ptr %mem_ctrl_down to i64
-  call void @push(i64 %ptrto_ctrl_down_72)
+ls247:                                            ; preds = %l247
+  %ptrto_ctrl_down_73 = ptrtoint ptr %mem_ctrl_down to i64
+  call void @push(i64 %ptrto_ctrl_down_73)
   call void @proc_intrinsic_load64()
-  %ptrto_key_o_now_73 = ptrtoint ptr %mem_key_o_now to i64
-  call void @push(i64 %ptrto_key_o_now_73)
+  %ptrto_key_o_now_74 = ptrtoint ptr %mem_key_o_now to i64
+  call void @push(i64 %ptrto_key_o_now_74)
   call void @proc_intrinsic_load64()
   call void @proc_land()
-  %ptrto_key_ctrl_o_prev_74 = ptrtoint ptr %mem_key_ctrl_o_prev to i64
-  call void @push(i64 %ptrto_key_ctrl_o_prev_74)
+  %ptrto_key_ctrl_o_prev_75 = ptrtoint ptr %mem_key_ctrl_o_prev to i64
+  call void @push(i64 %ptrto_key_ctrl_o_prev_75)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a75 = call i64 @pop()
-  %b75 = icmp ne i64 %a75, 0
-  br i1 %b75, label %l256, label %l266
+  %a76 = call i64 @pop()
+  %b76 = icmp ne i64 %a76, 0
+  br i1 %b76, label %l259, label %l272
 
-l256:                                             ; preds = %ls244
+l259:                                             ; preds = %ls247
   call void @push(i64 1)
-  %ptrto_open_mode_76 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_76)
+  %ptrto_open_mode_77 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_77)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_len_77 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_77)
+  %ptrto_open_error_78 = ptrtoint ptr %mem_open_error to i64
+  call void @push(i64 %ptrto_open_error_78)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_input_78 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_78)
+  %ptrto_path_len_79 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_79)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 0)
+  %ptrto_path_input_80 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_80)
   call void @proc_intrinsic_store8()
-  br label %l266
+  br label %l272
 
-l266:                                             ; preds = %l256, %ls244
-  br label %ls266
+l272:                                             ; preds = %l259, %ls247
+  br label %ls272
 
-ls266:                                            ; preds = %l266
-  %ptrto_key_tab_now_79 = ptrtoint ptr %mem_key_tab_now to i64
-  call void @push(i64 %ptrto_key_tab_now_79)
+ls272:                                            ; preds = %l272
+  %ptrto_key_tab_now_81 = ptrtoint ptr %mem_key_tab_now to i64
+  call void @push(i64 %ptrto_key_tab_now_81)
   call void @proc_intrinsic_load64()
-  %ptrto_key_tab_prev_80 = ptrtoint ptr %mem_key_tab_prev to i64
-  call void @push(i64 %ptrto_key_tab_prev_80)
+  %ptrto_key_tab_prev_82 = ptrtoint ptr %mem_key_tab_prev to i64
+  call void @push(i64 %ptrto_key_tab_prev_82)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a81 = call i64 @pop()
-  %b81 = icmp ne i64 %a81, 0
-  br i1 %b81, label %l275, label %l300
+  %a83 = call i64 @pop()
+  %b83 = icmp ne i64 %a83, 0
+  br i1 %b83, label %l281, label %l306
 
-l275:                                             ; preds = %ls266
-  %ptrto_file_count_82 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_82)
+l281:                                             ; preds = %ls272
+  %ptrto_file_count_84 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_84)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_gt()
-  %a83 = call i64 @pop()
-  %b83 = icmp ne i64 %a83, 0
-  br i1 %b83, label %l281, label %l299
+  %a85 = call i64 @pop()
+  %b85 = icmp ne i64 %a85, 0
+  br i1 %b85, label %l287, label %l305
 
-l281:                                             ; preds = %l275
-  %ptrto_active_idx_84 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_84)
-  call void @proc_intrinsic_load64()
-  call void @push(i64 1)
-  call void @proc_intrinsic_plus()
-  %ptrto_active_idx_85 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_85)
-  call void @proc_intrinsic_store64()
+l287:                                             ; preds = %l281
   %ptrto_active_idx_86 = ptrtoint ptr %mem_active_idx to i64
   call void @push(i64 %ptrto_active_idx_86)
   call void @proc_intrinsic_load64()
-  %ptrto_file_count_87 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_87)
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_active_idx_87 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_87)
+  call void @proc_intrinsic_store64()
+  %ptrto_active_idx_88 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_88)
+  call void @proc_intrinsic_load64()
+  %ptrto_file_count_89 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_89)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_ge()
-  %a88 = call i64 @pop()
-  %b88 = icmp ne i64 %a88, 0
-  br i1 %b88, label %l294, label %l298
+  %a90 = call i64 @pop()
+  %b90 = icmp ne i64 %a90, 0
+  br i1 %b90, label %l300, label %l304
 
-l294:                                             ; preds = %l281
+l300:                                             ; preds = %l287
   call void @push(i64 0)
-  %ptrto_active_idx_89 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_89)
+  %ptrto_active_idx_91 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_91)
   call void @proc_intrinsic_store64()
-  br label %l298
+  br label %l304
 
-l298:                                             ; preds = %l294, %l281
-  br label %ls298
+l304:                                             ; preds = %l300, %l287
+  br label %ls304
 
-ls298:                                            ; preds = %l298
-  br label %l299
+ls304:                                            ; preds = %l304
+  br label %l305
 
-l299:                                             ; preds = %ls298, %l275
-  br label %ls299
+l305:                                             ; preds = %ls304, %l281
+  br label %ls305
 
-ls299:                                            ; preds = %l299
-  br label %l300
+ls305:                                            ; preds = %l305
+  br label %l306
 
-l300:                                             ; preds = %ls299, %ls266
-  br label %ls300
+l306:                                             ; preds = %ls305, %ls272
+  br label %ls306
 
-ls300:                                            ; preds = %l300
-  %ptrto_key_back_now_90 = ptrtoint ptr %mem_key_back_now to i64
-  call void @push(i64 %ptrto_key_back_now_90)
+ls306:                                            ; preds = %l306
+  %ptrto_key_back_now_92 = ptrtoint ptr %mem_key_back_now to i64
+  call void @push(i64 %ptrto_key_back_now_92)
   call void @proc_intrinsic_load64()
-  %ptrto_key_back_prev_91 = ptrtoint ptr %mem_key_back_prev to i64
-  call void @push(i64 %ptrto_key_back_prev_91)
+  %ptrto_key_back_prev_93 = ptrtoint ptr %mem_key_back_prev to i64
+  call void @push(i64 %ptrto_key_back_prev_93)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a92 = call i64 @pop()
-  %b92 = icmp ne i64 %a92, 0
-  br i1 %b92, label %l309, label %l344
-
-l309:                                             ; preds = %ls300
-  %ptrto_open_mode_93 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_93)
-  call void @proc_intrinsic_load64()
   %a94 = call i64 @pop()
   %b94 = icmp ne i64 %a94, 0
-  br i1 %b94, label %l313, label %l333
+  br i1 %b94, label %l315, label %l350
 
-l313:                                             ; preds = %l309
-  %ptrto_path_len_95 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_95)
+l315:                                             ; preds = %ls306
+  %ptrto_open_mode_95 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_95)
   call void @proc_intrinsic_load64()
-  call void @push(i64 0)
-  call void @proc_intrinsic_gt()
   %a96 = call i64 @pop()
   %b96 = icmp ne i64 %a96, 0
-  br i1 %b96, label %l319, label %l332
+  br i1 %b96, label %l319, label %l339
 
-l319:                                             ; preds = %l313
+l319:                                             ; preds = %l315
   %ptrto_path_len_97 = ptrtoint ptr %mem_path_len to i64
   call void @push(i64 %ptrto_path_len_97)
   call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_gt()
+  %a98 = call i64 @pop()
+  %b98 = icmp ne i64 %a98, 0
+  br i1 %b98, label %l325, label %l338
+
+l325:                                             ; preds = %l319
+  %ptrto_path_len_99 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_99)
+  call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_minus()
-  %ptrto_path_len_98 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_98)
-  call void @proc_intrinsic_store64()
-  call void @push(i64 0)
-  %ptrto_path_input_99 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_99)
   %ptrto_path_len_100 = ptrtoint ptr %mem_path_len to i64
   call void @push(i64 %ptrto_path_len_100)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 0)
+  %ptrto_path_input_101 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_101)
+  %ptrto_path_len_102 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_102)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_store8()
-  br label %l332
+  br label %l338
 
-l332:                                             ; preds = %l319, %l313
-  br label %ls332
+l338:                                             ; preds = %l325, %l319
+  br label %ls338
 
-ls332:                                            ; preds = %l332
-  br label %l343
+ls338:                                            ; preds = %l338
+  br label %l349
 
-l333:                                             ; preds = %l309
-  %ptrto_texts_101 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_101)
-  %ptrto_active_idx_102 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_102)
-  call void @proc_intrinsic_load64()
-  call void @proc_text_slot()
-  %ptrto_lens_103 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_103)
+l339:                                             ; preds = %l315
+  %ptrto_texts_103 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_103)
   %ptrto_active_idx_104 = ptrtoint ptr %mem_active_idx to i64
   call void @push(i64 %ptrto_active_idx_104)
   call void @proc_intrinsic_load64()
+  call void @proc_text_slot()
+  %ptrto_lens_105 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_105)
+  %ptrto_active_idx_106 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_106)
+  call void @proc_intrinsic_load64()
   call void @proc_len_slot()
   call void @proc_backspace_char()
-  br label %l343
+  br label %l349
 
-l343:                                             ; preds = %l333, %ls332
-  br label %ls343
+l349:                                             ; preds = %l339, %ls338
+  br label %ls349
 
-ls343:                                            ; preds = %l343
-  br label %l344
+ls349:                                            ; preds = %l349
+  br label %l350
 
-l344:                                             ; preds = %ls343, %ls300
-  br label %ls344
+l350:                                             ; preds = %ls349, %ls306
+  br label %ls350
 
-ls344:                                            ; preds = %l344
-  %ptrto_key_enter_now_105 = ptrtoint ptr %mem_key_enter_now to i64
-  call void @push(i64 %ptrto_key_enter_now_105)
+ls350:                                            ; preds = %l350
+  %ptrto_key_enter_now_107 = ptrtoint ptr %mem_key_enter_now to i64
+  call void @push(i64 %ptrto_key_enter_now_107)
   call void @proc_intrinsic_load64()
-  %ptrto_key_enter_prev_106 = ptrtoint ptr %mem_key_enter_prev to i64
-  call void @push(i64 %ptrto_key_enter_prev_106)
+  %ptrto_key_enter_prev_108 = ptrtoint ptr %mem_key_enter_prev to i64
+  call void @push(i64 %ptrto_key_enter_prev_108)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a107 = call i64 @pop()
-  %b107 = icmp ne i64 %a107, 0
-  br i1 %b107, label %l353, label %l412
-
-l353:                                             ; preds = %ls344
-  %ptrto_open_mode_108 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_108)
-  call void @proc_intrinsic_load64()
   %a109 = call i64 @pop()
   %b109 = icmp ne i64 %a109, 0
-  br i1 %b109, label %l357, label %l400
+  br i1 %b109, label %l359, label %l422
 
-l357:                                             ; preds = %l353
-  %ptrto_path_len_110 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_110)
+l359:                                             ; preds = %ls350
+  %ptrto_open_mode_110 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_110)
+  call void @proc_intrinsic_load64()
+  %a111 = call i64 @pop()
+  %b111 = icmp ne i64 %a111, 0
+  br i1 %b111, label %l363, label %l410
+
+l363:                                             ; preds = %l359
+  %ptrto_path_len_112 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_112)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_gt()
-  %a111 = call i64 @pop()
-  %b111 = icmp ne i64 %a111, 0
-  br i1 %b111, label %l363, label %l390
+  %a113 = call i64 @pop()
+  %b113 = icmp ne i64 %a113, 0
+  br i1 %b113, label %l369, label %l397
 
-l363:                                             ; preds = %l357
-  %ptrto_file_count_112 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_112)
+l369:                                             ; preds = %l363
+  %ptrto_file_count_114 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_114)
   call void @proc_intrinsic_load64()
   call void @push(i64 5)
   call void @proc_intrinsic_lt()
-  %a113 = call i64 @pop()
-  %b113 = icmp ne i64 %a113, 0
-  br i1 %b113, label %l369, label %l379
+  %a115 = call i64 @pop()
+  %b115 = icmp ne i64 %a115, 0
+  br i1 %b115, label %l375, label %l385
 
-l369:                                             ; preds = %l363
-  %ptrto_paths_114 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_114)
-  %ptrto_texts_115 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_115)
-  %ptrto_lens_116 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_116)
-  %ptrto_file_count_117 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_117)
-  %ptrto_active_idx_118 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_118)
-  %ptrto_path_input_119 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_119)
-  %ptrto_file_count_120 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_120)
+l375:                                             ; preds = %l369
+  %ptrto_paths_116 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_116)
+  %ptrto_texts_117 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_117)
+  %ptrto_lens_118 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_118)
+  %ptrto_file_count_119 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_119)
+  %ptrto_active_idx_120 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_120)
+  %ptrto_path_input_121 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_121)
+  %ptrto_file_count_122 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_122)
   call void @proc_intrinsic_load64()
   call void @proc_open_file_into_slot()
-  br label %l389
+  br label %l395
 
-l379:                                             ; preds = %l363
-  %ptrto_paths_121 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_121)
-  %ptrto_texts_122 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_122)
-  %ptrto_lens_123 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_123)
-  %ptrto_file_count_124 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_124)
-  %ptrto_active_idx_125 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_125)
-  %ptrto_path_input_126 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_126)
+l385:                                             ; preds = %l369
+  %ptrto_paths_123 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_123)
+  %ptrto_texts_124 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_124)
+  %ptrto_lens_125 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_125)
+  %ptrto_file_count_126 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_126)
   %ptrto_active_idx_127 = ptrtoint ptr %mem_active_idx to i64
   call void @push(i64 %ptrto_active_idx_127)
+  %ptrto_path_input_128 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_128)
+  %ptrto_active_idx_129 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_129)
   call void @proc_intrinsic_load64()
   call void @proc_open_file_into_slot()
-  br label %l389
+  br label %l395
 
-l389:                                             ; preds = %l379, %l369
-  br label %ls389
+l395:                                             ; preds = %l385, %l375
+  br label %ls395
 
-ls389:                                            ; preds = %l389
-  br label %l390
+ls395:                                            ; preds = %l395
+  call void @proc_intrinsic_drop()
+  br label %l397
 
-l390:                                             ; preds = %ls389, %l357
-  br label %ls390
+l397:                                             ; preds = %ls395, %l363
+  br label %ls397
 
-ls390:                                            ; preds = %l390
+ls397:                                            ; preds = %l397
   call void @push(i64 0)
-  %ptrto_open_mode_128 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_128)
+  %ptrto_open_mode_130 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_130)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_len_129 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_129)
+  %ptrto_path_len_131 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_131)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_input_130 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_130)
+  %ptrto_path_input_132 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_132)
   call void @proc_intrinsic_store8()
-  br label %l411
+  call void @push(i64 0)
+  %ptrto_open_error_133 = ptrtoint ptr %mem_open_error to i64
+  call void @push(i64 %ptrto_open_error_133)
+  call void @proc_intrinsic_store64()
+  br label %l421
 
-l400:                                             ; preds = %l353
-  %ptrto_texts_131 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_131)
-  %ptrto_active_idx_132 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_132)
+l410:                                             ; preds = %l359
+  %ptrto_texts_134 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_134)
+  %ptrto_active_idx_135 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_135)
   call void @proc_intrinsic_load64()
   call void @proc_text_slot()
-  %ptrto_lens_133 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_133)
-  %ptrto_active_idx_134 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_134)
+  %ptrto_lens_136 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_136)
+  %ptrto_active_idx_137 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_137)
   call void @proc_intrinsic_load64()
   call void @proc_len_slot()
   call void @push(i64 10)
   call void @proc_append_char()
-  br label %l411
+  br label %l421
 
-l411:                                             ; preds = %l400, %ls390
-  br label %ls411
+l421:                                             ; preds = %l410, %ls397
+  br label %ls421
 
-ls411:                                            ; preds = %l411
-  br label %l412
+ls421:                                            ; preds = %l421
+  br label %l422
 
-l412:                                             ; preds = %ls411, %ls344
-  br label %ls412
+l422:                                             ; preds = %ls421, %ls350
+  br label %ls422
 
-ls412:                                            ; preds = %l412
-  %ptrto_ctrl_down_135 = ptrtoint ptr %mem_ctrl_down to i64
-  call void @push(i64 %ptrto_ctrl_down_135)
-  call void @proc_intrinsic_load64()
-  %ptrto_key_s_now_136 = ptrtoint ptr %mem_key_s_now to i64
-  call void @push(i64 %ptrto_key_s_now_136)
-  call void @proc_intrinsic_load64()
-  call void @proc_land()
-  %ptrto_key_ctrl_s_prev_137 = ptrtoint ptr %mem_key_ctrl_s_prev to i64
-  call void @push(i64 %ptrto_key_ctrl_s_prev_137)
-  call void @proc_intrinsic_store64()
+ls422:                                            ; preds = %l422
   %ptrto_ctrl_down_138 = ptrtoint ptr %mem_ctrl_down to i64
   call void @push(i64 %ptrto_ctrl_down_138)
   call void @proc_intrinsic_load64()
-  %ptrto_key_o_now_139 = ptrtoint ptr %mem_key_o_now to i64
-  call void @push(i64 %ptrto_key_o_now_139)
+  %ptrto_key_s_now_139 = ptrtoint ptr %mem_key_s_now to i64
+  call void @push(i64 %ptrto_key_s_now_139)
   call void @proc_intrinsic_load64()
   call void @proc_land()
-  %ptrto_key_ctrl_o_prev_140 = ptrtoint ptr %mem_key_ctrl_o_prev to i64
-  call void @push(i64 %ptrto_key_ctrl_o_prev_140)
+  %ptrto_key_ctrl_s_prev_140 = ptrtoint ptr %mem_key_ctrl_s_prev to i64
+  call void @push(i64 %ptrto_key_ctrl_s_prev_140)
   call void @proc_intrinsic_store64()
-  %ptrto_key_tab_now_141 = ptrtoint ptr %mem_key_tab_now to i64
-  call void @push(i64 %ptrto_key_tab_now_141)
+  %ptrto_ctrl_down_141 = ptrtoint ptr %mem_ctrl_down to i64
+  call void @push(i64 %ptrto_ctrl_down_141)
   call void @proc_intrinsic_load64()
-  %ptrto_key_tab_prev_142 = ptrtoint ptr %mem_key_tab_prev to i64
-  call void @push(i64 %ptrto_key_tab_prev_142)
+  %ptrto_key_o_now_142 = ptrtoint ptr %mem_key_o_now to i64
+  call void @push(i64 %ptrto_key_o_now_142)
+  call void @proc_intrinsic_load64()
+  call void @proc_land()
+  %ptrto_key_ctrl_o_prev_143 = ptrtoint ptr %mem_key_ctrl_o_prev to i64
+  call void @push(i64 %ptrto_key_ctrl_o_prev_143)
   call void @proc_intrinsic_store64()
-  %ptrto_key_back_now_143 = ptrtoint ptr %mem_key_back_now to i64
-  call void @push(i64 %ptrto_key_back_now_143)
+  %ptrto_key_tab_now_144 = ptrtoint ptr %mem_key_tab_now to i64
+  call void @push(i64 %ptrto_key_tab_now_144)
   call void @proc_intrinsic_load64()
-  %ptrto_key_back_prev_144 = ptrtoint ptr %mem_key_back_prev to i64
-  call void @push(i64 %ptrto_key_back_prev_144)
+  %ptrto_key_tab_prev_145 = ptrtoint ptr %mem_key_tab_prev to i64
+  call void @push(i64 %ptrto_key_tab_prev_145)
   call void @proc_intrinsic_store64()
-  %ptrto_key_enter_now_145 = ptrtoint ptr %mem_key_enter_now to i64
-  call void @push(i64 %ptrto_key_enter_now_145)
+  %ptrto_key_back_now_146 = ptrtoint ptr %mem_key_back_now to i64
+  call void @push(i64 %ptrto_key_back_now_146)
   call void @proc_intrinsic_load64()
-  %ptrto_key_enter_prev_146 = ptrtoint ptr %mem_key_enter_prev to i64
-  call void @push(i64 %ptrto_key_enter_prev_146)
+  %ptrto_key_back_prev_147 = ptrtoint ptr %mem_key_back_prev to i64
+  call void @push(i64 %ptrto_key_back_prev_147)
+  call void @proc_intrinsic_store64()
+  %ptrto_key_enter_now_148 = ptrtoint ptr %mem_key_enter_now to i64
+  call void @push(i64 %ptrto_key_enter_now_148)
+  call void @proc_intrinsic_load64()
+  %ptrto_key_enter_prev_149 = ptrtoint ptr %mem_key_enter_prev to i64
+  call void @push(i64 %ptrto_key_enter_prev_149)
   call void @proc_intrinsic_store64()
   call void @push(i64 32)
-  %ptrto_k_147 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_147)
+  %ptrto_k_150 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_150)
   call void @proc_intrinsic_store64()
-  br label %l442
+  br label %l452
 
-l442:                                             ; preds = %ls539, %ls412
-  %ptrto_k_148 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_148)
-  call void @proc_intrinsic_load64()
-  call void @push(i64 126)
-  call void @proc_intrinsic_le()
-  %a149 = call i64 @pop()
-  %b149 = icmp ne i64 %a149, 0
-  br i1 %b149, label %l447, label %l553
-
-l447:                                             ; preds = %l442
-  %ptrto_handle_150 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_150)
-  call void @proc_intrinsic_load64()
+l452:                                             ; preds = %ls560, %ls422
   %ptrto_k_151 = ptrtoint ptr %mem_k to i64
   call void @push(i64 %ptrto_k_151)
   call void @proc_intrinsic_load64()
-  call void @proc_gui_key_down()
-  %ptrto_cur_152 = ptrtoint ptr %mem_cur to i64
-  call void @push(i64 %ptrto_cur_152)
-  call void @proc_intrinsic_store64()
-  %ptrto_cur_153 = ptrtoint ptr %mem_cur to i64
-  call void @push(i64 %ptrto_cur_153)
+  call void @push(i64 126)
+  call void @proc_intrinsic_le()
+  %a152 = call i64 @pop()
+  %b152 = icmp ne i64 %a152, 0
+  br i1 %b152, label %l457, label %l574
+
+l457:                                             ; preds = %l452
+  %ptrto_handle_153 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_153)
   call void @proc_intrinsic_load64()
-  %ptrto_prev_keys_154 = ptrtoint ptr %mem_prev_keys to i64
-  call void @push(i64 %ptrto_prev_keys_154)
-  %ptrto_k_155 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_155)
+  %ptrto_k_154 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_154)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_key_down()
+  %ptrto_cur_155 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_155)
+  call void @proc_intrinsic_store64()
+  %ptrto_ctrl_down_156 = ptrtoint ptr %mem_ctrl_down to i64
+  call void @push(i64 %ptrto_ctrl_down_156)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_eq()
+  %ptrto_cur_157 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_157)
+  call void @proc_intrinsic_load64()
+  %ptrto_prev_keys_158 = ptrtoint ptr %mem_prev_keys to i64
+  call void @push(i64 %ptrto_prev_keys_158)
+  %ptrto_k_159 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_159)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_load8()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a156 = call i64 @pop()
-  %b156 = icmp ne i64 %a156, 0
-  br i1 %b156, label %l466, label %l539
-
-l466:                                             ; preds = %l447
-  %ptrto_k_157 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_157)
-  call void @proc_intrinsic_load64()
-  %ptrto_ch_158 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_158)
-  call void @proc_intrinsic_store64()
-  %ptrto_shifted_159 = ptrtoint ptr %mem_shifted to i64
-  call void @push(i64 %ptrto_shifted_159)
-  call void @proc_intrinsic_load64()
+  call void @proc_land()
   %a160 = call i64 @pop()
   %b160 = icmp ne i64 %a160, 0
-  br i1 %b160, label %l474, label %l493
+  br i1 %b160, label %l481, label %l560
 
-l474:                                             ; preds = %l466
-  %ptrto_ch_161 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_161)
+l481:                                             ; preds = %l457
+  %ptrto_k_161 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_161)
+  call void @proc_intrinsic_load64()
+  %ptrto_ch_162 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_162)
+  call void @proc_intrinsic_store64()
+  %ptrto_shifted_163 = ptrtoint ptr %mem_shifted to i64
+  call void @push(i64 %ptrto_shifted_163)
+  call void @proc_intrinsic_load64()
+  %a164 = call i64 @pop()
+  %b164 = icmp ne i64 %a164, 0
+  br i1 %b164, label %l489, label %l508
+
+l489:                                             ; preds = %l481
+  %ptrto_ch_165 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_165)
   call void @proc_intrinsic_load64()
   call void @push(i64 97)
   call void @proc_intrinsic_ge()
-  %ptrto_ch_162 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_162)
+  %ptrto_ch_166 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_166)
   call void @proc_intrinsic_load64()
   call void @push(i64 122)
   call void @proc_intrinsic_le()
   call void @proc_land()
-  %a163 = call i64 @pop()
-  %b163 = icmp ne i64 %a163, 0
-  br i1 %b163, label %l485, label %l492
+  %a167 = call i64 @pop()
+  %b167 = icmp ne i64 %a167, 0
+  br i1 %b167, label %l500, label %l507
 
-l485:                                             ; preds = %l474
-  %ptrto_ch_164 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_164)
+l500:                                             ; preds = %l489
+  %ptrto_ch_168 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_168)
   call void @proc_intrinsic_load64()
   call void @push(i64 32)
   call void @proc_intrinsic_minus()
-  %ptrto_ch_165 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_165)
+  %ptrto_ch_169 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_169)
   call void @proc_intrinsic_store64()
-  br label %l492
+  br label %l507
 
-l492:                                             ; preds = %l485, %l474
-  br label %ls492
+l507:                                             ; preds = %l500, %l489
+  br label %ls507
 
-ls492:                                            ; preds = %l492
-  br label %l493
+ls507:                                            ; preds = %l507
+  br label %l508
 
-l493:                                             ; preds = %ls492, %l466
-  br label %ls493
+l508:                                             ; preds = %ls507, %l481
+  br label %ls508
 
-ls493:                                            ; preds = %l493
-  %ptrto_open_mode_166 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_166)
+ls508:                                            ; preds = %l508
+  %ptrto_open_mode_170 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_170)
   call void @proc_intrinsic_load64()
-  %a167 = call i64 @pop()
-  %b167 = icmp ne i64 %a167, 0
-  br i1 %b167, label %l497, label %l526
+  %a171 = call i64 @pop()
+  %b171 = icmp ne i64 %a171, 0
+  br i1 %b171, label %l512, label %l547
 
-l497:                                             ; preds = %ls493
-  %ptrto_path_len_168 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_168)
+l512:                                             ; preds = %ls508
+  %ptrto_path_len_172 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_172)
   call void @proc_intrinsic_load64()
   call void @push(i64 256)
   call void @push(i64 1)
   call void @proc_intrinsic_minus()
   call void @proc_intrinsic_lt()
-  %a169 = call i64 @pop()
-  %b169 = icmp ne i64 %a169, 0
-  br i1 %b169, label %l505, label %l525
+  %a173 = call i64 @pop()
+  %b173 = icmp ne i64 %a173, 0
+  br i1 %b173, label %l520, label %l546
 
-l505:                                             ; preds = %l497
-  %ptrto_ch_170 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_170)
+l520:                                             ; preds = %l512
+  %ptrto_ch_174 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_174)
   call void @proc_intrinsic_load64()
-  %ptrto_path_input_171 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_171)
-  %ptrto_path_len_172 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_172)
+  call void @proc_is_path_char()
+  %a175 = call i64 @pop()
+  %b175 = icmp ne i64 %a175, 0
+  br i1 %b175, label %l525, label %l545
+
+l525:                                             ; preds = %l520
+  %ptrto_ch_176 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_176)
+  call void @proc_intrinsic_load64()
+  %ptrto_path_input_177 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_177)
+  %ptrto_path_len_178 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_178)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_store8()
-  %ptrto_path_len_173 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_173)
+  %ptrto_path_len_179 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_179)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_path_len_174 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_174)
+  %ptrto_path_len_180 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_180)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_input_175 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_175)
-  %ptrto_path_len_176 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_176)
+  %ptrto_path_input_181 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_181)
+  %ptrto_path_len_182 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_182)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_store8()
-  br label %l525
+  br label %l545
 
-l525:                                             ; preds = %l505, %l497
-  br label %ls525
+l545:                                             ; preds = %l525, %l520
+  br label %ls545
 
-ls525:                                            ; preds = %l525
-  br label %l538
+ls545:                                            ; preds = %l545
+  br label %l546
 
-l526:                                             ; preds = %ls493
-  %ptrto_texts_177 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_177)
-  %ptrto_active_idx_178 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_178)
+l546:                                             ; preds = %ls545, %l512
+  br label %ls546
+
+ls546:                                            ; preds = %l546
+  br label %l559
+
+l547:                                             ; preds = %ls508
+  %ptrto_texts_183 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_183)
+  %ptrto_active_idx_184 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_184)
   call void @proc_intrinsic_load64()
   call void @proc_text_slot()
-  %ptrto_lens_179 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_179)
-  %ptrto_active_idx_180 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_180)
+  %ptrto_lens_185 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_185)
+  %ptrto_active_idx_186 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_186)
   call void @proc_intrinsic_load64()
   call void @proc_len_slot()
-  %ptrto_ch_181 = ptrtoint ptr %mem_ch to i64
-  call void @push(i64 %ptrto_ch_181)
+  %ptrto_ch_187 = ptrtoint ptr %mem_ch to i64
+  call void @push(i64 %ptrto_ch_187)
   call void @proc_intrinsic_load64()
   call void @proc_append_char()
-  br label %l538
+  br label %l559
 
-l538:                                             ; preds = %l526, %ls525
-  br label %ls538
+l559:                                             ; preds = %l547, %ls546
+  br label %ls559
 
-ls538:                                            ; preds = %l538
-  br label %l539
+ls559:                                            ; preds = %l559
+  br label %l560
 
-l539:                                             ; preds = %ls538, %l447
-  br label %ls539
+l560:                                             ; preds = %ls559, %l457
+  br label %ls560
 
-ls539:                                            ; preds = %l539
-  %ptrto_cur_182 = ptrtoint ptr %mem_cur to i64
-  call void @push(i64 %ptrto_cur_182)
+ls560:                                            ; preds = %l560
+  %ptrto_cur_188 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_188)
   call void @proc_intrinsic_load64()
-  %ptrto_prev_keys_183 = ptrtoint ptr %mem_prev_keys to i64
-  call void @push(i64 %ptrto_prev_keys_183)
-  %ptrto_k_184 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_184)
+  %ptrto_prev_keys_189 = ptrtoint ptr %mem_prev_keys to i64
+  call void @push(i64 %ptrto_prev_keys_189)
+  %ptrto_k_190 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_190)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_store8()
-  %ptrto_k_185 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_185)
+  %ptrto_k_191 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_191)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_k_186 = ptrtoint ptr %mem_k to i64
-  call void @push(i64 %ptrto_k_186)
+  %ptrto_k_192 = ptrtoint ptr %mem_k to i64
+  call void @push(i64 %ptrto_k_192)
   call void @proc_intrinsic_store64()
-  br label %l442
+  br label %l452
 
-l553:                                             ; preds = %l442
-  br label %ls553
+l574:                                             ; preds = %l452
+  br label %ls574
 
-ls553:                                            ; preds = %l553
-  %ptrto_handle_187 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_187)
+ls574:                                            ; preds = %l574
+  %ptrto_handle_193 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_193)
   call void @proc_intrinsic_load64()
   call void @proc_gui_mouse_x()
-  %ptrto_mx_188 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_188)
+  %ptrto_mx_194 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_194)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_189 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_189)
+  %ptrto_handle_195 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_195)
   call void @proc_intrinsic_load64()
   call void @proc_gui_mouse_y()
-  %ptrto_my_190 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_190)
+  %ptrto_my_196 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_196)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_191 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_191)
+  %ptrto_handle_197 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_197)
   call void @proc_intrinsic_load64()
   call void @proc_gui_mouse_buttons()
-  %ptrto_mouse_buttons_192 = ptrtoint ptr %mem_mouse_buttons to i64
-  call void @push(i64 %ptrto_mouse_buttons_192)
+  %ptrto_mouse_buttons_198 = ptrtoint ptr %mem_mouse_buttons to i64
+  call void @push(i64 %ptrto_mouse_buttons_198)
   call void @proc_intrinsic_store64()
-  %ptrto_mouse_buttons_193 = ptrtoint ptr %mem_mouse_buttons to i64
-  call void @push(i64 %ptrto_mouse_buttons_193)
+  %ptrto_mouse_buttons_199 = ptrtoint ptr %mem_mouse_buttons to i64
+  call void @push(i64 %ptrto_mouse_buttons_199)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_band()
   call void @push(i64 0)
   call void @proc_intrinsic_ne()
-  %ptrto_left_now_194 = ptrtoint ptr %mem_left_now to i64
-  call void @push(i64 %ptrto_left_now_194)
+  %ptrto_left_now_200 = ptrtoint ptr %mem_left_now to i64
+  call void @push(i64 %ptrto_left_now_200)
   call void @proc_intrinsic_store64()
-  %ptrto_left_now_195 = ptrtoint ptr %mem_left_now to i64
-  call void @push(i64 %ptrto_left_now_195)
+  %ptrto_left_now_201 = ptrtoint ptr %mem_left_now to i64
+  call void @push(i64 %ptrto_left_now_201)
   call void @proc_intrinsic_load64()
-  %ptrto_left_prev_196 = ptrtoint ptr %mem_left_prev to i64
-  call void @push(i64 %ptrto_left_prev_196)
+  %ptrto_left_prev_202 = ptrtoint ptr %mem_left_prev to i64
+  call void @push(i64 %ptrto_left_prev_202)
   call void @proc_intrinsic_load64()
   call void @push(i64 0)
   call void @proc_intrinsic_eq()
   call void @proc_land()
-  %a197 = call i64 @pop()
-  %b197 = icmp ne i64 %a197, 0
-  br i1 %b197, label %l585, label %l798
+  %a203 = call i64 @pop()
+  %b203 = icmp ne i64 %a203, 0
+  br i1 %b203, label %l606, label %l823
 
-l585:                                             ; preds = %ls553
+l606:                                             ; preds = %ls574
   call void @push(i64 0)
-  %ptrto_i_198 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_198)
+  %ptrto_i_204 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_204)
   call void @proc_intrinsic_store64()
-  br label %l589
+  br label %l610
 
-l589:                                             ; preds = %ls633, %l585
-  %ptrto_i_199 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_199)
+l610:                                             ; preds = %ls654, %l606
+  %ptrto_i_205 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_205)
   call void @proc_intrinsic_load64()
-  %ptrto_file_count_200 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_200)
+  %ptrto_file_count_206 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_206)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_lt()
-  %a201 = call i64 @pop()
-  %b201 = icmp ne i64 %a201, 0
-  br i1 %b201, label %l595, label %l640
+  %a207 = call i64 @pop()
+  %b207 = icmp ne i64 %a207, 0
+  br i1 %b207, label %l616, label %l661
 
-l595:                                             ; preds = %l589
+l616:                                             ; preds = %l610
   call void @push(i64 68)
-  %ptrto_i_202 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_202)
+  %ptrto_i_208 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_208)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_mult()
   call void @proc_intrinsic_plus()
-  %ptrto_row_y_203 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_203)
+  %ptrto_row_y_209 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_209)
   call void @proc_intrinsic_store64()
-  %ptrto_mx_204 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_204)
+  %ptrto_mx_210 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_210)
   call void @proc_intrinsic_load64()
   call void @push(i64 10)
   call void @proc_intrinsic_ge()
-  %ptrto_mx_205 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_205)
+  %ptrto_mx_211 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_211)
   call void @proc_intrinsic_load64()
   call void @push(i64 220)
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %ptrto_my_206 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_206)
+  %ptrto_my_212 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_212)
   call void @proc_intrinsic_load64()
-  %ptrto_row_y_207 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_207)
+  %ptrto_row_y_213 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_213)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_ge()
   call void @proc_land()
-  %ptrto_my_208 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_208)
+  %ptrto_my_214 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_214)
   call void @proc_intrinsic_load64()
-  %ptrto_row_y_209 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_209)
+  %ptrto_row_y_215 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_215)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %a210 = call i64 @pop()
-  %b210 = icmp ne i64 %a210, 0
-  br i1 %b210, label %l628, label %l633
+  %a216 = call i64 @pop()
+  %b216 = icmp ne i64 %a216, 0
+  br i1 %b216, label %l649, label %l654
 
-l628:                                             ; preds = %l595
-  %ptrto_i_211 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_211)
+l649:                                             ; preds = %l616
+  %ptrto_i_217 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_217)
   call void @proc_intrinsic_load64()
-  %ptrto_active_idx_212 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_212)
+  %ptrto_active_idx_218 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_218)
   call void @proc_intrinsic_store64()
-  br label %l633
+  br label %l654
 
-l633:                                             ; preds = %l628, %l595
-  br label %ls633
+l654:                                             ; preds = %l649, %l616
+  br label %ls654
 
-ls633:                                            ; preds = %l633
-  %ptrto_i_213 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_213)
-  call void @proc_intrinsic_load64()
-  call void @push(i64 1)
-  call void @proc_intrinsic_plus()
-  %ptrto_i_214 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_214)
-  call void @proc_intrinsic_store64()
-  br label %l589
-
-l640:                                             ; preds = %l589
-  br label %ls640
-
-ls640:                                            ; preds = %l640
-  call void @push(i64 0)
-  %ptrto_i_215 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_215)
-  call void @proc_intrinsic_store64()
-  br label %l644
-
-l644:                                             ; preds = %ls690, %ls640
-  %ptrto_i_216 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_216)
-  call void @proc_intrinsic_load64()
-  %ptrto_file_count_217 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_217)
-  call void @proc_intrinsic_load64()
-  call void @proc_intrinsic_lt()
-  %a218 = call i64 @pop()
-  %b218 = icmp ne i64 %a218, 0
-  br i1 %b218, label %l650, label %l697
-
-l650:                                             ; preds = %l644
-  call void @push(i64 250)
+ls654:                                            ; preds = %l654
   %ptrto_i_219 = ptrtoint ptr %mem_i to i64
   call void @push(i64 %ptrto_i_219)
   call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_i_220 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_220)
+  call void @proc_intrinsic_store64()
+  br label %l610
+
+l661:                                             ; preds = %l610
+  br label %ls661
+
+ls661:                                            ; preds = %l661
+  call void @push(i64 0)
+  %ptrto_i_221 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_221)
+  call void @proc_intrinsic_store64()
+  br label %l665
+
+l665:                                             ; preds = %ls711, %ls661
+  %ptrto_i_222 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_222)
+  call void @proc_intrinsic_load64()
+  %ptrto_file_count_223 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_223)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_lt()
+  %a224 = call i64 @pop()
+  %b224 = icmp ne i64 %a224, 0
+  br i1 %b224, label %l671, label %l718
+
+l671:                                             ; preds = %l665
+  call void @push(i64 250)
+  %ptrto_i_225 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_225)
+  call void @proc_intrinsic_load64()
   call void @push(i64 140)
   call void @proc_intrinsic_mult()
   call void @proc_intrinsic_plus()
-  %ptrto_tab_x_220 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_220)
+  %ptrto_tab_x_226 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_226)
   call void @proc_intrinsic_store64()
-  %ptrto_mx_221 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_221)
+  %ptrto_mx_227 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_227)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_222 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_222)
+  %ptrto_tab_x_228 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_228)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_ge()
-  %ptrto_mx_223 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_223)
+  %ptrto_mx_229 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_229)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_224 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_224)
+  %ptrto_tab_x_230 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_230)
   call void @proc_intrinsic_load64()
   call void @push(i64 140)
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %ptrto_my_225 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_225)
+  %ptrto_my_231 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_231)
   call void @proc_intrinsic_load64()
   call void @push(i64 8)
   call void @proc_intrinsic_ge()
   call void @proc_land()
-  %ptrto_my_226 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_226)
+  %ptrto_my_232 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_232)
   call void @proc_intrinsic_load64()
   call void @push(i64 8)
   call void @push(i64 20)
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %a227 = call i64 @pop()
-  %b227 = icmp ne i64 %a227, 0
-  br i1 %b227, label %l685, label %l690
+  %a233 = call i64 @pop()
+  %b233 = icmp ne i64 %a233, 0
+  br i1 %b233, label %l706, label %l711
 
-l685:                                             ; preds = %l650
-  %ptrto_i_228 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_228)
+l706:                                             ; preds = %l671
+  %ptrto_i_234 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_234)
   call void @proc_intrinsic_load64()
-  %ptrto_active_idx_229 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_229)
+  %ptrto_active_idx_235 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_235)
   call void @proc_intrinsic_store64()
-  br label %l690
+  br label %l711
 
-l690:                                             ; preds = %l685, %l650
-  br label %ls690
+l711:                                             ; preds = %l706, %l671
+  br label %ls711
 
-ls690:                                            ; preds = %l690
-  %ptrto_i_230 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_230)
+ls711:                                            ; preds = %l711
+  %ptrto_i_236 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_236)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_i_231 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_231)
+  %ptrto_i_237 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_237)
   call void @proc_intrinsic_store64()
-  br label %l644
+  br label %l665
 
-l697:                                             ; preds = %l644
-  br label %ls697
+l718:                                             ; preds = %l665
+  br label %ls718
 
-ls697:                                            ; preds = %l697
-  %ptrto_open_mode_232 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_232)
+ls718:                                            ; preds = %l718
+  %ptrto_open_mode_238 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_238)
   call void @proc_intrinsic_load64()
-  %a233 = call i64 @pop()
-  %b233 = icmp ne i64 %a233, 0
-  br i1 %b233, label %l701, label %l797
+  %a239 = call i64 @pop()
+  %b239 = icmp ne i64 %a239, 0
+  br i1 %b239, label %l722, label %l822
 
-l701:                                             ; preds = %ls697
+l722:                                             ; preds = %ls718
   call void @push(i64 0)
-  %ptrto_i_234 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_234)
+  %ptrto_i_240 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_240)
   call void @proc_intrinsic_store64()
-  br label %l705
+  br label %l726
 
-l705:                                             ; preds = %ls789, %l701
-  %ptrto_i_235 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_235)
+l726:                                             ; preds = %ls814, %l722
+  %ptrto_i_241 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_241)
   call void @proc_intrinsic_load64()
-  %ptrto_browser_count_236 = ptrtoint ptr %mem_browser_count to i64
-  call void @push(i64 %ptrto_browser_count_236)
+  %ptrto_browser_count_242 = ptrtoint ptr %mem_browser_count to i64
+  call void @push(i64 %ptrto_browser_count_242)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_lt()
-  %a237 = call i64 @pop()
-  %b237 = icmp ne i64 %a237, 0
-  br i1 %b237, label %l711, label %l796
+  %a243 = call i64 @pop()
+  %b243 = icmp ne i64 %a243, 0
+  br i1 %b243, label %l732, label %l821
 
-l711:                                             ; preds = %l705
+l732:                                             ; preds = %l726
   call void @push(i64 68)
-  %ptrto_i_238 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_238)
+  %ptrto_i_244 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_244)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_mult()
   call void @proc_intrinsic_plus()
-  %ptrto_row_y_239 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_239)
+  %ptrto_row_y_245 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_245)
   call void @proc_intrinsic_store64()
-  %ptrto_mx_240 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_240)
+  %ptrto_mx_246 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_246)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @proc_intrinsic_ge()
-  %ptrto_mx_241 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_241)
+  %ptrto_mx_247 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_247)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 700)
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %ptrto_my_242 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_242)
+  %ptrto_my_248 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_248)
   call void @proc_intrinsic_load64()
-  %ptrto_row_y_243 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_243)
+  %ptrto_row_y_249 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_249)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_ge()
   call void @proc_land()
-  %ptrto_my_244 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_244)
+  %ptrto_my_250 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_250)
   call void @proc_intrinsic_load64()
-  %ptrto_row_y_245 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_245)
+  %ptrto_row_y_251 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_251)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_plus()
   call void @proc_intrinsic_lt()
   call void @proc_land()
-  %a246 = call i64 @pop()
-  %b246 = icmp ne i64 %a246, 0
-  br i1 %b246, label %l746, label %l789
+  %a252 = call i64 @pop()
+  %b252 = icmp ne i64 %a252, 0
+  br i1 %b252, label %l767, label %l814
 
-l746:                                             ; preds = %l711
-  %ptrto_browser_paths_247 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_247)
-  %ptrto_i_248 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_248)
+l767:                                             ; preds = %l732
+  %ptrto_browser_paths_253 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_253)
+  %ptrto_i_254 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_254)
   call void @proc_intrinsic_load64()
   call void @proc_path_slot()
-  %ptrto_path_input_249 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_249)
-  %ptrto_path_len_250 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_250)
+  %ptrto_path_input_255 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_255)
+  %ptrto_path_len_256 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_256)
   call void @proc_set_input_path()
-  %ptrto_file_count_251 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_251)
+  %ptrto_file_count_257 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_257)
   call void @proc_intrinsic_load64()
   call void @push(i64 5)
   call void @proc_intrinsic_lt()
-  %a252 = call i64 @pop()
-  %b252 = icmp ne i64 %a252, 0
-  br i1 %b252, label %l759, label %l769
+  %a258 = call i64 @pop()
+  %b258 = icmp ne i64 %a258, 0
+  br i1 %b258, label %l780, label %l790
 
-l759:                                             ; preds = %l746
-  %ptrto_paths_253 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_253)
-  %ptrto_texts_254 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_254)
-  %ptrto_lens_255 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_255)
-  %ptrto_file_count_256 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_256)
-  %ptrto_active_idx_257 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_257)
-  %ptrto_path_input_258 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_258)
-  %ptrto_file_count_259 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_259)
+l780:                                             ; preds = %l767
+  %ptrto_paths_259 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_259)
+  %ptrto_texts_260 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_260)
+  %ptrto_lens_261 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_261)
+  %ptrto_file_count_262 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_262)
+  %ptrto_active_idx_263 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_263)
+  %ptrto_path_input_264 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_264)
+  %ptrto_file_count_265 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_265)
   call void @proc_intrinsic_load64()
   call void @proc_open_file_into_slot()
-  br label %l779
+  br label %l800
 
-l769:                                             ; preds = %l746
-  %ptrto_paths_260 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_260)
-  %ptrto_texts_261 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_261)
-  %ptrto_lens_262 = ptrtoint ptr %mem_lens to i64
-  call void @push(i64 %ptrto_lens_262)
-  %ptrto_file_count_263 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_263)
-  %ptrto_active_idx_264 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_264)
-  %ptrto_path_input_265 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_265)
-  %ptrto_active_idx_266 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_266)
+l790:                                             ; preds = %l767
+  %ptrto_paths_266 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_266)
+  %ptrto_texts_267 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_267)
+  %ptrto_lens_268 = ptrtoint ptr %mem_lens to i64
+  call void @push(i64 %ptrto_lens_268)
+  %ptrto_file_count_269 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_269)
+  %ptrto_active_idx_270 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_270)
+  %ptrto_path_input_271 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_271)
+  %ptrto_active_idx_272 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_272)
   call void @proc_intrinsic_load64()
   call void @proc_open_file_into_slot()
-  br label %l779
+  br label %l800
 
-l779:                                             ; preds = %l769, %l759
-  br label %ls779
+l800:                                             ; preds = %l790, %l780
+  br label %ls800
 
-ls779:                                            ; preds = %l779
+ls800:                                            ; preds = %l800
+  call void @proc_intrinsic_drop()
   call void @push(i64 0)
-  %ptrto_open_mode_267 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_267)
+  %ptrto_open_mode_273 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_273)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_len_268 = ptrtoint ptr %mem_path_len to i64
-  call void @push(i64 %ptrto_path_len_268)
+  %ptrto_path_len_274 = ptrtoint ptr %mem_path_len to i64
+  call void @push(i64 %ptrto_path_len_274)
   call void @proc_intrinsic_store64()
   call void @push(i64 0)
-  %ptrto_path_input_269 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_269)
+  %ptrto_path_input_275 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_275)
   call void @proc_intrinsic_store8()
-  br label %l789
+  call void @push(i64 0)
+  %ptrto_open_error_276 = ptrtoint ptr %mem_open_error to i64
+  call void @push(i64 %ptrto_open_error_276)
+  call void @proc_intrinsic_store64()
+  br label %l814
 
-l789:                                             ; preds = %ls779, %l711
-  br label %ls789
+l814:                                             ; preds = %ls800, %l732
+  br label %ls814
 
-ls789:                                            ; preds = %l789
-  %ptrto_i_270 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_270)
+ls814:                                            ; preds = %l814
+  %ptrto_i_277 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_277)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_i_271 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_271)
+  %ptrto_i_278 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_278)
   call void @proc_intrinsic_store64()
-  br label %l705
+  br label %l726
 
-l796:                                             ; preds = %l705
-  br label %ls796
+l821:                                             ; preds = %l726
+  br label %ls821
 
-ls796:                                            ; preds = %l796
-  br label %l797
+ls821:                                            ; preds = %l821
+  br label %l822
 
-l797:                                             ; preds = %ls796, %ls697
-  br label %ls797
+l822:                                             ; preds = %ls821, %ls718
+  br label %ls822
 
-ls797:                                            ; preds = %l797
-  br label %l798
+ls822:                                            ; preds = %l822
+  br label %l823
 
-l798:                                             ; preds = %ls797, %ls553
-  br label %ls798
+l823:                                             ; preds = %ls822, %ls574
+  br label %ls823
 
-ls798:                                            ; preds = %l798
-  %ptrto_left_now_272 = ptrtoint ptr %mem_left_now to i64
-  call void @push(i64 %ptrto_left_now_272)
+ls823:                                            ; preds = %l823
+  %ptrto_left_now_279 = ptrtoint ptr %mem_left_now to i64
+  call void @push(i64 %ptrto_left_now_279)
   call void @proc_intrinsic_load64()
-  %ptrto_left_prev_273 = ptrtoint ptr %mem_left_prev to i64
-  call void @push(i64 %ptrto_left_prev_273)
+  %ptrto_left_prev_280 = ptrtoint ptr %mem_left_prev to i64
+  call void @push(i64 %ptrto_left_prev_280)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_274 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_274)
+  %ptrto_handle_281 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_281)
   call void @proc_intrinsic_load64()
   call void @push(i64 18)
   call void @push(i64 22)
   call void @push(i64 34)
   call void @proc_gui_clear()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_275 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_275)
+  %ptrto_handle_282 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_282)
   call void @proc_intrinsic_load64()
   call void @push(i64 10)
   call void @push(i64 58)
@@ -4467,32 +4839,32 @@ ls798:                                            ; preds = %l798
   call void @push(i64 86)
   call void @proc_gui_rect()
   call void @proc_intrinsic_drop()
-  %ptrto_paths_276 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_276)
-  %ptrto_file_count_277 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_277)
-  %ptrto_active_idx_278 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_278)
+  %ptrto_paths_283 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_283)
+  %ptrto_file_count_284 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_284)
+  %ptrto_active_idx_285 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_285)
   call void @proc_intrinsic_load64()
   call void @proc_draw_file_list()
-  %ptrto_handle_279 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_279)
+  %ptrto_handle_286 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_286)
   call void @proc_intrinsic_load64()
   call void @push(i64 14)
   call void @push(i64 12)
-  call void @push(i64 %strptr832)
+  call void @push(i64 %strptr857)
   call void @push(i64 120)
   call void @push(i64 200)
   call void @push(i64 255)
   call void @push(i64 2)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_280 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_280)
+  %ptrto_handle_287 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_287)
   call void @proc_intrinsic_load64()
   call void @push(i64 14)
   call void @push(i64 34)
-  call void @push(i64 %strptr843)
+  call void @push(i64 %strptr868)
   call void @push(i64 160)
   call void @push(i64 180)
   call void @push(i64 210)
@@ -4500,51 +4872,51 @@ ls798:                                            ; preds = %l798
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
-  %ptrto_i_281 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_281)
+  %ptrto_i_288 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_288)
   call void @proc_intrinsic_store64()
-  br label %l853
+  br label %l878
 
-l853:                                             ; preds = %ls900, %ls798
-  %ptrto_i_282 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_282)
+l878:                                             ; preds = %ls925, %ls823
+  %ptrto_i_289 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_289)
   call void @proc_intrinsic_load64()
-  %ptrto_file_count_283 = ptrtoint ptr %mem_file_count to i64
-  call void @push(i64 %ptrto_file_count_283)
+  %ptrto_file_count_290 = ptrtoint ptr %mem_file_count to i64
+  call void @push(i64 %ptrto_file_count_290)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_lt()
-  %a284 = call i64 @pop()
-  %b284 = icmp ne i64 %a284, 0
-  br i1 %b284, label %l859, label %l945
+  %a291 = call i64 @pop()
+  %b291 = icmp ne i64 %a291, 0
+  br i1 %b291, label %l884, label %l970
 
-l859:                                             ; preds = %l853
+l884:                                             ; preds = %l878
   call void @push(i64 250)
-  %ptrto_i_285 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_285)
+  %ptrto_i_292 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_292)
   call void @proc_intrinsic_load64()
   call void @push(i64 140)
   call void @proc_intrinsic_mult()
   call void @proc_intrinsic_plus()
-  %ptrto_tab_x_286 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_286)
+  %ptrto_tab_x_293 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_293)
   call void @proc_intrinsic_store64()
-  %ptrto_i_287 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_287)
+  %ptrto_i_294 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_294)
   call void @proc_intrinsic_load64()
-  %ptrto_active_idx_288 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_288)
+  %ptrto_active_idx_295 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_295)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_eq()
-  %a289 = call i64 @pop()
-  %b289 = icmp ne i64 %a289, 0
-  br i1 %b289, label %l874, label %l887
+  %a296 = call i64 @pop()
+  %b296 = icmp ne i64 %a296, 0
+  br i1 %b296, label %l899, label %l912
 
-l874:                                             ; preds = %l859
-  %ptrto_handle_290 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_290)
+l899:                                             ; preds = %l884
+  %ptrto_handle_297 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_297)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_291 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_291)
+  %ptrto_tab_x_298 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_298)
   call void @proc_intrinsic_load64()
   call void @push(i64 8)
   call void @push(i64 140)
@@ -4554,14 +4926,14 @@ l874:                                             ; preds = %l859
   call void @push(i64 132)
   call void @proc_gui_fill_rect()
   call void @proc_intrinsic_drop()
-  br label %l900
+  br label %l925
 
-l887:                                             ; preds = %l859
-  %ptrto_handle_292 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_292)
+l912:                                             ; preds = %l884
+  %ptrto_handle_299 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_299)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_293 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_293)
+  %ptrto_tab_x_300 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_300)
   call void @proc_intrinsic_load64()
   call void @push(i64 8)
   call void @push(i64 140)
@@ -4571,25 +4943,25 @@ l887:                                             ; preds = %l859
   call void @push(i64 78)
   call void @proc_gui_fill_rect()
   call void @proc_intrinsic_drop()
-  br label %l900
+  br label %l925
 
-l900:                                             ; preds = %l887, %l874
-  br label %ls900
+l925:                                             ; preds = %l912, %l899
+  br label %ls925
 
-ls900:                                            ; preds = %l900
-  %ptrto_handle_294 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_294)
+ls925:                                            ; preds = %l925
+  %ptrto_handle_301 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_301)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_295 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_295)
+  %ptrto_tab_x_302 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_302)
   call void @proc_intrinsic_load64()
   call void @push(i64 4)
   call void @proc_intrinsic_plus()
   call void @push(i64 8)
   call void @push(i64 4)
   call void @proc_intrinsic_plus()
-  %ptrto_i_296 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_296)
+  %ptrto_i_303 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_303)
   call void @proc_intrinsic_load64()
   call void @proc_tab_num_label()
   call void @push(i64 235)
@@ -4598,21 +4970,21 @@ ls900:                                            ; preds = %l900
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_297 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_297)
+  %ptrto_handle_304 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_304)
   call void @proc_intrinsic_load64()
-  %ptrto_tab_x_298 = ptrtoint ptr %mem_tab_x to i64
-  call void @push(i64 %ptrto_tab_x_298)
+  %ptrto_tab_x_305 = ptrtoint ptr %mem_tab_x to i64
+  call void @push(i64 %ptrto_tab_x_305)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_plus()
   call void @push(i64 8)
   call void @push(i64 4)
   call void @proc_intrinsic_plus()
-  %ptrto_paths_299 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_299)
-  %ptrto_i_300 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_300)
+  %ptrto_paths_306 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_306)
+  %ptrto_i_307 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_307)
   call void @proc_intrinsic_load64()
   call void @proc_path_slot()
   call void @proc_basename_ptr()
@@ -4622,55 +4994,81 @@ ls900:                                            ; preds = %l900
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_i_301 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_301)
+  %ptrto_i_308 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_308)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_i_302 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_302)
+  %ptrto_i_309 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_309)
   call void @proc_intrinsic_store64()
-  br label %l853
+  br label %l878
 
-l945:                                             ; preds = %l853
-  br label %ls945
+l970:                                             ; preds = %l878
+  br label %ls970
 
-ls945:                                            ; preds = %l945
-  %ptrto_open_mode_303 = ptrtoint ptr %mem_open_mode to i64
-  call void @push(i64 %ptrto_open_mode_303)
+ls970:                                            ; preds = %l970
+  %ptrto_open_mode_310 = ptrtoint ptr %mem_open_mode to i64
+  call void @push(i64 %ptrto_open_mode_310)
   call void @proc_intrinsic_load64()
-  %a304 = call i64 @pop()
-  %b304 = icmp ne i64 %a304, 0
-  br i1 %b304, label %l949, label %l1052
+  %a311 = call i64 @pop()
+  %b311 = icmp ne i64 %a311, 0
+  br i1 %b311, label %l974, label %l1093
 
-l949:                                             ; preds = %ls945
-  %ptrto_handle_305 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_305)
+l974:                                             ; preds = %ls970
+  %ptrto_handle_312 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_312)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 34)
-  call void @push(i64 %strptr954)
+  call void @push(i64 %strptr979)
   call void @push(i64 255)
   call void @push(i64 210)
   call void @push(i64 120)
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_306 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_306)
+  %ptrto_handle_313 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_313)
   call void @proc_intrinsic_load64()
   call void @push(i64 300)
   call void @push(i64 34)
-  %ptrto_path_input_307 = ptrtoint ptr %mem_path_input to i64
-  call void @push(i64 %ptrto_path_input_307)
+  %ptrto_path_input_314 = ptrtoint ptr %mem_path_input to i64
+  call void @push(i64 %ptrto_path_input_314)
   call void @push(i64 255)
   call void @push(i64 210)
   call void @push(i64 120)
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_308 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_308)
+  %ptrto_open_error_315 = ptrtoint ptr %mem_open_error to i64
+  call void @push(i64 %ptrto_open_error_315)
+  call void @proc_intrinsic_load64()
+  %a316 = call i64 @pop()
+  %b316 = icmp ne i64 %a316, 0
+  br i1 %b316, label %l1000, label %l1012
+
+l1000:                                            ; preds = %l974
+  %ptrto_handle_317 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_317)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 250)
+  call void @push(i64 50)
+  call void @push(i64 %strptr1005)
+  call void @push(i64 255)
+  call void @push(i64 120)
+  call void @push(i64 120)
+  call void @push(i64 1)
+  call void @proc_gui_draw_text()
+  call void @proc_intrinsic_drop()
+  br label %l1012
+
+l1012:                                            ; preds = %l1000, %l974
+  br label %ls1012
+
+ls1012:                                           ; preds = %l1012
+  %ptrto_handle_318 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_318)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 58)
@@ -4683,12 +5081,12 @@ l949:                                             ; preds = %ls945
   call void @push(i64 92)
   call void @proc_gui_rect()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_309 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_309)
+  %ptrto_handle_319 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_319)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 42)
-  call void @push(i64 %strptr989)
+  call void @push(i64 %strptr1030)
   call void @push(i64 200)
   call void @push(i64 200)
   call void @push(i64 215)
@@ -4696,43 +5094,43 @@ l949:                                             ; preds = %ls945
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
-  %ptrto_i_310 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_310)
+  %ptrto_i_320 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_320)
   call void @proc_intrinsic_store64()
-  br label %l999
+  br label %l1040
 
-l999:                                             ; preds = %l1005, %l949
-  %ptrto_i_311 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_311)
+l1040:                                            ; preds = %l1046, %ls1012
+  %ptrto_i_321 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_321)
   call void @proc_intrinsic_load64()
-  %ptrto_browser_count_312 = ptrtoint ptr %mem_browser_count to i64
-  call void @push(i64 %ptrto_browser_count_312)
+  %ptrto_browser_count_322 = ptrtoint ptr %mem_browser_count to i64
+  call void @push(i64 %ptrto_browser_count_322)
   call void @proc_intrinsic_load64()
   call void @proc_intrinsic_lt()
-  %a313 = call i64 @pop()
-  %b313 = icmp ne i64 %a313, 0
-  br i1 %b313, label %l1005, label %l1051
+  %a323 = call i64 @pop()
+  %b323 = icmp ne i64 %a323, 0
+  br i1 %b323, label %l1046, label %l1092
 
-l1005:                                            ; preds = %l999
+l1046:                                            ; preds = %l1040
   call void @push(i64 68)
-  %ptrto_i_314 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_314)
+  %ptrto_i_324 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_324)
   call void @proc_intrinsic_load64()
   call void @push(i64 20)
   call void @proc_intrinsic_mult()
   call void @proc_intrinsic_plus()
-  %ptrto_row_y_315 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_315)
+  %ptrto_row_y_325 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_325)
   call void @proc_intrinsic_store64()
-  %ptrto_handle_316 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_316)
+  %ptrto_handle_326 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_326)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
-  %ptrto_row_y_317 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_317)
+  %ptrto_row_y_327 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_327)
   call void @proc_intrinsic_load64()
-  %ptrto_i_318 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_318)
+  %ptrto_i_328 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_328)
   call void @proc_intrinsic_load64()
   call void @proc_tab_num_label()
   call void @push(i64 210)
@@ -4741,19 +5139,19 @@ l1005:                                            ; preds = %l999
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_319 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_319)
+  %ptrto_handle_329 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_329)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 20)
   call void @proc_intrinsic_plus()
-  %ptrto_row_y_320 = ptrtoint ptr %mem_row_y to i64
-  call void @push(i64 %ptrto_row_y_320)
+  %ptrto_row_y_330 = ptrtoint ptr %mem_row_y to i64
+  call void @push(i64 %ptrto_row_y_330)
   call void @proc_intrinsic_load64()
-  %ptrto_browser_paths_321 = ptrtoint ptr %mem_browser_paths to i64
-  call void @push(i64 %ptrto_browser_paths_321)
-  %ptrto_i_322 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_322)
+  %ptrto_browser_paths_331 = ptrtoint ptr %mem_browser_paths to i64
+  call void @push(i64 %ptrto_browser_paths_331)
+  %ptrto_i_332 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_332)
   call void @proc_intrinsic_load64()
   call void @proc_path_slot()
   call void @push(i64 220)
@@ -4762,35 +5160,35 @@ l1005:                                            ; preds = %l999
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_i_323 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_323)
+  %ptrto_i_333 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_333)
   call void @proc_intrinsic_load64()
   call void @push(i64 1)
   call void @proc_intrinsic_plus()
-  %ptrto_i_324 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_324)
+  %ptrto_i_334 = ptrtoint ptr %mem_i to i64
+  call void @push(i64 %ptrto_i_334)
   call void @proc_intrinsic_store64()
-  br label %l999
+  br label %l1040
 
-l1051:                                            ; preds = %l999
-  br label %ls1051
+l1092:                                            ; preds = %l1040
+  br label %ls1092
 
-ls1051:                                           ; preds = %l1051
-  br label %l1052
+ls1092:                                           ; preds = %l1092
+  br label %l1093
 
-l1052:                                            ; preds = %ls1051, %ls945
-  br label %ls1052
+l1093:                                            ; preds = %ls1092, %ls970
+  br label %ls1093
 
-ls1052:                                           ; preds = %l1052
-  %ptrto_handle_325 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_325)
+ls1093:                                           ; preds = %l1093
+  %ptrto_handle_335 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_335)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 56)
-  %ptrto_texts_326 = ptrtoint ptr %mem_texts to i64
-  call void @push(i64 %ptrto_texts_326)
-  %ptrto_active_idx_327 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_327)
+  %ptrto_texts_336 = ptrtoint ptr %mem_texts to i64
+  call void @push(i64 %ptrto_texts_336)
+  %ptrto_active_idx_337 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_337)
   call void @proc_intrinsic_load64()
   call void @proc_text_slot()
   call void @push(i64 235)
@@ -4799,22 +5197,22 @@ ls1052:                                           ; preds = %l1052
   call void @push(i64 2)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_328 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_328)
+  %ptrto_handle_338 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_338)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 720)
   call void @push(i64 18)
   call void @proc_intrinsic_minus()
-  call void @push(i64 %strptr1073)
+  call void @push(i64 %strptr1114)
   call void @push(i64 160)
   call void @push(i64 180)
   call void @push(i64 210)
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_329 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_329)
+  %ptrto_handle_339 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_339)
   call void @proc_intrinsic_load64()
   call void @push(i64 250)
   call void @push(i64 44)
@@ -4822,10 +5220,10 @@ ls1052:                                           ; preds = %l1052
   call void @push(i64 720)
   call void @push(i64 18)
   call void @proc_intrinsic_minus()
-  %ptrto_paths_330 = ptrtoint ptr %mem_paths to i64
-  call void @push(i64 %ptrto_paths_330)
-  %ptrto_active_idx_331 = ptrtoint ptr %mem_active_idx to i64
-  call void @push(i64 %ptrto_active_idx_331)
+  %ptrto_paths_340 = ptrtoint ptr %mem_paths to i64
+  call void @push(i64 %ptrto_paths_340)
+  %ptrto_active_idx_341 = ptrtoint ptr %mem_active_idx to i64
+  call void @push(i64 %ptrto_active_idx_341)
   call void @proc_intrinsic_load64()
   call void @proc_path_slot()
   call void @push(i64 210)
@@ -4834,40 +5232,40 @@ ls1052:                                           ; preds = %l1052
   call void @push(i64 1)
   call void @proc_gui_draw_text()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_332 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_332)
+  %ptrto_handle_342 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_342)
   call void @proc_intrinsic_load64()
-  %ptrto_mx_333 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_333)
+  %ptrto_mx_343 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_343)
   call void @proc_intrinsic_load64()
   call void @push(i64 6)
   call void @proc_intrinsic_minus()
-  %ptrto_mx_334 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_334)
+  %ptrto_mx_344 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_344)
   call void @proc_intrinsic_load64()
   call void @push(i64 6)
   call void @proc_intrinsic_plus()
-  %ptrto_my_335 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_335)
+  %ptrto_my_345 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_345)
   call void @proc_intrinsic_load64()
   call void @push(i64 80)
   call void @push(i64 220)
   call void @push(i64 120)
   call void @proc_gui_hline()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_336 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_336)
+  %ptrto_handle_346 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_346)
   call void @proc_intrinsic_load64()
-  %ptrto_mx_337 = ptrtoint ptr %mem_mx to i64
-  call void @push(i64 %ptrto_mx_337)
+  %ptrto_mx_347 = ptrtoint ptr %mem_mx to i64
+  call void @push(i64 %ptrto_mx_347)
   call void @proc_intrinsic_load64()
-  %ptrto_my_338 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_338)
+  %ptrto_my_348 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_348)
   call void @proc_intrinsic_load64()
   call void @push(i64 6)
   call void @proc_intrinsic_minus()
-  %ptrto_my_339 = ptrtoint ptr %mem_my to i64
-  call void @push(i64 %ptrto_my_339)
+  %ptrto_my_349 = ptrtoint ptr %mem_my to i64
+  call void @push(i64 %ptrto_my_349)
   call void @proc_intrinsic_load64()
   call void @push(i64 6)
   call void @proc_intrinsic_plus()
@@ -4876,32 +5274,32 @@ ls1052:                                           ; preds = %l1052
   call void @push(i64 120)
   call void @proc_gui_vline()
   call void @proc_intrinsic_drop()
-  %ptrto_handle_340 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_340)
+  %ptrto_handle_350 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_350)
   call void @proc_intrinsic_load64()
   call void @proc_gui_present()
   call void @proc_intrinsic_drop()
   call void @push(i64 16)
   call void @proc_gui_delay()
   call void @proc_intrinsic_drop()
-  br label %l146
+  br label %l149
 
-l1139:                                            ; preds = %l146
-  br label %ls1139
+l1180:                                            ; preds = %l149
+  br label %ls1180
 
-ls1139:                                           ; preds = %l1139
-  %ptrto_handle_341 = ptrtoint ptr %mem_handle to i64
-  call void @push(i64 %ptrto_handle_341)
+ls1180:                                           ; preds = %l1180
+  %ptrto_handle_351 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_351)
   call void @proc_intrinsic_load64()
   call void @proc_gui_destroy()
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
-  br label %l1145
+  br label %l1186
 
-l1145:                                            ; preds = %ls1139, %l138
-  br label %ls1145
+l1186:                                            ; preds = %ls1180, %l141
+  br label %ls1186
 
-ls1145:                                           ; preds = %l1145
+ls1186:                                           ; preds = %l1186
   ret void
 }
 
