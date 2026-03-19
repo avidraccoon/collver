@@ -1,34 +1,29 @@
 include "std.collver"
-include "vec.collver"
 
-alias command "python3 collver.py " end
+alias command "python3 collver.py com " end
 
 // Takes argc and argv from the command line and converts it to a vector of strings.
 // This function leaks a lot of memory. But it works so......
 proc arg_to_str int ptr -> str do
     memory args sizeof(ptr) end
     memory cur_pointer sizeof(ptr) end
-    "" (str->ptr) args !ptr
+    "" (str->ptr) strcpy args !ptr
     cur_pointer !ptr
+    cur_pointer @ptr sizeof(ptr) + cur_pointer !ptr 1 - // Skip the first argument (the program name)
     while dup 0 != do // while there are still arguments to process
-        cur_pointer @ptr puts "\n" (str->ptr) puts
-        args @ptr (ptr->str) cur_pointer @ptr (ptr->str) 
+        args @ptr (ptr->str) cur_pointer @ptr @ptr (ptr->str) 
         strconcat " " strconcat (str->ptr) args !ptr
-        cur_pointer inc64
+        cur_pointer @ptr sizeof(ptr) + cur_pointer @ptr !ptr
         1 -
     end drop
     args @ptr (ptr->str)
 end
 
-// For some thing are not working as expected.
 proc fix_args int ptr -> int ptr do
     (ptr->int) swap (int->ptr)
 end
 
 proc main int ptr -> int do
-    //fix_args
-    //arg_to_str command [str,str->int,int] swap [int,int->str,str] strconcat (str->ptr) puts //sys_system
-    drop drop
-    command FD_STDIN fd_readline strconcat (str->ptr) puts //sys_system
-    0
+    fix_args
+    arg_to_str command [str,str->int,int] swap [int,int->str,str] strconcat (str->ptr) sys_system
 end

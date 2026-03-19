@@ -189,9 +189,10 @@ proc strcpy ptr -> ptr do // src -> ptr
   // dst = dst
 
   dup src !ptr // Keep src on the stack for the next step
-  strlen dup len !64 // Keep len(src) on the stack for the next step
+  strlen 1 + dup len !64 // Keep len(src) on the stack for the next step
   alloc dst !ptr
   len @64 src @ptr dst @ptr memcpy
+  dst @64 len @64 + 0 swap (int->ptr) !8 // Null terminate the new string
   dst @ptr // 'return' the destination pointer
 end
 
@@ -417,8 +418,8 @@ proc fd_readline int -> str do
   // strptr cpy(buf)
   while buf @8 10 != do
     fd @64 buf 1 sys_read drop
-    strptr @ptr buf strcpy [ptr,ptr->str,str] strconcat_d (str->int) strptr !64
-    strptr @64 (int->ptr) strlen strptr @64 + 0 swap (int->ptr) !8
+    strptr @ptr buf strcpy [ptr,ptr->str,str] strconcat_d (str->ptr) strptr !ptr
+    strptr @ptr strlen strptr @64 + 0 swap (int->ptr) !8
   end
 
   strptr @ptr (ptr->str)
@@ -545,8 +546,8 @@ proc fd_to_str int -> ptr do // int -> ptr
     "Bytes read: " (str->ptr) puts dup print
     1 exit
     // TODO: Make this procedure simply handle not reading the whole file, instead of panicking
-  end
-  bufptr @ptr size @64 + !8
+  end drop
+  0 bufptr @ptr size @64 + !8
   bufptr @ptr
 end
 

@@ -5,23 +5,23 @@ memory b sizeof(ptr) end
 
 // Print the strings at pointers stored in `a` and `b`
 proc dbg -> do
-  a @64 puts
-  b @64 puts
+  a @ptr puts
+  b @ptr puts
 end
 
-proc int ptr -> int do
+proc main int ptr -> int do
   drop drop 0
   // Create a string and make a copy of that string
-  "abcd\n" dup a !64 // store a pointer to the string constant in `a`
-  strcpy b !64 // store a pointer to the new copy in `b`
+  "abcd\n" dup (str->ptr) a !ptr // store a pointer to the string constant in `a`
+  (str->ptr) strcpy b !ptr // store a pointer to the new copy in `b`
   dbg // Print the current status
 
   // Increment the first letter of the copy (the pointer to which is stored at `b`)
-  b @64 // Load the pointer to the string from `b`
+  b @ptr // Load the pointer to the string from `b`
   @8 1 + // Load the first character and increment it
-  b @64 // Load the pointer to the string from `b`
+  b @ptr // Load the pointer to the string from `b`
   !8 // Write that new number to the first byte of the string
   dbg // Print the current status
 
-  "beginning " "end\n" strconcat puts
+  "beginning " "end\n" strconcat (str->ptr) puts
 end

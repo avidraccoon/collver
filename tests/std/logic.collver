@@ -1,10 +1,10 @@
 include "std.collver"
 
-proc bool_println -> do
-  btos puts "\n" puts
+proc bool_println int -> do
+  btos (str->ptr) puts "\n" (str->ptr) puts
 end
 
-proc int ptr -> int do
+proc main int ptr -> int do
   drop drop 0
   0   lnot bool_println
   1   lnot bool_println

@@ -1,6 +1,6 @@
 include "std.collver"
 
-proc int ptr -> int do
+proc main int ptr -> int do
   drop drop 0
   memory int1 sizeof(int) end
   memory int2 sizeof(int) end

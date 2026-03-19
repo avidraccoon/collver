@@ -1,0 +1,7 @@
+include "std.collver"
+
+proc main int ptr -> int do
+  drop drop 0
+  "./test.txt" (str->ptr) strcpy fp_to_str puts
+  FD_STDIN fd_readline (str->ptr) dup puts puts
+end
