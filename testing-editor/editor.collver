@@ -3,18 +3,65 @@ include "std.collver"
 const WIN_W 980 end
 const WIN_H 720 end
 const MAX_CHARS 8192 end
+const MAX_FILES 5 end
+const MAX_PATH 256 end
+const PATH_PANEL_X 14 end
+const PATH_PANEL_Y 68 end
+const PATH_LINE_H 20 end
 const TEXT_X 18 end
 const TEXT_Y 56 end
 const SCALE 2 end
 
-proc save_buffer ptr[int] int -> int do
+const SC_SHIFT 16 end
+const SC_CTRL 17 end
+
+memory handle_global sizeof(int) end
+
+// path_table idx -> ptr[path]
+proc path_slot ptr[int] int -> ptr[int] do
+  MAX_PATH * +
+end
+
+// text_table idx -> ptr[text]
+proc text_slot ptr[int] int -> ptr[int] do
+  MAX_CHARS 1 + * +
+end
+
+// len_table idx -> ptr[len]
+proc len_slot ptr[int] int -> ptr[int] do
+  sizeof(int) * +
+end
+
+// s1 s2 -> (1 if equal)
+proc streq_ptr ptr[int] ptr[int] -> int do
+  (ptr->str) swap (ptr->str) streq
+end
+
+// src dst ->
+proc cpyz ptr[int] ptr[int] -> do
+  memory dst sizeof(ptr) end
+  memory src sizeof(ptr) end
+  memory i sizeof(int) end
+  dst !ptr
+  src !ptr
+  0 i !64
+  while src @ptr i @64 + @8 i @64 MAX_PATH 1 - < && do
+    src @ptr i @64 + @8 dst @ptr i @64 + !8
+    i @64 1 + i !64
+  end
+  0 dst @ptr i @64 + !8
+end
+
+proc save_buffer ptr[int] ptr[int] int -> int do
   memory fd sizeof(int) end
+  memory path sizeof(ptr) end
   memory text sizeof(ptr) end
   memory len sizeof(int) end
   len !64
   text !ptr
+  path !ptr
 
-  "testing-editor/note.txt" O_WRONLY O_CREAT | O_TRUNC | sys_open fd !64
+  path @ptr O_WRONLY O_CREAT | O_TRUNC | sys_open fd !64
   if fd @64 0 < do
     "Save failed, errno=" puts
     get_errno print
@@ -26,17 +73,19 @@ proc save_buffer ptr[int] int -> int do
   end
 end
 
-// text len_ptr ->
-proc load_buffer ptr[int] ptr[int] -> do
+// path text len_ptr ->
+proc load_buffer ptr[int] ptr[int] ptr[int] -> do
+  memory path sizeof(ptr) end
   memory len_ptr sizeof(ptr) end
   memory text sizeof(ptr) end
   memory fd sizeof(int) end
   memory file sizeof(ptr) end
   memory i sizeof(int) end
+  path !ptr
   len_ptr !ptr
   text !ptr
 
-  "testing-editor/note.txt" O_RDONLY sys_open fd !64
+  path @ptr O_RDONLY sys_open fd !64
   if fd @64 0 < do
     0 len_ptr @ptr !64
     0 text @ptr !8
@@ -52,6 +101,54 @@ proc load_buffer ptr[int] ptr[int] -> do
     0 text @ptr i @64 + !8
     i @64 len_ptr @ptr !64
     file @ptr free
+  end
+end
+
+// files active_idx_ptr ->
+proc open_file_into_slot ptr[int] ptr[int] ptr[int] ptr[int] ptr[int] ptr[int] int -> do
+  memory idx sizeof(int) end
+  memory path_input sizeof(ptr) end
+  memory active_idx sizeof(ptr) end
+  memory file_count sizeof(ptr) end
+  memory lens sizeof(ptr) end
+  memory texts sizeof(ptr) end
+  memory paths sizeof(ptr) end
+  idx !64
+  path_input !ptr
+  active_idx !ptr
+  file_count !ptr
+  lens !ptr
+  texts !ptr
+  paths !ptr
+
+  path_input @ptr paths @ptr idx @64 path_slot cpyz
+  paths @ptr idx @64 path_slot texts @ptr idx @64 text_slot lens @ptr idx @64 len_slot load_buffer
+  idx @64 active_idx @ptr !64
+  if file_count @ptr @64 idx @64 <= do
+    idx @64 1 + file_count @ptr !64
+  end
+end
+
+// files active_idx ->
+proc draw_file_list ptr[int] ptr[int] int -> do
+  memory active sizeof(int) end
+  memory count sizeof(ptr) end
+  memory paths sizeof(ptr) end
+  memory i sizeof(int) end
+  active !64
+  count !ptr
+  paths !ptr
+
+  handle_global @64 PATH_PANEL_X 44 "Files" 140 200 255 1 gui_draw_text drop
+  0 i !64
+  while i @64 count @ptr @64 < do
+    if i @64 active @64 = do
+      handle_global @64 10 PATH_PANEL_Y i @64 PATH_LINE_H * + 210 18 74 60 95 gui_fill_rect drop
+    else
+      handle_global @64 10 PATH_PANEL_Y i @64 PATH_LINE_H * + 210 18 40 52 70 gui_fill_rect drop
+    end
+    handle_global @64 PATH_PANEL_X PATH_PANEL_Y i @64 PATH_LINE_H * + paths @ptr i @64 path_slot 220 220 225 1 gui_draw_text drop
+    i @64 1 + i !64
   end
 end
 
@@ -88,23 +185,40 @@ proc main int ptr -> int do
 
   memory handle sizeof(int) end
   memory running sizeof(int) end
-  memory text MAX_CHARS 1 + end
-  memory len sizeof(int) end
+  memory paths MAX_PATH MAX_FILES * end
+  memory texts MAX_CHARS 1 + MAX_FILES * end
+  memory lens sizeof(int) MAX_FILES * end
+  memory file_count sizeof(int) end
+  memory active_idx sizeof(int) end
+  memory path_input MAX_PATH end
+  memory path_len sizeof(int) end
   memory mx sizeof(int) end
   memory my sizeof(int) end
   memory k sizeof(int) end
+  memory ch sizeof(int) end
+  memory shifted sizeof(int) end
+  memory ctrl_down sizeof(int) end
   memory prev_keys 128 end
   memory cur sizeof(int) end
-  memory key_s_prev sizeof(int) end
+  memory key_ctrl_s_prev sizeof(int) end
+  memory key_ctrl_o_prev sizeof(int) end
+  memory key_tab_prev sizeof(int) end
   memory key_s_now sizeof(int) end
+  memory key_o_now sizeof(int) end
+  memory key_tab_now sizeof(int) end
   memory key_back_prev sizeof(int) end
   memory key_back_now sizeof(int) end
   memory key_enter_prev sizeof(int) end
   memory key_enter_now sizeof(int) end
   memory i sizeof(int) end
-  0 key_s_prev !64
+  0 key_ctrl_s_prev !64
+  0 key_ctrl_o_prev !64
+  0 key_tab_prev !64
   0 key_back_prev !64
   0 key_enter_prev !64
+  0 path_len !64
+  0 file_count !64
+  0 active_idx !64
 
   0 i !64
   while i @64 128 < do
@@ -112,9 +226,12 @@ proc main int ptr -> int do
     i @64 1 + i !64
   end
 
-  text len load_buffer
+  "testing-editor/note.txt" paths 0 path_slot cpyz
+  paths 0 path_slot texts 0 text_slot lens 0 len_slot load_buffer
+  1 file_count !64
 
   WIN_W WIN_H "Collver GUI Mini Editor" gui_init handle !64
+  handle @64 handle_global !64
   if handle @64 0 = do
     "Failed to init GUI (SDL2/display missing).\n" puts
     1
@@ -129,38 +246,90 @@ proc main int ptr -> int do
         0 running !64
       end
 
+      handle @64 SC_CTRL gui_key_down ctrl_down !64
+      handle @64 SC_SHIFT gui_key_down shifted !64
       handle @64 115 gui_key_down key_s_now !64
+      handle @64 111 gui_key_down key_o_now !64
+      handle @64 9 gui_key_down key_tab_now !64
       handle @64 8 gui_key_down key_back_now !64
       handle @64 13 gui_key_down key_enter_now !64
 
-      // save on S key edge
-      if key_s_now @64 key_s_prev @64 0 = && do
-        text len @64 save_buffer
+      // save on Ctrl+S edge
+      if ctrl_down @64 key_s_now @64 && key_ctrl_s_prev @64 0 = && do
+        paths active_idx @64 path_slot texts active_idx @64 text_slot lens active_idx @64 len_slot @64 save_buffer
         if 0 = do
-          "Saved to testing-editor/note.txt\n" puts
+          "Saved current file\n" puts
+        end
+      end
+
+      // open path mode on Ctrl+O edge; enter typed path to load into new/current tab
+      if ctrl_down @64 key_o_now @64 && key_ctrl_o_prev @64 0 = && do
+        0 path_len !64
+        0 path_input !8
+      end
+
+      // tab cycle file buffers
+      if key_tab_now @64 key_tab_prev @64 0 = && do
+        if file_count @64 0 > do
+          active_idx @64 1 + active_idx !64
+          if active_idx @64 file_count @64 >= do
+            0 active_idx !64
+          end
         end
       end
 
       // backspace on edge
       if key_back_now @64 key_back_prev @64 0 = && do
-        text len backspace_char
+        if path_len @64 0 > do
+          path_len @64 1 - path_len !64
+          0 path_input path_len @64 + !8
+        else
+          texts active_idx @64 text_slot lens active_idx @64 len_slot backspace_char
+        end
       end
 
       // enter/newline on edge
       if key_enter_now @64 key_enter_prev @64 0 = && do
-        text len 10 append_char
+        if path_len @64 0 > do
+          if file_count @64 MAX_FILES < do
+            paths texts lens file_count active_idx path_input file_count @64 open_file_into_slot
+          else
+            paths texts lens file_count active_idx path_input active_idx @64 open_file_into_slot
+          end
+          0 path_len !64
+          0 path_input @8
+        else
+          texts active_idx @64 text_slot lens active_idx @64 len_slot 10 append_char
+        end
       end
 
-      key_s_now @64 key_s_prev !64
+      ctrl_down @64 key_s_now @64 && key_ctrl_s_prev !64
+      ctrl_down @64 key_o_now @64 && key_ctrl_o_prev !64
+      key_tab_now @64 key_tab_prev !64
       key_back_now @64 key_back_prev !64
       key_enter_now @64 key_enter_prev !64
 
-      // Printable ASCII input on key edge
+      // Printable ASCII input on key edge (shift aware for letters)
       32 k !64
       while k @64 126 <= do
         handle @64 k @64 gui_key_down cur !64
         if cur @64 prev_keys k @64 + @8 0 = && do
-          text len k @64 append_char
+          k @64 ch !64
+          if shifted @64 do
+            if ch @64 97 >= ch @64 122 <= && do
+              ch @64 32 - ch !64
+            end
+          end
+
+          if path_len @64 0 > do
+            if path_len @64 MAX_PATH 1 - < do
+              ch @64 path_input path_len @64 + !8
+              path_len @64 1 + path_len !64
+              0 path_input path_len @64 + !8
+            end
+          else
+            texts active_idx @64 text_slot lens active_idx @64 len_slot ch @64 append_char
+          end
         end
         cur @64 prev_keys k @64 + !8
         k @64 1 + k !64
@@ -171,9 +340,16 @@ proc main int ptr -> int do
 
       handle @64 18 22 34 gui_clear drop
 
+      handle @64 10 58 220 WIN_H 70 - 48 58 86 gui_rect drop
+      paths file_count active_idx @64 draw_file_list
+
       handle @64 14 12 "Collver GUI Text Editor" 120 200 255 2 gui_draw_text drop
-      handle @64 14 34 "Type text. Backspace deletes. S saves. ESC exits." 160 180 210 1 gui_draw_text drop
-      handle @64 TEXT_X TEXT_Y text 235 235 235 SCALE gui_draw_text drop
+      handle @64 14 34 "Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit" 160 180 210 1 gui_draw_text drop
+      if path_len @64 0 > do
+        handle @64 250 34 "OPEN> " 255 210 120 1 gui_draw_text drop
+        handle @64 300 34 path_input 255 210 120 1 gui_draw_text drop
+      end
+      handle @64 TEXT_X 56 texts active_idx @64 text_slot 235 235 235 SCALE gui_draw_text drop
 
       // simple mouse cursor crosshair for UX
       handle @64 mx @64 6 - mx @64 6 + my @64 80 220 120 gui_hline drop
