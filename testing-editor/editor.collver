@@ -1,0 +1,189 @@
+include "std.collver"
+
+const WIN_W 980 end
+const WIN_H 720 end
+const MAX_CHARS 8192 end
+const TEXT_X 18 end
+const TEXT_Y 56 end
+const SCALE 2 end
+
+proc save_buffer ptr[int] int -> int do
+  memory fd sizeof(int) end
+  memory text sizeof(ptr) end
+  memory len sizeof(int) end
+  len !64
+  text !ptr
+
+  "testing-editor/note.txt" O_WRONLY O_CREAT | O_TRUNC | sys_open fd !64
+  if fd @64 0 < do
+    "Save failed, errno=" puts
+    get_errno print
+    1
+  else
+    fd @64 text @ptr len @64 sys_write drop
+    fd @64 sys_close drop
+    0
+  end
+end
+
+// text len_ptr ->
+proc load_buffer ptr[int] ptr[int] -> do
+  memory len_ptr sizeof(ptr) end
+  memory text sizeof(ptr) end
+  memory fd sizeof(int) end
+  memory file sizeof(ptr) end
+  memory i sizeof(int) end
+  len_ptr !ptr
+  text !ptr
+
+  "testing-editor/note.txt" O_RDONLY sys_open fd !64
+  if fd @64 0 < do
+    0 len_ptr @ptr !64
+    0 text @ptr !8
+  else
+    fd @64 fd_to_str file !ptr
+    fd @64 sys_close drop
+
+    0 i !64
+    while file @ptr i @64 + @8 i @64 MAX_CHARS < && do
+      file @ptr i @64 + @8 text @ptr i @64 + !8
+      i @64 1 + i !64
+    end
+    0 text @ptr i @64 + !8
+    i @64 len_ptr @ptr !64
+    file @ptr free
+  end
+end
+
+// text len_ptr ch ->
+proc append_char ptr[int] ptr[int] int -> do
+  memory ch sizeof(int) end
+  memory len_ptr sizeof(ptr) end
+  memory text sizeof(ptr) end
+  ch !64
+  len_ptr !ptr
+  text !ptr
+
+  if len_ptr @ptr @64 MAX_CHARS < do
+    ch @64 text @ptr len_ptr @ptr @64 + !8
+    len_ptr @ptr @64 1 + len_ptr @ptr !64
+    0 text @ptr len_ptr @ptr @64 + !8
+  end
+end
+
+// text len_ptr ->
+proc backspace_char ptr[int] ptr[int] -> do
+  memory len_ptr sizeof(ptr) end
+  memory text sizeof(ptr) end
+  len_ptr !ptr
+  text !ptr
+  if len_ptr @ptr @64 0 > do
+    len_ptr @ptr @64 1 - len_ptr @ptr !64
+    0 text @ptr len_ptr @ptr @64 + !8
+  end
+end
+
+proc main int ptr -> int do
+  drop drop
+
+  memory handle sizeof(int) end
+  memory running sizeof(int) end
+  memory text MAX_CHARS 1 + end
+  memory len sizeof(int) end
+  memory mx sizeof(int) end
+  memory my sizeof(int) end
+  memory k sizeof(int) end
+  memory prev_keys 128 end
+  memory cur sizeof(int) end
+  memory key_s_prev sizeof(int) end
+  memory key_s_now sizeof(int) end
+  memory key_back_prev sizeof(int) end
+  memory key_back_now sizeof(int) end
+  memory key_enter_prev sizeof(int) end
+  memory key_enter_now sizeof(int) end
+  memory i sizeof(int) end
+  0 key_s_prev !64
+  0 key_back_prev !64
+  0 key_enter_prev !64
+
+  0 i !64
+  while i @64 128 < do
+    0 prev_keys i @64 + !8
+    i @64 1 + i !64
+  end
+
+  text len load_buffer
+
+  WIN_W WIN_H "Collver GUI Mini Editor" gui_init handle !64
+  if handle @64 0 = do
+    "Failed to init GUI (SDL2/display missing).\n" puts
+    1
+  else
+    1 running !64
+    while running @64 do
+      if handle @64 gui_poll_events do
+        0 running !64
+      end
+
+      if handle @64 GUI_KEY_ESC gui_key_down do
+        0 running !64
+      end
+
+      handle @64 115 gui_key_down key_s_now !64
+      handle @64 8 gui_key_down key_back_now !64
+      handle @64 13 gui_key_down key_enter_now !64
+
+      // save on S key edge
+      if key_s_now @64 key_s_prev @64 0 = && do
+        text len @64 save_buffer
+        if 0 = do
+          "Saved to testing-editor/note.txt\n" puts
+        end
+      end
+
+      // backspace on edge
+      if key_back_now @64 key_back_prev @64 0 = && do
+        text len backspace_char
+      end
+
+      // enter/newline on edge
+      if key_enter_now @64 key_enter_prev @64 0 = && do
+        text len 10 append_char
+      end
+
+      key_s_now @64 key_s_prev !64
+      key_back_now @64 key_back_prev !64
+      key_enter_now @64 key_enter_prev !64
+
+      // Printable ASCII input on key edge
+      32 k !64
+      while k @64 126 <= do
+        handle @64 k @64 gui_key_down cur !64
+        if cur @64 prev_keys k @64 + @8 0 = && do
+          text len k @64 append_char
+        end
+        cur @64 prev_keys k @64 + !8
+        k @64 1 + k !64
+      end
+
+      handle @64 gui_mouse_x mx !64
+      handle @64 gui_mouse_y my !64
+
+      handle @64 18 22 34 gui_clear drop
+
+      handle @64 14 12 "Collver GUI Text Editor" 120 200 255 2 gui_draw_text drop
+      handle @64 14 34 "Type text. Backspace deletes. S saves. ESC exits." 160 180 210 1 gui_draw_text drop
+      handle @64 TEXT_X TEXT_Y text 235 235 235 SCALE gui_draw_text drop
+
+      // simple mouse cursor crosshair for UX
+      handle @64 mx @64 6 - mx @64 6 + my @64 80 220 120 gui_hline drop
+      handle @64 mx @64 my @64 6 - my @64 6 + 80 220 120 gui_vline drop
+
+      handle @64 gui_present drop
+      16 gui_delay drop
+    end
+
+    handle @64 gui_destroy drop
+    0
+  end
+end

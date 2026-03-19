@@ -9,14 +9,8 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_9 = private unnamed_addr constant [23 x i8] c"Collver graphics demo\0A\00"
-@str_main_13 = private unnamed_addr constant [19 x i8] c"RGB text samples:\0A\00"
-@str_main_20 = private unnamed_addr constant [14 x i8] c"  red sample\0A\00"
-@str_main_27 = private unnamed_addr constant [16 x i8] c"  green sample\0A\00"
-@str_main_34 = private unnamed_addr constant [15 x i8] c"  blue sample\0A\00"
-@str_main_38 = private unnamed_addr constant [15 x i8] c"Gradient bar:\0A\00"
-@str_main_66 = private unnamed_addr constant [2 x i8] c"#\00"
-@str_main_73 = private unnamed_addr constant [8 x i8] c"\0ADone.\0A\00"
+@str_main_4 = private unnamed_addr constant [17 x i8] c"Collver GUI Demo\00"
+@str_main_14 = private unnamed_addr constant [57 x i8] c"Failed to initialize GUI runtime (SDL2 not available?).\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 @gfx_clear_seq = private unnamed_addr constant [7 x i8] c"\1B[2J\1B[H"
@@ -110,6 +104,571 @@ define void @proc_gfx_set_rgb() {
 
 define void @proc_gfx_reset_style() {
   call void @proc_ll_gfx_reset_style()
+  ret void
+}
+
+define void @proc_gui_init() {
+  call void @proc_ll_gui_init()
+  ret void
+}
+
+define void @proc_gui_clear() {
+  call void @proc_ll_gui_clear()
+  ret void
+}
+
+define void @proc_gui_set_pixel() {
+  call void @proc_ll_gui_set_pixel()
+  ret void
+}
+
+define void @proc_gui_present() {
+  call void @proc_ll_gui_present()
+  ret void
+}
+
+define void @proc_gui_poll_close() {
+  call void @proc_ll_gui_poll_close()
+  ret void
+}
+
+define void @proc_gui_poll_events() {
+  call void @proc_ll_gui_poll_events()
+  ret void
+}
+
+define void @proc_gui_key_down() {
+  call void @proc_ll_gui_key_down()
+  ret void
+}
+
+define void @proc_gui_mouse_x() {
+  call void @proc_ll_gui_mouse_x()
+  ret void
+}
+
+define void @proc_gui_mouse_y() {
+  call void @proc_ll_gui_mouse_y()
+  ret void
+}
+
+define void @proc_gui_mouse_buttons() {
+  call void @proc_ll_gui_mouse_buttons()
+  ret void
+}
+
+define void @proc_gui_mouse_left_down() {
+  call void @proc_gui_mouse_buttons()
+  call void @push(i64 1)
+  call void @proc_intrinsic_band()
+  call void @push(i64 0)
+  call void @proc_intrinsic_ne()
+  ret void
+}
+
+define void @proc_gui_mouse_right_down() {
+  call void @proc_gui_mouse_buttons()
+  call void @push(i64 4)
+  call void @proc_intrinsic_band()
+  call void @push(i64 0)
+  call void @proc_intrinsic_ne()
+  ret void
+}
+
+define void @proc_gui_delay() {
+  call void @proc_ll_gui_delay()
+  ret void
+}
+
+define void @proc_gui_destroy() {
+  call void @proc_ll_gui_destroy()
+  ret void
+}
+
+define void @proc_gui_hline() {
+  %mem_b = alloca [8 x i8], align 1
+  %mem_g = alloca [8 x i8], align 1
+  %mem_r = alloca [8 x i8], align 1
+  %mem_y = alloca [8 x i8], align 1
+  %mem_x2 = alloca [8 x i8], align 1
+  %mem_x1 = alloca [8 x i8], align 1
+  %mem_handle = alloca [8 x i8], align 1
+  %mem_x = alloca [8 x i8], align 1
+  %mem_rc = alloca [8 x i8], align 1
+  %ptrto_b_0 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_g_1 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_1)
+  call void @proc_intrinsic_store64()
+  %ptrto_r_2 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_y_3 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_3)
+  call void @proc_intrinsic_store64()
+  %ptrto_x2_4 = ptrtoint ptr %mem_x2 to i64
+  call void @push(i64 %ptrto_x2_4)
+  call void @proc_intrinsic_store64()
+  %ptrto_x1_5 = ptrtoint ptr %mem_x1 to i64
+  call void @push(i64 %ptrto_x1_5)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_6 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_6)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 0)
+  %ptrto_rc_7 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_7)
+  call void @proc_intrinsic_store64()
+  %ptrto_x1_8 = ptrtoint ptr %mem_x1 to i64
+  call void @push(i64 %ptrto_x1_8)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_9 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_9)
+  call void @proc_intrinsic_store64()
+  br label %l21
+
+l21:                                              ; preds = %l27, %0
+  %ptrto_x_10 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_10)
+  call void @proc_intrinsic_load64()
+  %ptrto_x2_11 = ptrtoint ptr %mem_x2 to i64
+  call void @push(i64 %ptrto_x2_11)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_le()
+  %a12 = call i64 @pop()
+  %b12 = icmp ne i64 %a12, 0
+  br i1 %b12, label %l27, label %l49
+
+l27:                                              ; preds = %l21
+  %ptrto_handle_13 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_13)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_14 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_14)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_15 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_15)
+  call void @proc_intrinsic_load64()
+  %ptrto_r_16 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_16)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_17 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_17)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_18 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_18)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_set_pixel()
+  %ptrto_rc_19 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_19)
+  call void @proc_intrinsic_store64()
+  %ptrto_x_20 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_20)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_x_21 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_21)
+  call void @proc_intrinsic_store64()
+  br label %l21
+
+l49:                                              ; preds = %l21
+  br label %ls49
+
+ls49:                                             ; preds = %l49
+  %ptrto_rc_22 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_22)
+  call void @proc_intrinsic_load64()
+  ret void
+}
+
+define void @proc_gui_vline() {
+  %mem_b = alloca [8 x i8], align 1
+  %mem_g = alloca [8 x i8], align 1
+  %mem_r = alloca [8 x i8], align 1
+  %mem_y2 = alloca [8 x i8], align 1
+  %mem_y1 = alloca [8 x i8], align 1
+  %mem_x = alloca [8 x i8], align 1
+  %mem_handle = alloca [8 x i8], align 1
+  %mem_y = alloca [8 x i8], align 1
+  %mem_rc = alloca [8 x i8], align 1
+  %ptrto_b_0 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_g_1 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_1)
+  call void @proc_intrinsic_store64()
+  %ptrto_r_2 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_y2_3 = ptrtoint ptr %mem_y2 to i64
+  call void @push(i64 %ptrto_y2_3)
+  call void @proc_intrinsic_store64()
+  %ptrto_y1_4 = ptrtoint ptr %mem_y1 to i64
+  call void @push(i64 %ptrto_y1_4)
+  call void @proc_intrinsic_store64()
+  %ptrto_x_5 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_5)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_6 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_6)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 0)
+  %ptrto_rc_7 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_7)
+  call void @proc_intrinsic_store64()
+  %ptrto_y1_8 = ptrtoint ptr %mem_y1 to i64
+  call void @push(i64 %ptrto_y1_8)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_9 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_9)
+  call void @proc_intrinsic_store64()
+  br label %l21
+
+l21:                                              ; preds = %l27, %0
+  %ptrto_y_10 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_10)
+  call void @proc_intrinsic_load64()
+  %ptrto_y2_11 = ptrtoint ptr %mem_y2 to i64
+  call void @push(i64 %ptrto_y2_11)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_le()
+  %a12 = call i64 @pop()
+  %b12 = icmp ne i64 %a12, 0
+  br i1 %b12, label %l27, label %l49
+
+l27:                                              ; preds = %l21
+  %ptrto_handle_13 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_13)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_14 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_14)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_15 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_15)
+  call void @proc_intrinsic_load64()
+  %ptrto_r_16 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_16)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_17 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_17)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_18 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_18)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_set_pixel()
+  %ptrto_rc_19 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_19)
+  call void @proc_intrinsic_store64()
+  %ptrto_y_20 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_20)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_y_21 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_21)
+  call void @proc_intrinsic_store64()
+  br label %l21
+
+l49:                                              ; preds = %l21
+  br label %ls49
+
+ls49:                                             ; preds = %l49
+  %ptrto_rc_22 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_22)
+  call void @proc_intrinsic_load64()
+  ret void
+}
+
+define void @proc_gui_rect() {
+  %mem_b = alloca [8 x i8], align 1
+  %mem_g = alloca [8 x i8], align 1
+  %mem_r = alloca [8 x i8], align 1
+  %mem_h = alloca [8 x i8], align 1
+  %mem_w = alloca [8 x i8], align 1
+  %mem_y = alloca [8 x i8], align 1
+  %mem_x = alloca [8 x i8], align 1
+  %mem_handle = alloca [8 x i8], align 1
+  %mem_rc = alloca [8 x i8], align 1
+  %ptrto_b_0 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_g_1 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_1)
+  call void @proc_intrinsic_store64()
+  %ptrto_r_2 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_h_3 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_3)
+  call void @proc_intrinsic_store64()
+  %ptrto_w_4 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_4)
+  call void @proc_intrinsic_store64()
+  %ptrto_y_5 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_5)
+  call void @proc_intrinsic_store64()
+  %ptrto_x_6 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_6)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_7 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_7)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_8 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_8)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_9 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_9)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_10 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_10)
+  call void @proc_intrinsic_load64()
+  %ptrto_w_11 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_11)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_y_12 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_12)
+  call void @proc_intrinsic_load64()
+  %ptrto_r_13 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_13)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_14 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_14)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_15 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_15)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_hline()
+  %ptrto_rc_16 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_16)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_17 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_17)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_18 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_18)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_19 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_19)
+  call void @proc_intrinsic_load64()
+  %ptrto_w_20 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_20)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_y_21 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_21)
+  call void @proc_intrinsic_load64()
+  %ptrto_h_22 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_22)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_r_23 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_23)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_24 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_24)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_25 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_25)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_hline()
+  %ptrto_rc_26 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_26)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_27 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_27)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_28 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_28)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_29 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_29)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_30 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_30)
+  call void @proc_intrinsic_load64()
+  %ptrto_h_31 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_31)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_r_32 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_32)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_33 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_33)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_34 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_34)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_vline()
+  %ptrto_rc_35 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_35)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_36 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_36)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_37 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_37)
+  call void @proc_intrinsic_load64()
+  %ptrto_w_38 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_38)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_y_39 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_39)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_40 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_40)
+  call void @proc_intrinsic_load64()
+  %ptrto_h_41 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_41)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_r_42 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_42)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_43 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_43)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_44 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_44)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_vline()
+  %ptrto_rc_45 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_45)
+  call void @proc_intrinsic_store64()
+  %ptrto_rc_46 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_46)
+  call void @proc_intrinsic_load64()
+  ret void
+}
+
+define void @proc_gui_fill_rect() {
+  %mem_b = alloca [8 x i8], align 1
+  %mem_g = alloca [8 x i8], align 1
+  %mem_r = alloca [8 x i8], align 1
+  %mem_h = alloca [8 x i8], align 1
+  %mem_w = alloca [8 x i8], align 1
+  %mem_y = alloca [8 x i8], align 1
+  %mem_x = alloca [8 x i8], align 1
+  %mem_handle = alloca [8 x i8], align 1
+  %mem_yy = alloca [8 x i8], align 1
+  %mem_rc = alloca [8 x i8], align 1
+  %ptrto_b_0 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_g_1 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_1)
+  call void @proc_intrinsic_store64()
+  %ptrto_r_2 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_2)
+  call void @proc_intrinsic_store64()
+  %ptrto_h_3 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_3)
+  call void @proc_intrinsic_store64()
+  %ptrto_w_4 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_4)
+  call void @proc_intrinsic_store64()
+  %ptrto_y_5 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_5)
+  call void @proc_intrinsic_store64()
+  %ptrto_x_6 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_6)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_7 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_7)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 0)
+  %ptrto_rc_8 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_8)
+  call void @proc_intrinsic_store64()
+  %ptrto_y_9 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_9)
+  call void @proc_intrinsic_load64()
+  %ptrto_yy_10 = ptrtoint ptr %mem_yy to i64
+  call void @push(i64 %ptrto_yy_10)
+  call void @proc_intrinsic_store64()
+  br label %l23
+
+l23:                                              ; preds = %l32, %0
+  %ptrto_yy_11 = ptrtoint ptr %mem_yy to i64
+  call void @push(i64 %ptrto_yy_11)
+  call void @proc_intrinsic_load64()
+  %ptrto_y_12 = ptrtoint ptr %mem_y to i64
+  call void @push(i64 %ptrto_y_12)
+  call void @proc_intrinsic_load64()
+  %ptrto_h_13 = ptrtoint ptr %mem_h to i64
+  call void @push(i64 %ptrto_h_13)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_lt()
+  %a14 = call i64 @pop()
+  %b14 = icmp ne i64 %a14, 0
+  br i1 %b14, label %l32, label %l61
+
+l32:                                              ; preds = %l23
+  %ptrto_handle_15 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_15)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_16 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_16)
+  call void @proc_intrinsic_load64()
+  %ptrto_x_17 = ptrtoint ptr %mem_x to i64
+  call void @push(i64 %ptrto_x_17)
+  call void @proc_intrinsic_load64()
+  %ptrto_w_18 = ptrtoint ptr %mem_w to i64
+  call void @push(i64 %ptrto_w_18)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @push(i64 1)
+  call void @proc_intrinsic_minus()
+  %ptrto_yy_19 = ptrtoint ptr %mem_yy to i64
+  call void @push(i64 %ptrto_yy_19)
+  call void @proc_intrinsic_load64()
+  %ptrto_r_20 = ptrtoint ptr %mem_r to i64
+  call void @push(i64 %ptrto_r_20)
+  call void @proc_intrinsic_load64()
+  %ptrto_g_21 = ptrtoint ptr %mem_g to i64
+  call void @push(i64 %ptrto_g_21)
+  call void @proc_intrinsic_load64()
+  %ptrto_b_22 = ptrtoint ptr %mem_b to i64
+  call void @push(i64 %ptrto_b_22)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_hline()
+  %ptrto_rc_23 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_23)
+  call void @proc_intrinsic_store64()
+  %ptrto_yy_24 = ptrtoint ptr %mem_yy to i64
+  call void @push(i64 %ptrto_yy_24)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_yy_25 = ptrtoint ptr %mem_yy to i64
+  call void @push(i64 %ptrto_yy_25)
+  call void @proc_intrinsic_store64()
+  br label %l23
+
+l61:                                              ; preds = %l23
+  br label %ls61
+
+ls61:                                             ; preds = %l61
+  %ptrto_rc_26 = ptrtoint ptr %mem_rc to i64
+  call void @push(i64 %ptrto_rc_26)
+  call void @proc_intrinsic_load64()
   ret void
 }
 
@@ -1153,109 +1712,422 @@ define void @proc_fp_to_str() {
 }
 
 define void @proc_main() {
-  %strptr9 = ptrtoint ptr @str_main_9 to i64
-  %strptr13 = ptrtoint ptr @str_main_13 to i64
-  %strptr20 = ptrtoint ptr @str_main_20 to i64
-  %strptr27 = ptrtoint ptr @str_main_27 to i64
-  %strptr34 = ptrtoint ptr @str_main_34 to i64
-  %strptr38 = ptrtoint ptr @str_main_38 to i64
-  %strptr66 = ptrtoint ptr @str_main_66 to i64
-  %strptr73 = ptrtoint ptr @str_main_73 to i64
-  %mem_i = alloca [8 x i8], align 1
+  %strptr4 = ptrtoint ptr @str_main_4 to i64
+  %strptr14 = ptrtoint ptr @str_main_14 to i64
+  %mem_handle = alloca [8 x i8], align 1
+  %mem_px = alloca [8 x i8], align 1
+  %mem_py = alloca [8 x i8], align 1
+  %mem_mouse_x = alloca [8 x i8], align 1
+  %mem_mouse_y = alloca [8 x i8], align 1
+  %mem_running = alloca [8 x i8], align 1
   call void @proc_intrinsic_drop()
   call void @proc_intrinsic_drop()
-  call void @proc_gfx_clear()
+  call void @push(i64 640)
+  call void @push(i64 360)
+  call void @push(i64 %strptr4)
+  call void @proc_gui_init()
+  %ptrto_handle_0 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_1 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_1)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 0)
+  call void @proc_intrinsic_eq()
+  %a2 = call i64 @pop()
+  %b2 = icmp ne i64 %a2, 0
+  br i1 %b2, label %l13, label %l17
+
+l13:                                              ; preds = %0
+  call void @push(i64 %strptr14)
+  call void @proc_puts()
+  call void @push(i64 1)
+  br label %l247
+
+l17:                                              ; preds = %0
+  call void @push(i64 320)
+  %ptrto_px_3 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_3)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 180)
+  %ptrto_py_4 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_4)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 1)
+  %ptrto_running_5 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_5)
+  call void @proc_intrinsic_store64()
+  br label %l27
+
+l27:                                              ; preds = %ls233, %l17
+  %ptrto_running_6 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_6)
+  call void @proc_intrinsic_load64()
+  %a7 = call i64 @pop()
+  %b7 = icmp ne i64 %a7, 0
+  br i1 %b7, label %l30, label %l241
+
+l30:                                              ; preds = %l27
+  %ptrto_handle_8 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_8)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_poll_events()
+  %a9 = call i64 @pop()
+  %b9 = icmp ne i64 %a9, 0
+  br i1 %b9, label %l35, label %l39
+
+l35:                                              ; preds = %l30
+  call void @push(i64 0)
+  %ptrto_running_10 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_10)
+  call void @proc_intrinsic_store64()
+  br label %l39
+
+l39:                                              ; preds = %l35, %l30
+  br label %ls39
+
+ls39:                                             ; preds = %l39
+  %ptrto_handle_11 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_11)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 27)
+  call void @proc_gui_key_down()
+  %a12 = call i64 @pop()
+  %b12 = icmp ne i64 %a12, 0
+  br i1 %b12, label %l45, label %l49
+
+l45:                                              ; preds = %ls39
+  call void @push(i64 0)
+  %ptrto_running_13 = ptrtoint ptr %mem_running to i64
+  call void @push(i64 %ptrto_running_13)
+  call void @proc_intrinsic_store64()
+  br label %l49
+
+l49:                                              ; preds = %l45, %ls39
+  br label %ls49
+
+ls49:                                             ; preds = %l49
+  %ptrto_handle_14 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_14)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 97)
+  call void @proc_gui_key_down()
+  %a15 = call i64 @pop()
+  %b15 = icmp ne i64 %a15, 0
+  br i1 %b15, label %l55, label %l58
+
+l55:                                              ; preds = %ls49
+  %ptrto_px_16 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_16)
+  call void @proc_dec64()
+  br label %l58
+
+l58:                                              ; preds = %l55, %ls49
+  br label %ls58
+
+ls58:                                             ; preds = %l58
+  %ptrto_handle_17 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_17)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 100)
+  call void @proc_gui_key_down()
+  %a18 = call i64 @pop()
+  %b18 = icmp ne i64 %a18, 0
+  br i1 %b18, label %l64, label %l67
+
+l64:                                              ; preds = %ls58
+  %ptrto_px_19 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_19)
+  call void @proc_inc64()
+  br label %l67
+
+l67:                                              ; preds = %l64, %ls58
+  br label %ls67
+
+ls67:                                             ; preds = %l67
+  %ptrto_handle_20 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_20)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 119)
+  call void @proc_gui_key_down()
+  %a21 = call i64 @pop()
+  %b21 = icmp ne i64 %a21, 0
+  br i1 %b21, label %l73, label %l76
+
+l73:                                              ; preds = %ls67
+  %ptrto_py_22 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_22)
+  call void @proc_dec64()
+  br label %l76
+
+l76:                                              ; preds = %l73, %ls67
+  br label %ls76
+
+ls76:                                             ; preds = %l76
+  %ptrto_handle_23 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_23)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 115)
+  call void @proc_gui_key_down()
+  %a24 = call i64 @pop()
+  %b24 = icmp ne i64 %a24, 0
+  br i1 %b24, label %l82, label %l85
+
+l82:                                              ; preds = %ls76
+  %ptrto_py_25 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_25)
+  call void @proc_inc64()
+  br label %l85
+
+l85:                                              ; preds = %l82, %ls76
+  br label %ls85
+
+ls85:                                             ; preds = %l85
+  %ptrto_px_26 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_26)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_lt()
+  %a27 = call i64 @pop()
+  %b27 = icmp ne i64 %a27, 0
+  br i1 %b27, label %l91, label %l95
+
+l91:                                              ; preds = %ls85
+  call void @push(i64 2)
+  %ptrto_px_28 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_28)
+  call void @proc_intrinsic_store64()
+  br label %l95
+
+l95:                                              ; preds = %l91, %ls85
+  br label %ls95
+
+ls95:                                             ; preds = %l95
+  %ptrto_px_29 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_29)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 637)
+  call void @proc_intrinsic_gt()
+  %a30 = call i64 @pop()
+  %b30 = icmp ne i64 %a30, 0
+  br i1 %b30, label %l101, label %l105
+
+l101:                                             ; preds = %ls95
+  call void @push(i64 637)
+  %ptrto_px_31 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_31)
+  call void @proc_intrinsic_store64()
+  br label %l105
+
+l105:                                             ; preds = %l101, %ls95
+  br label %ls105
+
+ls105:                                            ; preds = %l105
+  %ptrto_py_32 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_32)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_lt()
+  %a33 = call i64 @pop()
+  %b33 = icmp ne i64 %a33, 0
+  br i1 %b33, label %l111, label %l115
+
+l111:                                             ; preds = %ls105
+  call void @push(i64 2)
+  %ptrto_py_34 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_34)
+  call void @proc_intrinsic_store64()
+  br label %l115
+
+l115:                                             ; preds = %l111, %ls105
+  br label %ls115
+
+ls115:                                            ; preds = %l115
+  %ptrto_py_35 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_35)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 357)
+  call void @proc_intrinsic_gt()
+  %a36 = call i64 @pop()
+  %b36 = icmp ne i64 %a36, 0
+  br i1 %b36, label %l121, label %l125
+
+l121:                                             ; preds = %ls115
+  call void @push(i64 357)
+  %ptrto_py_37 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_37)
+  call void @proc_intrinsic_store64()
+  br label %l125
+
+l125:                                             ; preds = %l121, %ls115
+  br label %ls125
+
+ls125:                                            ; preds = %l125
+  %ptrto_handle_38 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_38)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 10)
+  call void @push(i64 14)
+  call void @push(i64 24)
+  call void @proc_gui_clear()
   call void @proc_intrinsic_drop()
+  %ptrto_handle_39 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_39)
+  call void @proc_intrinsic_load64()
+  %ptrto_px_40 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_40)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_minus()
+  %ptrto_py_41 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_41)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_minus()
+  call void @push(i64 5)
+  call void @push(i64 5)
   call void @push(i64 255)
-  call void @push(i64 200)
-  call void @push(i64 40)
-  call void @proc_gfx_set_rgb()
+  call void @push(i64 210)
+  call void @push(i64 60)
+  call void @proc_gui_fill_rect()
   call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr9)
-  call void @proc_puts()
-  call void @proc_gfx_reset_style()
-  call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr13)
-  call void @proc_puts()
+  %ptrto_handle_42 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_42)
+  call void @proc_intrinsic_load64()
+  %ptrto_px_43 = ptrtoint ptr %mem_px to i64
+  call void @push(i64 %ptrto_px_43)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 4)
+  call void @proc_intrinsic_minus()
+  %ptrto_py_44 = ptrtoint ptr %mem_py to i64
+  call void @push(i64 %ptrto_py_44)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 4)
+  call void @proc_intrinsic_minus()
+  call void @push(i64 9)
+  call void @push(i64 9)
   call void @push(i64 255)
-  call void @push(i64 80)
-  call void @push(i64 80)
-  call void @proc_gfx_set_rgb()
+  call void @push(i64 255)
+  call void @push(i64 255)
+  call void @proc_gui_rect()
   call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr20)
-  call void @proc_puts()
+  %ptrto_handle_45 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_45)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_mouse_x()
+  %ptrto_mouse_x_46 = ptrtoint ptr %mem_mouse_x to i64
+  call void @push(i64 %ptrto_mouse_x_46)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_47 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_47)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_mouse_y()
+  %ptrto_mouse_y_48 = ptrtoint ptr %mem_mouse_y to i64
+  call void @push(i64 %ptrto_mouse_y_48)
+  call void @proc_intrinsic_store64()
+  %ptrto_handle_49 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_49)
+  call void @proc_intrinsic_load64()
+  %ptrto_mouse_x_50 = ptrtoint ptr %mem_mouse_x to i64
+  call void @push(i64 %ptrto_mouse_x_50)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 10)
+  call void @proc_intrinsic_minus()
+  %ptrto_mouse_x_51 = ptrtoint ptr %mem_mouse_x to i64
+  call void @push(i64 %ptrto_mouse_x_51)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 10)
+  call void @proc_intrinsic_plus()
+  %ptrto_mouse_y_52 = ptrtoint ptr %mem_mouse_y to i64
+  call void @push(i64 %ptrto_mouse_y_52)
+  call void @proc_intrinsic_load64()
   call void @push(i64 80)
   call void @push(i64 220)
   call void @push(i64 120)
-  call void @proc_gfx_set_rgb()
+  call void @proc_gui_hline()
   call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr27)
-  call void @proc_puts()
-  call void @push(i64 90)
-  call void @push(i64 140)
-  call void @push(i64 255)
-  call void @proc_gfx_set_rgb()
-  call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr34)
-  call void @proc_puts()
-  call void @proc_gfx_reset_style()
-  call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr38)
-  call void @proc_puts()
-  call void @push(i64 0)
-  %ptrto_i_0 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_0)
-  call void @proc_intrinsic_store64()
-  br label %l43
-
-l43:                                              ; preds = %l48, %0
-  %ptrto_i_1 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_1)
+  %ptrto_handle_53 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_53)
   call void @proc_intrinsic_load64()
-  call void @push(i64 48)
-  call void @proc_intrinsic_lt()
-  %a2 = call i64 @pop()
-  %b2 = icmp ne i64 %a2, 0
-  br i1 %b2, label %l48, label %l70
-
-l48:                                              ; preds = %l43
-  %ptrto_i_3 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_3)
+  %ptrto_mouse_x_54 = ptrtoint ptr %mem_mouse_x to i64
+  call void @push(i64 %ptrto_mouse_x_54)
   call void @proc_intrinsic_load64()
-  call void @push(i64 5)
-  call void @proc_intrinsic_mult()
-  call void @push(i64 255)
-  call void @proc_intrinsic_band()
-  call void @push(i64 180)
-  call void @push(i64 255)
-  %ptrto_i_4 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_4)
+  %ptrto_mouse_y_55 = ptrtoint ptr %mem_mouse_y to i64
+  call void @push(i64 %ptrto_mouse_y_55)
   call void @proc_intrinsic_load64()
-  call void @push(i64 4)
-  call void @proc_intrinsic_mult()
+  call void @push(i64 10)
   call void @proc_intrinsic_minus()
+  %ptrto_mouse_y_56 = ptrtoint ptr %mem_mouse_y to i64
+  call void @push(i64 %ptrto_mouse_y_56)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 10)
+  call void @proc_intrinsic_plus()
+  call void @push(i64 80)
+  call void @push(i64 220)
+  call void @push(i64 120)
+  call void @proc_gui_vline()
+  call void @proc_intrinsic_drop()
+  %ptrto_handle_57 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_57)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_mouse_left_down()
+  %a58 = call i64 @pop()
+  %b58 = icmp ne i64 %a58, 0
+  br i1 %b58, label %l215, label %l233
+
+l215:                                             ; preds = %ls125
+  %ptrto_handle_59 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_59)
+  call void @proc_intrinsic_load64()
+  %ptrto_mouse_x_60 = ptrtoint ptr %mem_mouse_x to i64
+  call void @push(i64 %ptrto_mouse_x_60)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_minus()
+  %ptrto_mouse_y_61 = ptrtoint ptr %mem_mouse_y to i64
+  call void @push(i64 %ptrto_mouse_y_61)
+  call void @proc_intrinsic_load64()
+  call void @push(i64 2)
+  call void @proc_intrinsic_minus()
+  call void @push(i64 5)
+  call void @push(i64 5)
   call void @push(i64 255)
-  call void @proc_intrinsic_band()
-  call void @proc_gfx_set_rgb()
+  call void @push(i64 80)
+  call void @push(i64 80)
+  call void @proc_gui_fill_rect()
   call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr66)
-  call void @proc_puts()
-  %ptrto_i_5 = ptrtoint ptr %mem_i to i64
-  call void @push(i64 %ptrto_i_5)
-  call void @proc_inc64()
-  br label %l43
+  br label %l233
 
-l70:                                              ; preds = %l43
-  br label %ls70
+l233:                                             ; preds = %l215, %ls125
+  br label %ls233
 
-ls70:                                             ; preds = %l70
-  call void @proc_gfx_reset_style()
+ls233:                                            ; preds = %l233
+  %ptrto_handle_62 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_62)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_present()
   call void @proc_intrinsic_drop()
-  call void @push(i64 %strptr73)
-  call void @proc_puts()
-  call void @proc_gfx_reset_style()
+  call void @push(i64 16)
+  call void @proc_gui_delay()
+  call void @proc_intrinsic_drop()
+  br label %l27
+
+l241:                                             ; preds = %l27
+  br label %ls241
+
+ls241:                                            ; preds = %l241
+  %ptrto_handle_63 = ptrtoint ptr %mem_handle to i64
+  call void @push(i64 %ptrto_handle_63)
+  call void @proc_intrinsic_load64()
+  call void @proc_gui_destroy()
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
+  br label %l247
+
+l247:                                             ; preds = %ls241, %l13
+  br label %ls247
+
+ls247:                                            ; preds = %l247
   ret void
 }
 
@@ -2181,5 +3053,125 @@ define void @proc_ll_gfx_reset_style() {
   call void @push(i64 %written)
   ret void
 }
+
+define void @proc_ll_gui_init() {
+  %title_i64 = call i64 @pop()
+  %title_ptr = inttoptr i64 %title_i64 to ptr
+  %h = call i64 @pop()
+  %w = call i64 @pop()
+  %handle = call i64 @cv_gui_init(i64 %w, i64 %h, ptr %title_ptr)
+  call void @push(i64 %handle)
+  ret void
+}
+
+declare i64 @cv_gui_init(i64, i64, ptr)
+
+define void @proc_ll_gui_clear() {
+  %b = call i64 @pop()
+  %g = call i64 @pop()
+  %r = call i64 @pop()
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_clear(i64 %handle, i64 %r, i64 %g, i64 %b)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_clear(i64, i64, i64, i64)
+
+define void @proc_ll_gui_set_pixel() {
+  %b = call i64 @pop()
+  %g = call i64 @pop()
+  %r = call i64 @pop()
+  %y = call i64 @pop()
+  %x = call i64 @pop()
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_set_pixel(i64 %handle, i64 %x, i64 %y, i64 %r, i64 %g, i64 %b)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_set_pixel(i64, i64, i64, i64, i64, i64)
+
+define void @proc_ll_gui_present() {
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_present(i64 %handle)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_present(i64)
+
+define void @proc_ll_gui_poll_close() {
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_poll_close(i64 %handle)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_poll_close(i64)
+
+define void @proc_ll_gui_poll_events() {
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_poll_events(i64 %handle)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_poll_events(i64)
+
+define void @proc_ll_gui_key_down() {
+  %key = call i64 @pop()
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_key_down(i64 %handle, i64 %key)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_key_down(i64, i64)
+
+define void @proc_ll_gui_mouse_x() {
+  %handle = call i64 @pop()
+  %x = call i64 @cv_gui_mouse_x(i64 %handle)
+  call void @push(i64 %x)
+  ret void
+}
+
+declare i64 @cv_gui_mouse_x(i64)
+
+define void @proc_ll_gui_mouse_y() {
+  %handle = call i64 @pop()
+  %y = call i64 @cv_gui_mouse_y(i64 %handle)
+  call void @push(i64 %y)
+  ret void
+}
+
+declare i64 @cv_gui_mouse_y(i64)
+
+define void @proc_ll_gui_mouse_buttons() {
+  %handle = call i64 @pop()
+  %buttons = call i64 @cv_gui_mouse_buttons(i64 %handle)
+  call void @push(i64 %buttons)
+  ret void
+}
+
+declare i64 @cv_gui_mouse_buttons(i64)
+
+define void @proc_ll_gui_delay() {
+  %ms = call i64 @pop()
+  %rc = call i64 @cv_gui_delay(i64 %ms)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_delay(i64)
+
+define void @proc_ll_gui_destroy() {
+  %handle = call i64 @pop()
+  %rc = call i64 @cv_gui_destroy(i64 %handle)
+  call void @push(i64 %rc)
+  ret void
+}
+
+declare i64 @cv_gui_destroy(i64)
 
 attributes #0 = { noreturn }

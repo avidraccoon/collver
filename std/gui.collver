@@ -1,0 +1,252 @@
+// ===== Windowed GUI graphics (SDL2 runtime) =====
+
+extern ll_gui_init int int ptr -> int end
+extern ll_gui_clear int int int int -> int end
+extern ll_gui_set_pixel int int int int int int -> int end
+extern ll_gui_draw_char int int int int int int int int -> int end
+extern ll_gui_present int -> int end
+extern ll_gui_poll_close int -> int end
+extern ll_gui_poll_events int -> int end
+extern ll_gui_key_down int int -> int end
+extern ll_gui_mouse_x int -> int end
+extern ll_gui_mouse_y int -> int end
+extern ll_gui_mouse_buttons int -> int end
+extern ll_gui_delay int -> int end
+extern ll_gui_destroy int -> int end
+
+const GUI_KEY_ESC 27 end
+const GUI_KEY_A 97 end
+const GUI_KEY_D 100 end
+const GUI_KEY_S 115 end
+const GUI_KEY_W 119 end
+
+const GUI_MOUSE_LEFT 1 end
+const GUI_MOUSE_MIDDLE 2 end
+const GUI_MOUSE_RIGHT 4 end
+
+proc gui_init int int ptr -> int do
+  ll_gui_init
+end
+
+proc gui_clear int int int int -> int do
+  ll_gui_clear
+end
+
+proc gui_set_pixel int int int int int int -> int do
+  ll_gui_set_pixel
+end
+
+proc gui_draw_char int int int int int int int int -> int do
+  ll_gui_draw_char
+end
+
+// handle x y text_ptr r g b scale -> int
+proc gui_draw_text int int int ptr[int] int int int int -> int do
+  memory scale sizeof(int) end
+  memory b sizeof(int) end
+  memory g sizeof(int) end
+  memory r sizeof(int) end
+  memory text sizeof(ptr) end
+  memory y sizeof(int) end
+  memory x sizeof(int) end
+  memory handle sizeof(int) end
+  memory i sizeof(int) end
+  memory cx sizeof(int) end
+  memory cy sizeof(int) end
+  memory ch sizeof(int) end
+  memory rc sizeof(int) end
+
+  scale !64
+  b !64
+  g !64
+  r !64
+  text !ptr
+  y !64
+  x !64
+  handle !64
+  0 i !64
+  0 cx !64
+  0 cy !64
+  0 rc !64
+
+  while text @ptr i @64 + @8 do
+    text @ptr i @64 + @8 ch !64
+    if ch @64 10 = do
+      0 cx !64
+      cy @64 1 + cy !64
+    else
+      handle @64
+      x @64 cx @64 8 * scale @64 * +
+      y @64 cy @64 8 * scale @64 * +
+      ch @64
+      r @64 g @64 b @64
+      scale @64
+      gui_draw_char rc !64
+      cx @64 1 + cx !64
+    end
+    i @64 1 + i !64
+  end
+
+  rc @64
+end
+
+proc gui_present int -> int do
+  ll_gui_present
+end
+
+proc gui_poll_close int -> int do
+  ll_gui_poll_close
+end
+
+proc gui_poll_events int -> int do
+  ll_gui_poll_events
+end
+
+proc gui_key_down int int -> int do
+  ll_gui_key_down
+end
+
+proc gui_mouse_x int -> int do
+  ll_gui_mouse_x
+end
+
+proc gui_mouse_y int -> int do
+  ll_gui_mouse_y
+end
+
+proc gui_mouse_buttons int -> int do
+  ll_gui_mouse_buttons
+end
+
+proc gui_mouse_left_down int -> int do
+  gui_mouse_buttons GUI_MOUSE_LEFT & 0 !=
+end
+
+proc gui_mouse_right_down int -> int do
+  gui_mouse_buttons GUI_MOUSE_RIGHT & 0 !=
+end
+
+proc gui_delay int -> int do
+  ll_gui_delay
+end
+
+proc gui_destroy int -> int do
+  ll_gui_destroy
+end
+
+// handle x1 x2 y r g b -> int
+proc gui_hline int int int int int int int -> int do
+  memory b sizeof(int) end
+  memory g sizeof(int) end
+  memory r sizeof(int) end
+  memory y sizeof(int) end
+  memory x2 sizeof(int) end
+  memory x1 sizeof(int) end
+  memory handle sizeof(int) end
+  memory x sizeof(int) end
+  memory rc sizeof(int) end
+  b !64
+  g !64
+  r !64
+  y !64
+  x2 !64
+  x1 !64
+  handle !64
+  0 rc !64
+
+  x1 @64 x !64
+  while x @64 x2 @64 <= do
+    handle @64 x @64 y @64 r @64 g @64 b @64 gui_set_pixel rc !64
+    x @64 1 + x !64
+  end
+
+  rc @64
+end
+
+// handle x y1 y2 r g b -> int
+proc gui_vline int int int int int int int -> int do
+  memory b sizeof(int) end
+  memory g sizeof(int) end
+  memory r sizeof(int) end
+  memory y2 sizeof(int) end
+  memory y1 sizeof(int) end
+  memory x sizeof(int) end
+  memory handle sizeof(int) end
+  memory y sizeof(int) end
+  memory rc sizeof(int) end
+  b !64
+  g !64
+  r !64
+  y2 !64
+  y1 !64
+  x !64
+  handle !64
+  0 rc !64
+
+  y1 @64 y !64
+  while y @64 y2 @64 <= do
+    handle @64 x @64 y @64 r @64 g @64 b @64 gui_set_pixel rc !64
+    y @64 1 + y !64
+  end
+
+  rc @64
+end
+
+// handle x y w h r g b -> int
+proc gui_rect int int int int int int int int -> int do
+  memory b sizeof(int) end
+  memory g sizeof(int) end
+  memory r sizeof(int) end
+  memory h sizeof(int) end
+  memory w sizeof(int) end
+  memory y sizeof(int) end
+  memory x sizeof(int) end
+  memory handle sizeof(int) end
+  memory rc sizeof(int) end
+  b !64
+  g !64
+  r !64
+  h !64
+  w !64
+  y !64
+  x !64
+  handle !64
+
+  handle @64 x @64 x @64 w @64 + 1 - y @64 r @64 g @64 b @64 gui_hline rc !64
+  handle @64 x @64 x @64 w @64 + 1 - y @64 h @64 + 1 - r @64 g @64 b @64 gui_hline rc !64
+  handle @64 x @64 y @64 y @64 h @64 + 1 - r @64 g @64 b @64 gui_vline rc !64
+  handle @64 x @64 w @64 + 1 - y @64 y @64 h @64 + 1 - r @64 g @64 b @64 gui_vline rc !64
+
+  rc @64
+end
+
+// handle x y w h r g b -> int
+proc gui_fill_rect int int int int int int int int -> int do
+  memory b sizeof(int) end
+  memory g sizeof(int) end
+  memory r sizeof(int) end
+  memory h sizeof(int) end
+  memory w sizeof(int) end
+  memory y sizeof(int) end
+  memory x sizeof(int) end
+  memory handle sizeof(int) end
+  memory yy sizeof(int) end
+  memory rc sizeof(int) end
+  b !64
+  g !64
+  r !64
+  h !64
+  w !64
+  y !64
+  x !64
+  handle !64
+  0 rc !64
+
+  y @64 yy !64
+  while yy @64 y @64 h @64 + < do
+    handle @64 x @64 x @64 w @64 + 1 - yy @64 r @64 g @64 b @64 gui_hline rc !64
+    yy @64 1 + yy !64
+  end
+
+  rc @64
+end

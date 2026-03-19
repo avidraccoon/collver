@@ -1,0 +1,3 @@
+Welcome to the Collver mini editor.
+You can append lines and save with :w.
+hello world

@@ -3,6 +3,7 @@ include "consts.collver"
 include "casting.collver"
 include "networking.collver"
 include "graphics.collver"
+include "gui.collver"
 
 // STACK MANIPULATION
 

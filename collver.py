@@ -2128,6 +2128,8 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
     casting_ll_path = os.path.join(this_folder, "std", "casting.ll")
     networking_ll_path = os.path.join(this_folder, "std", "networking.ll")
     graphics_ll_path = os.path.join(this_folder, "std", "graphics.ll")
+    gui_ll_path = os.path.join(this_folder, "std", "gui.ll")
+    gui_runtime_c_path = os.path.join(this_folder, "std", "gui_runtime.c")
     res = run_echoed(
         [
             "llvm-link",
@@ -2137,6 +2139,7 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
             casting_ll_path,
             networking_ll_path,
             graphics_ll_path,
+            gui_ll_path,
             "-o",
             ll_path,
             "-opaque-pointers",
@@ -2149,7 +2152,10 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
     run_echoed(
         ["llc", ll_path, "-o", bin_path + ".s", "-opaque-pointers"]
     )  # -opaque-pointers argument because newer LLVm versions use [type]* instead of `ptr` type
-    res = run_echoed(["clang", "-no-pie", bin_path + ".s", "-o", bin_path])
+    clang_cmd = ["clang", "-no-pie", bin_path + ".s", gui_runtime_c_path, "-o", bin_path]
+    if os.name != "nt":
+        clang_cmd.extend(["-ldl"])
+    res = run_echoed(clang_cmd)
     if res.returncode != 0:
         print("error: `clang` finished with non-0 exit code")
         sys.exit(1)

@@ -1,0 +1,81 @@
+include "std.collver"
+
+proc main int ptr -> int do
+  drop drop
+
+  memory handle sizeof(int) end
+  memory px sizeof(int) end
+  memory py sizeof(int) end
+  memory mouse_x sizeof(int) end
+  memory mouse_y sizeof(int) end
+  memory running sizeof(int) end
+
+  640 360 "Collver GUI Demo" gui_init handle !64
+  if handle @64 0 = do
+    "Failed to initialize GUI runtime (SDL2 not available?).\n" puts
+    1
+  else
+    320 px !64
+    180 py !64
+    1 running !64
+
+    while running @64 do
+      handle @64 gui_poll_events
+      if do
+        0 running !64
+      end
+
+      if handle @64 GUI_KEY_ESC gui_key_down do
+        0 running !64
+      end
+
+      if handle @64 GUI_KEY_A gui_key_down do
+        px dec64
+      end
+      if handle @64 GUI_KEY_D gui_key_down do
+        px inc64
+      end
+      if handle @64 GUI_KEY_W gui_key_down do
+        py dec64
+      end
+      if handle @64 GUI_KEY_S gui_key_down do
+        py inc64
+      end
+
+      if px @64 2 < do
+        2 px !64
+      end
+      if px @64 637 > do
+        637 px !64
+      end
+      if py @64 2 < do
+        2 py !64
+      end
+      if py @64 357 > do
+        357 py !64
+      end
+
+      handle @64 10 14 24 gui_clear drop
+
+      // Movable player marker via WASD
+      handle @64 px @64 2 - py @64 2 - 5 5 255 210 60 gui_fill_rect drop
+      handle @64 px @64 4 - py @64 4 - 9 9 255 255 255 gui_rect drop
+
+      // Mouse crosshair + paint by holding left mouse button
+      handle @64 gui_mouse_x mouse_x !64
+      handle @64 gui_mouse_y mouse_y !64
+      handle @64 mouse_x @64 10 - mouse_x @64 10 + mouse_y @64 80 220 120 gui_hline drop
+      handle @64 mouse_x @64 mouse_y @64 10 - mouse_y @64 10 + 80 220 120 gui_vline drop
+
+      if handle @64 gui_mouse_left_down do
+        handle @64 mouse_x @64 2 - mouse_y @64 2 - 5 5 255 80 80 gui_fill_rect drop
+      end
+
+      handle @64 gui_present drop
+      16 gui_delay drop
+    end
+
+    handle @64 gui_destroy drop
+    0
+  end
+end
