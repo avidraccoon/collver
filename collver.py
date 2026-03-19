@@ -84,6 +84,7 @@ INT_TYPE = CType(DT.INT)
 STR_TYPE = CType(DT.STR)
 PTR_TYPE = CType(DT.PTR)
 UNK_TYPE = CType(DT.UNK)
+ARGV_TYPE = CType(DT.PTR, CType(DT.PTR, INT_TYPE))
 
 TypeAnnotation = tuple[CType, Token]
 
@@ -977,7 +978,8 @@ def stacks_match(
         return TypeDifference.SECOND_LONGER, None
 
     for a, b in zip(type_stack1, type_stack2):
-        if a[0] != b[0]:
+        # Branches are considered equivalent when each side can satisfy the other.
+        if not (types_compatible(a[0], b[0]) and types_compatible(b[0], a[0])):
             return TypeDifference.MISMATCH, (a[1], b[1])
 
     return TypeDifference.NONE, None
@@ -1586,7 +1588,7 @@ def type_check_program(program: Program):
         if (
             len(main_sig.args) != 2
             or not types_compatible(main_sig.args[0][0], INT_TYPE)
-            or main_sig.args[1][0].kind != DT.PTR
+            or not types_compatible(main_sig.args[1][0], ARGV_TYPE)
             or len(main_sig.returns) != 1
             or not types_compatible(main_sig.returns[0][0], INT_TYPE)
         ):

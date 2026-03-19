@@ -425,7 +425,7 @@ proc fd_readline int -> str do
   strptr @ptr (ptr->str)
 end
 
-proc fd_puts int ptr -> do // fd ptr ->
+proc fd_puts int ptr[int] -> do // fd ptr ->
   // Write a string (null terminated) to a file (by fd)
 
   // fd ptr len(ptr)
@@ -434,17 +434,17 @@ proc fd_puts int ptr -> do // fd ptr ->
   drop // Drop the number of bytes written
 end
 
-proc puts ptr -> do // ptr ->
+proc puts ptr[int] -> do // ptr ->
   // Write a string (null terminated) to stdout
   (ptr->int) FD_STDOUT swap (int->ptr) fd_puts
 end
 
-proc eputs ptr -> do // ptr ->
+proc eputs ptr[int] -> do // ptr ->
   // Write a string (null terminated) to stderr
   (ptr->int) FD_STDERR swap (int->ptr) fd_puts
 end
 
-proc readline -> ptr do // -> ptr
+proc readline -> ptr[int] do // -> ptr
   // Read a line from standard in
   FD_STDIN fd_readline (str->ptr)
 end
