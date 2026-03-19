@@ -1,0 +1,30 @@
+include "std.collver"
+
+struct Player
+  hp int
+  mana int
+  name ptr[int]
+end
+
+proc main int ptr -> int do
+  drop drop
+
+  memory p sizeof(ptr) end
+  sizeof(Player) alloc p !ptr
+
+  100 p @ptr @Player.hp + !64
+  50 p @ptr @Player.mana + !64
+  "Mage" p @ptr @Player.name + !ptr
+
+  "HP: " puts
+  p @ptr @Player.hp + @64 print
+
+  "Mana: " puts
+  p @ptr @Player.mana + @64 print
+
+  "Name: " puts
+  p @ptr @Player.name + @ptr puts "\n" puts
+
+  p @ptr free
+  0
+end
