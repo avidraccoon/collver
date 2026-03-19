@@ -3,10 +3,55 @@ include "std.collver"
 const WIDTH 640 end
 const HEIGHT 360 end
 
-
 // handle
 proc draw_background int -> do
   0 0 WIDTH HEIGHT 100 140 204 gui_fill_rect drop
+end
+
+// n
+proc int_sqrt int -> int do
+  memory n sizeof(int) end
+  memory low sizeof(int) end
+  memory mid sizeof(int) end
+  memory high sizeof(int) end
+  memory sq sizeof(int) end
+  memory ans sizeof(int) end
+  n !64
+  0 ans !64
+  if n @64 0 = n @64 1 = || do
+    n @64 ans !64
+  else
+    // init low and high
+    1 low !64
+    n @64 2 / high !64
+
+    // The magic
+    while low high <= do 
+      low @64
+      high @64 low @64 -
+      2 / +
+      mid !64
+
+      mid @64 dup * sq !64
+
+      if sq n = do
+        mid @64 ans !64
+      elif sq n < do
+        mid @64 ans !64
+        mid @64 1 + low !64
+      else 
+        mid @64 1 - high !64
+      end
+    end
+  end
+  // return computed sq root
+  ans @64
+end
+
+proc square_dist int int -> int do
+  dup *
+  swap dup *
+  +
 end
 
 struct Color
@@ -15,13 +60,13 @@ struct Color
   b int
 end
 
+// Center Based
 struct Rect
   x int
   y int
   w int
   h int
 end
-
 
 struct GraphicsRect
   rect ptr[Rect]
@@ -56,9 +101,9 @@ end
 proc create_color int int int -> ptr[Color] do
   memory color sizeof(ptr) end
   sizeof(Color) alloc color !ptr
-  color @ptr @Color.r !64
-  color @ptr @Color.g !64
-  color @ptr @Color.b !64
+  color @ptr @Color.b + !64
+  color @ptr @Color.g + !64
+  color @ptr @Color.r + !64
   color @ptr
 end
 
@@ -70,9 +115,9 @@ end
 proc clone_color ptr[Color] -> ptr[Color] do
   memory color sizeof(ptr) end
   color !ptr
-  color @ptr @Color.r @64
-  color @ptr @Color.g @64
-  color @ptr @Color.b @64
+  color @ptr @Color.r + @64
+  color @ptr @Color.g + @64
+  color @ptr @Color.b + @64
   create_color
 end
 
@@ -80,10 +125,10 @@ end
 proc create_rect int int int int -> ptr[Rect] do
   memory rect sizeof(ptr) end
   sizeof(Rect) alloc rect !ptr
-  rect @ptr @Rect.x !64
-  rect @ptr @Rect.y !64
-  rect @ptr @Rect.w !64
-  rect @ptr @Rect.h !64
+  rect @ptr @Rect.h + !64
+  rect @ptr @Rect.w + !64
+  rect @ptr @Rect.y + !64
+  rect @ptr @Rect.x + !64
   rect @ptr
 end
 
@@ -95,10 +140,10 @@ end
 proc clone_rect ptr[Rect] -> ptr[Rect] do
   memory rect sizeof(ptr) end
   rect !ptr
-  rect @ptr @Rect.x @64
-  rect @ptr @Rect.y @64
-  rect @ptr @Rect.w @64
-  rect @ptr @Rect.h @64
+  rect @ptr @Rect.x + @64
+  rect @ptr @Rect.y + @64
+  rect @ptr @Rect.w + @64
+  rect @ptr @Rect.h + @64
   create_rect
 end
 
@@ -106,58 +151,218 @@ end
 proc create_graphics_rect ptr[Rect] ptr[Color] -> ptr[GraphicsRect] do
   memory grect sizeof(ptr) end
   sizeof(GraphicsRect) alloc grect !ptr
-  grect @ptr @GraphicsRect.rect !64
-  grect @ptr @GraphicsRect.color !64
+  grect @ptr @GraphicsRect.rect + !64
+  grect @ptr @GraphicsRect.color + !64
   grect @ptr
 end
 
 proc destroy_graphics_rect ptr[GraphicsRect] -> do
-  dup @GraphicsRect.rect destroy_rect
-  dup @GraphicsRect.color destroy_color
+  dup @GraphicsRect.rect + destroy_rect
+  dup @GraphicsRect.color + destroy_color
   free
 end
 
 proc clone_graphics_rect ptr[GraphicsRect] -> ptr[GraphicsRect] do
   memory grect sizeof(ptr) end
   grect !ptr
-  grect @ptr @GraphicsRect.rect clone_rect
-  grect @ptr @GraphicsRect.color clone_color
+  grect @ptr @GraphicsRect.rect + clone_rect
+  grect @ptr @GraphicsRect.color + clone_color
   create_graphics_rect
 end
 
 const ENTITY_TYPE_UNKNOWN offset end
 const ENTITY_TYPE_PLAYER offset end
 const ENTITY_TYPE_ENEMY offset end
+const ENTITY_TYPE_ROOT offset end
 const ENTITY_TYPE_OTHER reset end
 
 struct EntityContainer
   entity ptr // pointer to object that contains an entity
+  type int
+  prev ptr[EntityContainer]
+  next ptr[EntityContainer]
+  id int
 end
 
-proc get_entity_from_container ptr[EntityContainer]
+memory entities sizeof(ptr) end
+memory entities_id sizeof(int) end
 
-// Things that contain entities
-proc update_entities ptr[ptr] ptr -> do
- 
+proc add_entity ptr[Entity] -> do
+  entities @ptr insert_entity_after
 end
 
-proc update_split ptr[EntityContainer] -> do
+// to add, index entity
+// I think this will work
+proc insert_entity_after ptr[Entity] ptr[Entity] -> do
+  memory prev sizeof(ptr) end
+  memory insert sizeof(ptr) end
+  memory next sizeof(ptr) end
+
+  dup prev !ptr
+  @EntityContainer.next + next !ptr
+  insert !ptr
+
+  insert @ptr prev @ptr @EntityContainer.next + !ptr
+  //check if ther is a next node
+  if next @ptr -1 != do
+    insert @ptr next @ptr @EntityContainer.prev + !ptr
+  end
+
+  prev @ptr insert @ptr @EntityContainer.prev + !ptr
+  next @ptr insert @ptr @EntityContainer.next + !ptr
+end
+
+proc insert_entity_before ptr[Entity] ptr[Entity] -> do
+  @EntityContainer.prev insert_entity_after
+end
+
+proc remove_entity ptr[Entity] -> do
+  memory entity sizeof(ptr) end
+  entity !ptr
+  entity @ptr @EntityContainer.prev + // Get previous node
+  dup @EntityContainer.next + // Get previous node's next slot
+  entity @ptr @EntityContainer.next + @ptr // get current nodes next
+  !ptr // Set previous node's next slot
+  // Should just have the previous node on the stack
+  // Check if next node exists
+  if entity @EntityContainer.next + @ptr -1 != do
+    @EntityContainer.next + @ptr @EntityContainer.prev + // get the next node's prev slot
+    entity @EntityContainer.prev + @ptr !ptr // save previous node into the slot
+  else
+    // Not needed anymore
+    drop
+  end
+end
+
+proc get_entity_from_container ptr[EntityContainer] -> ptr[Entity] do
+  dup
+  @EntityContainer.type + @64
+  if dup ENTITY_TYPE_PLAYER = do
+    drop
+    @Player.entity + @ptr
+  elif dup ENTITY_TYPE_ENEMY = do
+    drop
+    @Enemy.entity + @ptr
+  else 
+    drop
+  end
+end
+
+// entity_a, entity_b -> square_distance
+proc get_square_distance ptr[Entity] ptr[Entity] -> int do
+  memory entity_a sizeof(ptr) end
+  memory entity_b sizeof(ptr) end
+  entity_b !ptr
+  entity_a !ptr
+  entity_a @ptr @Entity.x + @64 entity_b @ptr @Entity.x + @64 -
+  entity_a @ptr @Entity.y + @64 entity_b @ptr @Entity.y + @64 -
+  square_dist
+end
+
+// x, y -> x_norm, y_norm
+// magic
+proc vec_norm int int -> int int do
+  memory y_norm sizeof(int) end
+  2dup
+  square_dist int_sqrt
+  2dup / y_norm !64
+  swap drop /
+  y_norm @64
+end
+
+// x, y, scale -> x_scaled, y_scaled
+// magic
+proc vec_norm_scale int int int -> int int do
+  memory temp sizeof(int) end
+  temp !64
+  2dup
+  // decide where to divide before or after the int_sqrt
+  square_dist int_sqrt temp @64 /
+  2dup / temp !64
+  swap drop /
+  temp @64
+end
+
+// entity, type -> closest
+proc get_closest ptr[Entity] int -> ptr[Entity] do
+  memory entity sizeof(ptr) end
+  memory type sizeof(int) end
+  type !64
+  entity !ptr
+  memory closest sizeof(ptr) end
+  memory sq_distance sizeof(int) end
+  while dup 
+end
+
+// enemy
+proc update_enemy ptr[EntityContainer] -> do
+  // get the closest player
+  // Switch to take use container
+  dup ENTITY_TYPE_PLAYER get_closest
+
+end
+
+proc get_player_direction -> int int do
+  1 1
+end
+
+// player
+proc update_player ptr[EntityContainer] -> do
+  memory entity_container sizeof(ptr) end
+  memory entity sizeof(ptr) end
+  dup entity_container !ptr
+  @EntityContainer.entity + @ptr entity !ptr
   
+  get_player_direction
+  5 vec_norm_scale
+
+  // Update pos
+  entity @Entity.y + @64 + entity @Entity.y !64
+  entity @Entity.x + @64 + entity @Entity.x !64
+end
+
+// generic entity default update
+proc update_entity ptr[EntityContainer] -> do
+
+end
+
+// entity_container
+proc update_split ptr[EntityContainer] -> do
+  dup
+  @EntityContainer.type + @64
+  if dup ENTITY_TYPE_PLAYER = do
+    drop
+    update_player
+  elif dup ENTITY_TYPE_ENEMY = do
+    drop
+    update_enemy
+  else 
+    drop
+    update_entity
+  end
+end
+
+proc update_entities -> do
+
 end
 
 // damage, rect, color
 proc create_enemy int ptr[Rect] ptr[Color] -> ptr[Enemy] do
   memory enemy sizeof(ptr) end
   sizeof(Enemy) alloc enemy !ptr
-  enemy @ptr @Enemy.damage !64
-  0 enemy @ptr @Enemy.died !64
+  enemy @ptr @Enemy.damage + !64
+  0 enemy @ptr @Enemy.died + !64
   // Create entity
-  enemy @ptr @Enemy.entity !ptr
+  enemy @ptr @Enemy.entity + !ptr
   enemy @ptr
 end
 
+// TODO: Figure out how draw order will work
+
 proc main int ptr -> int do
   drop drop
+
+  // initialize entities
 
   memory handle sizeof(int) end
   memory running sizeof(int) end
