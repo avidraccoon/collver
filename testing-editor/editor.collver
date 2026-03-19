@@ -8,6 +8,14 @@ const MAX_PATH 256 end
 const PATH_PANEL_X 14 end
 const PATH_PANEL_Y 68 end
 const PATH_LINE_H 20 end
+const TAB_X 250 end
+const TAB_Y 8 end
+const TAB_W 140 end
+const TAB_H 20 end
+const BROWSER_X 250 end
+const BROWSER_Y 68 end
+const BROWSER_W 700 end
+const BROWSER_ROW_H 20 end
 const TEXT_X 250 end
 const TEXT_Y 56 end
 const SCALE 2 end
@@ -50,6 +58,90 @@ proc cpyz ptr[int] ptr[int] -> do
     i @64 1 + i !64
   end
   0 dst @ptr i @64 + !8
+end
+
+// cstr -> length
+proc cstr_len ptr[int] -> int do
+  memory s sizeof(ptr) end
+  memory i sizeof(int) end
+  s !ptr
+  0 i !64
+  while s @ptr i @64 + @8 do
+    i @64 1 + i !64
+  end
+  i @64
+end
+
+// path -> ptr to basename portion
+proc basename_ptr ptr[int] -> ptr[int] do
+  memory s sizeof(ptr) end
+  memory last sizeof(ptr) end
+  memory i sizeof(int) end
+  s !ptr
+  s @ptr last !ptr
+  0 i !64
+  while s @ptr i @64 + @8 do
+    if s @ptr i @64 + @8 47 = s @ptr i @64 + @8 92 = || do
+      s @ptr i @64 + 1 + last !ptr
+    end
+    i @64 1 + i !64
+  end
+  last @ptr
+end
+
+// idx -> label ptr (1-based)
+proc tab_num_label int -> ptr[int] do
+  memory idx sizeof(int) end
+  idx !64
+  if idx @64 0 = do
+    "1"
+  else if idx @64 1 = do
+    "2"
+  else if idx @64 2 = do
+    "3"
+  else if idx @64 3 = do
+    "4"
+  else if idx @64 4 = do
+    "5"
+  else
+    "?"
+  end end end end end
+end
+
+// text_ptr -> line count (minimum 1)
+proc count_lines ptr[int] -> int do
+  memory s sizeof(ptr) end
+  memory i sizeof(int) end
+  memory lines sizeof(int) end
+  s !ptr
+  0 i !64
+  1 lines !64
+  while s @ptr i @64 + @8 do
+    if s @ptr i @64 + @8 10 = do
+      lines @64 1 + lines !64
+    end
+    i @64 1 + i !64
+  end
+  lines @64
+end
+
+// src dst len_ptr ->
+proc set_input_path ptr[int] ptr[int] ptr[int] -> do
+  memory len_ptr sizeof(ptr) end
+  memory dst sizeof(ptr) end
+  memory src sizeof(ptr) end
+  memory i sizeof(int) end
+  len_ptr !ptr
+  dst !ptr
+  src !ptr
+
+  0 i !64
+  while src @ptr i @64 + @8 i @64 MAX_PATH 1 - < && do
+    src @ptr i @64 + @8 dst @ptr i @64 + !8
+    i @64 1 + i !64
+  end
+  0 dst @ptr i @64 + !8
+  i @64 len_ptr @ptr !64
 end
 
 proc save_buffer ptr[int] ptr[int] int -> int do
@@ -135,6 +227,7 @@ proc draw_file_list ptr[int] ptr[int] int -> do
   memory count sizeof(ptr) end
   memory paths sizeof(ptr) end
   memory i sizeof(int) end
+  memory row_y sizeof(int) end
   active !64
   count !ptr
   paths !ptr
@@ -142,12 +235,14 @@ proc draw_file_list ptr[int] ptr[int] int -> do
   handle_global @64 PATH_PANEL_X 44 "Files" 140 200 255 1 gui_draw_text drop
   0 i !64
   while i @64 count @ptr @64 < do
+    PATH_PANEL_Y i @64 PATH_LINE_H * + row_y !64
     if i @64 active @64 = do
-      handle_global @64 10 PATH_PANEL_Y i @64 PATH_LINE_H * + 210 18 74 60 95 gui_fill_rect drop
+      handle_global @64 10 row_y @64 210 18 74 60 95 gui_fill_rect drop
     else
-      handle_global @64 10 PATH_PANEL_Y i @64 PATH_LINE_H * + 210 18 40 52 70 gui_fill_rect drop
+      handle_global @64 10 row_y @64 210 18 40 52 70 gui_fill_rect drop
     end
-    handle_global @64 PATH_PANEL_X PATH_PANEL_Y i @64 PATH_LINE_H * + paths @ptr i @64 path_slot 220 220 225 1 gui_draw_text drop
+    handle_global @64 PATH_PANEL_X row_y @64 i @64 tab_num_label 190 200 220 1 gui_draw_text drop
+    handle_global @64 PATH_PANEL_X 20 + row_y @64 paths @ptr i @64 path_slot basename_ptr 220 220 225 1 gui_draw_text drop
     i @64 1 + i !64
   end
 end
@@ -211,16 +306,25 @@ proc main int ptr -> int do
   memory key_back_now sizeof(int) end
   memory key_enter_prev sizeof(int) end
   memory key_enter_now sizeof(int) end
+  memory mouse_buttons sizeof(int) end
+  memory left_prev sizeof(int) end
+  memory left_now sizeof(int) end
+  memory row_y sizeof(int) end
+  memory tab_x sizeof(int) end
+  memory browser_paths MAX_PATH 16 * end
+  memory browser_count sizeof(int) end
   memory i sizeof(int) end
   0 key_ctrl_s_prev !64
   0 key_ctrl_o_prev !64
   0 key_tab_prev !64
   0 key_back_prev !64
   0 key_enter_prev !64
+  0 left_prev !64
   0 path_len !64
   0 open_mode !64
   0 file_count !64
   0 active_idx !64
+  0 browser_count !64
 
   0 i !64
   while i @64 128 < do
@@ -231,6 +335,17 @@ proc main int ptr -> int do
   "testing-editor/note.txt" paths 0 path_slot cpyz
   paths 0 path_slot texts 0 text_slot lens 0 len_slot load_buffer
   1 file_count !64
+
+  "testing-editor/note.txt" browser_paths 0 path_slot cpyz
+  "testing-editor/editor.collver" browser_paths 1 path_slot cpyz
+  "testing-features/gui.collver" browser_paths 2 path_slot cpyz
+  "testing-features/graphics.collver" browser_paths 3 path_slot cpyz
+  "testing-features/networking.collver" browser_paths 4 path_slot cpyz
+  "examples/hello_world.collver" browser_paths 5 path_slot cpyz
+  "tests/builtin/hello_world.collver" browser_paths 6 path_slot cpyz
+  "std/gui.collver" browser_paths 7 path_slot cpyz
+  "std/networking.collver" browser_paths 8 path_slot cpyz
+  9 browser_count !64
 
   WIN_W WIN_H "Collver GUI Mini Editor" gui_init handle !64
   handle @64 handle_global !64
@@ -345,6 +460,52 @@ proc main int ptr -> int do
 
       handle @64 gui_mouse_x mx !64
       handle @64 gui_mouse_y my !64
+      handle @64 gui_mouse_buttons mouse_buttons !64
+      mouse_buttons @64 GUI_MOUSE_LEFT & 0 != left_now !64
+
+      // mouse click handling (edge-triggered)
+      if left_now @64 left_prev @64 0 = && do
+        // side list click
+        0 i !64
+        while i @64 file_count @64 < do
+          PATH_PANEL_Y i @64 PATH_LINE_H * + row_y !64
+          if mx @64 10 >= mx @64 220 < && my @64 row_y @64 >= && my @64 row_y @64 PATH_LINE_H + < && do
+            i @64 active_idx !64
+          end
+          i @64 1 + i !64
+        end
+
+        // top tabs click
+        0 i !64
+        while i @64 file_count @64 < do
+          TAB_X i @64 TAB_W * + tab_x !64
+          if mx @64 tab_x @64 >= mx @64 tab_x @64 TAB_W + < && my @64 TAB_Y >= && my @64 TAB_Y TAB_H + < && do
+            i @64 active_idx !64
+          end
+          i @64 1 + i !64
+        end
+
+        // quick browser click while open mode is active
+        if open_mode @64 do
+          0 i !64
+          while i @64 browser_count @64 < do
+            BROWSER_Y i @64 BROWSER_ROW_H * + row_y !64
+            if mx @64 BROWSER_X >= mx @64 BROWSER_X BROWSER_W + < && my @64 row_y @64 >= && my @64 row_y @64 BROWSER_ROW_H + < && do
+              browser_paths i @64 path_slot path_input path_len set_input_path
+              if file_count @64 MAX_FILES < do
+                paths texts lens file_count active_idx path_input file_count @64 open_file_into_slot
+              else
+                paths texts lens file_count active_idx path_input active_idx @64 open_file_into_slot
+              end
+              0 open_mode !64
+              0 path_len !64
+              0 path_input !8
+            end
+            i @64 1 + i !64
+          end
+        end
+      end
+      left_now @64 left_prev !64
 
       handle @64 18 22 34 gui_clear drop
 
@@ -353,11 +514,38 @@ proc main int ptr -> int do
 
       handle @64 14 12 "Collver GUI Text Editor" 120 200 255 2 gui_draw_text drop
       handle @64 14 34 "Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit" 160 180 210 1 gui_draw_text drop
+
+      // top tabs with index and line count
+      0 i !64
+      while i @64 file_count @64 < do
+        TAB_X i @64 TAB_W * + tab_x !64
+        if i @64 active_idx @64 = do
+          handle @64 tab_x @64 TAB_Y TAB_W 20 60 95 132 gui_fill_rect drop
+        else
+          handle @64 tab_x @64 TAB_Y TAB_W 20 43 56 78 gui_fill_rect drop
+        end
+
+        handle @64 tab_x @64 4 + TAB_Y 4 + i @64 tab_num_label 235 220 120 1 gui_draw_text drop
+        handle @64 tab_x @64 20 + TAB_Y 4 + paths i @64 path_slot basename_ptr 225 225 230 1 gui_draw_text drop
+        i @64 1 + i !64
+      end
+
       if open_mode @64 do
         handle @64 250 34 "OPEN> " 255 210 120 1 gui_draw_text drop
         handle @64 300 34 path_input 255 210 120 1 gui_draw_text drop
+        handle @64 BROWSER_X 58 BROWSER_W WIN_H 220 - 60 70 92 gui_rect drop
+        handle @64 BROWSER_X 42 "Click a file below or type a path and press Enter" 200 200 215 1 gui_draw_text drop
+        0 i !64
+        while i @64 browser_count @64 < do
+          BROWSER_Y i @64 BROWSER_ROW_H * + row_y !64
+          handle @64 BROWSER_X row_y @64 i @64 tab_num_label 210 190 120 1 gui_draw_text drop
+          handle @64 BROWSER_X 20 + row_y @64 browser_paths i @64 path_slot 220 220 225 1 gui_draw_text drop
+          i @64 1 + i !64
+        end
       end
       handle @64 TEXT_X TEXT_Y texts active_idx @64 text_slot 235 235 235 SCALE gui_draw_text drop
+      handle @64 TEXT_X WIN_H 18 - "Path:" 160 180 210 1 gui_draw_text drop
+      handle @64 TEXT_X 44 + WIN_H 18 - paths active_idx @64 path_slot 210 220 235 1 gui_draw_text drop
 
       // simple mouse cursor crosshair for UX
       handle @64 mx @64 6 - mx @64 6 + my @64 80 220 120 gui_hline drop

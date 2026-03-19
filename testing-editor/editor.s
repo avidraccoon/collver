@@ -3288,6 +3288,495 @@ proc_cpyz:                              # @proc_cpyz
 	.size	proc_cpyz, .Lfunc_end86-proc_cpyz
 	.cfi_endproc
                                         # -- End function
+	.globl	proc_cstr_len                   # -- Begin function proc_cstr_len
+	.p2align	4, 0x90
+	.type	proc_cstr_len,@function
+proc_cstr_len:                          # @proc_cstr_len
+	.cfi_startproc
+# %bb.0:
+	pushq	%r14
+	.cfi_def_cfa_offset 16
+	pushq	%rbx
+	.cfi_def_cfa_offset 24
+	subq	$24, %rsp
+	.cfi_def_cfa_offset 48
+	.cfi_offset %rbx, -24
+	.cfi_offset %r14, -16
+	leaq	16(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	8(%rsp), %rbx
+	.p2align	4, 0x90
+.LBB87_1:                               # %l5
+                                        # =>This Inner Loop Header: Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB87_3
+# %bb.2:                                # %l12
+                                        #   in Loop: Header=BB87_1 Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	jmp	.LBB87_1
+.LBB87_3:                               # %l19
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	addq	$24, %rsp
+	.cfi_def_cfa_offset 24
+	popq	%rbx
+	.cfi_def_cfa_offset 16
+	popq	%r14
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end87:
+	.size	proc_cstr_len, .Lfunc_end87-proc_cstr_len
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_basename_ptr               # -- Begin function proc_basename_ptr
+	.p2align	4, 0x90
+	.type	proc_basename_ptr,@function
+proc_basename_ptr:                      # @proc_basename_ptr
+	.cfi_startproc
+# %bb.0:
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	subq	$32, %rsp
+	.cfi_def_cfa_offset 64
+	.cfi_offset %rbx, -32
+	.cfi_offset %r14, -24
+	.cfi_offset %r15, -16
+	leaq	24(%rsp), %r15
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	leaq	8(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rbx
+	jmp	.LBB88_1
+	.p2align	4, 0x90
+.LBB88_4:                               # %l45
+                                        #   in Loop: Header=BB88_1 Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+.LBB88_1:                               # %l9
+                                        # =>This Inner Loop Header: Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB88_5
+# %bb.2:                                # %l16
+                                        #   in Loop: Header=BB88_1 Depth=1
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	movl	$47, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	movl	$92, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_lor@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB88_4
+# %bb.3:                                # %l35
+                                        #   in Loop: Header=BB88_1 Depth=1
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	jmp	.LBB88_4
+.LBB88_5:                               # %l52
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	addq	$32, %rsp
+	.cfi_def_cfa_offset 32
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end88:
+	.size	proc_basename_ptr, .Lfunc_end88-proc_basename_ptr
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_tab_num_label              # -- Begin function proc_tab_num_label
+	.p2align	4, 0x90
+	.type	proc_tab_num_label,@function
+proc_tab_num_label:                     # @proc_tab_num_label
+	.cfi_startproc
+# %bb.0:
+	pushq	%rbx
+	.cfi_def_cfa_offset 16
+	subq	$16, %rsp
+	.cfi_def_cfa_offset 32
+	.cfi_offset %rbx, -16
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB89_2
+# %bb.1:                                # %l7
+	movl	$.Lstr_tab_num_label_8, %edi
+	jmp	.LBB89_11
+.LBB89_2:                               # %l9
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB89_4
+# %bb.3:                                # %l15
+	movl	$.Lstr_tab_num_label_16, %edi
+	jmp	.LBB89_11
+.LBB89_4:                               # %l17
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$2, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB89_6
+# %bb.5:                                # %l23
+	movl	$.Lstr_tab_num_label_24, %edi
+	jmp	.LBB89_11
+.LBB89_6:                               # %l25
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$3, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB89_8
+# %bb.7:                                # %l31
+	movl	$.Lstr_tab_num_label_32, %edi
+	jmp	.LBB89_11
+.LBB89_8:                               # %l33
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB89_10
+# %bb.9:                                # %l39
+	movl	$.Lstr_tab_num_label_40, %edi
+	jmp	.LBB89_11
+.LBB89_10:                              # %l41
+	movl	$.Lstr_tab_num_label_42, %edi
+.LBB89_11:                              # %l47
+	callq	push@PLT
+	addq	$16, %rsp
+	.cfi_def_cfa_offset 16
+	popq	%rbx
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end89:
+	.size	proc_tab_num_label, .Lfunc_end89-proc_tab_num_label
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_count_lines                # -- Begin function proc_count_lines
+	.p2align	4, 0x90
+	.type	proc_count_lines,@function
+proc_count_lines:                       # @proc_count_lines
+	.cfi_startproc
+# %bb.0:
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	subq	$32, %rsp
+	.cfi_def_cfa_offset 64
+	.cfi_offset %rbx, -32
+	.cfi_offset %r14, -24
+	.cfi_offset %r15, -16
+	leaq	24(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	16(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	leaq	8(%rsp), %r15
+	movq	%r15, %rdi
+	jmp	.LBB90_1
+	.p2align	4, 0x90
+.LBB90_4:                               # %l32
+                                        #   in Loop: Header=BB90_1 Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%rbx, %rdi
+.LBB90_1:                               # %l8
+                                        # =>This Inner Loop Header: Depth=1
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB90_5
+# %bb.2:                                # %l15
+                                        #   in Loop: Header=BB90_1 Depth=1
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	movl	$10, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB90_4
+# %bb.3:                                # %l25
+                                        #   in Loop: Header=BB90_1 Depth=1
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB90_4
+.LBB90_5:                               # %l39
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	addq	$32, %rsp
+	.cfi_def_cfa_offset 32
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end90:
+	.size	proc_count_lines, .Lfunc_end90-proc_count_lines
+	.cfi_endproc
+                                        # -- End function
+	.globl	proc_set_input_path             # -- Begin function proc_set_input_path
+	.p2align	4, 0x90
+	.type	proc_set_input_path,@function
+proc_set_input_path:                    # @proc_set_input_path
+	.cfi_startproc
+# %bb.0:
+	pushq	%r15
+	.cfi_def_cfa_offset 16
+	pushq	%r14
+	.cfi_def_cfa_offset 24
+	pushq	%rbx
+	.cfi_def_cfa_offset 32
+	subq	$32, %rsp
+	.cfi_def_cfa_offset 64
+	.cfi_offset %rbx, -32
+	.cfi_offset %r14, -24
+	.cfi_offset %r15, -16
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	leaq	8(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	leaq	24(%rsp), %r15
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_storeptr@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%rsp, %rbx
+	.p2align	4, 0x90
+.LBB91_1:                               # %l9
+                                        # =>This Inner Loop Header: Depth=1
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$256, %edi                      # imm = 0x100
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB91_3
+# %bb.2:                                # %l23
+                                        #   in Loop: Header=BB91_1 Depth=1
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_load8@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	jmp	.LBB91_1
+.LBB91_3:                               # %l42
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	8(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	movq	%rsp, %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	16(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_loadptr@PLT
+	callq	proc_intrinsic_store64@PLT
+	addq	$32, %rsp
+	.cfi_def_cfa_offset 32
+	popq	%rbx
+	.cfi_def_cfa_offset 24
+	popq	%r14
+	.cfi_def_cfa_offset 16
+	popq	%r15
+	.cfi_def_cfa_offset 8
+	retq
+.Lfunc_end91:
+	.size	proc_set_input_path, .Lfunc_end91-proc_set_input_path
+	.cfi_endproc
+                                        # -- End function
 	.globl	proc_save_buffer                # -- Begin function proc_save_buffer
 	.p2align	4, 0x90
 	.type	proc_save_buffer,@function
@@ -3333,7 +3822,7 @@ proc_save_buffer:                       # @proc_save_buffer
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB87_2
+	je	.LBB92_2
 # %bb.1:                                # %l21
 	movl	$.Lstr_save_buffer_22, %edi
 	callq	push@PLT
@@ -3341,8 +3830,8 @@ proc_save_buffer:                       # @proc_save_buffer
 	callq	proc_intrinsic_check_errno@PLT
 	callq	proc_print@PLT
 	movl	$1, %edi
-	jmp	.LBB87_3
-.LBB87_2:                               # %l27
+	jmp	.LBB92_3
+.LBB92_2:                               # %l27
 	leaq	16(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -3361,15 +3850,15 @@ proc_save_buffer:                       # @proc_save_buffer
 	callq	proc_sys_close@PLT
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
-.LBB87_3:                               # %l41
+.LBB92_3:                               # %l41
 	callq	push@PLT
 	addq	$32, %rsp
 	.cfi_def_cfa_offset 16
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end87:
-	.size	proc_save_buffer, .Lfunc_end87-proc_save_buffer
+.Lfunc_end92:
+	.size	proc_save_buffer, .Lfunc_end92-proc_save_buffer
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_load_buffer                # -- Begin function proc_load_buffer
@@ -3417,7 +3906,7 @@ proc_load_buffer:                       # @proc_load_buffer
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB88_2
+	je	.LBB93_2
 # %bb.1:                                # %l17
 	xorl	%edi, %edi
 	callq	push@PLT
@@ -3431,8 +3920,8 @@ proc_load_buffer:                       # @proc_load_buffer
 	callq	push@PLT
 	callq	proc_intrinsic_loadptr@PLT
 	callq	proc_intrinsic_store8@PLT
-	jmp	.LBB88_6
-.LBB88_2:                               # %l26
+	jmp	.LBB93_6
+.LBB93_2:                               # %l26
 	leaq	32(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -3455,7 +3944,7 @@ proc_load_buffer:                       # @proc_load_buffer
 	callq	proc_intrinsic_store64@PLT
 	movq	%rsp, %r15
 	.p2align	4, 0x90
-.LBB88_3:                               # %l39
+.LBB93_3:                               # %l39
                                         # =>This Inner Loop Header: Depth=1
 	movq	%r14, %rdi
 	callq	push@PLT
@@ -3474,9 +3963,9 @@ proc_load_buffer:                       # @proc_load_buffer
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB88_5
+	je	.LBB93_5
 # %bb.4:                                # %l51
-                                        #   in Loop: Header=BB88_3 Depth=1
+                                        #   in Loop: Header=BB93_3 Depth=1
 	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_loadptr@PLT
@@ -3502,8 +3991,8 @@ proc_load_buffer:                       # @proc_load_buffer
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	jmp	.LBB88_3
-.LBB88_5:                               # %l70
+	jmp	.LBB93_3
+.LBB93_5:                               # %l70
 	xorl	%edi, %edi
 	callq	push@PLT
 	movq	%rsp, %rdi
@@ -3526,7 +4015,7 @@ proc_load_buffer:                       # @proc_load_buffer
 	callq	push@PLT
 	callq	proc_intrinsic_loadptr@PLT
 	callq	proc_intrinsic_free@PLT
-.LBB88_6:                               # %l86
+.LBB93_6:                               # %l86
 	addq	$48, %rsp
 	.cfi_def_cfa_offset 32
 	popq	%rbx
@@ -3536,8 +4025,8 @@ proc_load_buffer:                       # @proc_load_buffer
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end88:
-	.size	proc_load_buffer, .Lfunc_end88-proc_load_buffer
+.Lfunc_end93:
+	.size	proc_load_buffer, .Lfunc_end93-proc_load_buffer
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_open_file_into_slot        # -- Begin function proc_open_file_into_slot
@@ -3643,7 +4132,7 @@ proc_open_file_into_slot:               # @proc_open_file_into_slot
 	callq	proc_intrinsic_le@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB89_2
+	je	.LBB94_2
 # %bb.1:                                # %l50
 	leaq	8(%rsp), %rdi
 	callq	push@PLT
@@ -3655,7 +4144,7 @@ proc_open_file_into_slot:               # @proc_open_file_into_slot
 	callq	push@PLT
 	callq	proc_intrinsic_loadptr@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB89_2:                               # %l58
+.LBB94_2:                               # %l58
 	addq	$56, %rsp
 	.cfi_def_cfa_offset 56
 	popq	%rbx
@@ -3671,8 +4160,8 @@ proc_open_file_into_slot:               # @proc_open_file_into_slot
 	popq	%rbp
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end89:
-	.size	proc_open_file_into_slot, .Lfunc_end89-proc_open_file_into_slot
+.Lfunc_end94:
+	.size	proc_open_file_into_slot, .Lfunc_end94-proc_open_file_into_slot
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_draw_file_list             # -- Begin function proc_draw_file_list
@@ -3681,32 +4170,35 @@ proc_open_file_into_slot:               # @proc_open_file_into_slot
 proc_draw_file_list:                    # @proc_draw_file_list
 	.cfi_startproc
 # %bb.0:
-	pushq	%r15
+	pushq	%rbp
 	.cfi_def_cfa_offset 16
-	pushq	%r14
+	pushq	%r15
 	.cfi_def_cfa_offset 24
-	pushq	%r13
+	pushq	%r14
 	.cfi_def_cfa_offset 32
-	pushq	%r12
+	pushq	%r13
 	.cfi_def_cfa_offset 40
-	pushq	%rbx
+	pushq	%r12
 	.cfi_def_cfa_offset 48
-	subq	$32, %rsp
-	.cfi_def_cfa_offset 80
-	.cfi_offset %rbx, -48
-	.cfi_offset %r12, -40
-	.cfi_offset %r13, -32
-	.cfi_offset %r14, -24
-	.cfi_offset %r15, -16
-	leaq	24(%rsp), %r14
+	pushq	%rbx
+	.cfi_def_cfa_offset 56
+	subq	$40, %rsp
+	.cfi_def_cfa_offset 96
+	.cfi_offset %rbx, -56
+	.cfi_offset %r12, -48
+	.cfi_offset %r13, -40
+	.cfi_offset %r14, -32
+	.cfi_offset %r15, -24
+	.cfi_offset %rbp, -16
+	leaq	32(%rsp), %r14
 	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	16(%rsp), %r12
+	leaq	24(%rsp), %r12
 	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_storeptr@PLT
-	leaq	8(%rsp), %r15
+	leaq	16(%rsp), %r15
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_storeptr@PLT
@@ -3732,24 +4224,22 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	movq	%rsp, %rbx
-	jmp	.LBB90_1
+	leaq	8(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rsp, %rbp
+	jmp	.LBB95_1
 	.p2align	4, 0x90
-.LBB90_4:                               # %l51
-                                        #   in Loop: Header=BB90_1 Depth=1
+.LBB95_4:                               # %l55
+                                        #   in Loop: Header=BB95_1 Depth=1
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$10, %edi
 	callq	push@PLT
-	movl	$68, %edi
-	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movl	$20, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_mult@PLT
-	callq	proc_intrinsic_plus@PLT
 	movl	$210, %edi
 	callq	push@PLT
 	movl	$18, %edi
@@ -3759,8 +4249,8 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	movl	$52, %edi
 	callq	push@PLT
 	movl	$70, %edi
-.LBB90_5:                               # %l68
-                                        #   in Loop: Header=BB90_1 Depth=1
+.LBB95_5:                               # %l68
+                                        #   in Loop: Header=BB95_1 Depth=1
 	callq	push@PLT
 	callq	proc_gui_fill_rect@PLT
 	callq	proc_intrinsic_drop@PLT
@@ -3769,15 +4259,34 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	callq	proc_intrinsic_load64@PLT
 	movl	$14, %edi
 	callq	push@PLT
-	movl	$68, %edi
+	movq	%rbp, %rdi
 	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
+	callq	proc_tab_num_label@PLT
+	movl	$190, %edi
+	callq	push@PLT
+	movl	$200, %edi
+	callq	push@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$14, %edi
+	callq	push@PLT
 	movl	$20, %edi
 	callq	push@PLT
-	callq	proc_intrinsic_mult@PLT
 	callq	proc_intrinsic_plus@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_loadptr@PLT
@@ -3785,6 +4294,7 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_path_slot@PLT
+	callq	proc_basename_ptr@PLT
 	movl	$220, %edi
 	callq	push@PLT
 	movl	$220, %edi
@@ -3801,11 +4311,11 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-.LBB90_1:                               # %l20
-                                        # =>This Inner Loop Header: Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
+.LBB95_1:                               # %l20
+                                        # =>This Inner Loop Header: Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -3816,9 +4326,21 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB90_6
+	je	.LBB95_6
 # %bb.2:                                # %l27
-                                        #   in Loop: Header=BB90_1 Depth=1
+                                        #   in Loop: Header=BB95_1 Depth=1
+	movl	$68, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -3829,22 +4351,16 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	callq	pop@PLT
 	movq	%r13, %rdi
 	testq	%rax, %rax
-	je	.LBB90_4
-# %bb.3:                                # %l34
-                                        #   in Loop: Header=BB90_1 Depth=1
+	je	.LBB95_4
+# %bb.3:                                # %l42
+                                        #   in Loop: Header=BB95_1 Depth=1
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$10, %edi
 	callq	push@PLT
-	movl	$68, %edi
-	callq	push@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movl	$20, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_mult@PLT
-	callq	proc_intrinsic_plus@PLT
 	movl	$210, %edi
 	callq	push@PLT
 	movl	$18, %edi
@@ -3854,23 +4370,25 @@ proc_draw_file_list:                    # @proc_draw_file_list
 	movl	$60, %edi
 	callq	push@PLT
 	movl	$95, %edi
-	jmp	.LBB90_5
-.LBB90_6:                               # %l95
-	addq	$32, %rsp
-	.cfi_def_cfa_offset 48
+	jmp	.LBB95_5
+.LBB95_6:                               # %l108
+	addq	$40, %rsp
+	.cfi_def_cfa_offset 56
 	popq	%rbx
-	.cfi_def_cfa_offset 40
+	.cfi_def_cfa_offset 48
 	popq	%r12
-	.cfi_def_cfa_offset 32
+	.cfi_def_cfa_offset 40
 	popq	%r13
-	.cfi_def_cfa_offset 24
+	.cfi_def_cfa_offset 32
 	popq	%r14
-	.cfi_def_cfa_offset 16
+	.cfi_def_cfa_offset 24
 	popq	%r15
+	.cfi_def_cfa_offset 16
+	popq	%rbp
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end90:
-	.size	proc_draw_file_list, .Lfunc_end90-proc_draw_file_list
+.Lfunc_end95:
+	.size	proc_draw_file_list, .Lfunc_end95-proc_draw_file_list
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_append_char                # -- Begin function proc_append_char
@@ -3906,7 +4424,7 @@ proc_append_char:                       # @proc_append_char
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB91_2
+	je	.LBB96_2
 # %bb.1:                                # %l12
 	leaq	16(%rsp), %rdi
 	callq	push@PLT
@@ -3944,7 +4462,7 @@ proc_append_char:                       # @proc_append_char
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-.LBB91_2:                               # %l38
+.LBB96_2:                               # %l38
 	addq	$24, %rsp
 	.cfi_def_cfa_offset 24
 	popq	%rbx
@@ -3952,8 +4470,8 @@ proc_append_char:                       # @proc_append_char
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end91:
-	.size	proc_append_char, .Lfunc_end91-proc_append_char
+.Lfunc_end96:
+	.size	proc_append_char, .Lfunc_end96-proc_append_char
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_backspace_char             # -- Begin function proc_backspace_char
@@ -3983,7 +4501,7 @@ proc_backspace_char:                    # @proc_backspace_char
 	callq	proc_intrinsic_gt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB92_2
+	je	.LBB97_2
 # %bb.1:                                # %l10
 	leaq	8(%rsp), %rbx
 	movq	%rbx, %rdi
@@ -4008,14 +4526,14 @@ proc_backspace_char:                    # @proc_backspace_char
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-.LBB92_2:                               # %l27
+.LBB97_2:                               # %l27
 	addq	$16, %rsp
 	.cfi_def_cfa_offset 16
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end92:
-	.size	proc_backspace_char, .Lfunc_end92-proc_backspace_char
+.Lfunc_end97:
+	.size	proc_backspace_char, .Lfunc_end97-proc_backspace_char
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_main                       # -- Begin function proc_main
@@ -4036,8 +4554,8 @@ proc_main:                              # @proc_main
 	.cfi_def_cfa_offset 48
 	pushq	%rbx
 	.cfi_def_cfa_offset 56
-	subq	$42872, %rsp                    # imm = 0xA778
-	.cfi_def_cfa_offset 42928
+	subq	$47016, %rsp                    # imm = 0xB7A8
+	.cfi_def_cfa_offset 47072
 	.cfi_offset %rbx, -56
 	.cfi_offset %r12, -48
 	.cfi_offset %r13, -40
@@ -4048,7 +4566,22 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	115(%rsp), %rdi
+	leaq	163(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	155(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	147(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	123(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
@@ -4058,27 +4591,7 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	99(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	75(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	59(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	19(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	27(%rsp), %rdi
+	leaq	91(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
@@ -4088,18 +4601,33 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
+	leaq	27(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	19(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
 	leaq	11(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	211(%rsp), %rbx
+	leaq	51(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	75(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	243(%rsp), %rbp
+	leaq	547(%rsp), %rbp
 	.p2align	4, 0x90
-.LBB93_1:                               # %l32
+.LBB98_1:                               # %l38
                                         # =>This Inner Loop Header: Depth=1
 	movq	%rbx, %rdi
 	callq	push@PLT
@@ -4109,9 +4637,9 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_3
-# %bb.2:                                # %l37
-                                        #   in Loop: Header=BB93_1 Depth=1
+	je	.LBB98_3
+# %bb.2:                                # %l43
+                                        #   in Loop: Header=BB98_1 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
 	movq	%rbp, %rdi
@@ -4130,11 +4658,11 @@ proc_main:                              # @proc_main
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	jmp	.LBB93_1
-.LBB93_3:                               # %l50
-	movl	$.Lstr_main_51, %edi
+	jmp	.LBB98_1
+.LBB98_3:                               # %l56
+	movl	$.Lstr_main_57, %edi
 	callq	push@PLT
-	leaq	627(%rsp), %rbx
+	leaq	675(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
@@ -4146,12 +4674,12 @@ proc_main:                              # @proc_main
 	xorl	%edi, %edi
 	callq	push@PLT
 	callq	proc_path_slot@PLT
-	leaq	1907(%rsp), %rdi
+	leaq	6051(%rsp), %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
 	callq	proc_text_slot@PLT
-	leaq	171(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
@@ -4159,17 +4687,95 @@ proc_main:                              # @proc_main
 	callq	proc_load_buffer@PLT
 	movl	$1, %edi
 	callq	push@PLT
-	leaq	35(%rsp), %rdi
+	leaq	19(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movl	$.Lstr_main_75, %edi
+	callq	push@PLT
+	leaq	1955(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_80, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_85, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$2, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_90, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$3, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_95, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_100, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$5, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_105, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$6, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_110, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$7, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$.Lstr_main_115, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_cpyz@PLT
+	movl	$9, %edi
+	callq	push@PLT
+	leaq	51(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movl	$980, %edi                      # imm = 0x3D4
 	callq	push@PLT
 	movl	$720, %edi                      # imm = 0x2D0
 	callq	push@PLT
-	movl	$.Lstr_main_71, %edi
+	movl	$.Lstr_main_125, %edi
 	callq	push@PLT
 	callq	proc_gui_init@PLT
-	leaq	131(%rsp), %rbx
+	leaq	67(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
@@ -4187,37 +4793,37 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_eq@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_5
-# %bb.4:                                # %l84
-	movl	$.Lstr_main_85, %edi
+	je	.LBB98_5
+# %bb.4:                                # %l138
+	movl	$.Lstr_main_139, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
 	movl	$1, %edi
-	jmp	.LBB93_49
-.LBB93_5:                               # %l88
+	jmp	.LBB98_77
+.LBB98_5:                               # %l142
 	movl	$1, %edi
 	callq	push@PLT
-	leaq	43(%rsp), %rdi
+	leaq	59(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	131(%rsp), %rbx
-	leaq	227(%rsp), %r13
-	leaq	219(%rsp), %r12
-	leaq	243(%rsp), %r14
-	jmp	.LBB93_6
+	leaq	67(%rsp), %r15
+	leaq	235(%rsp), %r12
+	leaq	187(%rsp), %r14
+	jmp	.LBB98_6
 	.p2align	4, 0x90
-.LBB93_47:                              # %l583
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+.LBB98_75:                              # %l1052
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$250, %edi
 	callq	push@PLT
 	movl	$56, %edi
 	callq	push@PLT
-	leaq	1907(%rsp), %rdi
+	leaq	6051(%rsp), %rdi
 	callq	push@PLT
-	leaq	11(%rsp), %rdi
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
@@ -4231,23 +4837,74 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_draw_text@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$720, %edi                      # imm = 0x2D0
+	callq	push@PLT
+	movl	$18, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	movl	$.Lstr_main_1073, %edi
+	callq	push@PLT
+	movl	$160, %edi
+	callq	push@PLT
+	movl	$180, %edi
+	callq	push@PLT
+	movl	$210, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
 	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$44, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movl	$720, %edi                      # imm = 0x2D0
+	callq	push@PLT
+	movl	$18, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	leaq	675(%rsp), %rdi
+	callq	push@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_path_slot@PLT
+	movl	$210, %edi
+	callq	push@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	movl	$235, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	43(%rsp), %rbx
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_minus@PLT
-	movq	%r15, %rdi
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-	leaq	163(%rsp), %rbp
-	movq	%rbp, %rdi
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$80, %edi
@@ -4258,19 +4915,19 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_hline@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbp, %rdi
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_minus@PLT
-	movq	%rbp, %rdi
+	movq	%r14, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$6, %edi
@@ -4284,7 +4941,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_vline@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_present@PLT
@@ -4293,34 +4950,39 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_delay@PLT
 	callq	proc_intrinsic_drop@PLT
-.LBB93_6:                               # %l92
+.LBB98_6:                               # %l146
                                         # =>This Loop Header: Depth=1
-                                        #     Child Loop BB93_35 Depth 2
-	leaq	43(%rsp), %rdi
+                                        #     Child Loop BB98_35 Depth 2
+                                        #     Child Loop BB98_47 Depth 2
+                                        #     Child Loop BB98_52 Depth 2
+                                        #     Child Loop BB98_58 Depth 2
+                                        #     Child Loop BB98_66 Depth 2
+                                        #     Child Loop BB98_73 Depth 2
+	leaq	59(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_48
-# %bb.7:                                # %l95
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+	je	.LBB98_76
+# %bb.7:                                # %l149
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_poll_events@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_9
-# %bb.8:                                # %l100
-                                        #   in Loop: Header=BB93_6 Depth=1
+	je	.LBB98_9
+# %bb.8:                                # %l154
+                                        #   in Loop: Header=BB98_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	43(%rsp), %rdi
+	leaq	59(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_9:                               # %l104
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+.LBB98_9:                               # %l158
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$27, %edi
@@ -4328,89 +4990,89 @@ proc_main:                              # @proc_main
 	callq	proc_gui_key_down@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_11
-# %bb.10:                               # %l110
-                                        #   in Loop: Header=BB93_6 Depth=1
+	je	.LBB98_11
+# %bb.10:                               # %l164
+                                        #   in Loop: Header=BB98_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	43(%rsp), %rdi
+	leaq	59(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_11:                              # %l114
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+.LBB98_11:                              # %l168
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$17, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	123(%rsp), %r15
-	movq	%r15, %rdi
+	leaq	171(%rsp), %rbx
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$16, %edi
 	callq	push@PLT
 	callq	proc_gui_key_down@PLT
-	leaq	147(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$115, %edi
-	callq	push@PLT
-	callq	proc_gui_key_down@PLT
-	leaq	139(%rsp), %rbp
-	movq	%rbp, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$111, %edi
-	callq	push@PLT
-	callq	proc_gui_key_down@PLT
-	leaq	91(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$9, %edi
-	callq	push@PLT
-	callq	proc_gui_key_down@PLT
-	leaq	83(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$8, %edi
-	callq	push@PLT
-	callq	proc_gui_key_down@PLT
-	leaq	67(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$13, %edi
-	callq	push@PLT
-	callq	proc_gui_key_down@PLT
-	leaq	51(%rsp), %rdi
+	leaq	227(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%rbp, %rdi
+	movl	$115, %edi
+	callq	push@PLT
+	callq	proc_gui_key_down@PLT
+	leaq	211(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$111, %edi
+	callq	push@PLT
+	callq	proc_gui_key_down@PLT
+	leaq	139(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$9, %edi
+	callq	push@PLT
+	callq	proc_gui_key_down@PLT
+	leaq	131(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	callq	proc_gui_key_down@PLT
+	leaq	115(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$13, %edi
+	callq	push@PLT
+	callq	proc_gui_key_down@PLT
+	leaq	99(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
-	leaq	115(%rsp), %rdi
+	leaq	163(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	xorl	%edi, %edi
@@ -4419,25 +5081,25 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_14
-# %bb.12:                               # %l168
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	627(%rsp), %rdi
+	je	.LBB98_14
+# %bb.12:                               # %l222
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	675(%rsp), %rdi
 	callq	push@PLT
-	leaq	11(%rsp), %rbp
-	movq	%rbp, %rdi
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_path_slot@PLT
-	leaq	1907(%rsp), %rdi
+	leaq	6051(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbp, %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
-	leaq	171(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbp, %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_len_slot@PLT
@@ -4448,21 +5110,188 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_eq@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_14
-# %bb.13:                               # %l186
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movl	$.Lstr_main_187, %edi
+	je	.LBB98_14
+# %bb.13:                               # %l240
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movl	$.Lstr_main_241, %edi
 	callq	push@PLT
 	callq	proc_puts@PLT
-.LBB93_14:                              # %l190
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	123(%rsp), %rdi
+.LBB98_14:                              # %l244
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	171(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	91(%rsp), %rdi
+	leaq	139(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
+	leaq	155(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_16
+# %bb.15:                               # %l256
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movl	$1, %edi
+	callq	push@PLT
+	leaq	27(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	35(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	291(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store8@PLT
+.LBB98_16:                              # %l266
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	131(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	147(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	leaq	6051(%rsp), %r13
+	leaq	19(%rsp), %rbp
+	je	.LBB98_20
+# %bb.17:                               # %l275
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_gt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_20
+# %bb.18:                               # %l281
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r13, %rdi
+	leaq	6051(%rsp), %r13
+	leaq	19(%rsp), %rbp
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_ge@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_20
+# %bb.19:                               # %l294
+                                        #   in Loop: Header=BB98_6 Depth=1
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+.LBB98_20:                              # %l300
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	115(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	123(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_25
+# %bb.21:                               # %l309
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	27(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_24
+# %bb.22:                               # %l313
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	35(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_gt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_25
+# %bb.23:                               # %l319
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	35(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	291(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	leaq	19(%rsp), %rbp
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	jmp	.LBB98_25
+	.p2align	4, 0x90
+.LBB98_24:                              # %l333
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r13, %rdi
+	callq	push@PLT
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_text_slot@PLT
+	leaq	243(%rsp), %rdi
+	callq	push@PLT
+	movq	%r13, %rdi
+	leaq	6051(%rsp), %r13
+	leaq	19(%rsp), %rbp
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_len_slot@PLT
+	callq	proc_backspace_char@PLT
+.LBB98_25:                              # %l344
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	99(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
 	leaq	107(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -4472,42 +5301,17 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	leaq	27(%rsp), %r15
-	je	.LBB93_16
-# %bb.15:                               # %l202
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movl	$1, %edi
-	callq	push@PLT
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	19(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	371(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store8@PLT
-.LBB93_16:                              # %l212
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	83(%rsp), %rdi
+	je	.LBB98_34
+# %bb.26:                               # %l353
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	27(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	99(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_eq@PLT
-	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_20
-# %bb.17:                               # %l221
-                                        #   in Loop: Header=BB93_6 Depth=1
+	je	.LBB98_33
+# %bb.27:                               # %l357
+                                        #   in Loop: Header=BB98_6 Depth=1
 	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -4516,149 +5320,9 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_gt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_20
-# %bb.18:                               # %l227
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	11(%rsp), %rbp
-	movq	%rbp, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$1, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_plus@PLT
-	movq	%rbp, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbp, %rdi
-	leaq	27(%rsp), %r15
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	35(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_intrinsic_ge@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_20
-# %bb.19:                               # %l240
-                                        #   in Loop: Header=BB93_6 Depth=1
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	11(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-.LBB93_20:                              # %l246
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	67(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	75(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_eq@PLT
-	callq	proc_land@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_25
-# %bb.21:                               # %l255
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_24
-# %bb.22:                               # %l259
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	19(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_gt@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_25
-# %bb.23:                               # %l265
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	19(%rsp), %r14
-	movq	%r14, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	movl	$1, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_minus@PLT
-	movq	%r14, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	leaq	371(%rsp), %rdi
-	callq	push@PLT
-	movq	%r14, %rdi
-	leaq	243(%rsp), %r14
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_intrinsic_plus@PLT
-	callq	proc_intrinsic_store8@PLT
-	jmp	.LBB93_25
-	.p2align	4, 0x90
-.LBB93_24:                              # %l279
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	1907(%rsp), %rdi
-	callq	push@PLT
-	leaq	11(%rsp), %rbp
-	movq	%rbp, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_text_slot@PLT
-	leaq	171(%rsp), %rdi
-	callq	push@PLT
-	movq	%rbp, %rdi
-	leaq	27(%rsp), %r15
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_len_slot@PLT
-	callq	proc_backspace_char@PLT
-.LBB93_25:                              # %l290
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	51(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	59(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_eq@PLT
-	callq	proc_land@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_34
-# %bb.26:                               # %l299
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%r15, %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_33
-# %bb.27:                               # %l303
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	19(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	xorl	%edi, %edi
-	callq	push@PLT
-	callq	proc_intrinsic_gt@PLT
-	callq	pop@PLT
-	testq	%rax, %rax
-	je	.LBB93_32
-# %bb.28:                               # %l309
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	35(%rsp), %rbp
+	je	.LBB98_32
+# %bb.28:                               # %l363
+                                        #   in Loop: Header=BB98_6 Depth=1
 	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -4666,205 +5330,203 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
-	leaq	627(%rsp), %rdi
+	leaq	675(%rsp), %rdi
 	testq	%rax, %rax
-	je	.LBB93_30
-# %bb.29:                               # %l315
-                                        #   in Loop: Header=BB93_6 Depth=1
+	je	.LBB98_30
+# %bb.29:                               # %l369
+                                        #   in Loop: Header=BB98_6 Depth=1
 	callq	push@PLT
-	leaq	1907(%rsp), %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
-	leaq	171(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
 	movq	%rbp, %rdi
 	callq	push@PLT
 	leaq	11(%rsp), %rdi
 	callq	push@PLT
-	leaq	371(%rsp), %rdi
+	leaq	291(%rsp), %rdi
 	callq	push@PLT
 	movq	%rbp, %rdi
-	jmp	.LBB93_31
+	jmp	.LBB98_31
 	.p2align	4, 0x90
-.LBB93_33:                              # %l346
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	1907(%rsp), %rdi
+.LBB98_33:                              # %l400
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r13, %rdi
 	callq	push@PLT
-	leaq	11(%rsp), %rbp
-	movq	%rbp, %rdi
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
-	leaq	171(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbp, %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_len_slot@PLT
 	movl	$10, %edi
 	callq	push@PLT
 	callq	proc_append_char@PLT
-	jmp	.LBB93_34
-.LBB93_30:                              # %l325
-                                        #   in Loop: Header=BB93_6 Depth=1
+	jmp	.LBB98_34
+.LBB98_30:                              # %l379
+                                        #   in Loop: Header=BB98_6 Depth=1
 	callq	push@PLT
-	leaq	1907(%rsp), %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
-	leaq	171(%rsp), %rdi
-	callq	push@PLT
-	movq	%rbp, %rdi
-	callq	push@PLT
-	leaq	11(%rsp), %rbp
-	movq	%rbp, %rdi
-	callq	push@PLT
-	leaq	371(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
 	movq	%rbp, %rdi
-	leaq	27(%rsp), %r15
-.LBB93_31:                              # %l336
-                                        #   in Loop: Header=BB93_6 Depth=1
+	callq	push@PLT
+	leaq	11(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	leaq	291(%rsp), %rdi
+	callq	push@PLT
+	movq	%r13, %rdi
+.LBB98_31:                              # %l390
+                                        #   in Loop: Header=BB98_6 Depth=1
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_open_file_into_slot@PLT
-.LBB93_32:                              # %l336
-                                        #   in Loop: Header=BB93_6 Depth=1
+.LBB98_32:                              # %l390
+                                        #   in Loop: Header=BB98_6 Depth=1
 	xorl	%edi, %edi
 	callq	push@PLT
-	movq	%r15, %rdi
+	leaq	27(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	19(%rsp), %rdi
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
-	leaq	371(%rsp), %rdi
+	leaq	291(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store8@PLT
-.LBB93_34:                              # %l358
-                                        #   in Loop: Header=BB93_6 Depth=1
-	leaq	123(%rsp), %rbp
-	movq	%rbp, %rdi
+.LBB98_34:                              # %l412
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	171(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	211(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_land@PLT
+	leaq	163(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	leaq	139(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_land@PLT
+	leaq	155(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	131(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	147(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
 	leaq	115(%rsp), %rdi
 	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	movq	%rbp, %rdi
-	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	91(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_land@PLT
-	leaq	107(%rsp), %rdi
+	leaq	123(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	83(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
 	leaq	99(%rsp), %rdi
 	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	leaq	67(%rsp), %rdi
-	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	75(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_store64@PLT
-	leaq	51(%rsp), %rdi
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	leaq	59(%rsp), %rdi
+	leaq	107(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	movl	$32, %edi
 	callq	push@PLT
-	movq	%r13, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	27(%rsp), %rbp
-	leaq	155(%rsp), %r15
-	jmp	.LBB93_35
+	leaq	219(%rsp), %rbx
+	leaq	547(%rsp), %r13
+	jmp	.LBB98_35
 	.p2align	4, 0x90
-.LBB93_43:                              # %l472
-                                        #   in Loop: Header=BB93_35 Depth=2
-	leaq	1907(%rsp), %rdi
+.LBB98_43:                              # %l526
+                                        #   in Loop: Header=BB98_35 Depth=2
+	leaq	6051(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rbp
-	leaq	11(%rsp), %rbx
-	movq	%rbx, %rdi
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_text_slot@PLT
-	leaq	171(%rsp), %rdi
+	leaq	243(%rsp), %rdi
 	callq	push@PLT
-	movq	%rbx, %rdi
-	movq	%rbp, %rbx
-	leaq	27(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_len_slot@PLT
-	movq	%r15, %rdi
+	leaq	179(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_append_char@PLT
-.LBB93_44:                              # %l485
-                                        #   in Loop: Header=BB93_35 Depth=2
-	movq	%r12, %rdi
+	movq	%r14, %r15
+	leaq	187(%rsp), %r14
+.LBB98_44:                              # %l539
+                                        #   in Loop: Header=BB98_35 Depth=2
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%r14, %rdi
-	callq	push@PLT
 	movq	%r13, %rdi
+	callq	push@PLT
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-	movq	%r13, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
-	movq	%r13, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_35:                              # %l388
-                                        #   Parent Loop BB93_6 Depth=1
+.LBB98_35:                              # %l442
+                                        #   Parent Loop BB98_6 Depth=1
                                         # =>  This Inner Loop Header: Depth=2
-	movq	%r13, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$126, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_le@PLT
 	callq	pop@PLT
-	movq	%rbx, %rdi
+	movq	%r15, %rdi
 	testq	%rax, %rax
-	je	.LBB93_45
-# %bb.36:                               # %l393
-                                        #   in Loop: Header=BB93_35 Depth=2
+	je	.LBB98_45
+# %bb.36:                               # %l447
+                                        #   in Loop: Header=BB98_35 Depth=2
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%r13, %rdi
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_key_down@PLT
-	movq	%r12, %rdi
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%r12, %rdi
+	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movq	%r14, %rdi
-	callq	push@PLT
 	movq	%r13, %rdi
+	callq	push@PLT
+	movq	%r12, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
@@ -4875,23 +5537,25 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_44
-# %bb.37:                               # %l412
-                                        #   in Loop: Header=BB93_35 Depth=2
-	movq	%r13, %rdi
+	je	.LBB98_44
+# %bb.37:                               # %l466
+                                        #   in Loop: Header=BB98_35 Depth=2
+	movq	%r12, %rdi
+	movq	%r15, %r14
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
+	leaq	179(%rsp), %r15
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	leaq	147(%rsp), %rdi
+	leaq	227(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_40
-# %bb.38:                               # %l420
-                                        #   in Loop: Header=BB93_35 Depth=2
+	je	.LBB98_40
+# %bb.38:                               # %l474
+                                        #   in Loop: Header=BB98_35 Depth=2
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -4907,9 +5571,9 @@ proc_main:                              # @proc_main
 	callq	proc_land@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_40
-# %bb.39:                               # %l431
-                                        #   in Loop: Header=BB93_35 Depth=2
+	je	.LBB98_40
+# %bb.39:                               # %l485
+                                        #   in Loop: Header=BB98_35 Depth=2
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
@@ -4919,17 +5583,17 @@ proc_main:                              # @proc_main
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-.LBB93_40:                              # %l439
-                                        #   in Loop: Header=BB93_35 Depth=2
-	movq	%rbp, %rdi
+.LBB98_40:                              # %l493
+                                        #   in Loop: Header=BB98_35 Depth=2
+	leaq	27(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_43
-# %bb.41:                               # %l443
-                                        #   in Loop: Header=BB93_35 Depth=2
-	leaq	19(%rsp), %rdi
+	je	.LBB98_43
+# %bb.41:                               # %l497
+                                        #   in Loop: Header=BB98_35 Depth=2
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$256, %edi                      # imm = 0x100
@@ -4940,60 +5604,477 @@ proc_main:                              # @proc_main
 	callq	proc_intrinsic_lt@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_44
-# %bb.42:                               # %l451
-                                        #   in Loop: Header=BB93_35 Depth=2
-	movq	%r15, %rdi
+	movq	%r14, %r15
+	leaq	187(%rsp), %r14
+	je	.LBB98_44
+# %bb.42:                               # %l505
+                                        #   in Loop: Header=BB98_35 Depth=2
+	leaq	179(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	leaq	371(%rsp), %r15
-	movq	%r15, %rdi
+	leaq	291(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
-	leaq	19(%rsp), %r14
-	movq	%r14, %rdi
+	leaq	35(%rsp), %r13
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-	movq	%r14, %rdi
+	movq	%r13, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$1, %edi
 	callq	push@PLT
 	callq	proc_intrinsic_plus@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	movq	%r13, %rdi
+	leaq	547(%rsp), %r13
+	leaq	219(%rsp), %rbx
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_store8@PLT
+	jmp	.LBB98_44
+	.p2align	4, 0x90
+.LBB98_45:                              # %l553
+                                        #   in Loop: Header=BB98_6 Depth=1
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_gui_mouse_x@PLT
+	leaq	43(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_gui_mouse_y@PLT
 	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_gui_mouse_buttons@PLT
+	leaq	283(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_band@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_ne@PLT
+	leaq	203(%rsp), %rbx
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	91(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	leaq	75(%rsp), %r15
+	leaq	195(%rsp), %r13
+	je	.LBB98_65
+# %bb.46:                               # %l585
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r14, %r12
+	xorl	%edi, %edi
+	callq	push@PLT
+	jmp	.LBB98_47
+	.p2align	4, 0x90
+.LBB98_50:                              # %l633
+                                        #   in Loop: Header=BB98_47 Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+.LBB98_47:                              # %l589
+                                        #   Parent Loop BB98_6 Depth=1
+                                        # =>  This Inner Loop Header: Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	19(%rsp), %rbx
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_51
+# %bb.48:                               # %l595
+                                        #   in Loop: Header=BB98_47 Depth=2
+	movl	$68, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	leaq	83(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	43(%rsp), %r14
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$10, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_ge@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	movq	%r12, %rbx
+	movq	%r12, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_ge@PLT
+	callq	proc_land@PLT
+	movq	%r12, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_50
+# %bb.49:                               # %l628
+                                        #   in Loop: Header=BB98_47 Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB98_50
+	.p2align	4, 0x90
+.LBB98_51:                              # %l640
+                                        #   in Loop: Header=BB98_6 Depth=1
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r12, %r14
+	leaq	235(%rsp), %r12
+	jmp	.LBB98_52
+	.p2align	4, 0x90
+.LBB98_55:                              # %l690
+                                        #   in Loop: Header=BB98_52 Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	19(%rsp), %rbx
+.LBB98_52:                              # %l644
+                                        #   Parent Loop BB98_6 Depth=1
+                                        # =>  This Inner Loop Header: Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_56
+# %bb.53:                               # %l650
+                                        #   in Loop: Header=BB98_52 Depth=2
+	movl	$250, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$140, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	43(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_ge@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$140, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_ge@PLT
+	callq	proc_land@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_55
+# %bb.54:                               # %l685
+                                        #   in Loop: Header=BB98_52 Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB98_55
+	.p2align	4, 0x90
+.LBB98_56:                              # %l697
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	27(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_65
+# %bb.57:                               # %l701
+                                        #   in Loop: Header=BB98_6 Depth=1
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	jmp	.LBB98_58
+	.p2align	4, 0x90
+.LBB98_61:                              # %l759
+                                        #   in Loop: Header=BB98_58 Depth=2
+	callq	push@PLT
+	leaq	6051(%rsp), %rdi
+	callq	push@PLT
+	leaq	243(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_open_file_into_slot@PLT
+	leaq	27(%rsp), %rbx
+.LBB98_63:                              # %l779
+                                        #   in Loop: Header=BB98_58 Depth=2
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	leaq	35(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
 	xorl	%edi, %edi
 	callq	push@PLT
 	movq	%r15, %rdi
-	leaq	155(%rsp), %r15
 	callq	push@PLT
-	movq	%r14, %rdi
-	leaq	243(%rsp), %r14
-	callq	push@PLT
-	callq	proc_intrinsic_load64@PLT
-	callq	proc_intrinsic_plus@PLT
 	callq	proc_intrinsic_store8@PLT
-	jmp	.LBB93_44
-	.p2align	4, 0x90
-.LBB93_45:                              # %l499
-                                        #   in Loop: Header=BB93_6 Depth=1
+	leaq	75(%rsp), %r15
+.LBB98_64:                              # %l789
+                                        #   in Loop: Header=BB98_58 Depth=2
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	callq	proc_gui_mouse_x@PLT
-	leaq	235(%rsp), %r15
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
 	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
+	leaq	195(%rsp), %r13
+.LBB98_58:                              # %l705
+                                        #   Parent Loop BB98_6 Depth=1
+                                        # =>  This Inner Loop Header: Depth=2
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	51(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_65
+# %bb.59:                               # %l711
+                                        #   in Loop: Header=BB98_58 Depth=2
+	movl	$68, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	leaq	83(%rsp), %r13
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	leaq	43(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_ge@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$700, %edi                      # imm = 0x2BC
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_ge@PLT
+	callq	proc_land@PLT
+	movq	%r14, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	proc_land@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_64
+# %bb.60:                               # %l746
+                                        #   in Loop: Header=BB98_58 Depth=2
+	leaq	1955(%rsp), %rdi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_path_slot@PLT
+	leaq	291(%rsp), %r15
+	movq	%r15, %rdi
+	callq	push@PLT
+	leaq	35(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_set_input_path@PLT
+	leaq	19(%rsp), %rbx
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	callq	proc_gui_mouse_y@PLT
-	leaq	163(%rsp), %rdi
+	movl	$5, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	leaq	675(%rsp), %rdi
+	testq	%rax, %rax
+	jne	.LBB98_61
+# %bb.62:                               # %l769
+                                        #   in Loop: Header=BB98_58 Depth=2
+	callq	push@PLT
+	leaq	6051(%rsp), %rdi
+	callq	push@PLT
+	leaq	243(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	leaq	11(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	leaq	27(%rsp), %rbx
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_open_file_into_slot@PLT
+	jmp	.LBB98_63
+	.p2align	4, 0x90
+.LBB98_65:                              # %l798
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	203(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	91(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_store64@PLT
-	movq	%rbx, %rdi
+	leaq	67(%rsp), %rbp
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$18, %edi
@@ -5004,7 +6085,7 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_clear@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$10, %edi
@@ -5026,22 +6107,22 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_rect@PLT
 	callq	proc_intrinsic_drop@PLT
-	leaq	627(%rsp), %rdi
+	leaq	675(%rsp), %rdi
 	callq	push@PLT
-	leaq	35(%rsp), %rdi
+	leaq	19(%rsp), %rdi
 	callq	push@PLT
 	leaq	11(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_draw_file_list@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$14, %edi
 	callq	push@PLT
 	movl	$12, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_539, %edi
+	movl	$.Lstr_main_832, %edi
 	callq	push@PLT
 	movl	$120, %edi
 	callq	push@PLT
@@ -5053,14 +6134,14 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_draw_text@PLT
 	callq	proc_intrinsic_drop@PLT
-	movq	%rbx, %rdi
+	movq	%rbp, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$14, %edi
 	callq	push@PLT
 	movl	$34, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_550, %edi
+	movl	$.Lstr_main_843, %edi
 	callq	push@PLT
 	movl	$160, %edi
 	callq	push@PLT
@@ -5072,28 +6153,333 @@ proc_main:                              # @proc_main
 	callq	push@PLT
 	callq	proc_gui_draw_text@PLT
 	callq	proc_intrinsic_drop@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rbx
+	movq	%rbp, %r15
+	leaq	19(%rsp), %rbp
+	jmp	.LBB98_66
+	.p2align	4, 0x90
+.LBB98_69:                              # %l887
+                                        #   in Loop: Header=BB98_66 Depth=2
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	movl	$140, %edi
+	callq	push@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	movl	$43, %edi
+	callq	push@PLT
+	movl	$56, %edi
+	callq	push@PLT
+	movl	$78, %edi
+.LBB98_70:                              # %l900
+                                        #   in Loop: Header=BB98_66 Depth=2
+	callq	push@PLT
+	callq	proc_gui_fill_rect@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_tab_num_label@PLT
+	movl	$235, %edi
+	callq	push@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	movl	$120, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	movl	$4, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	leaq	675(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_path_slot@PLT
+	callq	proc_basename_ptr@PLT
+	movl	$225, %edi
+	callq	push@PLT
+	movl	$225, %edi
+	callq	push@PLT
+	movl	$230, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+.LBB98_66:                              # %l853
+                                        #   Parent Loop BB98_6 Depth=1
+                                        # =>  This Inner Loop Header: Depth=2
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
 	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_71
+# %bb.67:                               # %l859
+                                        #   in Loop: Header=BB98_66 Depth=2
+	movl	$250, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$140, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	11(%rsp), %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_eq@PLT
+	callq	pop@PLT
+	movq	%r15, %rdi
+	testq	%rax, %rax
+	je	.LBB98_69
+# %bb.68:                               # %l874
+                                        #   in Loop: Header=BB98_66 Depth=2
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$8, %edi
+	callq	push@PLT
+	movl	$140, %edi
+	callq	push@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	movl	$60, %edi
+	callq	push@PLT
+	movl	$95, %edi
+	callq	push@PLT
+	movl	$132, %edi
+	jmp	.LBB98_70
+	.p2align	4, 0x90
+.LBB98_71:                              # %l945
+                                        #   in Loop: Header=BB98_6 Depth=1
+	leaq	27(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	pop@PLT
 	testq	%rax, %rax
-	je	.LBB93_47
-# %bb.46:                               # %l560
-                                        #   in Loop: Header=BB93_6 Depth=1
-	movq	%rbx, %rdi
+	leaq	51(%rsp), %r13
+	je	.LBB98_75
+# %bb.72:                               # %l949
+                                        #   in Loop: Header=BB98_6 Depth=1
+	movq	%r15, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	movl	$250, %edi
 	callq	push@PLT
 	movl	$34, %edi
 	callq	push@PLT
-	movl	$.Lstr_main_565, %edi
+	movl	$.Lstr_main_954, %edi
 	callq	push@PLT
 	movl	$255, %edi
 	callq	push@PLT
 	movl	$210, %edi
 	callq	push@PLT
 	movl	$120, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$300, %edi                      # imm = 0x12C
+	callq	push@PLT
+	movl	$34, %edi
+	callq	push@PLT
+	leaq	291(%rsp), %rdi
+	callq	push@PLT
+	movl	$255, %edi
+	callq	push@PLT
+	movl	$210, %edi
+	callq	push@PLT
+	movl	$120, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$58, %edi
+	callq	push@PLT
+	movl	$700, %edi                      # imm = 0x2BC
+	callq	push@PLT
+	movl	$720, %edi                      # imm = 0x2D0
+	callq	push@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_minus@PLT
+	movl	$60, %edi
+	callq	push@PLT
+	movl	$70, %edi
+	callq	push@PLT
+	movl	$92, %edi
+	callq	push@PLT
+	callq	proc_gui_rect@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$42, %edi
+	callq	push@PLT
+	movl	$.Lstr_main_989, %edi
+	callq	push@PLT
+	movl	$200, %edi
+	callq	push@PLT
+	movl	$200, %edi
+	callq	push@PLT
+	movl	$215, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	xorl	%edi, %edi
+	callq	push@PLT
+	.p2align	4, 0x90
+.LBB98_73:                              # %l999
+                                        #   Parent Loop BB98_6 Depth=1
+                                        # =>  This Inner Loop Header: Depth=2
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%r13, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_intrinsic_lt@PLT
+	callq	pop@PLT
+	testq	%rax, %rax
+	je	.LBB98_75
+# %bb.74:                               # %l1005
+                                        #   in Loop: Header=BB98_73 Depth=2
+	movl	$68, %edi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_mult@PLT
+	callq	proc_intrinsic_plus@PLT
+	leaq	83(%rsp), %rbp
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_store64@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_tab_num_label@PLT
+	movl	$210, %edi
+	callq	push@PLT
+	movl	$190, %edi
+	callq	push@PLT
+	movl	$120, %edi
+	callq	push@PLT
+	movl	$1, %edi
+	callq	push@PLT
+	callq	proc_gui_draw_text@PLT
+	callq	proc_intrinsic_drop@PLT
+	movq	%r15, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	movl	$250, %edi
+	callq	push@PLT
+	movl	$20, %edi
+	callq	push@PLT
+	callq	proc_intrinsic_plus@PLT
+	movq	%rbp, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	leaq	1955(%rsp), %rdi
+	callq	push@PLT
+	movq	%rbx, %rdi
+	callq	push@PLT
+	callq	proc_intrinsic_load64@PLT
+	callq	proc_path_slot@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	movl	$220, %edi
+	callq	push@PLT
+	movl	$225, %edi
 	callq	push@PLT
 	movl	$1, %edi
 	callq	push@PLT
@@ -5102,33 +6488,20 @@ proc_main:                              # @proc_main
 	movq	%rbx, %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
-	movl	$300, %edi                      # imm = 0x12C
-	callq	push@PLT
-	movl	$34, %edi
-	callq	push@PLT
-	leaq	371(%rsp), %rdi
-	callq	push@PLT
-	movl	$255, %edi
-	callq	push@PLT
-	movl	$210, %edi
-	callq	push@PLT
-	movl	$120, %edi
-	callq	push@PLT
 	movl	$1, %edi
 	callq	push@PLT
-	callq	proc_gui_draw_text@PLT
-	callq	proc_intrinsic_drop@PLT
-	jmp	.LBB93_47
-.LBB93_48:                              # %l639
-	leaq	131(%rsp), %rdi
+	callq	proc_intrinsic_plus@PLT
+	jmp	.LBB98_73
+.LBB98_76:                              # %l1139
+	leaq	67(%rsp), %rdi
 	callq	push@PLT
 	callq	proc_intrinsic_load64@PLT
 	callq	proc_gui_destroy@PLT
 	callq	proc_intrinsic_drop@PLT
 	xorl	%edi, %edi
-.LBB93_49:                              # %l645
+.LBB98_77:                              # %l1145
 	callq	push@PLT
-	addq	$42872, %rsp                    # imm = 0xA778
+	addq	$47016, %rsp                    # imm = 0xB7A8
 	.cfi_def_cfa_offset 56
 	popq	%rbx
 	.cfi_def_cfa_offset 48
@@ -5143,8 +6516,8 @@ proc_main:                              # @proc_main
 	popq	%rbp
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end93:
-	.size	proc_main, .Lfunc_end93-proc_main
+.Lfunc_end98:
+	.size	proc_main, .Lfunc_end98-proc_main
 	.cfi_endproc
                                         # -- End function
 	.globl	main                            # -- Begin function main
@@ -5166,8 +6539,8 @@ main:                                   # @main
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end94:
-	.size	main, .Lfunc_end94-main
+.Lfunc_end99:
+	.size	main, .Lfunc_end99-main
 	.cfi_endproc
                                         # -- End function
 	.globl	push                            # -- Begin function push
@@ -5183,8 +6556,8 @@ push:                                   # @push
 	incq	%rcx
 	movq	%rcx, (%rax)
 	retq
-.Lfunc_end95:
-	.size	push, .Lfunc_end95-push
+.Lfunc_end100:
+	.size	push, .Lfunc_end100-push
 	.cfi_endproc
                                         # -- End function
 	.globl	pop                             # -- Begin function pop
@@ -5200,8 +6573,8 @@ pop:                                    # @pop
 	decq	%rdx
 	movq	%rdx, (%rcx)
 	retq
-.Lfunc_end96:
-	.size	pop, .Lfunc_end96-pop
+.Lfunc_end101:
+	.size	pop, .Lfunc_end101-pop
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_plus             # -- Begin function proc_intrinsic_plus
@@ -5222,8 +6595,8 @@ proc_intrinsic_plus:                    # @proc_intrinsic_plus
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end97:
-	.size	proc_intrinsic_plus, .Lfunc_end97-proc_intrinsic_plus
+.Lfunc_end102:
+	.size	proc_intrinsic_plus, .Lfunc_end102-proc_intrinsic_plus
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_minus            # -- Begin function proc_intrinsic_minus
@@ -5244,8 +6617,8 @@ proc_intrinsic_minus:                   # @proc_intrinsic_minus
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end98:
-	.size	proc_intrinsic_minus, .Lfunc_end98-proc_intrinsic_minus
+.Lfunc_end103:
+	.size	proc_intrinsic_minus, .Lfunc_end103-proc_intrinsic_minus
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_mult             # -- Begin function proc_intrinsic_mult
@@ -5266,8 +6639,8 @@ proc_intrinsic_mult:                    # @proc_intrinsic_mult
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end99:
-	.size	proc_intrinsic_mult, .Lfunc_end99-proc_intrinsic_mult
+.Lfunc_end104:
+	.size	proc_intrinsic_mult, .Lfunc_end104-proc_intrinsic_mult
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_div              # -- Begin function proc_intrinsic_div
@@ -5289,8 +6662,8 @@ proc_intrinsic_div:                     # @proc_intrinsic_div
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end100:
-	.size	proc_intrinsic_div, .Lfunc_end100-proc_intrinsic_div
+.Lfunc_end105:
+	.size	proc_intrinsic_div, .Lfunc_end105-proc_intrinsic_div
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_mod              # -- Begin function proc_intrinsic_mod
@@ -5312,8 +6685,8 @@ proc_intrinsic_mod:                     # @proc_intrinsic_mod
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end101:
-	.size	proc_intrinsic_mod, .Lfunc_end101-proc_intrinsic_mod
+.Lfunc_end106:
+	.size	proc_intrinsic_mod, .Lfunc_end106-proc_intrinsic_mod
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_eq               # -- Begin function proc_intrinsic_eq
@@ -5335,8 +6708,8 @@ proc_intrinsic_eq:                      # @proc_intrinsic_eq
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end102:
-	.size	proc_intrinsic_eq, .Lfunc_end102-proc_intrinsic_eq
+.Lfunc_end107:
+	.size	proc_intrinsic_eq, .Lfunc_end107-proc_intrinsic_eq
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_ne               # -- Begin function proc_intrinsic_ne
@@ -5358,8 +6731,8 @@ proc_intrinsic_ne:                      # @proc_intrinsic_ne
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end103:
-	.size	proc_intrinsic_ne, .Lfunc_end103-proc_intrinsic_ne
+.Lfunc_end108:
+	.size	proc_intrinsic_ne, .Lfunc_end108-proc_intrinsic_ne
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_gt               # -- Begin function proc_intrinsic_gt
@@ -5381,8 +6754,8 @@ proc_intrinsic_gt:                      # @proc_intrinsic_gt
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end104:
-	.size	proc_intrinsic_gt, .Lfunc_end104-proc_intrinsic_gt
+.Lfunc_end109:
+	.size	proc_intrinsic_gt, .Lfunc_end109-proc_intrinsic_gt
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_lt               # -- Begin function proc_intrinsic_lt
@@ -5404,8 +6777,8 @@ proc_intrinsic_lt:                      # @proc_intrinsic_lt
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end105:
-	.size	proc_intrinsic_lt, .Lfunc_end105-proc_intrinsic_lt
+.Lfunc_end110:
+	.size	proc_intrinsic_lt, .Lfunc_end110-proc_intrinsic_lt
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_ge               # -- Begin function proc_intrinsic_ge
@@ -5427,8 +6800,8 @@ proc_intrinsic_ge:                      # @proc_intrinsic_ge
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end106:
-	.size	proc_intrinsic_ge, .Lfunc_end106-proc_intrinsic_ge
+.Lfunc_end111:
+	.size	proc_intrinsic_ge, .Lfunc_end111-proc_intrinsic_ge
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_le               # -- Begin function proc_intrinsic_le
@@ -5450,8 +6823,8 @@ proc_intrinsic_le:                      # @proc_intrinsic_le
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end107:
-	.size	proc_intrinsic_le, .Lfunc_end107-proc_intrinsic_le
+.Lfunc_end112:
+	.size	proc_intrinsic_le, .Lfunc_end112-proc_intrinsic_le
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_bor              # -- Begin function proc_intrinsic_bor
@@ -5472,8 +6845,8 @@ proc_intrinsic_bor:                     # @proc_intrinsic_bor
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end108:
-	.size	proc_intrinsic_bor, .Lfunc_end108-proc_intrinsic_bor
+.Lfunc_end113:
+	.size	proc_intrinsic_bor, .Lfunc_end113-proc_intrinsic_bor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_band             # -- Begin function proc_intrinsic_band
@@ -5494,8 +6867,8 @@ proc_intrinsic_band:                    # @proc_intrinsic_band
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end109:
-	.size	proc_intrinsic_band, .Lfunc_end109-proc_intrinsic_band
+.Lfunc_end114:
+	.size	proc_intrinsic_band, .Lfunc_end114-proc_intrinsic_band
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_bxor             # -- Begin function proc_intrinsic_bxor
@@ -5516,8 +6889,8 @@ proc_intrinsic_bxor:                    # @proc_intrinsic_bxor
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end110:
-	.size	proc_intrinsic_bxor, .Lfunc_end110-proc_intrinsic_bxor
+.Lfunc_end115:
+	.size	proc_intrinsic_bxor, .Lfunc_end115-proc_intrinsic_bxor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_shl              # -- Begin function proc_intrinsic_shl
@@ -5539,8 +6912,8 @@ proc_intrinsic_shl:                     # @proc_intrinsic_shl
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end111:
-	.size	proc_intrinsic_shl, .Lfunc_end111-proc_intrinsic_shl
+.Lfunc_end116:
+	.size	proc_intrinsic_shl, .Lfunc_end116-proc_intrinsic_shl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_shr              # -- Begin function proc_intrinsic_shr
@@ -5562,8 +6935,8 @@ proc_intrinsic_shr:                     # @proc_intrinsic_shr
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end112:
-	.size	proc_intrinsic_shr, .Lfunc_end112-proc_intrinsic_shr
+.Lfunc_end117:
+	.size	proc_intrinsic_shr, .Lfunc_end117-proc_intrinsic_shr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_drop             # -- Begin function proc_intrinsic_drop
@@ -5578,8 +6951,8 @@ proc_intrinsic_drop:                    # @proc_intrinsic_drop
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end113:
-	.size	proc_intrinsic_drop, .Lfunc_end113-proc_intrinsic_drop
+.Lfunc_end118:
+	.size	proc_intrinsic_drop, .Lfunc_end118-proc_intrinsic_drop
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_dup              # -- Begin function proc_intrinsic_dup
@@ -5600,8 +6973,8 @@ proc_intrinsic_dup:                     # @proc_intrinsic_dup
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end114:
-	.size	proc_intrinsic_dup, .Lfunc_end114-proc_intrinsic_dup
+.Lfunc_end119:
+	.size	proc_intrinsic_dup, .Lfunc_end119-proc_intrinsic_dup
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_store8           # -- Begin function proc_intrinsic_store8
@@ -5620,8 +6993,8 @@ proc_intrinsic_store8:                  # @proc_intrinsic_store8
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end115:
-	.size	proc_intrinsic_store8, .Lfunc_end115-proc_intrinsic_store8
+.Lfunc_end120:
+	.size	proc_intrinsic_store8, .Lfunc_end120-proc_intrinsic_store8
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_load8            # -- Begin function proc_intrinsic_load8
@@ -5638,8 +7011,8 @@ proc_intrinsic_load8:                   # @proc_intrinsic_load8
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end116:
-	.size	proc_intrinsic_load8, .Lfunc_end116-proc_intrinsic_load8
+.Lfunc_end121:
+	.size	proc_intrinsic_load8, .Lfunc_end121-proc_intrinsic_load8
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_store64          # -- Begin function proc_intrinsic_store64
@@ -5658,8 +7031,8 @@ proc_intrinsic_store64:                 # @proc_intrinsic_store64
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end117:
-	.size	proc_intrinsic_store64, .Lfunc_end117-proc_intrinsic_store64
+.Lfunc_end122:
+	.size	proc_intrinsic_store64, .Lfunc_end122-proc_intrinsic_store64
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_load64           # -- Begin function proc_intrinsic_load64
@@ -5676,8 +7049,8 @@ proc_intrinsic_load64:                  # @proc_intrinsic_load64
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end118:
-	.size	proc_intrinsic_load64, .Lfunc_end118-proc_intrinsic_load64
+.Lfunc_end123:
+	.size	proc_intrinsic_load64, .Lfunc_end123-proc_intrinsic_load64
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_storeptr         # -- Begin function proc_intrinsic_storeptr
@@ -5696,8 +7069,8 @@ proc_intrinsic_storeptr:                # @proc_intrinsic_storeptr
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end119:
-	.size	proc_intrinsic_storeptr, .Lfunc_end119-proc_intrinsic_storeptr
+.Lfunc_end124:
+	.size	proc_intrinsic_storeptr, .Lfunc_end124-proc_intrinsic_storeptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_loadptr          # -- Begin function proc_intrinsic_loadptr
@@ -5714,8 +7087,8 @@ proc_intrinsic_loadptr:                 # @proc_intrinsic_loadptr
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end120:
-	.size	proc_intrinsic_loadptr, .Lfunc_end120-proc_intrinsic_loadptr
+.Lfunc_end125:
+	.size	proc_intrinsic_loadptr, .Lfunc_end125-proc_intrinsic_loadptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_alloc            # -- Begin function proc_intrinsic_alloc
@@ -5734,8 +7107,8 @@ proc_intrinsic_alloc:                   # @proc_intrinsic_alloc
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end121:
-	.size	proc_intrinsic_alloc, .Lfunc_end121-proc_intrinsic_alloc
+.Lfunc_end126:
+	.size	proc_intrinsic_alloc, .Lfunc_end126-proc_intrinsic_alloc
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_free             # -- Begin function proc_intrinsic_free
@@ -5752,8 +7125,8 @@ proc_intrinsic_free:                    # @proc_intrinsic_free
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end122:
-	.size	proc_intrinsic_free, .Lfunc_end122-proc_intrinsic_free
+.Lfunc_end127:
+	.size	proc_intrinsic_free, .Lfunc_end127-proc_intrinsic_free
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_exit             # -- Begin function proc_intrinsic_exit
@@ -5767,8 +7140,8 @@ proc_intrinsic_exit:                    # @proc_intrinsic_exit
 	callq	pop@PLT
 	movl	%eax, %edi
 	callq	exit@PLT
-.Lfunc_end123:
-	.size	proc_intrinsic_exit, .Lfunc_end123-proc_intrinsic_exit
+.Lfunc_end128:
+	.size	proc_intrinsic_exit, .Lfunc_end128-proc_intrinsic_exit
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_check_errno      # -- Begin function proc_intrinsic_check_errno
@@ -5785,8 +7158,8 @@ proc_intrinsic_check_errno:             # @proc_intrinsic_check_errno
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end124:
-	.size	proc_intrinsic_check_errno, .Lfunc_end124-proc_intrinsic_check_errno
+.Lfunc_end129:
+	.size	proc_intrinsic_check_errno, .Lfunc_end129-proc_intrinsic_check_errno
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_intrinsic_print_error      # -- Begin function proc_intrinsic_print_error
@@ -5803,8 +7176,8 @@ proc_intrinsic_print_error:             # @proc_intrinsic_print_error
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end125:
-	.size	proc_intrinsic_print_error, .Lfunc_end125-proc_intrinsic_print_error
+.Lfunc_end130:
+	.size	proc_intrinsic_print_error, .Lfunc_end130-proc_intrinsic_print_error
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_open                    # -- Begin function proc_ll_open
@@ -5827,8 +7200,8 @@ proc_ll_open:                           # @proc_ll_open
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end126:
-	.size	proc_ll_open, .Lfunc_end126-proc_ll_open
+.Lfunc_end131:
+	.size	proc_ll_open, .Lfunc_end131-proc_ll_open
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_close                   # -- Begin function proc_ll_close
@@ -5847,8 +7220,8 @@ proc_ll_close:                          # @proc_ll_close
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end127:
-	.size	proc_ll_close, .Lfunc_end127-proc_ll_close
+.Lfunc_end132:
+	.size	proc_ll_close, .Lfunc_end132-proc_ll_close
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_lseek                   # -- Begin function proc_ll_lseek
@@ -5883,8 +7256,8 @@ proc_ll_lseek:                          # @proc_ll_lseek
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end128:
-	.size	proc_ll_lseek, .Lfunc_end128-proc_ll_lseek
+.Lfunc_end133:
+	.size	proc_ll_lseek, .Lfunc_end133-proc_ll_lseek
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_write                   # -- Begin function proc_ll_write
@@ -5919,8 +7292,8 @@ proc_ll_write:                          # @proc_ll_write
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end129:
-	.size	proc_ll_write, .Lfunc_end129-proc_ll_write
+.Lfunc_end134:
+	.size	proc_ll_write, .Lfunc_end134-proc_ll_write
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_read                    # -- Begin function proc_ll_read
@@ -5955,8 +7328,8 @@ proc_ll_read:                           # @proc_ll_read
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end130:
-	.size	proc_ll_read, .Lfunc_end130-proc_ll_read
+.Lfunc_end135:
+	.size	proc_ll_read, .Lfunc_end135-proc_ll_read
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_system                  # -- Begin function proc_ll_system
@@ -5975,8 +7348,8 @@ proc_ll_system:                         # @proc_ll_system
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end131:
-	.size	proc_ll_system, .Lfunc_end131-proc_ll_system
+.Lfunc_end136:
+	.size	proc_ll_system, .Lfunc_end136-proc_ll_system
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_int            # -- Begin function proc_cast_int_to_int
@@ -5986,8 +7359,8 @@ proc_cast_int_to_int:                   # @proc_cast_int_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end132:
-	.size	proc_cast_int_to_int, .Lfunc_end132-proc_cast_int_to_int
+.Lfunc_end137:
+	.size	proc_cast_int_to_int, .Lfunc_end137-proc_cast_int_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_ptr            # -- Begin function proc_cast_int_to_ptr
@@ -5997,8 +7370,8 @@ proc_cast_int_to_ptr:                   # @proc_cast_int_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end133:
-	.size	proc_cast_int_to_ptr, .Lfunc_end133-proc_cast_int_to_ptr
+.Lfunc_end138:
+	.size	proc_cast_int_to_ptr, .Lfunc_end138-proc_cast_int_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_to_str            # -- Begin function proc_cast_int_to_str
@@ -6008,8 +7381,8 @@ proc_cast_int_to_str:                   # @proc_cast_int_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end134:
-	.size	proc_cast_int_to_str, .Lfunc_end134-proc_cast_int_to_str
+.Lfunc_end139:
+	.size	proc_cast_int_to_str, .Lfunc_end139-proc_cast_int_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_int            # -- Begin function proc_cast_ptr_to_int
@@ -6019,8 +7392,8 @@ proc_cast_ptr_to_int:                   # @proc_cast_ptr_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end135:
-	.size	proc_cast_ptr_to_int, .Lfunc_end135-proc_cast_ptr_to_int
+.Lfunc_end140:
+	.size	proc_cast_ptr_to_int, .Lfunc_end140-proc_cast_ptr_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_ptr            # -- Begin function proc_cast_ptr_to_ptr
@@ -6030,8 +7403,8 @@ proc_cast_ptr_to_ptr:                   # @proc_cast_ptr_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end136:
-	.size	proc_cast_ptr_to_ptr, .Lfunc_end136-proc_cast_ptr_to_ptr
+.Lfunc_end141:
+	.size	proc_cast_ptr_to_ptr, .Lfunc_end141-proc_cast_ptr_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_to_str            # -- Begin function proc_cast_ptr_to_str
@@ -6041,8 +7414,8 @@ proc_cast_ptr_to_str:                   # @proc_cast_ptr_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end137:
-	.size	proc_cast_ptr_to_str, .Lfunc_end137-proc_cast_ptr_to_str
+.Lfunc_end142:
+	.size	proc_cast_ptr_to_str, .Lfunc_end142-proc_cast_ptr_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_int            # -- Begin function proc_cast_str_to_int
@@ -6052,8 +7425,8 @@ proc_cast_str_to_int:                   # @proc_cast_str_to_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end138:
-	.size	proc_cast_str_to_int, .Lfunc_end138-proc_cast_str_to_int
+.Lfunc_end143:
+	.size	proc_cast_str_to_int, .Lfunc_end143-proc_cast_str_to_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_ptr            # -- Begin function proc_cast_str_to_ptr
@@ -6063,8 +7436,8 @@ proc_cast_str_to_ptr:                   # @proc_cast_str_to_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end139:
-	.size	proc_cast_str_to_ptr, .Lfunc_end139-proc_cast_str_to_ptr
+.Lfunc_end144:
+	.size	proc_cast_str_to_ptr, .Lfunc_end144-proc_cast_str_to_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_to_str            # -- Begin function proc_cast_str_to_str
@@ -6074,8 +7447,8 @@ proc_cast_str_to_str:                   # @proc_cast_str_to_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end140:
-	.size	proc_cast_str_to_str, .Lfunc_end140-proc_cast_str_to_str
+.Lfunc_end145:
+	.size	proc_cast_str_to_str, .Lfunc_end145-proc_cast_str_to_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_int    # -- Begin function proc_cast_int_int_to_int_int
@@ -6085,8 +7458,8 @@ proc_cast_int_int_to_int_int:           # @proc_cast_int_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end141:
-	.size	proc_cast_int_int_to_int_int, .Lfunc_end141-proc_cast_int_int_to_int_int
+.Lfunc_end146:
+	.size	proc_cast_int_int_to_int_int, .Lfunc_end146-proc_cast_int_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_ptr    # -- Begin function proc_cast_int_int_to_int_ptr
@@ -6096,8 +7469,8 @@ proc_cast_int_int_to_int_ptr:           # @proc_cast_int_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end142:
-	.size	proc_cast_int_int_to_int_ptr, .Lfunc_end142-proc_cast_int_int_to_int_ptr
+.Lfunc_end147:
+	.size	proc_cast_int_int_to_int_ptr, .Lfunc_end147-proc_cast_int_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_int_str    # -- Begin function proc_cast_int_int_to_int_str
@@ -6107,8 +7480,8 @@ proc_cast_int_int_to_int_str:           # @proc_cast_int_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end143:
-	.size	proc_cast_int_int_to_int_str, .Lfunc_end143-proc_cast_int_int_to_int_str
+.Lfunc_end148:
+	.size	proc_cast_int_int_to_int_str, .Lfunc_end148-proc_cast_int_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_int    # -- Begin function proc_cast_int_int_to_ptr_int
@@ -6118,8 +7491,8 @@ proc_cast_int_int_to_ptr_int:           # @proc_cast_int_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end144:
-	.size	proc_cast_int_int_to_ptr_int, .Lfunc_end144-proc_cast_int_int_to_ptr_int
+.Lfunc_end149:
+	.size	proc_cast_int_int_to_ptr_int, .Lfunc_end149-proc_cast_int_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_ptr    # -- Begin function proc_cast_int_int_to_ptr_ptr
@@ -6129,8 +7502,8 @@ proc_cast_int_int_to_ptr_ptr:           # @proc_cast_int_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end145:
-	.size	proc_cast_int_int_to_ptr_ptr, .Lfunc_end145-proc_cast_int_int_to_ptr_ptr
+.Lfunc_end150:
+	.size	proc_cast_int_int_to_ptr_ptr, .Lfunc_end150-proc_cast_int_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_ptr_str    # -- Begin function proc_cast_int_int_to_ptr_str
@@ -6140,8 +7513,8 @@ proc_cast_int_int_to_ptr_str:           # @proc_cast_int_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end146:
-	.size	proc_cast_int_int_to_ptr_str, .Lfunc_end146-proc_cast_int_int_to_ptr_str
+.Lfunc_end151:
+	.size	proc_cast_int_int_to_ptr_str, .Lfunc_end151-proc_cast_int_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_int    # -- Begin function proc_cast_int_int_to_str_int
@@ -6151,8 +7524,8 @@ proc_cast_int_int_to_str_int:           # @proc_cast_int_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end147:
-	.size	proc_cast_int_int_to_str_int, .Lfunc_end147-proc_cast_int_int_to_str_int
+.Lfunc_end152:
+	.size	proc_cast_int_int_to_str_int, .Lfunc_end152-proc_cast_int_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_ptr    # -- Begin function proc_cast_int_int_to_str_ptr
@@ -6162,8 +7535,8 @@ proc_cast_int_int_to_str_ptr:           # @proc_cast_int_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end148:
-	.size	proc_cast_int_int_to_str_ptr, .Lfunc_end148-proc_cast_int_int_to_str_ptr
+.Lfunc_end153:
+	.size	proc_cast_int_int_to_str_ptr, .Lfunc_end153-proc_cast_int_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_int_to_str_str    # -- Begin function proc_cast_int_int_to_str_str
@@ -6173,8 +7546,8 @@ proc_cast_int_int_to_str_str:           # @proc_cast_int_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end149:
-	.size	proc_cast_int_int_to_str_str, .Lfunc_end149-proc_cast_int_int_to_str_str
+.Lfunc_end154:
+	.size	proc_cast_int_int_to_str_str, .Lfunc_end154-proc_cast_int_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_int    # -- Begin function proc_cast_int_ptr_to_int_int
@@ -6184,8 +7557,8 @@ proc_cast_int_ptr_to_int_int:           # @proc_cast_int_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end150:
-	.size	proc_cast_int_ptr_to_int_int, .Lfunc_end150-proc_cast_int_ptr_to_int_int
+.Lfunc_end155:
+	.size	proc_cast_int_ptr_to_int_int, .Lfunc_end155-proc_cast_int_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_ptr    # -- Begin function proc_cast_int_ptr_to_int_ptr
@@ -6195,8 +7568,8 @@ proc_cast_int_ptr_to_int_ptr:           # @proc_cast_int_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end151:
-	.size	proc_cast_int_ptr_to_int_ptr, .Lfunc_end151-proc_cast_int_ptr_to_int_ptr
+.Lfunc_end156:
+	.size	proc_cast_int_ptr_to_int_ptr, .Lfunc_end156-proc_cast_int_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_int_str    # -- Begin function proc_cast_int_ptr_to_int_str
@@ -6206,8 +7579,8 @@ proc_cast_int_ptr_to_int_str:           # @proc_cast_int_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end152:
-	.size	proc_cast_int_ptr_to_int_str, .Lfunc_end152-proc_cast_int_ptr_to_int_str
+.Lfunc_end157:
+	.size	proc_cast_int_ptr_to_int_str, .Lfunc_end157-proc_cast_int_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_int    # -- Begin function proc_cast_int_ptr_to_ptr_int
@@ -6217,8 +7590,8 @@ proc_cast_int_ptr_to_ptr_int:           # @proc_cast_int_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end153:
-	.size	proc_cast_int_ptr_to_ptr_int, .Lfunc_end153-proc_cast_int_ptr_to_ptr_int
+.Lfunc_end158:
+	.size	proc_cast_int_ptr_to_ptr_int, .Lfunc_end158-proc_cast_int_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_ptr    # -- Begin function proc_cast_int_ptr_to_ptr_ptr
@@ -6228,8 +7601,8 @@ proc_cast_int_ptr_to_ptr_ptr:           # @proc_cast_int_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end154:
-	.size	proc_cast_int_ptr_to_ptr_ptr, .Lfunc_end154-proc_cast_int_ptr_to_ptr_ptr
+.Lfunc_end159:
+	.size	proc_cast_int_ptr_to_ptr_ptr, .Lfunc_end159-proc_cast_int_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_ptr_str    # -- Begin function proc_cast_int_ptr_to_ptr_str
@@ -6239,8 +7612,8 @@ proc_cast_int_ptr_to_ptr_str:           # @proc_cast_int_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end155:
-	.size	proc_cast_int_ptr_to_ptr_str, .Lfunc_end155-proc_cast_int_ptr_to_ptr_str
+.Lfunc_end160:
+	.size	proc_cast_int_ptr_to_ptr_str, .Lfunc_end160-proc_cast_int_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_int    # -- Begin function proc_cast_int_ptr_to_str_int
@@ -6250,8 +7623,8 @@ proc_cast_int_ptr_to_str_int:           # @proc_cast_int_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end156:
-	.size	proc_cast_int_ptr_to_str_int, .Lfunc_end156-proc_cast_int_ptr_to_str_int
+.Lfunc_end161:
+	.size	proc_cast_int_ptr_to_str_int, .Lfunc_end161-proc_cast_int_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_ptr    # -- Begin function proc_cast_int_ptr_to_str_ptr
@@ -6261,8 +7634,8 @@ proc_cast_int_ptr_to_str_ptr:           # @proc_cast_int_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end157:
-	.size	proc_cast_int_ptr_to_str_ptr, .Lfunc_end157-proc_cast_int_ptr_to_str_ptr
+.Lfunc_end162:
+	.size	proc_cast_int_ptr_to_str_ptr, .Lfunc_end162-proc_cast_int_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_ptr_to_str_str    # -- Begin function proc_cast_int_ptr_to_str_str
@@ -6272,8 +7645,8 @@ proc_cast_int_ptr_to_str_str:           # @proc_cast_int_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end158:
-	.size	proc_cast_int_ptr_to_str_str, .Lfunc_end158-proc_cast_int_ptr_to_str_str
+.Lfunc_end163:
+	.size	proc_cast_int_ptr_to_str_str, .Lfunc_end163-proc_cast_int_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_int    # -- Begin function proc_cast_int_str_to_int_int
@@ -6283,8 +7656,8 @@ proc_cast_int_str_to_int_int:           # @proc_cast_int_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end159:
-	.size	proc_cast_int_str_to_int_int, .Lfunc_end159-proc_cast_int_str_to_int_int
+.Lfunc_end164:
+	.size	proc_cast_int_str_to_int_int, .Lfunc_end164-proc_cast_int_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_ptr    # -- Begin function proc_cast_int_str_to_int_ptr
@@ -6294,8 +7667,8 @@ proc_cast_int_str_to_int_ptr:           # @proc_cast_int_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end160:
-	.size	proc_cast_int_str_to_int_ptr, .Lfunc_end160-proc_cast_int_str_to_int_ptr
+.Lfunc_end165:
+	.size	proc_cast_int_str_to_int_ptr, .Lfunc_end165-proc_cast_int_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_int_str    # -- Begin function proc_cast_int_str_to_int_str
@@ -6305,8 +7678,8 @@ proc_cast_int_str_to_int_str:           # @proc_cast_int_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end161:
-	.size	proc_cast_int_str_to_int_str, .Lfunc_end161-proc_cast_int_str_to_int_str
+.Lfunc_end166:
+	.size	proc_cast_int_str_to_int_str, .Lfunc_end166-proc_cast_int_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_int    # -- Begin function proc_cast_int_str_to_ptr_int
@@ -6316,8 +7689,8 @@ proc_cast_int_str_to_ptr_int:           # @proc_cast_int_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end162:
-	.size	proc_cast_int_str_to_ptr_int, .Lfunc_end162-proc_cast_int_str_to_ptr_int
+.Lfunc_end167:
+	.size	proc_cast_int_str_to_ptr_int, .Lfunc_end167-proc_cast_int_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_ptr    # -- Begin function proc_cast_int_str_to_ptr_ptr
@@ -6327,8 +7700,8 @@ proc_cast_int_str_to_ptr_ptr:           # @proc_cast_int_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end163:
-	.size	proc_cast_int_str_to_ptr_ptr, .Lfunc_end163-proc_cast_int_str_to_ptr_ptr
+.Lfunc_end168:
+	.size	proc_cast_int_str_to_ptr_ptr, .Lfunc_end168-proc_cast_int_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_ptr_str    # -- Begin function proc_cast_int_str_to_ptr_str
@@ -6338,8 +7711,8 @@ proc_cast_int_str_to_ptr_str:           # @proc_cast_int_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end164:
-	.size	proc_cast_int_str_to_ptr_str, .Lfunc_end164-proc_cast_int_str_to_ptr_str
+.Lfunc_end169:
+	.size	proc_cast_int_str_to_ptr_str, .Lfunc_end169-proc_cast_int_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_int    # -- Begin function proc_cast_int_str_to_str_int
@@ -6349,8 +7722,8 @@ proc_cast_int_str_to_str_int:           # @proc_cast_int_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end165:
-	.size	proc_cast_int_str_to_str_int, .Lfunc_end165-proc_cast_int_str_to_str_int
+.Lfunc_end170:
+	.size	proc_cast_int_str_to_str_int, .Lfunc_end170-proc_cast_int_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_ptr    # -- Begin function proc_cast_int_str_to_str_ptr
@@ -6360,8 +7733,8 @@ proc_cast_int_str_to_str_ptr:           # @proc_cast_int_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end166:
-	.size	proc_cast_int_str_to_str_ptr, .Lfunc_end166-proc_cast_int_str_to_str_ptr
+.Lfunc_end171:
+	.size	proc_cast_int_str_to_str_ptr, .Lfunc_end171-proc_cast_int_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_int_str_to_str_str    # -- Begin function proc_cast_int_str_to_str_str
@@ -6371,8 +7744,8 @@ proc_cast_int_str_to_str_str:           # @proc_cast_int_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end167:
-	.size	proc_cast_int_str_to_str_str, .Lfunc_end167-proc_cast_int_str_to_str_str
+.Lfunc_end172:
+	.size	proc_cast_int_str_to_str_str, .Lfunc_end172-proc_cast_int_str_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_int    # -- Begin function proc_cast_ptr_int_to_int_int
@@ -6382,8 +7755,8 @@ proc_cast_ptr_int_to_int_int:           # @proc_cast_ptr_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end168:
-	.size	proc_cast_ptr_int_to_int_int, .Lfunc_end168-proc_cast_ptr_int_to_int_int
+.Lfunc_end173:
+	.size	proc_cast_ptr_int_to_int_int, .Lfunc_end173-proc_cast_ptr_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_ptr    # -- Begin function proc_cast_ptr_int_to_int_ptr
@@ -6393,8 +7766,8 @@ proc_cast_ptr_int_to_int_ptr:           # @proc_cast_ptr_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end169:
-	.size	proc_cast_ptr_int_to_int_ptr, .Lfunc_end169-proc_cast_ptr_int_to_int_ptr
+.Lfunc_end174:
+	.size	proc_cast_ptr_int_to_int_ptr, .Lfunc_end174-proc_cast_ptr_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_int_str    # -- Begin function proc_cast_ptr_int_to_int_str
@@ -6404,8 +7777,8 @@ proc_cast_ptr_int_to_int_str:           # @proc_cast_ptr_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end170:
-	.size	proc_cast_ptr_int_to_int_str, .Lfunc_end170-proc_cast_ptr_int_to_int_str
+.Lfunc_end175:
+	.size	proc_cast_ptr_int_to_int_str, .Lfunc_end175-proc_cast_ptr_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_int    # -- Begin function proc_cast_ptr_int_to_ptr_int
@@ -6415,8 +7788,8 @@ proc_cast_ptr_int_to_ptr_int:           # @proc_cast_ptr_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end171:
-	.size	proc_cast_ptr_int_to_ptr_int, .Lfunc_end171-proc_cast_ptr_int_to_ptr_int
+.Lfunc_end176:
+	.size	proc_cast_ptr_int_to_ptr_int, .Lfunc_end176-proc_cast_ptr_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_ptr    # -- Begin function proc_cast_ptr_int_to_ptr_ptr
@@ -6426,8 +7799,8 @@ proc_cast_ptr_int_to_ptr_ptr:           # @proc_cast_ptr_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end172:
-	.size	proc_cast_ptr_int_to_ptr_ptr, .Lfunc_end172-proc_cast_ptr_int_to_ptr_ptr
+.Lfunc_end177:
+	.size	proc_cast_ptr_int_to_ptr_ptr, .Lfunc_end177-proc_cast_ptr_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_ptr_str    # -- Begin function proc_cast_ptr_int_to_ptr_str
@@ -6437,8 +7810,8 @@ proc_cast_ptr_int_to_ptr_str:           # @proc_cast_ptr_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end173:
-	.size	proc_cast_ptr_int_to_ptr_str, .Lfunc_end173-proc_cast_ptr_int_to_ptr_str
+.Lfunc_end178:
+	.size	proc_cast_ptr_int_to_ptr_str, .Lfunc_end178-proc_cast_ptr_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_int    # -- Begin function proc_cast_ptr_int_to_str_int
@@ -6448,8 +7821,8 @@ proc_cast_ptr_int_to_str_int:           # @proc_cast_ptr_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end174:
-	.size	proc_cast_ptr_int_to_str_int, .Lfunc_end174-proc_cast_ptr_int_to_str_int
+.Lfunc_end179:
+	.size	proc_cast_ptr_int_to_str_int, .Lfunc_end179-proc_cast_ptr_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_ptr    # -- Begin function proc_cast_ptr_int_to_str_ptr
@@ -6459,8 +7832,8 @@ proc_cast_ptr_int_to_str_ptr:           # @proc_cast_ptr_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end175:
-	.size	proc_cast_ptr_int_to_str_ptr, .Lfunc_end175-proc_cast_ptr_int_to_str_ptr
+.Lfunc_end180:
+	.size	proc_cast_ptr_int_to_str_ptr, .Lfunc_end180-proc_cast_ptr_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_int_to_str_str    # -- Begin function proc_cast_ptr_int_to_str_str
@@ -6470,8 +7843,8 @@ proc_cast_ptr_int_to_str_str:           # @proc_cast_ptr_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end176:
-	.size	proc_cast_ptr_int_to_str_str, .Lfunc_end176-proc_cast_ptr_int_to_str_str
+.Lfunc_end181:
+	.size	proc_cast_ptr_int_to_str_str, .Lfunc_end181-proc_cast_ptr_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_int    # -- Begin function proc_cast_ptr_ptr_to_int_int
@@ -6481,8 +7854,8 @@ proc_cast_ptr_ptr_to_int_int:           # @proc_cast_ptr_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end177:
-	.size	proc_cast_ptr_ptr_to_int_int, .Lfunc_end177-proc_cast_ptr_ptr_to_int_int
+.Lfunc_end182:
+	.size	proc_cast_ptr_ptr_to_int_int, .Lfunc_end182-proc_cast_ptr_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_ptr    # -- Begin function proc_cast_ptr_ptr_to_int_ptr
@@ -6492,8 +7865,8 @@ proc_cast_ptr_ptr_to_int_ptr:           # @proc_cast_ptr_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end178:
-	.size	proc_cast_ptr_ptr_to_int_ptr, .Lfunc_end178-proc_cast_ptr_ptr_to_int_ptr
+.Lfunc_end183:
+	.size	proc_cast_ptr_ptr_to_int_ptr, .Lfunc_end183-proc_cast_ptr_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_int_str    # -- Begin function proc_cast_ptr_ptr_to_int_str
@@ -6503,8 +7876,8 @@ proc_cast_ptr_ptr_to_int_str:           # @proc_cast_ptr_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end179:
-	.size	proc_cast_ptr_ptr_to_int_str, .Lfunc_end179-proc_cast_ptr_ptr_to_int_str
+.Lfunc_end184:
+	.size	proc_cast_ptr_ptr_to_int_str, .Lfunc_end184-proc_cast_ptr_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_int    # -- Begin function proc_cast_ptr_ptr_to_ptr_int
@@ -6514,8 +7887,8 @@ proc_cast_ptr_ptr_to_ptr_int:           # @proc_cast_ptr_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end180:
-	.size	proc_cast_ptr_ptr_to_ptr_int, .Lfunc_end180-proc_cast_ptr_ptr_to_ptr_int
+.Lfunc_end185:
+	.size	proc_cast_ptr_ptr_to_ptr_int, .Lfunc_end185-proc_cast_ptr_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_ptr    # -- Begin function proc_cast_ptr_ptr_to_ptr_ptr
@@ -6525,8 +7898,8 @@ proc_cast_ptr_ptr_to_ptr_ptr:           # @proc_cast_ptr_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end181:
-	.size	proc_cast_ptr_ptr_to_ptr_ptr, .Lfunc_end181-proc_cast_ptr_ptr_to_ptr_ptr
+.Lfunc_end186:
+	.size	proc_cast_ptr_ptr_to_ptr_ptr, .Lfunc_end186-proc_cast_ptr_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_ptr_str    # -- Begin function proc_cast_ptr_ptr_to_ptr_str
@@ -6536,8 +7909,8 @@ proc_cast_ptr_ptr_to_ptr_str:           # @proc_cast_ptr_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end182:
-	.size	proc_cast_ptr_ptr_to_ptr_str, .Lfunc_end182-proc_cast_ptr_ptr_to_ptr_str
+.Lfunc_end187:
+	.size	proc_cast_ptr_ptr_to_ptr_str, .Lfunc_end187-proc_cast_ptr_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_int    # -- Begin function proc_cast_ptr_ptr_to_str_int
@@ -6547,8 +7920,8 @@ proc_cast_ptr_ptr_to_str_int:           # @proc_cast_ptr_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end183:
-	.size	proc_cast_ptr_ptr_to_str_int, .Lfunc_end183-proc_cast_ptr_ptr_to_str_int
+.Lfunc_end188:
+	.size	proc_cast_ptr_ptr_to_str_int, .Lfunc_end188-proc_cast_ptr_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_ptr    # -- Begin function proc_cast_ptr_ptr_to_str_ptr
@@ -6558,8 +7931,8 @@ proc_cast_ptr_ptr_to_str_ptr:           # @proc_cast_ptr_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end184:
-	.size	proc_cast_ptr_ptr_to_str_ptr, .Lfunc_end184-proc_cast_ptr_ptr_to_str_ptr
+.Lfunc_end189:
+	.size	proc_cast_ptr_ptr_to_str_ptr, .Lfunc_end189-proc_cast_ptr_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_ptr_to_str_str    # -- Begin function proc_cast_ptr_ptr_to_str_str
@@ -6569,8 +7942,8 @@ proc_cast_ptr_ptr_to_str_str:           # @proc_cast_ptr_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end185:
-	.size	proc_cast_ptr_ptr_to_str_str, .Lfunc_end185-proc_cast_ptr_ptr_to_str_str
+.Lfunc_end190:
+	.size	proc_cast_ptr_ptr_to_str_str, .Lfunc_end190-proc_cast_ptr_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_int    # -- Begin function proc_cast_ptr_str_to_int_int
@@ -6580,8 +7953,8 @@ proc_cast_ptr_str_to_int_int:           # @proc_cast_ptr_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end186:
-	.size	proc_cast_ptr_str_to_int_int, .Lfunc_end186-proc_cast_ptr_str_to_int_int
+.Lfunc_end191:
+	.size	proc_cast_ptr_str_to_int_int, .Lfunc_end191-proc_cast_ptr_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_ptr    # -- Begin function proc_cast_ptr_str_to_int_ptr
@@ -6591,8 +7964,8 @@ proc_cast_ptr_str_to_int_ptr:           # @proc_cast_ptr_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end187:
-	.size	proc_cast_ptr_str_to_int_ptr, .Lfunc_end187-proc_cast_ptr_str_to_int_ptr
+.Lfunc_end192:
+	.size	proc_cast_ptr_str_to_int_ptr, .Lfunc_end192-proc_cast_ptr_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_int_str    # -- Begin function proc_cast_ptr_str_to_int_str
@@ -6602,8 +7975,8 @@ proc_cast_ptr_str_to_int_str:           # @proc_cast_ptr_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end188:
-	.size	proc_cast_ptr_str_to_int_str, .Lfunc_end188-proc_cast_ptr_str_to_int_str
+.Lfunc_end193:
+	.size	proc_cast_ptr_str_to_int_str, .Lfunc_end193-proc_cast_ptr_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_int    # -- Begin function proc_cast_ptr_str_to_ptr_int
@@ -6613,8 +7986,8 @@ proc_cast_ptr_str_to_ptr_int:           # @proc_cast_ptr_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end189:
-	.size	proc_cast_ptr_str_to_ptr_int, .Lfunc_end189-proc_cast_ptr_str_to_ptr_int
+.Lfunc_end194:
+	.size	proc_cast_ptr_str_to_ptr_int, .Lfunc_end194-proc_cast_ptr_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_ptr    # -- Begin function proc_cast_ptr_str_to_ptr_ptr
@@ -6624,8 +7997,8 @@ proc_cast_ptr_str_to_ptr_ptr:           # @proc_cast_ptr_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end190:
-	.size	proc_cast_ptr_str_to_ptr_ptr, .Lfunc_end190-proc_cast_ptr_str_to_ptr_ptr
+.Lfunc_end195:
+	.size	proc_cast_ptr_str_to_ptr_ptr, .Lfunc_end195-proc_cast_ptr_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_ptr_str    # -- Begin function proc_cast_ptr_str_to_ptr_str
@@ -6635,8 +8008,8 @@ proc_cast_ptr_str_to_ptr_str:           # @proc_cast_ptr_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end191:
-	.size	proc_cast_ptr_str_to_ptr_str, .Lfunc_end191-proc_cast_ptr_str_to_ptr_str
+.Lfunc_end196:
+	.size	proc_cast_ptr_str_to_ptr_str, .Lfunc_end196-proc_cast_ptr_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_int    # -- Begin function proc_cast_ptr_str_to_str_int
@@ -6646,8 +8019,8 @@ proc_cast_ptr_str_to_str_int:           # @proc_cast_ptr_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end192:
-	.size	proc_cast_ptr_str_to_str_int, .Lfunc_end192-proc_cast_ptr_str_to_str_int
+.Lfunc_end197:
+	.size	proc_cast_ptr_str_to_str_int, .Lfunc_end197-proc_cast_ptr_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_ptr    # -- Begin function proc_cast_ptr_str_to_str_ptr
@@ -6657,8 +8030,8 @@ proc_cast_ptr_str_to_str_ptr:           # @proc_cast_ptr_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end193:
-	.size	proc_cast_ptr_str_to_str_ptr, .Lfunc_end193-proc_cast_ptr_str_to_str_ptr
+.Lfunc_end198:
+	.size	proc_cast_ptr_str_to_str_ptr, .Lfunc_end198-proc_cast_ptr_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_ptr_str_to_str_str    # -- Begin function proc_cast_ptr_str_to_str_str
@@ -6668,8 +8041,8 @@ proc_cast_ptr_str_to_str_str:           # @proc_cast_ptr_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end194:
-	.size	proc_cast_ptr_str_to_str_str, .Lfunc_end194-proc_cast_ptr_str_to_str_str
+.Lfunc_end199:
+	.size	proc_cast_ptr_str_to_str_str, .Lfunc_end199-proc_cast_ptr_str_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_int    # -- Begin function proc_cast_str_int_to_int_int
@@ -6679,8 +8052,8 @@ proc_cast_str_int_to_int_int:           # @proc_cast_str_int_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end195:
-	.size	proc_cast_str_int_to_int_int, .Lfunc_end195-proc_cast_str_int_to_int_int
+.Lfunc_end200:
+	.size	proc_cast_str_int_to_int_int, .Lfunc_end200-proc_cast_str_int_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_ptr    # -- Begin function proc_cast_str_int_to_int_ptr
@@ -6690,8 +8063,8 @@ proc_cast_str_int_to_int_ptr:           # @proc_cast_str_int_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end196:
-	.size	proc_cast_str_int_to_int_ptr, .Lfunc_end196-proc_cast_str_int_to_int_ptr
+.Lfunc_end201:
+	.size	proc_cast_str_int_to_int_ptr, .Lfunc_end201-proc_cast_str_int_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_int_str    # -- Begin function proc_cast_str_int_to_int_str
@@ -6701,8 +8074,8 @@ proc_cast_str_int_to_int_str:           # @proc_cast_str_int_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end197:
-	.size	proc_cast_str_int_to_int_str, .Lfunc_end197-proc_cast_str_int_to_int_str
+.Lfunc_end202:
+	.size	proc_cast_str_int_to_int_str, .Lfunc_end202-proc_cast_str_int_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_int    # -- Begin function proc_cast_str_int_to_ptr_int
@@ -6712,8 +8085,8 @@ proc_cast_str_int_to_ptr_int:           # @proc_cast_str_int_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end198:
-	.size	proc_cast_str_int_to_ptr_int, .Lfunc_end198-proc_cast_str_int_to_ptr_int
+.Lfunc_end203:
+	.size	proc_cast_str_int_to_ptr_int, .Lfunc_end203-proc_cast_str_int_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_ptr    # -- Begin function proc_cast_str_int_to_ptr_ptr
@@ -6723,8 +8096,8 @@ proc_cast_str_int_to_ptr_ptr:           # @proc_cast_str_int_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end199:
-	.size	proc_cast_str_int_to_ptr_ptr, .Lfunc_end199-proc_cast_str_int_to_ptr_ptr
+.Lfunc_end204:
+	.size	proc_cast_str_int_to_ptr_ptr, .Lfunc_end204-proc_cast_str_int_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_ptr_str    # -- Begin function proc_cast_str_int_to_ptr_str
@@ -6734,8 +8107,8 @@ proc_cast_str_int_to_ptr_str:           # @proc_cast_str_int_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end200:
-	.size	proc_cast_str_int_to_ptr_str, .Lfunc_end200-proc_cast_str_int_to_ptr_str
+.Lfunc_end205:
+	.size	proc_cast_str_int_to_ptr_str, .Lfunc_end205-proc_cast_str_int_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_int    # -- Begin function proc_cast_str_int_to_str_int
@@ -6745,8 +8118,8 @@ proc_cast_str_int_to_str_int:           # @proc_cast_str_int_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end201:
-	.size	proc_cast_str_int_to_str_int, .Lfunc_end201-proc_cast_str_int_to_str_int
+.Lfunc_end206:
+	.size	proc_cast_str_int_to_str_int, .Lfunc_end206-proc_cast_str_int_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_ptr    # -- Begin function proc_cast_str_int_to_str_ptr
@@ -6756,8 +8129,8 @@ proc_cast_str_int_to_str_ptr:           # @proc_cast_str_int_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end202:
-	.size	proc_cast_str_int_to_str_ptr, .Lfunc_end202-proc_cast_str_int_to_str_ptr
+.Lfunc_end207:
+	.size	proc_cast_str_int_to_str_ptr, .Lfunc_end207-proc_cast_str_int_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_int_to_str_str    # -- Begin function proc_cast_str_int_to_str_str
@@ -6767,8 +8140,8 @@ proc_cast_str_int_to_str_str:           # @proc_cast_str_int_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end203:
-	.size	proc_cast_str_int_to_str_str, .Lfunc_end203-proc_cast_str_int_to_str_str
+.Lfunc_end208:
+	.size	proc_cast_str_int_to_str_str, .Lfunc_end208-proc_cast_str_int_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_int    # -- Begin function proc_cast_str_ptr_to_int_int
@@ -6778,8 +8151,8 @@ proc_cast_str_ptr_to_int_int:           # @proc_cast_str_ptr_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end204:
-	.size	proc_cast_str_ptr_to_int_int, .Lfunc_end204-proc_cast_str_ptr_to_int_int
+.Lfunc_end209:
+	.size	proc_cast_str_ptr_to_int_int, .Lfunc_end209-proc_cast_str_ptr_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_ptr    # -- Begin function proc_cast_str_ptr_to_int_ptr
@@ -6789,8 +8162,8 @@ proc_cast_str_ptr_to_int_ptr:           # @proc_cast_str_ptr_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end205:
-	.size	proc_cast_str_ptr_to_int_ptr, .Lfunc_end205-proc_cast_str_ptr_to_int_ptr
+.Lfunc_end210:
+	.size	proc_cast_str_ptr_to_int_ptr, .Lfunc_end210-proc_cast_str_ptr_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_int_str    # -- Begin function proc_cast_str_ptr_to_int_str
@@ -6800,8 +8173,8 @@ proc_cast_str_ptr_to_int_str:           # @proc_cast_str_ptr_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end206:
-	.size	proc_cast_str_ptr_to_int_str, .Lfunc_end206-proc_cast_str_ptr_to_int_str
+.Lfunc_end211:
+	.size	proc_cast_str_ptr_to_int_str, .Lfunc_end211-proc_cast_str_ptr_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_int    # -- Begin function proc_cast_str_ptr_to_ptr_int
@@ -6811,8 +8184,8 @@ proc_cast_str_ptr_to_ptr_int:           # @proc_cast_str_ptr_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end207:
-	.size	proc_cast_str_ptr_to_ptr_int, .Lfunc_end207-proc_cast_str_ptr_to_ptr_int
+.Lfunc_end212:
+	.size	proc_cast_str_ptr_to_ptr_int, .Lfunc_end212-proc_cast_str_ptr_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_ptr    # -- Begin function proc_cast_str_ptr_to_ptr_ptr
@@ -6822,8 +8195,8 @@ proc_cast_str_ptr_to_ptr_ptr:           # @proc_cast_str_ptr_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end208:
-	.size	proc_cast_str_ptr_to_ptr_ptr, .Lfunc_end208-proc_cast_str_ptr_to_ptr_ptr
+.Lfunc_end213:
+	.size	proc_cast_str_ptr_to_ptr_ptr, .Lfunc_end213-proc_cast_str_ptr_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_ptr_str    # -- Begin function proc_cast_str_ptr_to_ptr_str
@@ -6833,8 +8206,8 @@ proc_cast_str_ptr_to_ptr_str:           # @proc_cast_str_ptr_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end209:
-	.size	proc_cast_str_ptr_to_ptr_str, .Lfunc_end209-proc_cast_str_ptr_to_ptr_str
+.Lfunc_end214:
+	.size	proc_cast_str_ptr_to_ptr_str, .Lfunc_end214-proc_cast_str_ptr_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_int    # -- Begin function proc_cast_str_ptr_to_str_int
@@ -6844,8 +8217,8 @@ proc_cast_str_ptr_to_str_int:           # @proc_cast_str_ptr_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end210:
-	.size	proc_cast_str_ptr_to_str_int, .Lfunc_end210-proc_cast_str_ptr_to_str_int
+.Lfunc_end215:
+	.size	proc_cast_str_ptr_to_str_int, .Lfunc_end215-proc_cast_str_ptr_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_ptr    # -- Begin function proc_cast_str_ptr_to_str_ptr
@@ -6855,8 +8228,8 @@ proc_cast_str_ptr_to_str_ptr:           # @proc_cast_str_ptr_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end211:
-	.size	proc_cast_str_ptr_to_str_ptr, .Lfunc_end211-proc_cast_str_ptr_to_str_ptr
+.Lfunc_end216:
+	.size	proc_cast_str_ptr_to_str_ptr, .Lfunc_end216-proc_cast_str_ptr_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_ptr_to_str_str    # -- Begin function proc_cast_str_ptr_to_str_str
@@ -6866,8 +8239,8 @@ proc_cast_str_ptr_to_str_str:           # @proc_cast_str_ptr_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end212:
-	.size	proc_cast_str_ptr_to_str_str, .Lfunc_end212-proc_cast_str_ptr_to_str_str
+.Lfunc_end217:
+	.size	proc_cast_str_ptr_to_str_str, .Lfunc_end217-proc_cast_str_ptr_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_int    # -- Begin function proc_cast_str_str_to_int_int
@@ -6877,8 +8250,8 @@ proc_cast_str_str_to_int_int:           # @proc_cast_str_str_to_int_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end213:
-	.size	proc_cast_str_str_to_int_int, .Lfunc_end213-proc_cast_str_str_to_int_int
+.Lfunc_end218:
+	.size	proc_cast_str_str_to_int_int, .Lfunc_end218-proc_cast_str_str_to_int_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_ptr    # -- Begin function proc_cast_str_str_to_int_ptr
@@ -6888,8 +8261,8 @@ proc_cast_str_str_to_int_ptr:           # @proc_cast_str_str_to_int_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end214:
-	.size	proc_cast_str_str_to_int_ptr, .Lfunc_end214-proc_cast_str_str_to_int_ptr
+.Lfunc_end219:
+	.size	proc_cast_str_str_to_int_ptr, .Lfunc_end219-proc_cast_str_str_to_int_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_int_str    # -- Begin function proc_cast_str_str_to_int_str
@@ -6899,8 +8272,8 @@ proc_cast_str_str_to_int_str:           # @proc_cast_str_str_to_int_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end215:
-	.size	proc_cast_str_str_to_int_str, .Lfunc_end215-proc_cast_str_str_to_int_str
+.Lfunc_end220:
+	.size	proc_cast_str_str_to_int_str, .Lfunc_end220-proc_cast_str_str_to_int_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_int    # -- Begin function proc_cast_str_str_to_ptr_int
@@ -6910,8 +8283,8 @@ proc_cast_str_str_to_ptr_int:           # @proc_cast_str_str_to_ptr_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end216:
-	.size	proc_cast_str_str_to_ptr_int, .Lfunc_end216-proc_cast_str_str_to_ptr_int
+.Lfunc_end221:
+	.size	proc_cast_str_str_to_ptr_int, .Lfunc_end221-proc_cast_str_str_to_ptr_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_ptr    # -- Begin function proc_cast_str_str_to_ptr_ptr
@@ -6921,8 +8294,8 @@ proc_cast_str_str_to_ptr_ptr:           # @proc_cast_str_str_to_ptr_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end217:
-	.size	proc_cast_str_str_to_ptr_ptr, .Lfunc_end217-proc_cast_str_str_to_ptr_ptr
+.Lfunc_end222:
+	.size	proc_cast_str_str_to_ptr_ptr, .Lfunc_end222-proc_cast_str_str_to_ptr_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_ptr_str    # -- Begin function proc_cast_str_str_to_ptr_str
@@ -6932,8 +8305,8 @@ proc_cast_str_str_to_ptr_str:           # @proc_cast_str_str_to_ptr_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end218:
-	.size	proc_cast_str_str_to_ptr_str, .Lfunc_end218-proc_cast_str_str_to_ptr_str
+.Lfunc_end223:
+	.size	proc_cast_str_str_to_ptr_str, .Lfunc_end223-proc_cast_str_str_to_ptr_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_int    # -- Begin function proc_cast_str_str_to_str_int
@@ -6943,8 +8316,8 @@ proc_cast_str_str_to_str_int:           # @proc_cast_str_str_to_str_int
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end219:
-	.size	proc_cast_str_str_to_str_int, .Lfunc_end219-proc_cast_str_str_to_str_int
+.Lfunc_end224:
+	.size	proc_cast_str_str_to_str_int, .Lfunc_end224-proc_cast_str_str_to_str_int
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_ptr    # -- Begin function proc_cast_str_str_to_str_ptr
@@ -6954,8 +8327,8 @@ proc_cast_str_str_to_str_ptr:           # @proc_cast_str_str_to_str_ptr
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end220:
-	.size	proc_cast_str_str_to_str_ptr, .Lfunc_end220-proc_cast_str_str_to_str_ptr
+.Lfunc_end225:
+	.size	proc_cast_str_str_to_str_ptr, .Lfunc_end225-proc_cast_str_str_to_str_ptr
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_cast_str_str_to_str_str    # -- Begin function proc_cast_str_str_to_str_str
@@ -6965,8 +8338,8 @@ proc_cast_str_str_to_str_str:           # @proc_cast_str_str_to_str_str
 	.cfi_startproc
 # %bb.0:
 	retq
-.Lfunc_end221:
-	.size	proc_cast_str_str_to_str_str, .Lfunc_end221-proc_cast_str_str_to_str_str
+.Lfunc_end226:
+	.size	proc_cast_str_str_to_str_str, .Lfunc_end226-proc_cast_str_str_to_str_str
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_fork                    # -- Begin function proc_ll_fork
@@ -6983,8 +8356,8 @@ proc_ll_fork:                           # @proc_ll_fork
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end222:
-	.size	proc_ll_fork, .Lfunc_end222-proc_ll_fork
+.Lfunc_end227:
+	.size	proc_ll_fork, .Lfunc_end227-proc_ll_fork
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_socket                  # -- Begin function proc_ll_socket
@@ -7019,8 +8392,8 @@ proc_ll_socket:                         # @proc_ll_socket
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end223:
-	.size	proc_ll_socket, .Lfunc_end223-proc_ll_socket
+.Lfunc_end228:
+	.size	proc_ll_socket, .Lfunc_end228-proc_ll_socket
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_bind                    # -- Begin function proc_ll_bind
@@ -7055,8 +8428,8 @@ proc_ll_bind:                           # @proc_ll_bind
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end224:
-	.size	proc_ll_bind, .Lfunc_end224-proc_ll_bind
+.Lfunc_end229:
+	.size	proc_ll_bind, .Lfunc_end229-proc_ll_bind
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_listen                  # -- Begin function proc_ll_listen
@@ -7079,8 +8452,8 @@ proc_ll_listen:                         # @proc_ll_listen
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end225:
-	.size	proc_ll_listen, .Lfunc_end225-proc_ll_listen
+.Lfunc_end230:
+	.size	proc_ll_listen, .Lfunc_end230-proc_ll_listen
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_accept                  # -- Begin function proc_ll_accept
@@ -7115,8 +8488,8 @@ proc_ll_accept:                         # @proc_ll_accept
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end226:
-	.size	proc_ll_accept, .Lfunc_end226-proc_ll_accept
+.Lfunc_end231:
+	.size	proc_ll_accept, .Lfunc_end231-proc_ll_accept
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_connect                 # -- Begin function proc_ll_connect
@@ -7151,8 +8524,8 @@ proc_ll_connect:                        # @proc_ll_connect
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end227:
-	.size	proc_ll_connect, .Lfunc_end227-proc_ll_connect
+.Lfunc_end232:
+	.size	proc_ll_connect, .Lfunc_end232-proc_ll_connect
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_send                    # -- Begin function proc_ll_send
@@ -7191,8 +8564,8 @@ proc_ll_send:                           # @proc_ll_send
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end228:
-	.size	proc_ll_send, .Lfunc_end228-proc_ll_send
+.Lfunc_end233:
+	.size	proc_ll_send, .Lfunc_end233-proc_ll_send
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_recv                    # -- Begin function proc_ll_recv
@@ -7231,8 +8604,8 @@ proc_ll_recv:                           # @proc_ll_recv
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end229:
-	.size	proc_ll_recv, .Lfunc_end229-proc_ll_recv
+.Lfunc_end234:
+	.size	proc_ll_recv, .Lfunc_end234-proc_ll_recv
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_htons                   # -- Begin function proc_ll_htons
@@ -7251,8 +8624,8 @@ proc_ll_htons:                          # @proc_ll_htons
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end230:
-	.size	proc_ll_htons, .Lfunc_end230-proc_ll_htons
+.Lfunc_end235:
+	.size	proc_ll_htons, .Lfunc_end235-proc_ll_htons
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_htonl                   # -- Begin function proc_ll_htonl
@@ -7271,8 +8644,8 @@ proc_ll_htonl:                          # @proc_ll_htonl
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end231:
-	.size	proc_ll_htonl, .Lfunc_end231-proc_ll_htonl
+.Lfunc_end236:
+	.size	proc_ll_htonl, .Lfunc_end236-proc_ll_htonl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_ntohs                   # -- Begin function proc_ll_ntohs
@@ -7291,8 +8664,8 @@ proc_ll_ntohs:                          # @proc_ll_ntohs
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end232:
-	.size	proc_ll_ntohs, .Lfunc_end232-proc_ll_ntohs
+.Lfunc_end237:
+	.size	proc_ll_ntohs, .Lfunc_end237-proc_ll_ntohs
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_ntohl                   # -- Begin function proc_ll_ntohl
@@ -7311,8 +8684,8 @@ proc_ll_ntohl:                          # @proc_ll_ntohl
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end233:
-	.size	proc_ll_ntohl, .Lfunc_end233-proc_ll_ntohl
+.Lfunc_end238:
+	.size	proc_ll_ntohl, .Lfunc_end238-proc_ll_ntohl
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_clear               # -- Begin function proc_ll_gfx_clear
@@ -7332,8 +8705,8 @@ proc_ll_gfx_clear:                      # @proc_ll_gfx_clear
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end234:
-	.size	proc_ll_gfx_clear, .Lfunc_end234-proc_ll_gfx_clear
+.Lfunc_end239:
+	.size	proc_ll_gfx_clear, .Lfunc_end239-proc_ll_gfx_clear
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_move_to             # -- Begin function proc_ll_gfx_move_to
@@ -7378,8 +8751,8 @@ proc_ll_gfx_move_to:                    # @proc_ll_gfx_move_to
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end235:
-	.size	proc_ll_gfx_move_to, .Lfunc_end235-proc_ll_gfx_move_to
+.Lfunc_end240:
+	.size	proc_ll_gfx_move_to, .Lfunc_end240-proc_ll_gfx_move_to
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_hide_cursor         # -- Begin function proc_ll_gfx_hide_cursor
@@ -7399,8 +8772,8 @@ proc_ll_gfx_hide_cursor:                # @proc_ll_gfx_hide_cursor
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end236:
-	.size	proc_ll_gfx_hide_cursor, .Lfunc_end236-proc_ll_gfx_hide_cursor
+.Lfunc_end241:
+	.size	proc_ll_gfx_hide_cursor, .Lfunc_end241-proc_ll_gfx_hide_cursor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_show_cursor         # -- Begin function proc_ll_gfx_show_cursor
@@ -7420,8 +8793,8 @@ proc_ll_gfx_show_cursor:                # @proc_ll_gfx_show_cursor
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end237:
-	.size	proc_ll_gfx_show_cursor, .Lfunc_end237-proc_ll_gfx_show_cursor
+.Lfunc_end242:
+	.size	proc_ll_gfx_show_cursor, .Lfunc_end242-proc_ll_gfx_show_cursor
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_set_rgb             # -- Begin function proc_ll_gfx_set_rgb
@@ -7478,8 +8851,8 @@ proc_ll_gfx_set_rgb:                    # @proc_ll_gfx_set_rgb
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end238:
-	.size	proc_ll_gfx_set_rgb, .Lfunc_end238-proc_ll_gfx_set_rgb
+.Lfunc_end243:
+	.size	proc_ll_gfx_set_rgb, .Lfunc_end243-proc_ll_gfx_set_rgb
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gfx_reset_style         # -- Begin function proc_ll_gfx_reset_style
@@ -7499,8 +8872,8 @@ proc_ll_gfx_reset_style:                # @proc_ll_gfx_reset_style
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end239:
-	.size	proc_ll_gfx_reset_style, .Lfunc_end239-proc_ll_gfx_reset_style
+.Lfunc_end244:
+	.size	proc_ll_gfx_reset_style, .Lfunc_end244-proc_ll_gfx_reset_style
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_init                # -- Begin function proc_ll_gui_init
@@ -7535,8 +8908,8 @@ proc_ll_gui_init:                       # @proc_ll_gui_init
 	popq	%r14
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end240:
-	.size	proc_ll_gui_init, .Lfunc_end240-proc_ll_gui_init
+.Lfunc_end245:
+	.size	proc_ll_gui_init, .Lfunc_end245-proc_ll_gui_init
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_clear               # -- Begin function proc_ll_gui_clear
@@ -7575,8 +8948,8 @@ proc_ll_gui_clear:                      # @proc_ll_gui_clear
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end241:
-	.size	proc_ll_gui_clear, .Lfunc_end241-proc_ll_gui_clear
+.Lfunc_end246:
+	.size	proc_ll_gui_clear, .Lfunc_end246-proc_ll_gui_clear
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_set_pixel           # -- Begin function proc_ll_gui_set_pixel
@@ -7631,8 +9004,8 @@ proc_ll_gui_set_pixel:                  # @proc_ll_gui_set_pixel
 	popq	%r15
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end242:
-	.size	proc_ll_gui_set_pixel, .Lfunc_end242-proc_ll_gui_set_pixel
+.Lfunc_end247:
+	.size	proc_ll_gui_set_pixel, .Lfunc_end247-proc_ll_gui_set_pixel
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_draw_char           # -- Begin function proc_ll_gui_draw_char
@@ -7706,8 +9079,8 @@ proc_ll_gui_draw_char:                  # @proc_ll_gui_draw_char
 	popq	%rbp
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end243:
-	.size	proc_ll_gui_draw_char, .Lfunc_end243-proc_ll_gui_draw_char
+.Lfunc_end248:
+	.size	proc_ll_gui_draw_char, .Lfunc_end248-proc_ll_gui_draw_char
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_present             # -- Begin function proc_ll_gui_present
@@ -7726,8 +9099,8 @@ proc_ll_gui_present:                    # @proc_ll_gui_present
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end244:
-	.size	proc_ll_gui_present, .Lfunc_end244-proc_ll_gui_present
+.Lfunc_end249:
+	.size	proc_ll_gui_present, .Lfunc_end249-proc_ll_gui_present
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_poll_close          # -- Begin function proc_ll_gui_poll_close
@@ -7746,8 +9119,8 @@ proc_ll_gui_poll_close:                 # @proc_ll_gui_poll_close
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end245:
-	.size	proc_ll_gui_poll_close, .Lfunc_end245-proc_ll_gui_poll_close
+.Lfunc_end250:
+	.size	proc_ll_gui_poll_close, .Lfunc_end250-proc_ll_gui_poll_close
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_poll_events         # -- Begin function proc_ll_gui_poll_events
@@ -7766,8 +9139,8 @@ proc_ll_gui_poll_events:                # @proc_ll_gui_poll_events
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end246:
-	.size	proc_ll_gui_poll_events, .Lfunc_end246-proc_ll_gui_poll_events
+.Lfunc_end251:
+	.size	proc_ll_gui_poll_events, .Lfunc_end251-proc_ll_gui_poll_events
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_key_down            # -- Begin function proc_ll_gui_key_down
@@ -7790,8 +9163,8 @@ proc_ll_gui_key_down:                   # @proc_ll_gui_key_down
 	popq	%rbx
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end247:
-	.size	proc_ll_gui_key_down, .Lfunc_end247-proc_ll_gui_key_down
+.Lfunc_end252:
+	.size	proc_ll_gui_key_down, .Lfunc_end252-proc_ll_gui_key_down
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_mouse_x             # -- Begin function proc_ll_gui_mouse_x
@@ -7810,8 +9183,8 @@ proc_ll_gui_mouse_x:                    # @proc_ll_gui_mouse_x
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end248:
-	.size	proc_ll_gui_mouse_x, .Lfunc_end248-proc_ll_gui_mouse_x
+.Lfunc_end253:
+	.size	proc_ll_gui_mouse_x, .Lfunc_end253-proc_ll_gui_mouse_x
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_mouse_y             # -- Begin function proc_ll_gui_mouse_y
@@ -7830,8 +9203,8 @@ proc_ll_gui_mouse_y:                    # @proc_ll_gui_mouse_y
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end249:
-	.size	proc_ll_gui_mouse_y, .Lfunc_end249-proc_ll_gui_mouse_y
+.Lfunc_end254:
+	.size	proc_ll_gui_mouse_y, .Lfunc_end254-proc_ll_gui_mouse_y
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_mouse_buttons       # -- Begin function proc_ll_gui_mouse_buttons
@@ -7850,8 +9223,8 @@ proc_ll_gui_mouse_buttons:              # @proc_ll_gui_mouse_buttons
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end250:
-	.size	proc_ll_gui_mouse_buttons, .Lfunc_end250-proc_ll_gui_mouse_buttons
+.Lfunc_end255:
+	.size	proc_ll_gui_mouse_buttons, .Lfunc_end255-proc_ll_gui_mouse_buttons
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_delay               # -- Begin function proc_ll_gui_delay
@@ -7870,8 +9243,8 @@ proc_ll_gui_delay:                      # @proc_ll_gui_delay
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end251:
-	.size	proc_ll_gui_delay, .Lfunc_end251-proc_ll_gui_delay
+.Lfunc_end256:
+	.size	proc_ll_gui_delay, .Lfunc_end256-proc_ll_gui_delay
 	.cfi_endproc
                                         # -- End function
 	.globl	proc_ll_gui_destroy             # -- Begin function proc_ll_gui_destroy
@@ -7890,8 +9263,8 @@ proc_ll_gui_destroy:                    # @proc_ll_gui_destroy
 	popq	%rax
 	.cfi_def_cfa_offset 8
 	retq
-.Lfunc_end252:
-	.size	proc_ll_gui_destroy, .Lfunc_end252-proc_ll_gui_destroy
+.Lfunc_end257:
+	.size	proc_ll_gui_destroy, .Lfunc_end257-proc_ll_gui_destroy
 	.cfi_endproc
                                         # -- End function
 	.type	global_mem_handle_global,@object # @global_mem_handle_global
@@ -7945,6 +9318,36 @@ global_mem_handle_global:
 	.asciz	"Bytes read: "
 	.size	.Lstr_fd_to_str_33, 13
 
+	.type	.Lstr_tab_num_label_8,@object   # @str_tab_num_label_8
+.Lstr_tab_num_label_8:
+	.asciz	"1"
+	.size	.Lstr_tab_num_label_8, 2
+
+	.type	.Lstr_tab_num_label_16,@object  # @str_tab_num_label_16
+.Lstr_tab_num_label_16:
+	.asciz	"2"
+	.size	.Lstr_tab_num_label_16, 2
+
+	.type	.Lstr_tab_num_label_24,@object  # @str_tab_num_label_24
+.Lstr_tab_num_label_24:
+	.asciz	"3"
+	.size	.Lstr_tab_num_label_24, 2
+
+	.type	.Lstr_tab_num_label_32,@object  # @str_tab_num_label_32
+.Lstr_tab_num_label_32:
+	.asciz	"4"
+	.size	.Lstr_tab_num_label_32, 2
+
+	.type	.Lstr_tab_num_label_40,@object  # @str_tab_num_label_40
+.Lstr_tab_num_label_40:
+	.asciz	"5"
+	.size	.Lstr_tab_num_label_40, 2
+
+	.type	.Lstr_tab_num_label_42,@object  # @str_tab_num_label_42
+.Lstr_tab_num_label_42:
+	.asciz	"?"
+	.size	.Lstr_tab_num_label_42, 2
+
 	.type	.Lstr_save_buffer_22,@object    # @str_save_buffer_22
 	.section	.rodata.str1.16,"aMS",@progbits,1
 	.p2align	4
@@ -7958,48 +9361,116 @@ global_mem_handle_global:
 	.asciz	"Files"
 	.size	.Lstr_draw_file_list_10, 6
 
-	.type	.Lstr_main_51,@object           # @str_main_51
+	.type	.Lstr_main_57,@object           # @str_main_57
 	.section	.rodata.str1.16,"aMS",@progbits,1
 	.p2align	4
-.Lstr_main_51:
+.Lstr_main_57:
 	.asciz	"testing-editor/note.txt"
-	.size	.Lstr_main_51, 24
+	.size	.Lstr_main_57, 24
 
-	.type	.Lstr_main_71,@object           # @str_main_71
+	.type	.Lstr_main_75,@object           # @str_main_75
 	.p2align	4
-.Lstr_main_71:
-	.asciz	"Collver GUI Mini Editor"
-	.size	.Lstr_main_71, 24
+.Lstr_main_75:
+	.asciz	"testing-editor/note.txt"
+	.size	.Lstr_main_75, 24
+
+	.type	.Lstr_main_80,@object           # @str_main_80
+	.p2align	4
+.Lstr_main_80:
+	.asciz	"testing-editor/editor.collver"
+	.size	.Lstr_main_80, 30
 
 	.type	.Lstr_main_85,@object           # @str_main_85
 	.p2align	4
 .Lstr_main_85:
-	.asciz	"Failed to init GUI (SDL2/display missing).\n"
-	.size	.Lstr_main_85, 44
+	.asciz	"testing-features/gui.collver"
+	.size	.Lstr_main_85, 29
 
-	.type	.Lstr_main_187,@object          # @str_main_187
+	.type	.Lstr_main_90,@object           # @str_main_90
 	.p2align	4
-.Lstr_main_187:
-	.asciz	"Saved current file\n"
-	.size	.Lstr_main_187, 20
+.Lstr_main_90:
+	.asciz	"testing-features/graphics.collver"
+	.size	.Lstr_main_90, 34
 
-	.type	.Lstr_main_539,@object          # @str_main_539
+	.type	.Lstr_main_95,@object           # @str_main_95
 	.p2align	4
-.Lstr_main_539:
-	.asciz	"Collver GUI Text Editor"
-	.size	.Lstr_main_539, 24
+.Lstr_main_95:
+	.asciz	"testing-features/networking.collver"
+	.size	.Lstr_main_95, 36
 
-	.type	.Lstr_main_550,@object          # @str_main_550
+	.type	.Lstr_main_100,@object          # @str_main_100
 	.p2align	4
-.Lstr_main_550:
-	.asciz	"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit"
-	.size	.Lstr_main_550, 60
+.Lstr_main_100:
+	.asciz	"examples/hello_world.collver"
+	.size	.Lstr_main_100, 29
 
-	.type	.Lstr_main_565,@object          # @str_main_565
+	.type	.Lstr_main_105,@object          # @str_main_105
+	.p2align	4
+.Lstr_main_105:
+	.asciz	"tests/builtin/hello_world.collver"
+	.size	.Lstr_main_105, 34
+
+	.type	.Lstr_main_110,@object          # @str_main_110
 	.section	.rodata.str1.1,"aMS",@progbits,1
-.Lstr_main_565:
+.Lstr_main_110:
+	.asciz	"std/gui.collver"
+	.size	.Lstr_main_110, 16
+
+	.type	.Lstr_main_115,@object          # @str_main_115
+	.section	.rodata.str1.16,"aMS",@progbits,1
+	.p2align	4
+.Lstr_main_115:
+	.asciz	"std/networking.collver"
+	.size	.Lstr_main_115, 23
+
+	.type	.Lstr_main_125,@object          # @str_main_125
+	.p2align	4
+.Lstr_main_125:
+	.asciz	"Collver GUI Mini Editor"
+	.size	.Lstr_main_125, 24
+
+	.type	.Lstr_main_139,@object          # @str_main_139
+	.p2align	4
+.Lstr_main_139:
+	.asciz	"Failed to init GUI (SDL2/display missing).\n"
+	.size	.Lstr_main_139, 44
+
+	.type	.Lstr_main_241,@object          # @str_main_241
+	.p2align	4
+.Lstr_main_241:
+	.asciz	"Saved current file\n"
+	.size	.Lstr_main_241, 20
+
+	.type	.Lstr_main_832,@object          # @str_main_832
+	.p2align	4
+.Lstr_main_832:
+	.asciz	"Collver GUI Text Editor"
+	.size	.Lstr_main_832, 24
+
+	.type	.Lstr_main_843,@object          # @str_main_843
+	.p2align	4
+.Lstr_main_843:
+	.asciz	"Ctrl+S save, Ctrl+O open path mode, Tab next file, Esc exit"
+	.size	.Lstr_main_843, 60
+
+	.type	.Lstr_main_954,@object          # @str_main_954
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.Lstr_main_954:
 	.asciz	"OPEN> "
-	.size	.Lstr_main_565, 7
+	.size	.Lstr_main_954, 7
+
+	.type	.Lstr_main_989,@object          # @str_main_989
+	.section	.rodata.str1.16,"aMS",@progbits,1
+	.p2align	4
+.Lstr_main_989:
+	.asciz	"Click a file below or type a path and press Enter"
+	.size	.Lstr_main_989, 50
+
+	.type	.Lstr_main_1073,@object         # @str_main_1073
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.Lstr_main_1073:
+	.asciz	"Path:"
+	.size	.Lstr_main_1073, 6
 
 	.type	stack,@object                   # @stack
 	.bss
