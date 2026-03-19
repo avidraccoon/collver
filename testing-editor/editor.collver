@@ -297,7 +297,7 @@ proc main int ptr -> int do
             paths texts lens file_count active_idx path_input active_idx @64 open_file_into_slot
           end
           0 path_len !64
-          0 path_input @8
+          0 path_input !8
         else
           texts active_idx @64 text_slot lens active_idx @64 len_slot 10 append_char
         end
