@@ -5,11 +5,22 @@
   "patterns": [
     { "include": "#comments" },
     { "include": "#strings" },
+
+    { "include": "#procDefinition" },
+    { "include": "#externDefinition" },
+    { "include": "#structDefinition" },
+
+    { "include": "#sizeof" },
+    { "include": "#structFieldConsts" },
+    { "include": "#ptrTyped" },
+
     { "include": "#keywords" },
     { "include": "#types" },
     { "include": "#numbers" },
-    { "include": "#structFieldConsts" },
-    { "include": "#operators" }
+
+    { "include": "#intrinsics" },
+    { "include": "#memoryOps" },
+    { "include": "#procCallHeuristic" }
   ],
   "repository": {
     "comments": {
@@ -45,6 +56,86 @@
         }
       ]
     },
+
+    "procDefinition": {
+      "patterns": [
+        {
+          "name": "meta.definition.proc.collver",
+          "match": "\\b(proc)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.collver" },
+            "2": { "name": "entity.name.function.collver" }
+          }
+        }
+      ]
+    },
+
+    "externDefinition": {
+      "patterns": [
+        {
+          "name": "meta.definition.extern.collver",
+          "match": "\\b(extern)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.collver" },
+            "2": { "name": "entity.name.function.collver" }
+          }
+        }
+      ]
+    },
+
+    "structDefinition": {
+      "patterns": [
+        {
+          "name": "meta.definition.struct.collver",
+          "match": "\\b(struct)\\s+([A-Za-z_][A-Za-z0-9_]*)\\b",
+          "captures": {
+            "1": { "name": "keyword.control.collver" },
+            "2": { "name": "entity.name.type.struct.collver" }
+          }
+        }
+      ]
+    },
+
+    "sizeof": {
+      "patterns": [
+        {
+          "name": "meta.sizeof.collver",
+          "match": "\\b(sizeof)\\(([A-Za-z_][A-Za-z0-9_]*)\\)",
+          "captures": {
+            "1": { "name": "support.function.sizeof.collver" },
+            "2": { "name": "entity.name.type.struct.collver" }
+          }
+        }
+      ]
+    },
+
+    "ptrTyped": {
+      "patterns": [
+        {
+          "name": "meta.type.ptr.collver",
+          "match": "\\bptr\\[([A-Za-z_][A-Za-z0-9_]*)\\]",
+          "captures": {
+            "0": { "name": "storage.type.pointer.collver" },
+            "1": { "name": "entity.name.type.struct.collver" }
+          }
+        }
+      ]
+    },
+
+    "structFieldConsts": {
+      "patterns": [
+        {
+          "name": "meta.structfieldconst.collver",
+          "match": "@([A-Za-z_][A-Za-z0-9_]*)\\.([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "0": { "name": "variable.other.member.collver" },
+            "1": { "name": "entity.name.type.struct.collver" },
+            "2": { "name": "variable.other.property.collver" }
+          }
+        }
+      ]
+    },
+
     "keywords": {
       "patterns": [
         {
@@ -61,6 +152,7 @@
         }
       ]
     },
+
     "types": {
       "patterns": [
         {
@@ -73,6 +165,7 @@
         }
       ]
     },
+
     "numbers": {
       "patterns": [
         {
@@ -81,35 +174,30 @@
         }
       ]
     },
-    "structFieldConsts": {
+
+    "intrinsics": {
       "patterns": [
         {
-          "name": "variable.other.member.collver",
-          "match": "@[A-Za-z_][A-Za-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*"
-        },
-        {
-          "name": "support.function.sizeof.collver",
-          "match": "sizeof\\([A-Za-z_][A-Za-z0-9_]*\\)"
+          "name": "support.function.intrinsic.collver",
+          "match": "\\bintrinsic_[A-Za-z_][A-Za-z0-9_]*\\b"
         }
       ]
     },
-    "operators": {
+
+    "memoryOps": {
       "patterns": [
-        {
-          "name": "keyword.operator.collver",
-          "match": "\\b(\\+|\\-|\\*|=|<|>|<=|>=|!=)\\b"
-        },
-        {
-          "name": "keyword.operator.stack.collver",
-          "match": "\\b(drop|dup|swap|over)\\b"
-        },
-        {
-          "name": "support.function.builtin.collver",
-          "match": "\\b(puts|print|alloc|free)\\b"
-        },
         {
           "name": "keyword.operator.memory.collver",
           "match": "[@!](ptr|8|16|32|64)\\b"
+        }
+      ]
+    },
+
+    "procCallHeuristic": {
+      "patterns": [
+        {
+          "name": "entity.name.function.call.collver",
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\b"
         }
       ]
     }

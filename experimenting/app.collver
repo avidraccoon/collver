@@ -125,10 +125,10 @@ proc clone_graphics_rect ptr[GraphicsRect] -> ptr[GraphicsRect] do
   create_graphics_rect
 end
 
-const ENTITY_TYPE_UNKNOWN 0 end
-const ENTITY_TYPE_PLAYER 1 end
-const ENTITY_TYPE_ENEMY 2 end
-const ENTITY_TYPE_OTHER 99 end
+const ENTITY_TYPE_UNKNOWN offset end
+const ENTITY_TYPE_PLAYER offset end
+const ENTITY_TYPE_ENEMY offset end
+const ENTITY_TYPE_OTHER reset end
 
 struct EntityContainer
   entity ptr // pointer to object that contains an entity
@@ -141,7 +141,9 @@ proc update_entities ptr[ptr] ptr -> do
  
 end
 
-proc update_split
+proc update_split ptr[EntityContainer] -> do
+  
+end
 
 // damage, rect, color
 proc create_enemy int ptr[Rect] ptr[Color] -> ptr[Enemy] do

@@ -8,7 +8,7 @@ import subprocess
 import sys
 import threading
 import traceback
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
 
 # ----------------------------
@@ -16,7 +16,6 @@ from typing import Any, Optional
 # ----------------------------
 
 def _log(msg: str) -> None:
-    # LSP logging must go to stderr, never stdout
     print(f"[collver-lsp] {msg}", file=sys.stderr, flush=True)
 
 
@@ -30,8 +29,7 @@ def read_message(stdin) -> Optional[dict[str, Any]]:
         line = stdin.readline()
         if not line:
             return None
-        line = line.decode("utf-8", errors="replace")
-        line = line.strip()
+        line = line.decode("utf-8", errors="replace").strip()
         if line == "":
             break
         if ":" not in line:
@@ -46,8 +44,7 @@ def read_message(stdin) -> Optional[dict[str, Any]]:
     body = stdin.read(length)
     if not body:
         return None
-    body_str = body.decode("utf-8", errors="replace")
-    return json.loads(body_str)
+    return json.loads(body.decode("utf-8", errors="replace"))
 
 
 def write_message(stdout, payload: dict[str, Any]) -> None:
@@ -63,10 +60,8 @@ def write_message(stdout, payload: dict[str, Any]) -> None:
 # ----------------------------
 
 def uri_to_fs_path(uri: str) -> str:
-    # expects file://...
     if uri.startswith("file://"):
         path = uri[7:]
-        # On Windows, VS Code may give /c:/... or C:/...
         if re.match(r"^/[A-Za-z]:/", path):
             path = path[1:]
         return path
@@ -74,27 +69,20 @@ def uri_to_fs_path(uri: str) -> str:
 
 
 def fs_path_to_uri(fs_path: str) -> str:
-    # produce valid file URI
     p = fs_path.replace("\\", "/")
-    # If already looks like /mnt/c/... (WSL) or /home/... then it's POSIX
     if re.match(r"^[A-Za-z]:/", p):
-        # Windows drive path => file:///C:/...
         return "file:///" + p
     if p.startswith("/"):
         return "file://" + p
-    # fallback
     return "file:///" + p
 
 
 def windows_path_to_wsl(p: str) -> str:
-    # Convert C:\foo\bar -> /mnt/c/foo/bar
     p = p.replace("\\", "/")
     m = re.match(r"^([A-Za-z]):/(.*)$", p)
     if not m:
         return p
-    drive = m.group(1).lower()
-    rest = m.group(2)
-    return f"/mnt/{drive}/{rest}"
+    return f"/mnt/{m.group(1).lower()}/{m.group(2)}"
 
 
 # ----------------------------
@@ -110,9 +98,10 @@ WORD_RE = re.compile(
     re.VERBOSE,
 )
 
+IDENT_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
 
 def tokenize_line(line: str) -> list[tuple[int, str]]:
-    # return list of (col, token)
     out: list[tuple[int, str]] = []
     for m in WORD_RE.finditer(line):
         tok = m.group(0)
@@ -134,7 +123,6 @@ class Symbol:
 
 @dataclasses.dataclass
 class WorkspaceIndex:
-    # uri -> list[Symbol]
     symbols: dict[str, list[Symbol]]
 
     def all_symbols(self) -> list[Symbol]:
@@ -143,17 +131,20 @@ class WorkspaceIndex:
             out.extend(lst)
         return out
 
-    def find_proc(self, name: str) -> Optional[Symbol]:
+    def find(self, kind: str, name: str) -> Optional[Symbol]:
         for s in self.all_symbols():
-            if s.kind == "proc" and s.name == name:
+            if s.kind == kind and s.name == name:
                 return s
         return None
 
+    def find_proc_or_extern(self, name: str) -> Optional[Symbol]:
+        return self.find("proc", name) or self.find("extern", name)
+
     def find_struct(self, name: str) -> Optional[Symbol]:
-        for s in self.all_symbols():
-            if s.kind == "struct" and s.name == name:
-                return s
-        return None
+        return self.find("struct", name)
+
+    def find_field(self, struct_dot_field: str) -> Optional[Symbol]:
+        return self.find("field", struct_dot_field)
 
 
 def parse_symbols_from_text(uri: str, text: str) -> list[Symbol]:
@@ -162,75 +153,52 @@ def parse_symbols_from_text(uri: str, text: str) -> list[Symbol]:
 
     i = 0
     while i < len(lines):
-        line = lines[i]
-        toks = tokenize_line(line)
+        toks = tokenize_line(lines[i])
         if not toks:
             i += 1
             continue
 
-        # struct Name ... end
         if toks[0][1] == "struct" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("struct", name, uri, i, toks[1][0], {}))
-            # Parse fields until end
             j = i + 1
             while j < len(lines):
                 ltoks = tokenize_line(lines[j])
                 if ltoks and ltoks[0][1] == "end":
                     break
-                if len(ltoks) >= 2:
+                if len(ltoks) >= 2 and IDENT_RE.match(ltoks[0][1]):
                     field_name = ltoks[0][1]
-                    syms.append(
-                        Symbol(
-                            "field",
-                            f"{name}.{field_name}",
-                            uri,
-                            j,
-                            ltoks[0][0],
-                            {"struct": name},
-                        )
-                    )
+                    syms.append(Symbol("field", f"{name}.{field_name}", uri, j, ltoks[0][0], {"struct": name}))
                 j += 1
             i = j + 1
             continue
 
-        # proc Name ... do
         if toks[0][1] == "proc" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("proc", name, uri, i, toks[1][0], {}))
             i += 1
             continue
 
-        # extern Name ...
         if toks[0][1] == "extern" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("extern", name, uri, i, toks[1][0], {}))
             i += 1
             continue
 
-        # memory Name ...
         if toks[0][1] == "memory" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("memory", name, uri, i, toks[1][0], {}))
             i += 1
             continue
 
-        # const Name ... end
         if toks[0][1] == "const" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("const", name, uri, i, toks[1][0], {}))
             i += 1
             continue
 
-        # alias Name Value end
         if toks[0][1] == "alias" and len(toks) >= 2:
-            _, name_tok = toks[1]
-            name = name_tok
+            name = toks[1][1]
             syms.append(Symbol("alias", name, uri, i, toks[1][0], {}))
             i += 1
             continue
@@ -267,13 +235,11 @@ def sh_quote(s: str) -> str:
 
 def run_collver_diagnostics(cfg: CollverConfig, file_fs_path: str) -> tuple[str, str, int]:
     file_wsl = windows_path_to_wsl(file_fs_path)
-
     cmd = (
         f"cd {sh_quote(cfg.wslCwd)};"
         f" {sh_quote(cfg.python)} {sh_quote(cfg.compilerScript)} "
         f"{sh_quote(cfg.diagnosticsSubcommand)} {sh_quote(file_wsl)}"
     )
-
     full = ["wsl", "-d", cfg.wslDistro, "bash", "-lc", cmd]
     proc = subprocess.run(full, capture_output=True, text=True)
     return proc.stdout, proc.stderr, proc.returncode
@@ -288,14 +254,13 @@ def parse_diagnostics(stderr_text: str, target_fs_path: str) -> list[dict[str, A
         if not m:
             continue
 
-        file_part = m.group("file")
+        if os.path.basename(m.group("file")) != target_base:
+            continue
+
         row = int(m.group("row")) - 1
         col = int(m.group("col")) - 1
         sev = m.group("sev")
         msg = m.group("msg")
-
-        if os.path.basename(file_part) != target_base:
-            continue
 
         severity = 1
         if sev == "warning":
@@ -319,30 +284,45 @@ def parse_diagnostics(stderr_text: str, target_fs_path: str) -> list[dict[str, A
 
 
 # ----------------------------
-# Completion helpers
+# Completion context + token ranges
 # ----------------------------
 
 @dataclasses.dataclass(frozen=True)
 class CompletionContext:
-    kind: str  # general|after_at|in_ptr_brackets|after_proc|after_extern|after_memory|after_struct|after_include
+    kind: str  # general|after_at|in_ptr_brackets|after_proc|after_extern|after_memory
     token_prefix: str
 
 
-def completion_context(line: str, ch: int) -> tuple[str, CompletionContext]:
+def token_span_at(line: str, ch: int) -> Tuple[int, int, str]:
+    """
+    Returns (start, end, token) for the token at cursor (whitespace-delimited).
+    `end` is exclusive.
+    """
     if ch < 0:
         ch = 0
     if ch > len(line):
         ch = len(line)
 
-    i = ch
-    while i > 0 and not line[i - 1].isspace():
-        i -= 1
-    prefix = line[i:ch]
+    start = ch
+    while start > 0 and not line[start - 1].isspace():
+        start -= 1
+
+    end = ch
+    while end < len(line) and not line[end].isspace():
+        end += 1
+
+    return start, end, line[start:end]
+
+
+def completion_context(line: str, ch: int) -> tuple[str, CompletionContext]:
+    start, end, tok = token_span_at(line, ch)
+    prefix = line[start:ch]
 
     before = line[:ch]
     toks = [t for _, t in tokenize_line(before) if not t.startswith("//")]
 
-    if prefix.startswith("@") or (len(prefix) == 0 and before.endswith("@")):
+    # Treat any token that contains '@' before cursor as "after_at"
+    if "@" in prefix or (len(prefix) == 0 and before.endswith("@")):
         return prefix, CompletionContext(kind="after_at", token_prefix=prefix)
 
     last_ptr = before.rfind("ptr[")
@@ -351,7 +331,7 @@ def completion_context(line: str, ch: int) -> tuple[str, CompletionContext]:
         inner_prefix = before[last_ptr + 4 : ch]
         return prefix, CompletionContext(kind="in_ptr_brackets", token_prefix=inner_prefix)
 
-    if len(toks) >= 1:
+    if toks:
         last = toks[-1]
         if last == "proc":
             return prefix, CompletionContext(kind="after_proc", token_prefix=prefix)
@@ -359,12 +339,16 @@ def completion_context(line: str, ch: int) -> tuple[str, CompletionContext]:
             return prefix, CompletionContext(kind="after_extern", token_prefix=prefix)
         if last == "memory":
             return prefix, CompletionContext(kind="after_memory", token_prefix=prefix)
-        if last == "struct":
-            return prefix, CompletionContext(kind="after_struct", token_prefix=prefix)
-        if last == "include":
-            return prefix, CompletionContext(kind="after_include", token_prefix=prefix)
 
     return prefix, CompletionContext(kind="general", token_prefix=prefix)
+
+
+def lsp_range(line: int, start: int, end: int) -> dict[str, Any]:
+    return {"start": {"line": line, "character": start}, "end": {"line": line, "character": end}}
+
+
+def completion_text_edit(line: int, start: int, end: int, new_text: str) -> dict[str, Any]:
+    return {"range": lsp_range(line, start, end), "newText": new_text}
 
 
 # ----------------------------
@@ -379,13 +363,13 @@ KEYWORDS = [
 
 def lsp_symbol_kind(kind: str) -> int:
     return {
-        "proc": 12,     # Function
-        "extern": 12,   # Function
-        "struct": 23,   # Struct
-        "field": 8,     # Field
-        "memory": 13,   # Variable
-        "const": 14,    # Constant
-        "alias": 13,    # Variable
+        "proc": 12,
+        "extern": 12,
+        "struct": 23,
+        "field": 8,
+        "memory": 13,
+        "const": 14,
+        "alias": 13,
     }.get(kind, 13)
 
 
@@ -399,13 +383,12 @@ class Server:
         self._docs: dict[str, str] = {}  # uri -> text
         self._index = WorkspaceIndex(symbols={})
 
-        self._workspace_folders: list[str] = []  # file system paths
+        self._workspace_folders: list[str] = []
         self._workspace_index_built = False
 
         self._send_lock = threading.Lock()
 
     def send(self, payload: dict[str, Any]) -> None:
-        # If stdout is gone, don't try to write
         if self._shutdown:
             return
         with self._send_lock:
@@ -440,40 +423,24 @@ class Server:
         params = msg.get("params", {})
         id_ = msg.get("id")
 
-        # Common notifications we can ignore safely
         if method in ("$/cancelRequest", "workspace/didChangeWatchedFiles", "window/workDoneProgress/cancel", "window/setTrace"):
             if id_ is not None:
                 self.respond(id_, None)
             return
 
         if method == "initialize":
-            # Record workspace folders (VS Code sends URIs)
             wsf = params.get("workspaceFolders") or []
-            folders: list[str] = []
-            for f in wsf:
-                uri = f.get("uri", "")
-                p = uri_to_fs_path(uri)
-                if p:
-                    folders.append(p)
-            self._workspace_folders = folders
-
+            self._workspace_folders = [uri_to_fs_path(f.get("uri", "")) for f in wsf if f.get("uri")]
             result = {
                 "capabilities": {
-                    "textDocumentSync": {
-                        "openClose": True,
-                        "change": 1,  # Full sync
-                        "save": {"includeText": True},
-                    },
-                    "completionProvider": {"triggerCharacters": ["@", "p", "e", "m", "s", ".", "["]},
+                    "textDocumentSync": {"openClose": True, "change": 1, "save": {"includeText": True}},
+                    "completionProvider": {"triggerCharacters": ["@", ".", "[", "p", "e", "m", "s"]},
                     "definitionProvider": True,
                     "documentSymbolProvider": True,
                     "hoverProvider": True,
                 }
             }
             self.respond(id_, result)
-            return
-
-        if method == "initialized":
             return
 
         if method == "shutdown":
@@ -492,8 +459,7 @@ class Server:
         if method == "textDocument/didOpen":
             doc = params["textDocument"]
             uri = doc["uri"]
-            text = doc.get("text", "")
-            self._docs[uri] = text
+            self._docs[uri] = doc.get("text", "")
             self._reindex_uri(uri)
             self._build_workspace_index_if_needed()
             if self._cfg.checkOnOpen:
@@ -546,75 +512,54 @@ class Server:
             pos = params["position"]
             line = pos["line"]
             ch = pos["character"]
+
             text = self._docs.get(uri, "")
-            target = self._word_at(text, line, ch)
-            if not target:
+            lines = text.splitlines()
+            line_text = lines[line] if 0 <= line < len(lines) else ""
+            _s, _e, token = token_span_at(line_text, ch)
+            token = token.strip()
+
+            if not token:
                 self.respond(id_, None)
                 return
 
-            # @Player.hp -> field definition
-            if target.startswith("@") and "." in target:
-                t = target[1:]
-                for s in self._index.all_symbols():
-                    if s.kind == "field" and s.name == t:
-                        self.respond(
-                            id_,
-                            {
-                                "uri": s.uri,
-                                "range": {
-                                    "start": {"line": s.line, "character": s.col},
-                                    "end": {"line": s.line, "character": s.col + len(t)},
-                                },
-                            },
-                        )
-                        return
-
-            # sizeof(Player) -> struct
-            m = re.match(r"^sizeof\(([A-Za-z_][A-Za-z0-9_]*)\)$", target)
-            if m:
-                struct_name = m.group(1)
-                s = self._index.find_struct(struct_name)
-                if s:
-                    self.respond(
-                        id_,
-                        {
-                            "uri": s.uri,
-                            "range": {
-                                "start": {"line": s.line, "character": s.col},
-                                "end": {"line": s.line, "character": s.col + len(struct_name)},
-                            },
-                        },
-                    )
+            # @Struct.field => field definition
+            if token.startswith("@") and "." in token:
+                target = token[1:]
+                sf = self._index.find_field(target)
+                if sf:
+                    self.respond(id_, self._loc(sf, len(target)))
                     return
 
-            # proc call definition
-            sproc = self._index.find_proc(target)
-            if sproc:
-                self.respond(
-                    id_,
-                    {
-                        "uri": sproc.uri,
-                        "range": {
-                            "start": {"line": sproc.line, "character": sproc.col},
-                            "end": {"line": sproc.line, "character": sproc.col + len(target)},
-                        },
-                    },
-                )
-                return
+            # Struct.field (without @) => field definition
+            if "." in token and not token.startswith('"') and not token.startswith("//"):
+                sf = self._index.find_field(token)
+                if sf:
+                    self.respond(id_, self._loc(sf, len(token)))
+                    return
 
-            # struct name definition
-            sstruct = self._index.find_struct(target)
-            if sstruct:
-                self.respond(
-                    id_,
-                    {
-                        "uri": sstruct.uri,
-                        "range": {
-                            "start": {"line": sstruct.line, "character": sstruct.col},
-                            "end": {"line": sstruct.line, "character": sstruct.col + len(target)},
-                        },
-                    },
-                )
+            # sizeof(Struct) => struct definition
+            m = re.match(r"^sizeof\(([A-Za-z_][A-Za-z0-9_]*)\)$", token)
+            if m:
+                sn = m.group(1)
+                st = self._index.find_struct(sn)
+                if st:
+                    self.respond(id_, self._loc(st, len(sn)))
+                    return
+
+            # ptr[Struct] / ptr[ptr[Struct]]: try to extract final struct identifier under cursor
+            m = re.search(r"([A-Za-z_][A-Za-z0-9_]*)", token)
+            if m:
+                ident = m.group(1)
+                st = self._index.find_struct(ident)
+                if st:
+                    self.respond(id_, self._loc(st, len(ident)))
+                    return
+
+            # proc/extern calls
+            pe = self._index.find_proc_or_extern(token)
+            if pe:
+                self.respond(id_, self._loc(pe, len(token)))
                 return
 
             self.respond(id_, None)
@@ -625,26 +570,30 @@ class Server:
             pos = params["position"]
             line = pos["line"]
             ch = pos["character"]
+
             text = self._docs.get(uri, "")
-            target = self._word_at(text, line, ch)
-            if not target:
+            lines = text.splitlines()
+            line_text = lines[line] if 0 <= line < len(lines) else ""
+            _s, _e, token = token_span_at(line_text, ch)
+            token = token.strip()
+            if not token:
                 self.respond(id_, None)
                 return
 
-            sproc = self._index.find_proc(target)
-            if sproc:
-                self.respond(
-                    id_,
-                    {"contents": {"kind": "markdown", "value": f"**proc** `{sproc.name}`"}},
-                )
+            pe = self._index.find_proc_or_extern(token)
+            if pe:
+                self.respond(id_, {"contents": {"kind": "markdown", "value": f"**{pe.kind}** `{pe.name}`"}})
                 return
 
-            sstruct = self._index.find_struct(target)
-            if sstruct:
-                self.respond(
-                    id_,
-                    {"contents": {"kind": "markdown", "value": f"**struct** `{sstruct.name}`"}},
-                )
+            if token.startswith("@") and "." in token:
+                sf = self._index.find_field(token[1:])
+                if sf:
+                    self.respond(id_, {"contents": {"kind": "markdown", "value": f"**field** `{sf.name}`"}})
+                    return
+
+            st = self._index.find_struct(token)
+            if st:
+                self.respond(id_, {"contents": {"kind": "markdown", "value": f"**struct** `{st.name}`"}})
                 return
 
             self.respond(id_, None)
@@ -661,15 +610,25 @@ class Server:
             text = self._docs.get(uri, "")
             lines = text.splitlines()
             line_text = lines[line] if 0 <= line < len(lines) else ""
+
+            start, end, token = token_span_at(line_text, ch)
             prefix, context = completion_context(line_text, ch)
 
-            items = self._completion_items(prefix=prefix, context=context)
+            items = self._completion_items(line=line, replace_start=start, replace_end=end, prefix=prefix, context=context)
             self.respond(id_, {"isIncomplete": False, "items": items})
             return
 
-        # Unknown request
         if id_ is not None:
             self.respond(id_, error={"code": -32601, "message": f"Method not found: {method}"})
+
+    def _loc(self, sym: Symbol, name_len: int) -> dict[str, Any]:
+        return {
+            "uri": sym.uri,
+            "range": {
+                "start": {"line": sym.line, "character": sym.col},
+                "end": {"line": sym.line, "character": sym.col + max(1, name_len)},
+            },
+        }
 
     def _apply_config(self, params: dict[str, Any]) -> None:
         settings = params.get("settings", {})
@@ -686,8 +645,7 @@ class Server:
         self._cfg.maxProblems = int(cfg.get("maxProblems", self._cfg.maxProblems))
 
     def _reindex_uri(self, uri: str) -> None:
-        text = self._docs.get(uri, "")
-        self._index.symbols[uri] = parse_symbols_from_text(uri, text)
+        self._index.symbols[uri] = parse_symbols_from_text(uri, self._docs.get(uri, ""))
 
     def _build_workspace_index_if_needed(self) -> None:
         if self._workspace_index_built:
@@ -697,6 +655,8 @@ class Server:
 
     def _index_workspace_files(self) -> None:
         for root in self._workspace_folders:
+            if not root or not os.path.isdir(root):
+                continue
             for dirpath, _, filenames in os.walk(root):
                 for fn in filenames:
                     if not fn.endswith(".collver"):
@@ -736,163 +696,154 @@ class Server:
         diags = parse_diagnostics(stderr, fs_path)
         self.notify("textDocument/publishDiagnostics", {"uri": uri, "diagnostics": diags[: self._cfg.maxProblems]})
 
-    def _word_at(self, text: str, line: int, ch: int) -> str:
-        lines = text.splitlines()
-        if line < 0 or line >= len(lines):
-            return ""
-        s = lines[line]
-        if ch < 0:
-            ch = 0
-        if ch > len(s):
-            ch = len(s)
-
-        left = ch
-        while left > 0 and not s[left - 1].isspace():
-            left -= 1
-        right = ch
-        while right < len(s) and not s[right].isspace():
-            right += 1
-        return s[left:right].strip()
-
-    def _completion_items(self, prefix: str, context: CompletionContext) -> list[dict[str, Any]]:
+    def _completion_items(
+        self,
+        *,
+        line: int,
+        replace_start: int,
+        replace_end: int,
+        prefix: str,
+        context: CompletionContext,
+    ) -> list[dict[str, Any]]:
         syms = self._index.all_symbols()
-
         procs = sorted({s.name for s in syms if s.kind == "proc"})
         externs = sorted({s.name for s in syms if s.kind == "extern"})
         structs = sorted({s.name for s in syms if s.kind == "struct"})
         memories = sorted({s.name for s in syms if s.kind == "memory"})
         consts = sorted({s.name for s in syms if s.kind == "const"})
         aliases = sorted({s.name for s in syms if s.kind == "alias"})
-        fields = sorted({s.name for s in syms if s.kind == "field"})  # Player.hp
+        fields = sorted({s.name for s in syms if s.kind == "field"})  # Struct.field
 
         def startswith_ci(s: str, p: str) -> bool:
             return s.lower().startswith(p.lower())
 
-        def add(label: str, kind: int, detail: str | None = None, insertText: str | None = None, sortText: str | None = None, insertTextFormat: int | None = None) -> dict[str, Any]:
-            item: dict[str, Any] = {"label": label, "kind": kind}
-            if detail:
-                item["detail"] = detail
-            if insertText is not None:
-                item["insertText"] = insertText
-            if sortText is not None:
-                item["sortText"] = sortText
-            if insertTextFormat is not None:
-                item["insertTextFormat"] = insertTextFormat
-            return item
+        def item(
+            label: str,
+            *,
+            kind: int,
+            new_text: str,
+            detail: str,
+            sort: str,
+            snippet: bool = False,
+        ) -> dict[str, Any]:
+            it: dict[str, Any] = {
+                "label": label,
+                "kind": kind,
+                "detail": detail,
+                "sortText": sort,
+                # Replace the current token span exactly:
+                "textEdit": completion_text_edit(line, replace_start, replace_end, new_text),
+            }
+            if snippet:
+                it["insertTextFormat"] = 2
+            return it
 
         items: list[dict[str, Any]] = []
 
+        # After @ => suggest field consts and memory ops. IMPORTANT: new_text should be exactly what user expects.
         if context.kind == "after_at":
-            p = context.token_prefix
-            p2 = p[1:] if p.startswith("@") else p
+            # Normalize: if prefix includes multiple '@', reduce to matching against the last one.
+            # e.g. user typed "@@" -> we still want "@ptr" not "@@ptr"
+            at_pos = context.token_prefix.rfind("@")
+            after_at_prefix = context.token_prefix[at_pos + 1 :] if at_pos >= 0 else context.token_prefix
+            after_at_prefix = after_at_prefix.lstrip("@")
 
             for f in fields:
-                if startswith_ci(f, p2):
-                    items.append(add("@" + f, 6, "struct field offset const", insertText="@" + f, sortText="1_" + f))
+                # match on "Color.b" part
+                if startswith_ci(f, after_at_prefix) or startswith_ci(f.split(".")[-1], after_at_prefix):
+                    items.append(item("@" + f, kind=6, new_text="@" + f, detail="struct field offset const", sort="0_field_" + f))
 
             ops = ["@ptr", "!ptr", "@8", "!8", "@16", "!16", "@32", "!32", "@64", "!64"]
             for op in ops:
-                if startswith_ci(op, p):
-                    items.append(add(op, 24, "memory operator", sortText="0_" + op))
+                # match on "@16" as user types "@@16" too
+                if startswith_ci(op.lstrip("@!"), after_at_prefix) or startswith_ci(op, context.token_prefix):
+                    items.append(item(op, kind=24, new_text=op, detail="memory operator", sort="0_op_" + op))
 
+            # constants that are already spelled like @Name.something
             for c in consts:
-                if startswith_ci("@" + c, p):
-                    items.append(add("@" + c, 21, "const", sortText="2_" + c))
+                if startswith_ci(c, after_at_prefix):
+                    items.append(item("@" + c, kind=21, new_text="@" + c, detail="const", sort="1_const_" + c))
 
             return items
 
+        # ptr[ ... ] => types + structs
         if context.kind == "in_ptr_brackets":
             inner = context.token_prefix
 
             for t in ["int", "str", "ptr", "unknown"]:
-                if startswith_ci(t, inner):
-                    items.append(add(t, 25, "type", sortText="0_" + t))
+                if inner == "" or startswith_ci(t, inner):
+                    items.append(item(t, kind=25, new_text=t, detail="type", sort="0_type_" + t))
 
             for s in structs:
-                if startswith_ci(s, inner):
-                    items.append(add(s, 22, "struct type", sortText="1_" + s))
+                if inner == "" or startswith_ci(s, inner):
+                    items.append(item(s, kind=22, new_text=s, detail="struct type", sort="1_struct_" + s))
 
-            # snippet: ptr[$1]
-            if startswith_ci("ptr", inner) or inner == "":
-                items.append(add("ptr[...]", 25, "pointer type", insertText="ptr[$1]", insertTextFormat=2, sortText="2_ptr"))
-
+            items.append(item("ptr[...]", kind=25, new_text="ptr[$1]", detail="pointer type", sort="2_ptr", snippet=True))
             return items
 
         if context.kind == "after_proc":
-            items.append({
-                "label": "proc (template)",
-                "kind": 15,
-                "detail": "proc <name> <args...> -> <rets...> do ... end",
-                "insertTextFormat": 2,
-                "insertText": "proc ${1:name} ${2:args} -> ${3:rets} do\n  ${0}\nend",
-            })
+            items.append(item("proc (template)", kind=15, new_text="proc ${1:name} ${2:args} -> ${3:rets} do\n  ${0}\nend",
+                              detail="proc template", sort="0_snip_proc", snippet=True))
             for p in procs:
                 if prefix == "" or startswith_ci(p, prefix):
-                    items.append(add(p, 3, "proc", sortText="1_" + p))
+                    items.append(item(p, kind=3, new_text=p, detail="proc", sort="1_proc_" + p))
             return items
 
         if context.kind == "after_extern":
-            items.append({
-                "label": "extern (template)",
-                "kind": 15,
-                "detail": "extern <name> [as <symbol>] <args...> -> <rets...> end",
-                "insertTextFormat": 2,
-                "insertText": "extern ${1:name} ${2:args} -> ${3:rets} end",
-            })
+            items.append(item("extern (template)", kind=15, new_text="extern ${1:name} ${2:args} -> ${3:rets} end",
+                              detail="extern template", sort="0_snip_extern", snippet=True))
             for e in externs:
                 if prefix == "" or startswith_ci(e, prefix):
-                    items.append(add(e, 3, "extern", sortText="1_" + e))
+                    items.append(item(e, kind=3, new_text=e, detail="extern", sort="1_extern_" + e))
             return items
 
         if context.kind == "after_memory":
-            items.append({
-                "label": "memory (template)",
-                "kind": 15,
-                "detail": "memory <name> <size_expr> end",
-                "insertTextFormat": 2,
-                "insertText": "memory ${1:name} ${2:size} end",
-            })
+            items.append(item("memory (template)", kind=15, new_text="memory ${1:name} ${2:size} end",
+                              detail="memory template", sort="0_snip_mem", snippet=True))
             for m in memories:
                 if prefix == "" or startswith_ci(m, prefix):
-                    items.append(add(m, 6, "memory", sortText="1_" + m))
+                    items.append(item(m, kind=6, new_text=m, detail="memory", sort="1_mem_" + m))
             return items
 
         # General
         for kw in KEYWORDS:
             if prefix == "" or startswith_ci(kw, prefix):
-                items.append(add(kw, 14, "keyword", sortText="0_" + kw))
+                items.append(item(kw, kind=14, new_text=kw, detail="keyword", sort="0_kw_" + kw))
 
         for p in procs:
             if prefix == "" or startswith_ci(p, prefix):
-                items.append(add(p, 3, "proc", sortText="1_" + p))
+                items.append(item(p, kind=3, new_text=p, detail="proc", sort="1_proc_" + p))
         for e in externs:
             if prefix == "" or startswith_ci(e, prefix):
-                items.append(add(e, 3, "extern", sortText="1_" + e))
+                items.append(item(e, kind=3, new_text=e, detail="extern", sort="1_extern_" + e))
         for s in structs:
             if prefix == "" or startswith_ci(s, prefix):
-                items.append(add(s, 22, "struct", sortText="1_" + s))
+                items.append(item(s, kind=22, new_text=s, detail="struct", sort="1_struct_" + s))
         for m in memories:
             if prefix == "" or startswith_ci(m, prefix):
-                items.append(add(m, 6, "memory", sortText="1_" + m))
+                items.append(item(m, kind=6, new_text=m, detail="memory", sort="1_mem_" + m))
         for c in consts:
             if prefix == "" or startswith_ci(c, prefix):
-                items.append(add(c, 21, "const", sortText="2_" + c))
+                items.append(item(c, kind=21, new_text=c, detail="const", sort="2_const_" + c))
         for a in aliases:
             if prefix == "" or startswith_ci(a, prefix):
-                items.append(add(a, 6, "alias", sortText="2_" + a))
+                items.append(item(a, kind=6, new_text=a, detail="alias", sort="2_alias_" + a))
 
         for w in ["drop", "dup", "swap", "over", "+", "-", "*", "sizeof(", "include", "here"]:
             if prefix == "" or startswith_ci(w, prefix):
-                items.append(add(w, 14, "common word", sortText="9_" + w))
+                items.append(item(w, kind=14, new_text=w, detail="common word", sort="9_common_" + w))
 
         return items
 
 
 def main() -> int:
     if "--log" in sys.argv:
-        idx = sys.argv.index("--log")
-        level = sys.argv[idx + 1] if idx + 1 < len(sys.argv) else "info"
-        _log(f"Log level: {level}")
+        try:
+            idx = sys.argv.index("--log")
+            level = sys.argv[idx + 1] if idx + 1 < len(sys.argv) else "info"
+            _log(f"Log level: {level}")
+        except Exception:
+            pass
 
     srv = Server()
     srv.run()
