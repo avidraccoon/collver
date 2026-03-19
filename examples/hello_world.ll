@@ -9,9 +9,7 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_arg_to_str_0 = private unnamed_addr constant [1 x i8] zeroinitializer
-@str_arg_to_str_28 = private unnamed_addr constant [2 x i8] c" \00"
-@str_main_1 = private unnamed_addr constant [24 x i8] c"python3 collver.py com \00"
+@str_main_0 = private unnamed_addr constant [14 x i8] c"Hello, world\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1054,91 +1052,12 @@ define void @proc_fp_to_str() {
   ret void
 }
 
-define void @proc_arg_to_str() {
-  %strptr0 = ptrtoint ptr @str_arg_to_str_0 to i64
-  %strptr28 = ptrtoint ptr @str_arg_to_str_28 to i64
-  %mem_args = alloca [8 x i8], align 1
-  %mem_cur_pointer = alloca [8 x i8], align 1
+define void @proc_main() {
+  %strptr0 = ptrtoint ptr @str_main_0 to i64
   call void @push(i64 %strptr0)
   call void @proc_cast_str_to_ptr()
-  call void @proc_strcpy()
-  %ptrto_args_0 = ptrtoint ptr %mem_args to i64
-  call void @push(i64 %ptrto_args_0)
-  call void @proc_intrinsic_storeptr()
-  %ptrto_cur_pointer_1 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_1)
-  call void @proc_intrinsic_storeptr()
-  %ptrto_cur_pointer_2 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_2)
-  call void @proc_intrinsic_loadptr()
-  call void @push(i64 8)
-  call void @proc_intrinsic_plus()
-  %ptrto_cur_pointer_3 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_3)
-  call void @proc_intrinsic_storeptr()
-  call void @push(i64 1)
-  call void @proc_intrinsic_minus()
-  br label %l15
-
-l15:                                              ; preds = %l19, %0
-  call void @proc_intrinsic_dup()
-  call void @push(i64 0)
-  call void @proc_intrinsic_ne()
-  %a4 = call i64 @pop()
-  %b4 = icmp ne i64 %a4, 0
-  br i1 %b4, label %l19, label %l41
-
-l19:                                              ; preds = %l15
-  %ptrto_args_5 = ptrtoint ptr %mem_args to i64
-  call void @push(i64 %ptrto_args_5)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_cast_ptr_to_str()
-  %ptrto_cur_pointer_6 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_6)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_loadptr()
-  call void @proc_cast_ptr_to_str()
-  call void @proc_strconcat()
-  call void @push(i64 %strptr28)
-  call void @proc_strconcat()
-  call void @proc_cast_str_to_ptr()
-  %ptrto_args_7 = ptrtoint ptr %mem_args to i64
-  call void @push(i64 %ptrto_args_7)
-  call void @proc_intrinsic_storeptr()
-  %ptrto_cur_pointer_8 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_8)
-  call void @proc_intrinsic_loadptr()
-  call void @push(i64 8)
-  call void @proc_intrinsic_plus()
-  %ptrto_cur_pointer_9 = ptrtoint ptr %mem_cur_pointer to i64
-  call void @push(i64 %ptrto_cur_pointer_9)
-  call void @proc_intrinsic_storeptr()
-  call void @push(i64 1)
-  call void @proc_intrinsic_minus()
-  br label %l15
-
-l41:                                              ; preds = %l15
-  br label %ls41
-
-ls41:                                             ; preds = %l41
+  call void @proc_puts()
   call void @proc_intrinsic_drop()
-  %ptrto_args_10 = ptrtoint ptr %mem_args to i64
-  call void @push(i64 %ptrto_args_10)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_cast_ptr_to_str()
-  ret void
-}
-
-define void @proc_main() {
-  %strptr1 = ptrtoint ptr @str_main_1 to i64
-  call void @proc_arg_to_str()
-  call void @push(i64 %strptr1)
-  call void @proc_cast_str_str_to_int_int()
-  call void @proc_swap()
-  call void @proc_cast_int_int_to_str_str()
-  call void @proc_strconcat()
-  call void @proc_cast_str_to_ptr()
-  call void @proc_sys_system()
   call void @proc_intrinsic_drop()
   call void @push(i64 0)
   ret void

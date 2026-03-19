@@ -13,17 +13,14 @@ proc arg_to_str int ptr -> str do
     while dup 0 != do // while there are still arguments to process
         args @ptr (ptr->str) cur_pointer @ptr @ptr (ptr->str) 
         strconcat " " strconcat (str->ptr) args !ptr
-        cur_pointer @ptr sizeof(ptr) + cur_pointer @ptr !ptr
+        cur_pointer @ptr sizeof(ptr) + cur_pointer !ptr
         1 -
     end drop
     args @ptr (ptr->str)
 end
 
-proc fix_args int ptr -> int ptr do
-    (ptr->int) swap (int->ptr)
-end
-
 proc main int ptr -> int do
-    fix_args
     arg_to_str command [str,str->int,int] swap [int,int->str,str] strconcat (str->ptr) sys_system
+    drop
+    0
 end
