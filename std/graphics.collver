@@ -1,0 +1,33 @@
+// ===== Terminal graphics helpers =====
+// ANSI escape helpers for simple text-mode drawing.
+
+extern ll_gfx_clear -> int end
+extern ll_gfx_move_to int int -> int end
+extern ll_gfx_hide_cursor -> int end
+extern ll_gfx_show_cursor -> int end
+extern ll_gfx_set_rgb int int int -> int end
+extern ll_gfx_reset_style -> int end
+
+proc gfx_clear -> int do
+  ll_gfx_clear
+end
+
+proc gfx_move_to int int -> int do
+  ll_gfx_move_to
+end
+
+proc gfx_hide_cursor -> int do
+  ll_gfx_hide_cursor
+end
+
+proc gfx_show_cursor -> int do
+  ll_gfx_show_cursor
+end
+
+proc gfx_set_rgb int int int -> int do
+  ll_gfx_set_rgb
+end
+
+proc gfx_reset_style -> int do
+  ll_gfx_reset_style
+end

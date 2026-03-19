@@ -1,6 +1,8 @@
 include "runtime.collver"
 include "consts.collver"
 include "casting.collver"
+include "networking.collver"
+include "graphics.collver"
 
 // STACK MANIPULATION
 

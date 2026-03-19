@@ -2132,6 +2132,8 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
     intrinsics_ll_path = os.path.join(this_folder, "std", "intrinsics.ll")
     files_ll_path = os.path.join(this_folder, "std", "files.ll")
     casting_ll_path = os.path.join(this_folder, "std", "casting.ll")
+    networking_ll_path = os.path.join(this_folder, "std", "networking.ll")
+    graphics_ll_path = os.path.join(this_folder, "std", "graphics.ll")
     res = run_echoed(
         [
             "llvm-link",
@@ -2139,6 +2141,8 @@ def compile_ll_to_bin(ll_path: str, bin_path: str):
             intrinsics_ll_path,
             files_ll_path,
             casting_ll_path,
+            networking_ll_path,
+            graphics_ll_path,
             "-o",
             ll_path,
             "-opaque-pointers",

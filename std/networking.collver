@@ -1,0 +1,64 @@
+// ===== Networking primitives =====
+// These are thin wrappers around libc/POSIX socket APIs.
+
+const AF_INET 2 end
+const SOCK_STREAM 1 end
+const SOCK_DGRAM 2 end
+const IPPROTO_TCP 6 end
+const INADDR_ANY 0 end
+
+extern ll_socket int int int -> int end
+extern ll_bind int ptr int -> int end
+extern ll_listen int int -> int end
+extern ll_accept int ptr ptr -> int end
+extern ll_connect int ptr int -> int end
+extern ll_send int ptr int int -> int end
+extern ll_recv int ptr int int -> int end
+extern ll_htons int -> int end
+extern ll_htonl int -> int end
+extern ll_ntohs int -> int end
+extern ll_ntohl int -> int end
+
+proc socket int int int -> int do
+  ll_socket
+end
+
+proc bind int ptr int -> int do
+  ll_bind
+end
+
+proc listen int int -> int do
+  ll_listen
+end
+
+proc accept int ptr ptr -> int do
+  ll_accept
+end
+
+proc connect int ptr int -> int do
+  ll_connect
+end
+
+proc send int ptr int int -> int do
+  ll_send
+end
+
+proc recv int ptr int int -> int do
+  ll_recv
+end
+
+proc htons int -> int do
+  ll_htons
+end
+
+proc htonl int -> int do
+  ll_htonl
+end
+
+proc ntohs int -> int do
+  ll_ntohs
+end
+
+proc ntohl int -> int do
+  ll_ntohl
+end

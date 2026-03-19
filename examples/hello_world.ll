@@ -12,6 +12,97 @@ source_filename = "llvm-link"
 @str_main_0 = private unnamed_addr constant [14 x i8] c"Hello, world\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
+@gfx_clear_seq = private unnamed_addr constant [7 x i8] c"\1B[2J\1B[H"
+@gfx_hide_cursor_seq = private unnamed_addr constant [6 x i8] c"\1B[?25l"
+@gfx_show_cursor_seq = private unnamed_addr constant [6 x i8] c"\1B[?25h"
+@gfx_reset_style_seq = private unnamed_addr constant [4 x i8] c"\1B[0m"
+@fmt_move = private unnamed_addr constant [9 x i8] c"\1B[%d;%dH\00"
+@fmt_rgb = private unnamed_addr constant [17 x i8] c"\1B[38;2;%d;%d;%dm\00"
+
+define void @proc_socket() {
+  call void @proc_ll_socket()
+  ret void
+}
+
+define void @proc_bind() {
+  call void @proc_ll_bind()
+  ret void
+}
+
+define void @proc_listen() {
+  call void @proc_ll_listen()
+  ret void
+}
+
+define void @proc_accept() {
+  call void @proc_ll_accept()
+  ret void
+}
+
+define void @proc_connect() {
+  call void @proc_ll_connect()
+  ret void
+}
+
+define void @proc_send() {
+  call void @proc_ll_send()
+  ret void
+}
+
+define void @proc_recv() {
+  call void @proc_ll_recv()
+  ret void
+}
+
+define void @proc_htons() {
+  call void @proc_ll_htons()
+  ret void
+}
+
+define void @proc_htonl() {
+  call void @proc_ll_htonl()
+  ret void
+}
+
+define void @proc_ntohs() {
+  call void @proc_ll_ntohs()
+  ret void
+}
+
+define void @proc_ntohl() {
+  call void @proc_ll_ntohl()
+  ret void
+}
+
+define void @proc_gfx_clear() {
+  call void @proc_ll_gfx_clear()
+  ret void
+}
+
+define void @proc_gfx_move_to() {
+  call void @proc_ll_gfx_move_to()
+  ret void
+}
+
+define void @proc_gfx_hide_cursor() {
+  call void @proc_ll_gfx_hide_cursor()
+  ret void
+}
+
+define void @proc_gfx_show_cursor() {
+  call void @proc_ll_gfx_show_cursor()
+  ret void
+}
+
+define void @proc_gfx_set_rgb() {
+  call void @proc_ll_gfx_set_rgb()
+  ret void
+}
+
+define void @proc_gfx_reset_style() {
+  call void @proc_ll_gfx_reset_style()
+  ret void
+}
 
 define void @proc_swap() {
   %mem_a = alloca [8 x i8], align 1
@@ -1763,6 +1854,209 @@ define void @proc_cast_str_str_to_str_ptr() {
 }
 
 define void @proc_cast_str_str_to_str_str() {
+  ret void
+}
+
+define void @proc_ll_socket() {
+  %protocol_i64 = call i64 @pop()
+  %protocol_i32 = trunc i64 %protocol_i64 to i32
+  %type_i64 = call i64 @pop()
+  %type_i32 = trunc i64 %type_i64 to i32
+  %domain_i64 = call i64 @pop()
+  %domain_i32 = trunc i64 %domain_i64 to i32
+  %fd_i32 = call i32 @socket(i32 noundef %domain_i32, i32 noundef %type_i32, i32 noundef %protocol_i32)
+  %fd_i64 = sext i32 %fd_i32 to i64
+  call void @push(i64 %fd_i64)
+  ret void
+}
+
+declare i32 @socket(i32 noundef, i32 noundef, i32 noundef)
+
+define void @proc_ll_bind() {
+  %addrlen_i64 = call i64 @pop()
+  %addrlen_i32 = trunc i64 %addrlen_i64 to i32
+  %addr_i64 = call i64 @pop()
+  %addr_ptr = inttoptr i64 %addr_i64 to ptr
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %rc_i32 = call i32 @bind(i32 noundef %fd_i32, ptr noundef %addr_ptr, i32 noundef %addrlen_i32)
+  %rc_i64 = sext i32 %rc_i32 to i64
+  call void @push(i64 %rc_i64)
+  ret void
+}
+
+declare i32 @bind(i32 noundef, ptr noundef, i32 noundef)
+
+define void @proc_ll_listen() {
+  %backlog_i64 = call i64 @pop()
+  %backlog_i32 = trunc i64 %backlog_i64 to i32
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %rc_i32 = call i32 @listen(i32 noundef %fd_i32, i32 noundef %backlog_i32)
+  %rc_i64 = sext i32 %rc_i32 to i64
+  call void @push(i64 %rc_i64)
+  ret void
+}
+
+declare i32 @listen(i32 noundef, i32 noundef)
+
+define void @proc_ll_accept() {
+  %addrlen_i64 = call i64 @pop()
+  %addrlen_ptr = inttoptr i64 %addrlen_i64 to ptr
+  %addr_i64 = call i64 @pop()
+  %addr_ptr = inttoptr i64 %addr_i64 to ptr
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %client_i32 = call i32 @accept(i32 noundef %fd_i32, ptr noundef %addr_ptr, ptr noundef %addrlen_ptr)
+  %client_i64 = sext i32 %client_i32 to i64
+  call void @push(i64 %client_i64)
+  ret void
+}
+
+declare i32 @accept(i32 noundef, ptr noundef, ptr noundef)
+
+define void @proc_ll_connect() {
+  %addrlen_i64 = call i64 @pop()
+  %addrlen_i32 = trunc i64 %addrlen_i64 to i32
+  %addr_i64 = call i64 @pop()
+  %addr_ptr = inttoptr i64 %addr_i64 to ptr
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %rc_i32 = call i32 @connect(i32 noundef %fd_i32, ptr noundef %addr_ptr, i32 noundef %addrlen_i32)
+  %rc_i64 = sext i32 %rc_i32 to i64
+  call void @push(i64 %rc_i64)
+  ret void
+}
+
+declare i32 @connect(i32 noundef, ptr noundef, i32 noundef)
+
+define void @proc_ll_send() {
+  %flags_i64 = call i64 @pop()
+  %flags_i32 = trunc i64 %flags_i64 to i32
+  %len_i64 = call i64 @pop()
+  %buf_i64 = call i64 @pop()
+  %buf_ptr = inttoptr i64 %buf_i64 to ptr
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %sent_i64 = call i64 @send(i32 noundef %fd_i32, ptr noundef %buf_ptr, i64 noundef %len_i64, i32 noundef %flags_i32)
+  call void @push(i64 %sent_i64)
+  ret void
+}
+
+declare i64 @send(i32 noundef, ptr noundef, i64 noundef, i32 noundef)
+
+define void @proc_ll_recv() {
+  %flags_i64 = call i64 @pop()
+  %flags_i32 = trunc i64 %flags_i64 to i32
+  %len_i64 = call i64 @pop()
+  %buf_i64 = call i64 @pop()
+  %buf_ptr = inttoptr i64 %buf_i64 to ptr
+  %fd_i64 = call i64 @pop()
+  %fd_i32 = trunc i64 %fd_i64 to i32
+  %read_i64 = call i64 @recv(i32 noundef %fd_i32, ptr noundef %buf_ptr, i64 noundef %len_i64, i32 noundef %flags_i32)
+  call void @push(i64 %read_i64)
+  ret void
+}
+
+declare i64 @recv(i32 noundef, ptr noundef, i64 noundef, i32 noundef)
+
+define void @proc_ll_htons() {
+  %val_i64 = call i64 @pop()
+  %val_i16 = trunc i64 %val_i64 to i16
+  %out_i16 = call i16 @htons(i16 noundef %val_i16)
+  %out_i64 = zext i16 %out_i16 to i64
+  call void @push(i64 %out_i64)
+  ret void
+}
+
+declare i16 @htons(i16 noundef)
+
+define void @proc_ll_htonl() {
+  %val_i64 = call i64 @pop()
+  %val_i32 = trunc i64 %val_i64 to i32
+  %out_i32 = call i32 @htonl(i32 noundef %val_i32)
+  %out_i64 = zext i32 %out_i32 to i64
+  call void @push(i64 %out_i64)
+  ret void
+}
+
+declare i32 @htonl(i32 noundef)
+
+define void @proc_ll_ntohs() {
+  %val_i64 = call i64 @pop()
+  %val_i16 = trunc i64 %val_i64 to i16
+  %out_i16 = call i16 @ntohs(i16 noundef %val_i16)
+  %out_i64 = zext i16 %out_i16 to i64
+  call void @push(i64 %out_i64)
+  ret void
+}
+
+declare i16 @ntohs(i16 noundef)
+
+define void @proc_ll_ntohl() {
+  %val_i64 = call i64 @pop()
+  %val_i32 = trunc i64 %val_i64 to i32
+  %out_i32 = call i32 @ntohl(i32 noundef %val_i32)
+  %out_i64 = zext i32 %out_i32 to i64
+  call void @push(i64 %out_i64)
+  ret void
+}
+
+declare i32 @ntohl(i32 noundef)
+
+define void @proc_ll_gfx_clear() {
+  %seq_ptr = getelementptr [7 x i8], ptr @gfx_clear_seq, i64 0, i64 0
+  %written = call i64 @write(i32 noundef 1, ptr noundef %seq_ptr, i64 noundef 7)
+  call void @push(i64 %written)
+  ret void
+}
+
+define void @proc_ll_gfx_move_to() {
+  %row_i64 = call i64 @pop()
+  %row_i32 = trunc i64 %row_i64 to i32
+  %col_i64 = call i64 @pop()
+  %col_i32 = trunc i64 %col_i64 to i32
+  %fmt = getelementptr [9 x i8], ptr @fmt_move, i64 0, i64 0
+  %rc = call i32 (ptr, ...) @printf(ptr noundef %fmt, i32 noundef %col_i32, i32 noundef %row_i32)
+  %rc_i64 = sext i32 %rc to i64
+  call void @push(i64 %rc_i64)
+  ret void
+}
+
+declare i32 @printf(ptr noundef, ...)
+
+define void @proc_ll_gfx_hide_cursor() {
+  %seq_ptr = getelementptr [6 x i8], ptr @gfx_hide_cursor_seq, i64 0, i64 0
+  %written = call i64 @write(i32 noundef 1, ptr noundef %seq_ptr, i64 noundef 6)
+  call void @push(i64 %written)
+  ret void
+}
+
+define void @proc_ll_gfx_show_cursor() {
+  %seq_ptr = getelementptr [6 x i8], ptr @gfx_show_cursor_seq, i64 0, i64 0
+  %written = call i64 @write(i32 noundef 1, ptr noundef %seq_ptr, i64 noundef 6)
+  call void @push(i64 %written)
+  ret void
+}
+
+define void @proc_ll_gfx_set_rgb() {
+  %b_i64 = call i64 @pop()
+  %b_i32 = trunc i64 %b_i64 to i32
+  %g_i64 = call i64 @pop()
+  %g_i32 = trunc i64 %g_i64 to i32
+  %r_i64 = call i64 @pop()
+  %r_i32 = trunc i64 %r_i64 to i32
+  %fmt = getelementptr [17 x i8], ptr @fmt_rgb, i64 0, i64 0
+  %rc = call i32 (ptr, ...) @printf(ptr noundef %fmt, i32 noundef %r_i32, i32 noundef %g_i32, i32 noundef %b_i32)
+  %rc_i64 = sext i32 %rc to i64
+  call void @push(i64 %rc_i64)
+  ret void
+}
+
+define void @proc_ll_gfx_reset_style() {
+  %seq_ptr = getelementptr [4 x i8], ptr @gfx_reset_style_seq, i64 0, i64 0
+  %written = call i64 @write(i32 noundef 1, ptr noundef %seq_ptr, i64 noundef 4)
+  call void @push(i64 %written)
   ret void
 }
 
