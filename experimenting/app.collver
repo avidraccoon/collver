@@ -283,6 +283,12 @@ proc vec_norm_scale int int int -> int int do
   temp @64
 end
 
+// from, to -> x, y
+// Not scaled
+proc get_vector_to ptr[Entity] ptr[Entity] -> int int do
+  1 1
+end
+
 // entity, type -> closest
 proc get_closest ptr[Entity] int -> ptr[Entity] do
   memory entity sizeof(ptr) end
@@ -296,9 +302,14 @@ end
 
 // enemy
 proc update_enemy ptr[EntityContainer] -> do
+  memory entity_container sizeof(ptr) end
+  memory enemy sizeof(ptr) end
+  memory entity sizeof(ptr) end
+  dup entity_container !ptr
+  @EntityContainer.entity + @ptr dup enemy !ptr
+  @Enemy.entity + @ptr entity !ptr
   // get the closest player
-  // Switch to take use container
-  dup ENTITY_TYPE_PLAYER get_closest
+  entity @ptr ENTITY_TYPE_PLAYER get_closest
 
 end
 
@@ -309,9 +320,11 @@ end
 // player
 proc update_player ptr[EntityContainer] -> do
   memory entity_container sizeof(ptr) end
+  memory player sizeof(ptr) end
   memory entity sizeof(ptr) end
   dup entity_container !ptr
-  @EntityContainer.entity + @ptr entity !ptr
+  @EntityContainer.entity + @ptr dup player !ptr
+  @Player.entity + @ptr entity !ptr
   
   get_player_direction
   5 vec_norm_scale
@@ -323,7 +336,7 @@ end
 
 // generic entity default update
 proc update_entity ptr[EntityContainer] -> do
-
+  // Currently nothing
 end
 
 // entity_container
@@ -340,6 +353,10 @@ proc update_split ptr[EntityContainer] -> do
     drop
     update_entity
   end
+end
+
+proc update_entity_check_dead ptr[EntityContainer] do
+
 end
 
 proc update_entities -> do
