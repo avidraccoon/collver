@@ -46,6 +46,12 @@ write_template_one_arg(
     collver_file
 )
 
+# Typed pointer aliases map onto existing no-op pointer casts.
+collver_file.write("alias (ptr->ptr[int]) cast_ptr_to_ptr end\n")
+collver_file.write("alias (ptr[int]->ptr) cast_ptr_to_ptr end\n")
+collver_file.write("alias (str->ptr[int]) cast_str_to_ptr end\n")
+collver_file.write("alias (ptr[int]->str) cast_ptr_to_str end\n")
+
 
 write_both("\n// Two arg casts\n\n")
 
@@ -65,4 +71,6 @@ write_template_two_arg(
     """alias [{from_type1},{from_type2}->{to_type1},{to_type2}] cast_{from_type1}_{from_type2}_to_{to_type1}_{to_type2} end\n""",
     collver_file
 )
+
+collver_file.write("alias [ptr[int],int->int,ptr[int]] cast_ptr_int_to_int_ptr end\n")
 

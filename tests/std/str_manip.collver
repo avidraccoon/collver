@@ -12,8 +12,8 @@ end
 proc main int ptr -> int do
   drop drop 0
   // Create a string and make a copy of that string
-  "abcd\n" dup (str->ptr) a !ptr // store a pointer to the string constant in `a`
-  (str->ptr) strcpy b !ptr // store a pointer to the new copy in `b`
+  "abcd\n" dup a !ptr // store a pointer to the string constant in `a`
+  strcpy b !ptr // store a pointer to the new copy in `b`
   dbg // Print the current status
 
   // Increment the first letter of the copy (the pointer to which is stored at `b`)
@@ -23,5 +23,5 @@ proc main int ptr -> int do
   !8 // Write that new number to the first byte of the string
   dbg // Print the current status
 
-  "beginning " "end\n" strconcat (str->ptr) puts
+  "beginning " "end\n" strconcat puts
 end

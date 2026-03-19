@@ -2,6 +2,6 @@ include "std.collver"
 
 proc main int ptr -> int do
   drop drop 0
-  "./tests/std/file.txt" (str->ptr) strcpy fp_to_str puts
-  FD_STDIN fd_readline (str->ptr) dup puts puts
+  "./tests/std/file.txt" strcpy fp_to_str puts
+  FD_STDIN fd_readline dup puts puts
 end

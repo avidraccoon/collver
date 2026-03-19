@@ -1,7 +1,7 @@
 include "std.collver"
 
 proc bool_println int -> do
-  btos (str->ptr) puts "\n" (str->ptr) puts
+  btos puts "\n" puts
 end
 
 proc main int ptr -> int do

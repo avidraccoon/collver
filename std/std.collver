@@ -446,7 +446,7 @@ end
 
 proc readline -> ptr[int] do // -> ptr
   // Read a line from standard in
-  FD_STDIN fd_readline (str->ptr)
+  FD_STDIN fd_readline
 end
 
 proc dec_digits int -> int do // int -> int
@@ -518,12 +518,12 @@ end
 
 proc print int -> do // int ->
   // Given an int, print it to stdout with a newline
-  itos puts "\n" (str->ptr) puts
+  itos puts "\n" puts
 end
 
 proc eprint int -> do // int ->
   // Given an int, print it to stderr with a newline
-  itos eputs "\n" (str->ptr) eputs
+  itos eputs "\n" eputs
 end
 
 // PATH AND FILE UTILITIES
@@ -541,9 +541,9 @@ proc fd_to_str int -> ptr do // int -> ptr
   1 + alloc bufptr !ptr
   bufptr @ptr size @64 sys_read
   if dup size @64 != do
-    "ERROR: Failed to read file into memory\n" (str->ptr) puts
-    "File size: " (str->ptr) puts size @64 print
-    "Bytes read: " (str->ptr) puts dup print
+    "ERROR: Failed to read file into memory\n" puts
+    "File size: " puts size @64 print
+    "Bytes read: " puts dup print
     1 exit
     // TODO: Make this procedure simply handle not reading the whole file, instead of panicking
   end drop

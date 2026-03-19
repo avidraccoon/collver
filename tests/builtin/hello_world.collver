@@ -2,5 +2,5 @@ include "std.collver"
 
 proc main int ptr -> int do
   drop drop 0
-  "Hello, world!\n" (str->ptr) puts
+  "Hello, world!\n" puts
 end

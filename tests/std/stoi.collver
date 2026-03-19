@@ -2,9 +2,9 @@ include "std.collver"
 
 proc main int ptr -> int do
   drop drop 0
-  "1" (str->ptr) stoi print
-  "12" (str->ptr) stoi print
-  "32" (str->ptr) stoi print
-  "10000" (str->ptr) stoi print
-  "987654321" (str->ptr) stoi print
+  "1" stoi print
+  "12" stoi print
+  "32" stoi print
+  "10000" stoi print
+  "987654321" stoi print
 end

@@ -161,6 +161,13 @@ def types_compatible(actual: CType, expected: CType) -> bool:
     if actual.kind == DT.UNK or expected.kind == DT.UNK:
         return True
 
+    # Strings are specialized byte pointers. Allow implicit coercions in both
+    # directions to reduce noisy `(str->ptr)`/`(ptr->str)` casts.
+    if actual.kind == DT.STR and expected.kind == DT.PTR:
+        return expected.pointee is None or types_compatible(INT_TYPE, expected.pointee)
+    if actual.kind == DT.PTR and expected.kind == DT.STR:
+        return actual.pointee is None or types_compatible(actual.pointee, INT_TYPE)
+
     if actual.kind != expected.kind:
         return False
 
@@ -172,6 +179,48 @@ def types_compatible(actual: CType, expected: CType) -> bool:
         return True
 
     return types_compatible(actual.pointee, expected.pointee)
+
+
+def type_match_score(actual: CType, expected: CType) -> int:
+    """Score how specific a type match is. Higher is a better match."""
+    if not types_compatible(actual, expected):
+        return -1
+
+    if actual.kind == DT.UNK or expected.kind == DT.UNK:
+        return 0
+
+    if actual.kind == expected.kind and actual.kind != DT.PTR:
+        return 4
+
+    if actual.kind == DT.STR and expected.kind == DT.PTR:
+        return 2
+    if actual.kind == DT.PTR and expected.kind == DT.STR:
+        return 2
+
+    # Pointer specificity: exact typed matches beat generic pointer matches.
+    if actual.kind == DT.PTR and expected.kind == DT.PTR:
+        if actual.pointee is None or expected.pointee is None:
+            return 1
+        return 3 + type_match_score(actual.pointee, expected.pointee)
+
+    return 1
+
+
+def proc_type_sig_match_score(type_sig: ProcTypeSig, type_stack: list[TypeAnnotation]) -> int:
+    """Return a score for how well a type signature matches stack arguments."""
+    arguments, _ = type_sig.as_tuple()
+    if len(arguments) > len(type_stack):
+        return -1
+
+    total = 0
+    for idx, arg in enumerate(reversed(arguments)):
+        actual_type = type_stack[-1 - idx]
+        score = type_match_score(actual_type[0], arg[0])
+        if score < 0:
+            return -1
+        total += score
+
+    return total
 
 
 @dataclass
@@ -1120,14 +1169,15 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                 assert type(word.operand) is str, "Non-str operand of PROC_CALL word"
                 type_sigs = program.externs[word.operand]
 
-                found_match = False
+                best_match: ProcTypeSig | None = None
+                best_score = -1
                 for type_sig in type_sigs:
-                    if test_proc_type_sig(word, type_sig, type_stack):
-                        found_match = True
-                        apply_proc_type_sig(word, type_sig, type_stack)
-                        break
+                    score = proc_type_sig_match_score(type_sig, type_stack)
+                    if score > best_score:
+                        best_score = score
+                        best_match = type_sig
 
-                if not found_match:
+                if best_match is None or best_score < 0:
                     compiler_error(
                         word.tok,
                         f"Incompatible types found for call to extern proc {word.operand}\nreceived stack types (top to bottom): {[datatype_to_str(stackitem[0]) for stackitem in reversed(type_stack)]}",
@@ -1139,6 +1189,8 @@ def type_check_proc(name: str, proc: Proc, program: Program):
                             f"defined here: {type_sig.pretty_print()}",
                         )
                     sys.exit(1)
+                else:
+                    apply_proc_type_sig(word, best_match, type_stack)
             else:
                 compiler_warning(
                     word.tok,

@@ -21,6 +21,10 @@ alias (ptr->str) cast_ptr_to_str end
 alias (str->int) cast_str_to_int end
 alias (str->ptr) cast_str_to_ptr end
 alias (str->str) cast_str_to_str end
+alias (ptr->ptr[int]) cast_ptr_to_ptr end
+alias (ptr[int]->ptr) cast_ptr_to_ptr end
+alias (str->ptr[int]) cast_str_to_ptr end
+alias (ptr[int]->str) cast_ptr_to_str end
 
 // Two arg casts
 
@@ -135,6 +139,7 @@ alias [int,str->str,ptr] cast_int_str_to_str_ptr end
 alias [int,str->str,str] cast_int_str_to_str_str end
 alias [ptr,int->int,int] cast_ptr_int_to_int_int end
 alias [ptr,int->int,ptr] cast_ptr_int_to_int_ptr end
+alias [ptr[int],int->int,ptr[int]] cast_ptr_int_to_int_ptr end
 alias [ptr,int->int,str] cast_ptr_int_to_int_str end
 alias [ptr,int->ptr,int] cast_ptr_int_to_ptr_int end
 alias [ptr,int->ptr,ptr] cast_ptr_int_to_ptr_ptr end
