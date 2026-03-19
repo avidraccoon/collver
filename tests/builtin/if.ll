@@ -9,7 +9,6 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_7 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1053,20 +1052,94 @@ define void @proc_fp_to_str() {
 }
 
 define void @proc_main() {
-  %strptr7 = ptrtoint ptr @str_main_7 to i64
-  %mem_argv = alloca [8 x i8], align 1
-  %ptrto_argv_0 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_0)
-  call void @proc_intrinsic_storeptr()
-  call void @proc_print()
-  %ptrto_argv_1 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_1)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_loadptr()
-  call void @proc_puts()
-  call void @push(i64 %strptr7)
-  call void @proc_puts()
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
   call void @push(i64 0)
+  call void @push(i64 1)
+  %a0 = call i64 @pop()
+  %b0 = icmp ne i64 %a0, 0
+  br i1 %b0, label %l5, label %l8
+
+l5:                                               ; preds = %0
+  call void @push(i64 1)
+  call void @proc_print()
+  br label %l11
+
+l8:                                               ; preds = %0
+  call void @push(i64 2)
+  call void @proc_print()
+  br label %l11
+
+l11:                                              ; preds = %l8, %l5
+  br label %ls11
+
+ls11:                                             ; preds = %l11
+  call void @push(i64 0)
+  %a1 = call i64 @pop()
+  %b1 = icmp ne i64 %a1, 0
+  br i1 %b1, label %l14, label %l17
+
+l14:                                              ; preds = %ls11
+  call void @push(i64 3)
+  call void @proc_print()
+  br label %l20
+
+l17:                                              ; preds = %ls11
+  call void @push(i64 4)
+  call void @proc_print()
+  br label %l20
+
+l20:                                              ; preds = %l17, %l14
+  br label %ls20
+
+ls20:                                             ; preds = %l20
+  call void @push(i64 0)
+  %a2 = call i64 @pop()
+  %b2 = icmp ne i64 %a2, 0
+  br i1 %b2, label %l23, label %l26
+
+l23:                                              ; preds = %ls20
+  call void @push(i64 5)
+  call void @proc_print()
+  br label %ls26
+
+ls26:                                             ; preds = %l23
+  br label %ls31
+
+l26:                                              ; preds = %ls20
+  call void @push(i64 0)
+  %a3 = call i64 @pop()
+  %b3 = icmp ne i64 %a3, 0
+  br i1 %b3, label %l28, label %l31
+
+l28:                                              ; preds = %l26
+  call void @push(i64 6)
+  call void @proc_print()
+  br label %ls31
+
+ls31:                                             ; preds = %l28, %ls26
+  br label %ls39
+
+l31:                                              ; preds = %l26
+  call void @push(i64 1)
+  %a4 = call i64 @pop()
+  %b4 = icmp ne i64 %a4, 0
+  br i1 %b4, label %l33, label %l36
+
+l33:                                              ; preds = %l31
+  call void @push(i64 7)
+  call void @proc_print()
+  br label %l39
+
+l36:                                              ; preds = %l31
+  call void @push(i64 8)
+  call void @proc_print()
+  br label %l39
+
+l39:                                              ; preds = %l36, %l33
+  br label %ls39
+
+ls39:                                             ; preds = %l39, %ls31
   ret void
 }
 

@@ -1,7 +1,5 @@
 include "std.collver"
 
-extern identity_ptr_as_typed ptr -> ptr[int] end
-
 proc use_typed_ptr ptr[int] -> int do
   drop
   123
@@ -9,7 +7,6 @@ end
 
 proc main int ptr[ptr[int]] -> int do
   drop drop
-  16 alloc
-  identity_ptr_as_typed
+  123 ptrto
   use_typed_ptr
 end

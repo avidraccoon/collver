@@ -3,6 +3,7 @@ import os
 import sys
 import glob
 import subprocess
+import re
 
 class Colors:
     CYAN = '\u001b[36m'
@@ -89,16 +90,31 @@ def run_echoed(cmd: list[str], print_outs: bool=False, quiet=False):
     return run_res
 
 def run_spec(spec: TestSpec, quiet=False) -> TestResult:
-    res = run_echoed(["python3.10", "collver.py", "to-ll", spec.file_path], quiet=quiet)
-    if res.returncode != 0:
-        return TestResult(spec, res.stderr, False, b"", b"")
+    to_ll_res = run_echoed(["python3.10", "collver.py", "to-ll", spec.file_path], quiet=quiet)
+    compiler_stderr = to_ll_res.stderr
+    if to_ll_res.returncode != 0:
+        return TestResult(spec, compiler_stderr, False, b"", b"")
+
     ll_path = os.path.splitext(spec.file_path)[0] + ".ll"
-    run_echoed(["python3.10", "collver.py", "from-ll", ll_path], quiet=quiet)
+    from_ll_res = run_echoed(["python3.10", "collver.py", "from-ll", ll_path], quiet=quiet)
+    compiler_stderr += from_ll_res.stderr
+    if from_ll_res.returncode != 0:
+        return TestResult(spec, compiler_stderr, False, b"", b"")
+
     bin_path = os.path.splitext(spec.file_path)[0]
+    if not os.path.exists(bin_path):
+        compiler_stderr += f"error: expected binary `{bin_path}` was not generated\n".encode("utf-8")
+        return TestResult(spec, compiler_stderr, False, b"", b"")
+
     if not quiet:
         print_cmd([bin_path])
-    run_res = subprocess.run([bin_path], input=spec.provided_input, capture_output=True)
-    return TestResult(spec, res.stderr, True, run_res.stdout, run_res.stderr)
+    try:
+        run_res = subprocess.run([bin_path], input=spec.provided_input, capture_output=True)
+    except FileNotFoundError:
+        compiler_stderr += f"error: failed to execute generated binary `{bin_path}`\n".encode("utf-8")
+        return TestResult(spec, compiler_stderr, False, b"", b"")
+
+    return TestResult(spec, compiler_stderr, True, run_res.stdout, run_res.stderr)
 
 @dataclass
 class Problem:
@@ -128,16 +144,41 @@ def check_match(sn: str, fieldname: str, expected: str, actual: str) -> list[Pro
     return []
 
 
+def normalize_compiler_stderr_paths(stderr_text: str) -> str:
+    """Normalize file path prefixes in compiler diagnostics for cross-platform test runs."""
+    out_lines: list[str] = []
+    for raw_line in stderr_text.splitlines(keepends=True):
+        line = raw_line.replace("\\", "/")
+        m = re.match(r"^(.*):(\d+):(\d+):(.*)$", line)
+        if m is None:
+            out_lines.append(line)
+            continue
+
+        path, row, col, rest = m.groups()
+        if "/collver/" in path:
+            path = path.split("/collver/", 1)[1]
+        path = path.lstrip("./")
+        out_lines.append(f"{path}:{row}:{col}:{rest}")
+
+    return "".join(out_lines)
+
+
 def test_output(res: TestResult) -> list[Problem]:
     probs: list[Problem] = []
     basename = os.path.basename(res.test_spec.spec_path)
     # -- Compiler stderr --
+    expected_compiler_stderr = normalize_compiler_stderr_paths(
+        res.test_spec.compiler_stderr.decode("utf-8")
+    )
+    actual_compiler_stderr = normalize_compiler_stderr_paths(
+        res.compiler_stderr.decode("utf-8")
+    )
     probs.extend(
         check_match(
             basename,
             "Compiler stderr",
-            res.test_spec.compiler_stderr.decode("utf-8"),
-            res.compiler_stderr.decode("utf-8"),
+            expected_compiler_stderr,
+            actual_compiler_stderr,
         )
     )
 

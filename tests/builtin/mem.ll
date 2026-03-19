@@ -1,6 +1,7 @@
 ; ModuleID = 'llvm-link'
 source_filename = "llvm-link"
 
+@global_mem_global_bytes = global [3 x i8] zeroinitializer
 @str_btos_2 = private unnamed_addr constant [5 x i8] c"true\00"
 @str_btos_4 = private unnamed_addr constant [6 x i8] c"false\00"
 @str_fd_readline_16 = private unnamed_addr constant [1 x i8] zeroinitializer
@@ -9,7 +10,6 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_7 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1052,21 +1052,71 @@ define void @proc_fp_to_str() {
   ret void
 }
 
-define void @proc_main() {
-  %strptr7 = ptrtoint ptr @str_main_7 to i64
-  %mem_argv = alloca [8 x i8], align 1
-  %ptrto_argv_0 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_0)
-  call void @proc_intrinsic_storeptr()
+define void @proc_write_mem() {
+  call void @push(i64 47)
+  %ptrto_global_bytes_0 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_0)
+  call void @proc_intrinsic_store8()
+  call void @push(i64 51)
+  %ptrto_global_bytes_1 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_1)
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  call void @push(i64 14)
+  %ptrto_global_bytes_2 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_2)
+  call void @push(i64 2)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store8()
+  ret void
+}
+
+define void @proc_read_mem() {
+  %ptrto_global_bytes_0 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_0)
+  call void @proc_intrinsic_load8()
   call void @proc_print()
-  %ptrto_argv_1 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_1)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_loadptr()
-  call void @proc_puts()
-  call void @push(i64 %strptr7)
-  call void @proc_puts()
+  %ptrto_global_bytes_1 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_1)
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load8()
+  call void @proc_print()
+  %ptrto_global_bytes_2 = ptrtoint ptr @global_mem_global_bytes to i64
+  call void @push(i64 %ptrto_global_bytes_2)
+  call void @push(i64 2)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load8()
+  call void @proc_print()
+  ret void
+}
+
+define void @proc_main() {
+  %mem_local_i64 = alloca [8 x i8], align 1
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
   call void @push(i64 0)
+  call void @push(i64 2)
+  call void @push(i64 16)
+  call void @proc_intrinsic_shl()
+  call void @push(i64 1)
+  call void @proc_intrinsic_plus()
+  %ptrto_local_i64_0 = ptrtoint ptr %mem_local_i64 to i64
+  call void @push(i64 %ptrto_local_i64_0)
+  call void @proc_intrinsic_store64()
+  %ptrto_local_i64_1 = ptrtoint ptr %mem_local_i64 to i64
+  call void @push(i64 %ptrto_local_i64_1)
+  call void @push(i64 2)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load8()
+  call void @proc_print()
+  %ptrto_local_i64_2 = ptrtoint ptr %mem_local_i64 to i64
+  call void @push(i64 %ptrto_local_i64_2)
+  call void @proc_intrinsic_load8()
+  call void @proc_print()
+  call void @proc_write_mem()
+  call void @proc_read_mem()
   ret void
 }
 

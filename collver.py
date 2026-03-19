@@ -50,6 +50,7 @@ class Keyword(Enum):
     MEMORY = auto()
     PROC = auto()
     EXTERN = auto()
+    AS = auto()
     ARROW = auto()
     IF = auto()
     ELIF = auto()
@@ -334,11 +335,12 @@ def lex_file(file_path) -> list[Token]:
     return toks
 
 
-assert len(Keyword) == 10, "Exhaustive map of Words in STR_TO_KEYWORD"
+assert len(Keyword) == 11, "Exhaustive map of Words in STR_TO_KEYWORD"
 STR_TO_KEYWORD: dict[str, Keyword] = {
     "memory": Keyword.MEMORY,
     "proc": Keyword.PROC,
     "extern": Keyword.EXTERN,
+    "as": Keyword.AS,
     "->": Keyword.ARROW,
     "if": Keyword.IF,
     "elif": Keyword.ELIF,
@@ -720,6 +722,9 @@ class Program:
     # E.g.
     #   int + int -> int, but ptr + int -> ptr
     externs: dict[str, list[ProcTypeSig]]
+    # Mapping from collver extern names to LLVM symbol names.
+    # Missing keys default to `proc_<extern_name>`.
+    extern_symbols: dict[str, str]
     memories: dict[str, int]
 
 
@@ -765,6 +770,13 @@ def parse_tokens_into_words(tokens: list[Token]) -> list[Word]:
                 else:
                     compiler_error(tok, "Expected name of extern")
                     sys.exit(1)
+            elif len(words) and words[-1].operand == Keyword.AS:
+                if tok.typ == TT.WORD:
+                    # Symbol name in `extern <name> as <symbol> ...`.
+                    words.append(Word(OT.PROC_NAME, tok.value, tok, None))
+                else:
+                    compiler_error(tok, "Expected extern symbol name after `as`")
+                    sys.exit(1)
             elif len(words) and words[-1].operand == Keyword.MEMORY:
                 if tok.typ == TT.WORD:
                     words.append(Word(OT.MEMORY_NAME, tok.value, tok, None))
@@ -791,7 +803,7 @@ def parse_tokens_into_words(tokens: list[Token]) -> list[Word]:
     return words
 
 
-assert len(Keyword) == 10, "Exhaustive list of control flow words for BLOCK_STARTERS"
+assert len(Keyword) == 11, "Exhaustive list of control flow words for BLOCK_STARTERS"
 BLOCK_STARTERS: list[Keyword] = [
     Keyword.IF,
     Keyword.WHILE,
@@ -947,7 +959,7 @@ def parse_proc_type_sig(
 
 def parse_words_into_program(file_path: str, words: list[Word]) -> Program:
     """Parse a series of words into a Program() object"""
-    program = Program(file_path, {}, {}, {})
+    program = Program(file_path, {}, {}, {}, {})
     rwords = list(reversed(words))
     word_buf: list[Word] = []
     mem_buf: dict[str, int] = {}
@@ -1022,6 +1034,42 @@ def parse_words_into_program(file_path: str, words: list[Word]) -> Program:
                 sys.exit(1)
 
             extern_name = str(extern_name_word.operand)
+
+            extern_symbol = f"proc_{extern_name}"
+            if len(rwords):
+                maybe_as = rwords[-1]
+                if maybe_as.typ == OT.KEYWORD and maybe_as.operand == Keyword.AS:
+                    rwords.pop()
+                    if len(rwords):
+                        symbol_word = rwords.pop()
+                    else:
+                        compiler_error(
+                            maybe_as.tok,
+                            "Expected extern symbol name after `as`, found nothing",
+                        )
+                        sys.exit(1)
+
+                    if symbol_word.typ != OT.PROC_NAME or not isinstance(
+                        symbol_word.operand, str
+                    ):
+                        compiler_error(
+                            symbol_word.tok,
+                            "Expected extern symbol name after `as`",
+                        )
+                        sys.exit(1)
+
+                    extern_symbol = symbol_word.operand
+
+            if extern_name in program.extern_symbols:
+                prior_symbol = program.extern_symbols[extern_name]
+                if prior_symbol != extern_symbol:
+                    compiler_error(
+                        extern_name_word.tok,
+                        f"Extern `{extern_name}` already mapped to symbol `{prior_symbol}`, cannot remap to `{extern_symbol}`",
+                    )
+                    sys.exit(1)
+            else:
+                program.extern_symbols[extern_name] = extern_symbol
 
             type_sig = parse_proc_type_sig(extern_name_word, rwords, is_extern=True)
 
@@ -1750,7 +1798,7 @@ def type_check_program(program: Program):
 def crossreference_proc(proc: Proc) -> None:
     """Given a set of words, set the correct index to jump to for control flow words"""
     assert len(OT) == 9, "Exhaustive handling of Op Types in crossreference_proc()"
-    assert len(Keyword) == 10, "Exhaustive handling of Keywords in crossreference_proc()"
+    assert len(Keyword) == 11, "Exhaustive handling of Keywords in crossreference_proc()"
     stack: list[int] = []
     for ip, word in enumerate(proc.words):
         if word.typ == OT.KEYWORD:
@@ -1843,10 +1891,19 @@ def compile_push_pop_functions(out: TextIOWrapper):
     out.write("declare i64 @pop()\n")
 
 
-def compile_extern_procs(out: TextIOWrapper, procs: list[str]):
+def compile_extern_procs(
+    out: TextIOWrapper,
+    externs: dict[str, list[ProcTypeSig]],
+    extern_symbols: dict[str, str],
+):
     """Write the LLVM IR for declaring external processes to an open()ed file"""
-    for proc in procs:
-        out.write(f"declare void @proc_{proc}()\n")
+    emitted: set[str] = set()
+    for proc in externs:
+        symbol = extern_symbols.get(proc, f"proc_{proc}")
+        if symbol in emitted:
+            continue
+        out.write(f"declare void @{symbol}()\n")
+        emitted.add(symbol)
 
 
 def compile_global_memories(out: TextIOWrapper, memories: dict[str, int]):
@@ -1902,12 +1959,17 @@ def compile_string_literals_inner(
 
 
 def compile_proc_to_ll(
-    out: TextIOWrapper, proc_name: str, proc: Proc, global_memories: dict[str, int]
+    out: TextIOWrapper,
+    proc_name: str,
+    proc: Proc,
+    global_memories: dict[str, int],
+    extern_symbols: dict[str, str],
+    externs: dict[str, list[ProcTypeSig]],
 ):
     """Write LLVM IR for a procedure to an open()ed file"""
     #TODO Ensure actually handling every thing
     assert len(OT) == 9, "Exhaustive handling of Op Types in compile_proc_to_ll()"
-    assert len(Keyword) == 10, "Exhaustive handling of Keywords in compile_proc_to_ll()"
+    assert len(Keyword) == 11, "Exhaustive handling of Keywords in compile_proc_to_ll()"
     compile_string_literals_outer(out, proc_name, proc.strings)
     out.write(f"define void @proc_{proc_name}() ")
     out.write("{\n")
@@ -1928,7 +1990,10 @@ def compile_proc_to_ll(
         elif word.typ == OT.PUSH_STR:
             out.write(f"  call void(i64) @push(i64 %strptr{ip})\n")  # Push that i64
         elif word.typ == OT.PROC_CALL:
-            out.write(f"  call void() @proc_{word.operand}()\n")
+            call_name = f"proc_{word.operand}"
+            if isinstance(word.operand, str) and word.operand in externs:
+                call_name = extern_symbols.get(word.operand, call_name)
+            out.write(f"  call void() @{call_name}()\n")
         elif word.typ == OT.PUSH_MEMORY:
             memory = str(word.operand)
             if memory in proc.memories:
@@ -1999,8 +2064,8 @@ def compile_main_function(out: TextIOWrapper):
     """Write LLVM IR for a main function (the entry point) to an open()ed file"""
     out.write("define i64 @main(i64 %argc, ptr %argv) {\n")
     out.write("  %argv_i64 = ptrtoint ptr %argv to i64\n")
-    out.write("  call void(i64) @push(i64 %argv_i64)\n")
     out.write("  call void(i64) @push(i64 %argc)\n")
+    out.write("  call void(i64) @push(i64 %argv_i64)\n")
     out.write("  call void() @proc_main()\n")
     out.write("  %returncode = call i64() @pop()\n")
     # TODO: Return the returncode instead
@@ -2013,14 +2078,19 @@ def compile_program_to_ll(program: Program, out_file_path: str):
     print(f"[INFO] Generating {out_file_path}")
     with open(out_file_path, "w+") as out:
         compile_push_pop_functions(out)
-        compile_extern_procs(out, list(program.externs.keys()))
+        compile_extern_procs(out, program.externs, program.extern_symbols)
         compile_global_memories(out, program.memories)
         found_main = False
         for proc_name in program.procs:
             if proc_name == "main":
                 found_main = True
             compile_proc_to_ll(
-                out, proc_name, program.procs[proc_name], program.memories
+                out,
+                proc_name,
+                program.procs[proc_name],
+                program.memories,
+                program.extern_symbols,
+                program.externs,
             )
 
         if not found_main:

@@ -9,7 +9,6 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_7 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1052,21 +1051,55 @@ define void @proc_fp_to_str() {
   ret void
 }
 
-define void @proc_main() {
-  %strptr7 = ptrtoint ptr @str_main_7 to i64
-  %mem_argv = alloca [8 x i8], align 1
-  %ptrto_argv_0 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_0)
-  call void @proc_intrinsic_storeptr()
+define void @proc_add() {
+  call void @push(i64 14)
+  call void @push(i64 2)
+  call void @proc_intrinsic_plus()
   call void @proc_print()
-  %ptrto_argv_1 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_1)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_loadptr()
-  call void @proc_puts()
-  call void @push(i64 %strptr7)
-  call void @proc_puts()
+  ret void
+}
+
+define void @proc_sub() {
+  call void @push(i64 68)
+  call void @push(i64 4)
+  call void @proc_intrinsic_minus()
+  call void @proc_print()
+  ret void
+}
+
+define void @proc_mul() {
+  call void @push(i64 2)
+  call void @push(i64 2)
+  call void @proc_intrinsic_mult()
+  call void @proc_print()
+  ret void
+}
+
+define void @proc_div() {
+  call void @push(i64 40)
+  call void @push(i64 5)
+  call void @proc_intrinsic_div()
+  call void @proc_print()
+  ret void
+}
+
+define void @proc_mod() {
+  call void @push(i64 521)
+  call void @push(i64 7)
+  call void @proc_intrinsic_mod()
+  call void @proc_print()
+  ret void
+}
+
+define void @proc_main() {
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
   call void @push(i64 0)
+  call void @proc_add()
+  call void @proc_sub()
+  call void @proc_mul()
+  call void @proc_div()
+  call void @proc_mod()
   ret void
 }
 

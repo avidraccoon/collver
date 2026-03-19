@@ -1,0 +1,9 @@
+include "std.collver"
+
+extern plus_alias as proc_intrinsic_plus int int -> int end
+
+proc main int ptr[ptr[int]] -> int do
+  drop drop
+  35 7 plus_alias print
+  0
+end

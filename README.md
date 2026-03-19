@@ -27,3 +27,32 @@ The reasons for this are as follows:
 
 Collver will (hopefully) eventually be self-hosted (written in itself), but for
 now the compiler is implemented in python.
+
+## Structs
+
+Collver supports simple compile-time structs. A struct declaration expands into
+constants for field offsets and total size:
+
+```c
+struct vec
+  start ptr[int]
+  count int
+end
+
+// Generated constants:
+//   @vec.start == 0
+//   @vec.count == 8
+//   sizeof(vec) == 16
+```
+
+## Type Coercion
+
+The type system is intentionally strict for scalar categories:
+
+- `int` does not implicitly coerce to `str`
+- `str` does not implicitly coerce to `int`
+- `int` does not implicitly coerce to `ptr`
+- `ptr` does not implicitly coerce to `int`
+
+The only implicit coercion that remains is between string pointers and pointer
+types (`str <-> ptr[...]`) to avoid excessive boilerplate around text APIs.

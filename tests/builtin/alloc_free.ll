@@ -9,7 +9,6 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_7 = private unnamed_addr constant [2 x i8] c"\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1053,20 +1052,85 @@ define void @proc_fp_to_str() {
 }
 
 define void @proc_main() {
-  %strptr7 = ptrtoint ptr @str_main_7 to i64
-  %mem_argv = alloca [8 x i8], align 1
-  %ptrto_argv_0 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_0)
-  call void @proc_intrinsic_storeptr()
-  call void @proc_print()
-  %ptrto_argv_1 = ptrtoint ptr %mem_argv to i64
-  call void @push(i64 %ptrto_argv_1)
-  call void @proc_intrinsic_loadptr()
-  call void @proc_intrinsic_loadptr()
-  call void @proc_puts()
-  call void @push(i64 %strptr7)
-  call void @proc_puts()
+  %mem_arr = alloca [8 x i8], align 1
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
   call void @push(i64 0)
+  call void @push(i64 8)
+  call void @push(i64 16)
+  call void @proc_intrinsic_mult()
+  call void @proc_intrinsic_alloc()
+  %ptrto_arr_0 = ptrtoint ptr %mem_arr to i64
+  call void @push(i64 %ptrto_arr_0)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 0)
+  br label %l10
+
+l10:                                              ; preds = %l16, %0
+  call void @proc_intrinsic_dup()
+  call void @push(i64 8)
+  call void @push(i64 16)
+  call void @proc_intrinsic_mult()
+  call void @proc_intrinsic_lt()
+  %a1 = call i64 @pop()
+  %b1 = icmp ne i64 %a1, 0
+  br i1 %b1, label %l16, label %l29
+
+l16:                                              ; preds = %l10
+  call void @proc_intrinsic_dup()
+  %ptrto_arr_2 = ptrtoint ptr %mem_arr to i64
+  call void @push(i64 %ptrto_arr_2)
+  call void @proc_intrinsic_load64()
+  call void @proc_intrinsic_plus()
+  call void @proc_over()
+  call void @push(i64 8)
+  call void @proc_intrinsic_div()
+  call void @proc_swap()
+  call void @proc_cast_int_to_ptr()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  br label %l10
+
+l29:                                              ; preds = %l10
+  br label %ls29
+
+ls29:                                             ; preds = %l29
+  call void @proc_intrinsic_drop()
+  call void @push(i64 0)
+  br label %l32
+
+l32:                                              ; preds = %l38, %ls29
+  call void @proc_intrinsic_dup()
+  call void @push(i64 8)
+  call void @push(i64 16)
+  call void @proc_intrinsic_mult()
+  call void @proc_intrinsic_lt()
+  %a3 = call i64 @pop()
+  %b3 = icmp ne i64 %a3, 0
+  br i1 %b3, label %l38, label %l47
+
+l38:                                              ; preds = %l32
+  call void @proc_intrinsic_dup()
+  %ptrto_arr_4 = ptrtoint ptr %mem_arr to i64
+  call void @push(i64 %ptrto_arr_4)
+  call void @proc_intrinsic_loadptr()
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_load64()
+  call void @proc_print()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  br label %l32
+
+l47:                                              ; preds = %l32
+  br label %ls47
+
+ls47:                                             ; preds = %l47
+  call void @proc_intrinsic_drop()
+  %ptrto_arr_5 = ptrtoint ptr %mem_arr to i64
+  call void @push(i64 %ptrto_arr_5)
+  call void @proc_intrinsic_loadptr()
+  call void @proc_intrinsic_free()
   ret void
 }
 
