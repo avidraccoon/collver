@@ -1,0 +1,180 @@
+include "std.collver"
+
+const WIDTH 640 end
+const HEIGHT 360 end
+
+// handle
+proc draw_background int -> do
+  0 0 WIDTH HEIGHT 100 140 204 gui_fill_rect drop
+end
+
+struct Color
+  r int
+  g int
+  b int
+end
+
+struct Rect
+  x int
+  y int
+  w int
+  h int
+end
+
+struct GraphicsRect
+  rect ptr[Rect]
+  color ptr[Color]
+end
+
+struct Entity 
+  x int
+  y int
+  hitbox ptr[Rect]
+  model ptr[GraphicsRect]
+end
+
+struct Player
+  hp int
+  entity ptr[Entity]
+end
+
+struct Enemy
+  damage int
+  died int
+  entity ptr[Entity]
+end
+
+proc rect_intersection ptr[Rect] ptr[Rect] -> int do
+  1
+end
+
+// Maybe optimize some of these functions
+
+// R, G, B
+proc create_color int int int -> ptr[Color] do
+  memory color sizeof(ptr) end
+  sizeof(Color) alloc color !ptr
+  color @ptr @Color.r !64
+  color @ptr @Color.g !64
+  color @ptr @Color.b !64
+  color @ptr
+end
+
+proc destroy_color ptr[Color] -> do
+  free
+end
+
+// Maybe optimize this
+proc clone_color ptr[Color] -> ptr[Color] do
+  memory color sizeof(ptr) end
+  color !ptr
+  color @ptr @Color.r @64
+  color @ptr @Color.g @64
+  color @ptr @Color.b @64
+  create_color
+end
+
+// X, Y, W, H
+proc create_rect int int int int -> ptr[Rect] do
+  memory rect sizeof(ptr) end
+  sizeof(Rect) alloc rect !ptr
+  rect @ptr @Rect.x !64
+  rect @ptr @Rect.y !64
+  rect @ptr @Rect.w !64
+  rect @ptr @Rect.h !64
+  rect @ptr
+end
+
+proc destroy_rect ptr[Rect] -> do
+  free
+end
+
+// Maybe optimize this
+proc clone_rect ptr[Rect] -> ptr[Rect] do
+  memory rect sizeof(ptr) end
+  rect !ptr
+  rect @ptr @Rect.x @64
+  rect @ptr @Rect.y @64
+  rect @ptr @Rect.w @64
+  rect @ptr @Rect.h @64
+  create_rect
+end
+
+// rect, color
+proc create_graphics_rect ptr[Rect] ptr[Color] -> ptr[GraphicsRect] do
+  memory grect sizeof(ptr) end
+  sizeof(GraphicsRect) alloc grect !ptr
+  grect @ptr @GraphicsRect.rect !64
+  grect @ptr @GraphicsRect.color !64
+  grect @ptr
+end
+
+proc destroy_graphics_rect ptr[GraphicsRect] -> do
+  dup @GraphicsRect.rect destroy_rect
+  dup @GraphicsRect.color destroy_color
+  free
+end
+
+proc clone_graphics_rect ptr[GraphicsRect] -> ptr[GraphicsRect] do
+  memory grect sizeof(ptr) end
+  grect !ptr
+  grect @ptr @GraphicsRect.rect clone_rect
+  grect @ptr @GraphicsRect.color clone_color
+  create_graphics_rect
+end
+
+const ENTITY_TYPE_UNKNOWN 0 end
+const ENTITY_TYPE_PLAYER 1 end
+const ENTITY_TYPE_ENEMY 2 end
+const ENTITY_TYPE_OTHER 99 end
+
+struct EntityContainer
+  entity ptr // pointer to object that contains an entity
+end
+
+proc get_entity_from_container ptr[EntityContainer]
+
+// Things that contain entities
+proc update_entities ptr[ptr] ptr[
+
+proc update_split
+
+// damage, rect, color
+proc create_enemy int ptr[Rect] ptr[Color] -> ptr[Enemy] do
+  memory enemy sizeof(ptr) end
+  sizeof(Enemy) alloc enemy !ptr
+  enemy @ptr @Enemy.damage !64
+  0 enemy @ptr @Enemy.died !64
+  // Create entity
+  enemy @ptr @Enemy.entity !ptr
+  enemy @ptr
+end
+
+proc main int ptr -> int do
+  drop drop
+
+  memory handle sizeof(int) end
+  memory running sizeof(int) end
+
+  WIDTH HEIGHT "Collver GUI Demo" gui_init handle !64
+
+  if handle @64 0 = do
+    "Failed to initialize GUI runtime (SDL2 not available?).\n" puts
+    1 exit
+  end
+
+  1 running !64
+
+  while running @64 do
+    handle @64 gui_poll_events
+    if do
+      0 running !64
+    end
+
+    handle @64 draw_background
+
+    handle @64 gui_present drop
+  end
+
+  0
+end
