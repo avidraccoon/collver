@@ -361,6 +361,34 @@ int64_t cv_gui_key_down(int64_t handle, int64_t keycode) {
         return 0;
     }
 
+    // Back-compat: Collver demos use 16/17 for Shift/Ctrl.
+    // SDL keycodes for modifiers are not 16/17, so handle these explicitly.
+    if (keycode == 16) {
+        const int lshift = 225;
+        const int rshift = 229;
+        int down = 0;
+        if (lshift >= 0 && lshift < len && state[lshift]) {
+            down = 1;
+        }
+        if (rshift >= 0 && rshift < len && state[rshift]) {
+            down = 1;
+        }
+        return down;
+    }
+
+    if (keycode == 17) {
+        const int lctrl = 224;
+        const int rctrl = 228;
+        int down = 0;
+        if (lctrl >= 0 && lctrl < len && state[lctrl]) {
+            down = 1;
+        }
+        if (rctrl >= 0 && rctrl < len && state[rctrl]) {
+            down = 1;
+        }
+        return down;
+    }
+
     int scancode = g.SDL_GetScancodeFromKey((int)keycode);
     if (scancode < 0 || scancode >= len) {
         return 0;
