@@ -69,6 +69,8 @@ class DT(Enum):
     """A special kind of pointer to the beginning of a null-terminated string"""
     PTR = auto()
     """A pointer to anything that isn't a string"""
+    STRUCT = auto()
+    """A named struct type used for typed pointers (e.g. ptr[Player])."""
     UNK = auto()
     """A type that has yet to be determined by the compiler"""
 
@@ -79,6 +81,7 @@ class CType:
 
     kind: DT
     pointee: CType | None = None
+    struct_name: str | None = None
 
 
 INT_TYPE = CType(DT.INT)
@@ -87,9 +90,13 @@ PTR_TYPE = CType(DT.PTR)
 UNK_TYPE = CType(DT.UNK)
 ARGV_TYPE = CType(DT.PTR, CType(DT.PTR, INT_TYPE))
 
+# Filled during struct preprocessing so procedure signatures can reference
+# struct names in pointer type expressions.
+KNOWN_STRUCT_TYPES: set[str] = set()
+
 TypeAnnotation = tuple[CType, Token]
 
-assert len(DT) == 4, "Exhaustive handling of DataTypes in STR_TO_DATATYPE"
+assert len(DT) == 5, "Exhaustive handling of DataTypes in STR_TO_DATATYPE"
 STR_TO_DATATYPE: dict[str, DT] = {
     "int": DT.INT,
     "str": DT.STR,
@@ -98,11 +105,12 @@ STR_TO_DATATYPE: dict[str, DT] = {
 }
 
 
-assert len(DT) == 4, "Exhaustive handling of DataTypes in DATATYPE_TO_STR"
+assert len(DT) == 5, "Exhaustive handling of DataTypes in DATATYPE_TO_STR"
 DATATYPE_TO_STR: dict[DT, str] = {
     DT.INT: "int",
     DT.STR: "str",
     DT.PTR: "ptr",
+    DT.STRUCT: "struct",
     DT.UNK: "unknown",
 }
 
@@ -145,6 +153,9 @@ def try_parse_datatype(word: str) -> CType | None:
 
         return CType(DT.PTR, pointee)
 
+    if word in KNOWN_STRUCT_TYPES:
+        return CType(DT.STRUCT, struct_name=word)
+
     # Otherwise, not a data type
     return None
 
@@ -153,6 +164,9 @@ def datatype_to_str(datatype: CType) -> str:
     """Convert a collver type expression back into source syntax."""
     if datatype.kind == DT.PTR and datatype.pointee is not None:
         return f"ptr[{datatype_to_str(datatype.pointee)}]"
+
+    if datatype.kind == DT.STRUCT and datatype.struct_name is not None:
+        return datatype.struct_name
 
     return DATATYPE_TO_STR[datatype.kind]
 
@@ -172,11 +186,21 @@ def types_compatible(actual: CType, expected: CType) -> bool:
     if actual.kind != expected.kind:
         return False
 
+    if actual.kind == DT.STRUCT:
+        return actual.struct_name == expected.struct_name
+
     if actual.kind != DT.PTR:
         return True
 
     # Bare `ptr` remains a generic pointer for backwards compatibility.
     if actual.pointee is None or expected.pointee is None:
+        return True
+
+    # `ptr[int]` acts as a byte-addressable/raw-memory pointer. Allow coercions
+    # between raw pointers and struct-typed pointers.
+    if actual.pointee.kind == DT.INT and expected.pointee.kind == DT.STRUCT:
+        return True
+    if actual.pointee.kind == DT.STRUCT and expected.pointee.kind == DT.INT:
         return True
 
     return types_compatible(actual.pointee, expected.pointee)
@@ -562,6 +586,7 @@ def preprocess_structs(tokens: list[Token]) -> list[Token]:
             sys.exit(1)
 
         struct_name = name_tok.value
+        KNOWN_STRUCT_TYPES.add(struct_name)
         field_offset = 0
 
         while len(rtokens):
@@ -2173,6 +2198,7 @@ def main():
     if command != "from-ll":
         try:
             print(f"[INFO] Compiling file {src_path}")
+            KNOWN_STRUCT_TYPES.clear()
             toks = lex_file(src_path)
             toks = [
                 Token(TT.WORD, "include", src_path, 0, 0),

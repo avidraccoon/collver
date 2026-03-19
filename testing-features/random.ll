@@ -9,11 +9,21 @@ source_filename = "llvm-link"
 @str_fd_to_str_26 = private unnamed_addr constant [40 x i8] c"ERROR: Failed to read file into memory\0A\00"
 @str_fd_to_str_28 = private unnamed_addr constant [12 x i8] c"File size: \00"
 @str_fd_to_str_33 = private unnamed_addr constant [13 x i8] c"Bytes read: \00"
-@str_main_18 = private unnamed_addr constant [5 x i8] c"Mage\00"
-@str_main_24 = private unnamed_addr constant [5 x i8] c"HP: \00"
-@str_main_32 = private unnamed_addr constant [7 x i8] c"Mana: \00"
-@str_main_40 = private unnamed_addr constant [7 x i8] c"Name: \00"
-@str_main_48 = private unnamed_addr constant [2 x i8] c"\0A\00"
+@str_print_player_2 = private unnamed_addr constant [7 x i8] c"  HP: \00"
+@str_print_player_10 = private unnamed_addr constant [9 x i8] c"  Mana: \00"
+@str_print_player_18 = private unnamed_addr constant [9 x i8] c"  Name: \00"
+@str_print_player_26 = private unnamed_addr constant [2 x i8] c"\0A\00"
+@str_main_26 = private unnamed_addr constant [5 x i8] c"Aela\00"
+@str_main_50 = private unnamed_addr constant [6 x i8] c"Borin\00"
+@str_main_74 = private unnamed_addr constant [5 x i8] c"Cyra\00"
+@str_main_98 = private unnamed_addr constant [4 x i8] c"Dax\00"
+@str_main_122 = private unnamed_addr constant [5 x i8] c"Eris\00"
+@str_main_128 = private unnamed_addr constant [20 x i8] c"Party (5 players):\0A\00"
+@str_main_130 = private unnamed_addr constant [10 x i8] c"Player 1\0A\00"
+@str_main_137 = private unnamed_addr constant [10 x i8] c"Player 2\0A\00"
+@str_main_144 = private unnamed_addr constant [10 x i8] c"Player 3\0A\00"
+@str_main_151 = private unnamed_addr constant [10 x i8] c"Player 4\0A\00"
+@str_main_158 = private unnamed_addr constant [10 x i8] c"Player 5\0A\00"
 @stack = global [1024 x i64] undef
 @sp = global i64 0
 
@@ -1056,72 +1066,266 @@ define void @proc_fp_to_str() {
   ret void
 }
 
-define void @proc_main() {
-  %strptr18 = ptrtoint ptr @str_main_18 to i64
-  %strptr24 = ptrtoint ptr @str_main_24 to i64
-  %strptr32 = ptrtoint ptr @str_main_32 to i64
-  %strptr40 = ptrtoint ptr @str_main_40 to i64
-  %strptr48 = ptrtoint ptr @str_main_48 to i64
-  %mem_p = alloca [8 x i8], align 1
-  call void @proc_intrinsic_drop()
-  call void @proc_intrinsic_drop()
+define void @proc_party_player_ptr() {
   call void @push(i64 24)
-  call void @proc_intrinsic_alloc()
+  call void @proc_intrinsic_mult()
+  call void @proc_intrinsic_plus()
+  ret void
+}
+
+define void @proc_print_player() {
+  %strptr2 = ptrtoint ptr @str_print_player_2 to i64
+  %strptr10 = ptrtoint ptr @str_print_player_10 to i64
+  %strptr18 = ptrtoint ptr @str_print_player_18 to i64
+  %strptr26 = ptrtoint ptr @str_print_player_26 to i64
+  %mem_p = alloca [8 x i8], align 1
   %ptrto_p_0 = ptrtoint ptr %mem_p to i64
   call void @push(i64 %ptrto_p_0)
   call void @proc_intrinsic_storeptr()
-  call void @push(i64 100)
+  call void @push(i64 %strptr2)
+  call void @proc_puts()
   %ptrto_p_1 = ptrtoint ptr %mem_p to i64
   call void @push(i64 %ptrto_p_1)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 0)
   call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_store64()
-  call void @push(i64 50)
+  call void @proc_intrinsic_load64()
+  call void @proc_print()
+  call void @push(i64 %strptr10)
+  call void @proc_puts()
   %ptrto_p_2 = ptrtoint ptr %mem_p to i64
   call void @push(i64 %ptrto_p_2)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 8)
   call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_store64()
+  call void @proc_intrinsic_load64()
+  call void @proc_print()
   call void @push(i64 %strptr18)
+  call void @proc_puts()
   %ptrto_p_3 = ptrtoint ptr %mem_p to i64
   call void @push(i64 %ptrto_p_3)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 16)
   call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_storeptr()
-  call void @push(i64 %strptr24)
+  call void @proc_intrinsic_loadptr()
   call void @proc_puts()
-  %ptrto_p_4 = ptrtoint ptr %mem_p to i64
-  call void @push(i64 %ptrto_p_4)
+  call void @push(i64 %strptr26)
+  call void @proc_puts()
+  ret void
+}
+
+define void @proc_main() {
+  %strptr26 = ptrtoint ptr @str_main_26 to i64
+  %strptr50 = ptrtoint ptr @str_main_50 to i64
+  %strptr74 = ptrtoint ptr @str_main_74 to i64
+  %strptr98 = ptrtoint ptr @str_main_98 to i64
+  %strptr122 = ptrtoint ptr @str_main_122 to i64
+  %strptr128 = ptrtoint ptr @str_main_128 to i64
+  %strptr130 = ptrtoint ptr @str_main_130 to i64
+  %strptr137 = ptrtoint ptr @str_main_137 to i64
+  %strptr144 = ptrtoint ptr @str_main_144 to i64
+  %strptr151 = ptrtoint ptr @str_main_151 to i64
+  %strptr158 = ptrtoint ptr @str_main_158 to i64
+  %mem_party = alloca [8 x i8], align 1
+  %mem_cur = alloca [8 x i8], align 1
+  call void @proc_intrinsic_drop()
+  call void @proc_intrinsic_drop()
+  call void @push(i64 24)
+  call void @push(i64 5)
+  call void @proc_intrinsic_mult()
+  call void @proc_intrinsic_alloc()
+  %ptrto_party_0 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_0)
+  call void @proc_intrinsic_storeptr()
+  %ptrto_party_1 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_1)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_party_player_ptr()
+  %ptrto_cur_2 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_2)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 100)
+  %ptrto_cur_3 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_3)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 0)
   call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_load64()
-  call void @proc_print()
-  call void @push(i64 %strptr32)
-  call void @proc_puts()
-  %ptrto_p_5 = ptrtoint ptr %mem_p to i64
-  call void @push(i64 %ptrto_p_5)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 50)
+  %ptrto_cur_4 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_4)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 8)
   call void @proc_intrinsic_plus()
-  call void @proc_intrinsic_load64()
-  call void @proc_print()
-  call void @push(i64 %strptr40)
-  call void @proc_puts()
-  %ptrto_p_6 = ptrtoint ptr %mem_p to i64
-  call void @push(i64 %ptrto_p_6)
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr26)
+  %ptrto_cur_5 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_5)
   call void @proc_intrinsic_loadptr()
   call void @push(i64 16)
   call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_storeptr()
+  %ptrto_party_6 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_6)
   call void @proc_intrinsic_loadptr()
+  call void @push(i64 1)
+  call void @proc_party_player_ptr()
+  %ptrto_cur_7 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_7)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 80)
+  %ptrto_cur_8 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_8)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 90)
+  %ptrto_cur_9 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_9)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr50)
+  %ptrto_cur_10 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_10)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 16)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_storeptr()
+  %ptrto_party_11 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_11)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 2)
+  call void @proc_party_player_ptr()
+  %ptrto_cur_12 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_12)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 140)
+  %ptrto_cur_13 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_13)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 20)
+  %ptrto_cur_14 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_14)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr74)
+  %ptrto_cur_15 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_15)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 16)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_storeptr()
+  %ptrto_party_16 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_16)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 3)
+  call void @proc_party_player_ptr()
+  %ptrto_cur_17 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_17)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 60)
+  %ptrto_cur_18 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_18)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 120)
+  %ptrto_cur_19 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_19)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr98)
+  %ptrto_cur_20 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_20)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 16)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_storeptr()
+  %ptrto_party_21 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_21)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 4)
+  call void @proc_party_player_ptr()
+  %ptrto_cur_22 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_22)
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 110)
+  %ptrto_cur_23 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_23)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 70)
+  %ptrto_cur_24 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_24)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 8)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_store64()
+  call void @push(i64 %strptr122)
+  %ptrto_cur_25 = ptrtoint ptr %mem_cur to i64
+  call void @push(i64 %ptrto_cur_25)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 16)
+  call void @proc_intrinsic_plus()
+  call void @proc_intrinsic_storeptr()
+  call void @push(i64 %strptr128)
   call void @proc_puts()
-  call void @push(i64 %strptr48)
+  call void @push(i64 %strptr130)
   call void @proc_puts()
-  %ptrto_p_7 = ptrtoint ptr %mem_p to i64
-  call void @push(i64 %ptrto_p_7)
+  %ptrto_party_26 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_26)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 0)
+  call void @proc_party_player_ptr()
+  call void @proc_print_player()
+  call void @push(i64 %strptr137)
+  call void @proc_puts()
+  %ptrto_party_27 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_27)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 1)
+  call void @proc_party_player_ptr()
+  call void @proc_print_player()
+  call void @push(i64 %strptr144)
+  call void @proc_puts()
+  %ptrto_party_28 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_28)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 2)
+  call void @proc_party_player_ptr()
+  call void @proc_print_player()
+  call void @push(i64 %strptr151)
+  call void @proc_puts()
+  %ptrto_party_29 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_29)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 3)
+  call void @proc_party_player_ptr()
+  call void @proc_print_player()
+  call void @push(i64 %strptr158)
+  call void @proc_puts()
+  %ptrto_party_30 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_30)
+  call void @proc_intrinsic_loadptr()
+  call void @push(i64 4)
+  call void @proc_party_player_ptr()
+  call void @proc_print_player()
+  %ptrto_party_31 = ptrtoint ptr %mem_party to i64
+  call void @push(i64 %ptrto_party_31)
   call void @proc_intrinsic_loadptr()
   call void @proc_intrinsic_free()
   call void @push(i64 0)

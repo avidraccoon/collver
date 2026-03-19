@@ -1,0 +1,16 @@
+include "std.collver"
+
+struct Player
+  hp int
+end
+
+proc read_hp ptr[Player] -> int do
+  drop
+  1
+end
+
+proc main int ptr -> int do
+  drop drop
+  sizeof(Player) alloc
+  read_hp
+end

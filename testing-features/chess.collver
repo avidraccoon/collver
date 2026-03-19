@@ -1,0 +1,735 @@
+include "std.collver"
+
+// MOSTLY WORKING
+
+const EMPTY 0 end
+
+const WP 1 end
+const WN 2 end
+const WB 3 end
+const WR 4 end
+const WQ 5 end
+const WK 6 end
+
+const BP 11 end
+const BN 12 end
+const BB 13 end
+const BR 14 end
+const BQ 15 end
+const BK 16 end
+
+// board_ptr file rank -> ptr[int]
+proc board_cell_ptr ptr[int] int int -> ptr[int] do
+  memory rank sizeof(int) end
+  memory file sizeof(int) end
+  memory board sizeof(ptr) end
+  rank !64
+  file !64
+  board !ptr
+  board @ptr rank @64 8 * file @64 + +
+end
+
+// board_ptr file rank -> piece
+proc board_get ptr[int] int int -> int do
+  board_cell_ptr @8
+end
+
+// piece board_ptr file rank ->
+proc board_set int ptr[int] int int -> do
+  memory rank sizeof(int) end
+  memory file sizeof(int) end
+  memory board sizeof(ptr) end
+  memory piece sizeof(int) end
+  rank !64
+  file !64
+  board !ptr
+  piece !64
+  piece @64 board @ptr file @64 rank @64 board_cell_ptr !8
+end
+
+// white piece id -> single-letter string
+proc white_piece_str int -> ptr[int] do
+  memory piece sizeof(int) end
+  piece !64
+  if piece @64 WP = do
+    "P"
+  else
+    if piece @64 WN = do
+      "N"
+    else
+      if piece @64 WB = do
+        "B"
+      else
+        if piece @64 WR = do
+          "R"
+        else
+          if piece @64 WQ = do
+            "Q"
+          else
+            if piece @64 WK = do
+              "K"
+            else
+              "?"
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+// black piece id -> single-letter string
+proc black_piece_str int -> ptr[int] do
+  memory piece sizeof(int) end
+  piece !64
+  if piece @64 BP = do
+    "p"
+  else
+    if piece @64 BN = do
+      "n"
+    else
+      if piece @64 BB = do
+        "b"
+      else
+        if piece @64 BR = do
+          "r"
+        else
+          if piece @64 BQ = do
+            "q"
+          else
+            if piece @64 BK = do
+              "k"
+            else
+              "?"
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+// piece id -> single-letter string
+proc piece_str int -> ptr[int] do
+  memory piece sizeof(int) end
+  piece !64
+  if piece @64 EMPTY = do
+    "."
+  else
+    if piece @64 10 < do
+      piece @64 white_piece_str
+    else
+      piece @64 black_piece_str
+    end
+  end
+end
+
+// board_ptr ->
+proc board_init ptr[int] -> do
+  memory board sizeof(ptr) end
+  memory i sizeof(int) end
+  board !ptr
+
+  0 i !64
+  while i @64 64 < do
+    EMPTY board @ptr i @64 + !8
+    i inc64
+  end
+
+  // pawns
+  0 board @ptr 0 1 board_set
+  0 board @ptr 1 1 board_set
+  0 board @ptr 2 1 board_set
+  0 board @ptr 3 1 board_set
+  0 board @ptr 4 1 board_set
+  0 board @ptr 5 1 board_set
+  0 board @ptr 6 1 board_set
+  0 board @ptr 7 1 board_set
+
+  WP board @ptr 0 1 board_set
+  WP board @ptr 1 1 board_set
+  WP board @ptr 2 1 board_set
+  WP board @ptr 3 1 board_set
+  WP board @ptr 4 1 board_set
+  WP board @ptr 5 1 board_set
+  WP board @ptr 6 1 board_set
+  WP board @ptr 7 1 board_set
+
+  BP board @ptr 0 6 board_set
+  BP board @ptr 1 6 board_set
+  BP board @ptr 2 6 board_set
+  BP board @ptr 3 6 board_set
+  BP board @ptr 4 6 board_set
+  BP board @ptr 5 6 board_set
+  BP board @ptr 6 6 board_set
+  BP board @ptr 7 6 board_set
+
+  // white back rank
+  WR board @ptr 0 0 board_set
+  WN board @ptr 1 0 board_set
+  WB board @ptr 2 0 board_set
+  WQ board @ptr 3 0 board_set
+  WK board @ptr 4 0 board_set
+  WB board @ptr 5 0 board_set
+  WN board @ptr 6 0 board_set
+  WR board @ptr 7 0 board_set
+
+  // black back rank
+  BR board @ptr 0 7 board_set
+  BN board @ptr 1 7 board_set
+  BB board @ptr 2 7 board_set
+  BQ board @ptr 3 7 board_set
+  BK board @ptr 4 7 board_set
+  BB board @ptr 5 7 board_set
+  BN board @ptr 6 7 board_set
+  BR board @ptr 7 7 board_set
+end
+
+// board_ptr ->
+proc board_print ptr[int] -> do
+  memory board sizeof(ptr) end
+  memory rank sizeof(int) end
+  memory file sizeof(int) end
+  board !ptr
+
+  "  a b c d e f g h\n" puts
+
+  7 rank !64
+  while rank @64 0 >= do
+    0 file !64
+    while file @64 8 < do
+      board @ptr file @64 rank @64 board_get piece_str puts " " puts
+      file inc64
+    end
+    "\n" puts
+    rank dec64
+  end
+  "\n" puts
+end
+
+// ascii_file -> idx
+proc file_to_idx int -> int do
+  97 -
+end
+
+// ascii_rank -> idx
+proc rank_to_idx int -> int do
+  49 -
+end
+
+// turn piece -> bool (1 if piece belongs to player)
+proc owns_piece int int -> int do
+  memory piece sizeof(int) end
+  memory turn sizeof(int) end
+  piece !64
+  turn !64
+  if piece @64 EMPTY = do
+    0
+  elif turn @64 0 = do
+    piece @64 10 <
+  else
+    piece @64 10 >
+  end
+end
+
+// turn piece -> bool (1 if destination has opponent piece or empty)
+proc can_land int int -> int do
+  memory piece sizeof(int) end
+  memory turn sizeof(int) end
+  piece !64
+  turn !64
+  if piece @64 EMPTY = do
+    1
+  elif turn @64 0 = do
+    piece @64 10 >
+  else
+    piece @64 10 <
+  end
+end
+
+proc abs_int int -> int do
+  memory x sizeof(int) end
+  x !64
+  if x @64 0 < do
+    0 x @64 -
+  else
+    x @64
+  end
+end
+
+// board sf sr df dr -> bool
+proc path_clear_line ptr[int] int int int int -> int do
+  memory dr sizeof(int) end
+  memory df sizeof(int) end
+  memory sr sizeof(int) end
+  memory sf sizeof(int) end
+  memory board sizeof(ptr) end
+  memory dfile sizeof(int) end
+  memory drank sizeof(int) end
+  memory stepf sizeof(int) end
+  memory stepr sizeof(int) end
+  memory cf sizeof(int) end
+  memory cr sizeof(int) end
+  memory clear sizeof(int) end
+
+  dr !64
+  df !64
+  sr !64
+  sf !64
+  board !ptr
+
+  df @64 sf @64 - dfile !64
+  dr @64 sr @64 - drank !64
+
+  if dfile @64 0 > do
+    1 stepf !64
+  else
+    if dfile @64 0 < do
+      -1 stepf !64
+    else
+      0 stepf !64
+    end
+  end
+
+  if drank @64 0 > do
+    1 stepr !64
+  else
+    if drank @64 0 < do
+      -1 stepr !64
+    else
+      0 stepr !64
+    end
+  end
+
+  sf @64 stepf @64 + cf !64
+  sr @64 stepr @64 + cr !64
+  1 clear !64
+
+  while
+    cf @64 df @64 !=
+    cr @64 dr @64 !=
+    lor
+    clear @64
+    land
+  do
+    board @ptr cf @64 cr @64 board_get EMPTY != if do
+      0 clear !64
+    else
+      cf @64 stepf @64 + cf !64
+      cr @64 stepr @64 + cr !64
+    end
+  end
+
+  clear @64
+end
+
+// turn piece board sf sr df dr -> bool (geometry + path + capture semantics)
+proc piece_pseudo_legal int int ptr[int] int int int int -> int do
+  memory dr sizeof(int) end
+  memory df sizeof(int) end
+  memory sr sizeof(int) end
+  memory sf sizeof(int) end
+  memory board sizeof(ptr) end
+  memory piece sizeof(int) end
+  memory turn sizeof(int) end
+  memory dst sizeof(int) end
+  memory dx sizeof(int) end
+  memory dy sizeof(int) end
+  memory dir sizeof(int) end
+  memory start_rank sizeof(int) end
+  memory mid_empty sizeof(int) end
+  memory result sizeof(int) end
+
+  dr !64
+  df !64
+  sr !64
+  sf !64
+  board !ptr
+  piece !64
+  turn !64
+
+  board @ptr df @64 dr @64 board_get dst !64
+  df @64 sf @64 - abs_int dx !64
+  dr @64 sr @64 - abs_int dy !64
+  0 result !64
+
+  // pawns
+  if piece @64 WP = piece @64 BP = lor do
+    if turn @64 0 = do
+      1 dir !64
+      1 start_rank !64
+    else
+      -1 dir !64
+      6 start_rank !64
+    end
+
+    // one-step push
+    if
+      df @64 sf @64 =
+      dr @64 sr @64 dir @64 + =
+      dst @64 EMPTY =
+      land land
+    do
+      1 result !64
+    else
+      // two-step push from start
+      board @ptr sf @64 sr @64 dir @64 + board_get EMPTY = mid_empty !64
+      if
+        df @64 sf @64 =
+        sr @64 start_rank @64 =
+        dr @64 sr @64 dir @64 2 * + =
+        dst @64 EMPTY =
+        mid_empty @64
+        land land land land
+      do
+        1 result !64
+      else
+        // diagonal capture
+        if
+          dx @64 1 =
+          dr @64 sr @64 dir @64 + =
+          dst @64 EMPTY !=
+          turn @64 dst @64 can_land
+          land land land
+        do
+          1 result !64
+        end
+      end
+    end
+  elif piece @64 WN = piece @64 BN = lor do
+    // knight
+    if
+      dx @64 1 = dy @64 2 = land
+      dx @64 2 = dy @64 1 = land
+      lor
+    do
+      1 result !64
+    end
+  elif piece @64 WB = piece @64 BB = lor do
+    // bishop
+    if dx @64 dy @64 = do
+      board @ptr sf @64 sr @64 df @64 dr @64 path_clear_line result !64
+    end
+  elif piece @64 WR = piece @64 BR = lor do
+    // rook
+    if
+      sf @64 df @64 =
+      sr @64 dr @64 =
+      lor
+    do
+      if sf @64 df @64 = sr @64 dr @64 = land do
+        0 result !64
+      else
+        board @ptr sf @64 sr @64 df @64 dr @64 path_clear_line result !64
+      end
+    end
+  elif piece @64 WQ = piece @64 BQ = lor do
+    // queen
+    if
+      dx @64 dy @64 =
+      sf @64 df @64 =
+      sr @64 dr @64 =
+      lor lor
+    do
+      if sf @64 df @64 = sr @64 dr @64 = land do
+        0 result !64
+      else
+        board @ptr sf @64 sr @64 df @64 dr @64 path_clear_line result !64
+      end
+    end
+  elif piece @64 WK = piece @64 BK = lor do
+    // king
+    if
+      dx @64 1 <=
+      dy @64 1 <=
+      sf @64 df @64 = sr @64 dr @64 = land lnot
+      land land
+    do
+      1 result !64
+    end
+  end
+
+  result @64
+end
+
+// piece board sf sr tf tr -> bool (attack geometry, for check detection)
+proc piece_attacks_square int ptr[int] int int int int -> int do
+  memory tr sizeof(int) end
+  memory tf sizeof(int) end
+  memory sr sizeof(int) end
+  memory sf sizeof(int) end
+  memory board sizeof(ptr) end
+  memory piece sizeof(int) end
+  memory dx sizeof(int) end
+  memory dy sizeof(int) end
+  memory dir sizeof(int) end
+  memory result sizeof(int) end
+
+  tr !64
+  tf !64
+  sr !64
+  sf !64
+  board !ptr
+  piece !64
+
+  tf @64 sf @64 - abs_int dx !64
+  tr @64 sr @64 - abs_int dy !64
+  0 result !64
+
+  if piece @64 WP = piece @64 BP = lor do
+    if piece @64 10 < do
+      1 dir !64
+    else
+      -1 dir !64
+    end
+    if dx @64 1 = tr @64 sr @64 dir @64 + = land do
+      1 result !64
+    end
+  elif piece @64 WN = piece @64 BN = lor do
+    if
+      dx @64 1 = dy @64 2 = land
+      dx @64 2 = dy @64 1 = land
+      lor
+    do
+      1 result !64
+    end
+  elif piece @64 WB = piece @64 BB = lor do
+    if dx @64 dy @64 = do
+      board @ptr sf @64 sr @64 tf @64 tr @64 path_clear_line result !64
+    end
+  elif piece @64 WR = piece @64 BR = lor do
+    if
+      sf @64 tf @64 =
+      sr @64 tr @64 =
+      lor
+    do
+      if sf @64 tf @64 = sr @64 tr @64 = land do
+        0 result !64
+      else
+        board @ptr sf @64 sr @64 tf @64 tr @64 path_clear_line result !64
+      end
+    end
+  elif piece @64 WQ = piece @64 BQ = lor do
+    if
+      dx @64 dy @64 =
+      sf @64 tf @64 =
+      sr @64 tr @64 =
+      lor lor
+    do
+      if sf @64 tf @64 = sr @64 tr @64 = land do
+        0 result !64
+      else
+        board @ptr sf @64 sr @64 tf @64 tr @64 path_clear_line result !64
+      end
+    end
+  elif piece @64 WK = piece @64 BK = lor do
+    if
+      dx @64 1 <=
+      dy @64 1 <=
+      sf @64 tf @64 = sr @64 tr @64 = land lnot
+      land land
+    do
+      1 result !64
+    end
+  end
+
+  result @64
+end
+
+// turn board -> bool (whether side to move is in check)
+proc is_in_check int ptr[int] -> int do
+  memory board sizeof(ptr) end
+  memory turn sizeof(int) end
+  memory king_piece sizeof(int) end
+  memory kf sizeof(int) end
+  memory kr sizeof(int) end
+  memory found sizeof(int) end
+  memory check sizeof(int) end
+  memory rank sizeof(int) end
+  memory file sizeof(int) end
+  memory piece sizeof(int) end
+
+  board !ptr
+  turn !64
+
+  if turn @64 0 = do
+    WK king_piece !64
+  else
+    BK king_piece !64
+  end
+
+  -1 kf !64
+  -1 kr !64
+  0 found !64
+
+  0 rank !64
+  while rank @64 8 < do
+    0 file !64
+    while file @64 8 < do
+      board @ptr file @64 rank @64 board_get piece !64
+      if piece @64 king_piece @64 = do
+        file @64 kf !64
+        rank @64 kr !64
+        1 found !64
+      end
+      file inc64
+    end
+    rank inc64
+  end
+
+  if found @64 0 = do
+    1 check !64
+  else
+    0 check !64
+    0 rank !64
+    while rank @64 8 < do
+      0 file !64
+      while file @64 8 < do
+        if check @64 0 = do
+          board @ptr file @64 rank @64 board_get piece !64
+          if piece @64 EMPTY != do
+            if
+              turn @64 0 = piece @64 10 > land
+              turn @64 0 != piece @64 10 < land
+              lor
+            do
+              piece @64 board @ptr file @64 rank @64 kf @64 kr @64 piece_attacks_square if do
+                1 check !64
+              end
+            end
+          end
+        end
+        file inc64
+      end
+      rank inc64
+    end
+  end
+
+  check @64
+end
+
+// turn board sf sr df dr -> bool (full legality, including self-check)
+proc is_legal_move int ptr[int] int int int int -> int do
+  memory dr sizeof(int) end
+  memory df sizeof(int) end
+  memory sr sizeof(int) end
+  memory sf sizeof(int) end
+  memory board sizeof(ptr) end
+  memory turn sizeof(int) end
+  memory src sizeof(int) end
+  memory dst sizeof(int) end
+  memory in_check sizeof(int) end
+
+  dr !64
+  df !64
+  sr !64
+  sf !64
+  board !ptr
+  turn !64
+
+  board @ptr sf @64 sr @64 board_get src !64
+  board @ptr df @64 dr @64 board_get dst !64
+
+  if
+    turn @64 src @64 owns_piece
+    turn @64 dst @64 can_land
+    src @64 EMPTY !=
+    land land
+  do
+    if turn @64 src @64 board @ptr sf @64 sr @64 df @64 dr @64 piece_pseudo_legal do
+      // simulate move
+      src @64 board @ptr df @64 dr @64 board_set
+      EMPTY board @ptr sf @64 sr @64 board_set
+
+      turn @64 board @ptr is_in_check in_check !64
+
+      // undo move
+      src @64 board @ptr sf @64 sr @64 board_set
+      dst @64 board @ptr df @64 dr @64 board_set
+
+      in_check @64 lnot
+    else
+      0
+    end
+  else
+    0
+  end
+end
+
+proc main int ptr -> int do
+  drop drop
+
+  memory board sizeof(ptr) end
+  memory running sizeof(int) end
+  memory turn sizeof(int) end
+  memory line sizeof(ptr) end
+  memory sf sizeof(int) end
+  memory sr sizeof(int) end
+  memory df sizeof(int) end
+  memory dr sizeof(int) end
+  memory src_piece sizeof(int) end
+  memory dst_piece sizeof(int) end
+
+  64 alloc board !ptr
+  board @ptr board_init
+
+  1 running !64
+  0 turn !64
+
+  while running @64 do
+    board @ptr board_print
+
+    if turn @64 board @ptr is_in_check do
+      "Check!\n" puts
+    end
+
+    if turn @64 0 = do
+      "White to move (e2e4 or q): " puts
+    else
+      "Black to move (e7e5 or q): " puts
+    end
+
+    readline line !ptr
+
+    // quick quit check on first byte
+    line @ptr @8 113 = if do
+      0 running !64
+    else
+      // parse e2e4 from first 4 bytes
+      line @ptr @8 file_to_idx sf !64
+      line @ptr 1 + @8 rank_to_idx sr !64
+      line @ptr 2 + @8 file_to_idx df !64
+      line @ptr 3 + @8 rank_to_idx dr !64
+
+      // basic bounds check
+      if
+        sf @64 0 >= sf @64 8 < land
+        sr @64 0 >= sr @64 8 < land
+        df @64 0 >= df @64 8 < land
+        dr @64 0 >= dr @64 8 < land
+        land land land
+      do
+        board @ptr sf @64 sr @64 board_get src_piece !64
+        board @ptr df @64 dr @64 board_get dst_piece !64
+
+        if turn @64 board @ptr sf @64 sr @64 df @64 dr @64 is_legal_move do
+          src_piece @64 board @ptr df @64 dr @64 board_set
+          EMPTY board @ptr sf @64 sr @64 board_set
+
+          if turn @64 0 = do
+            1 turn !64
+          else
+            0 turn !64
+          end
+        else
+          "Illegal move (piece rule, occupancy, or check rule failed).\n" puts
+        end
+      else
+        "Invalid coordinates. Use format like e2e4.\n" puts
+      end
+    end
+  end
+
+  board @ptr free
+  0
+end

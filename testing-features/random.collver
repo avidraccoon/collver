@@ -6,25 +6,81 @@ struct Player
   name ptr[int]
 end
 
+// party_ptr idx -> ptr[Player]
+proc party_player_ptr ptr[int] int -> ptr[Player] do
+  sizeof(Player) * +
+end
+
+// p ->
+proc print_player ptr[Player] -> do
+  memory p sizeof(ptr) end
+  p !ptr
+
+  "  HP: " puts
+  p @ptr @Player.hp + @64 print
+
+  "  Mana: " puts
+  p @ptr @Player.mana + @64 print
+
+  "  Name: " puts
+  p @ptr @Player.name + @ptr puts "\n" puts
+end
+
 proc main int ptr -> int do
   drop drop
 
-  memory p sizeof(ptr) end
-  sizeof(Player) alloc p !ptr
+  // Allocate contiguous storage for 5 players.
+  memory party sizeof(ptr) end
+  memory cur sizeof(ptr) end
+  sizeof(Player) 5 * alloc party !ptr
 
-  100 p @ptr @Player.hp + !64
-  50 p @ptr @Player.mana + !64
-  "Mage" p @ptr @Player.name + !ptr
+  // Player 1
+  party @ptr 0 party_player_ptr cur !ptr
+  100 cur @ptr @Player.hp + !64
+  50 cur @ptr @Player.mana + !64
+  "Aela" cur @ptr @Player.name + !ptr
 
-  "HP: " puts
-  p @ptr @Player.hp + @64 print
+  // Player 2
+  party @ptr 1 party_player_ptr cur !ptr
+  80 cur @ptr @Player.hp + !64
+  90 cur @ptr @Player.mana + !64
+  "Borin" cur @ptr @Player.name + !ptr
 
-  "Mana: " puts
-  p @ptr @Player.mana + @64 print
+  // Player 3
+  party @ptr 2 party_player_ptr cur !ptr
+  140 cur @ptr @Player.hp + !64
+  20 cur @ptr @Player.mana + !64
+  "Cyra" cur @ptr @Player.name + !ptr
 
-  "Name: " puts
-  p @ptr @Player.name + @ptr puts "\n" puts
+  // Player 4
+  party @ptr 3 party_player_ptr cur !ptr
+  60 cur @ptr @Player.hp + !64
+  120 cur @ptr @Player.mana + !64
+  "Dax" cur @ptr @Player.name + !ptr
 
-  p @ptr free
+  // Player 5
+  party @ptr 4 party_player_ptr cur !ptr
+  110 cur @ptr @Player.hp + !64
+  70 cur @ptr @Player.mana + !64
+  "Eris" cur @ptr @Player.name + !ptr
+
+  "Party (5 players):\n" puts
+
+  "Player 1\n" puts
+  party @ptr 0 party_player_ptr print_player
+
+  "Player 2\n" puts
+  party @ptr 1 party_player_ptr print_player
+
+  "Player 3\n" puts
+  party @ptr 2 party_player_ptr print_player
+
+  "Player 4\n" puts
+  party @ptr 3 party_player_ptr print_player
+
+  "Player 5\n" puts
+  party @ptr 4 party_player_ptr print_player
+
+  party @ptr free
   0
 end
